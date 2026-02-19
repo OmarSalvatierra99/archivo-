@@ -5,8 +5,8 @@
 <div class="mb-5">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="/">Home</a></li>
-            <li class="breadcrumb-item"><a href="/projects">Projects</a></li>
+            <li class="breadcrumb-item"><a href="{{ home_url }}">{{ i18n.breadcrumb_home }}</a></li>
+            <li class="breadcrumb-item"><a href="{{ projects_url }}">{{ i18n.breadcrumb_projects }}</a></li>
             <li class="breadcrumb-item active">{{ project.name }}</li>
         </ol>
     </nav>
@@ -27,44 +27,67 @@
         </div>
 
         <div class="card-body">
-            <!-- Action Buttons -->
-            <div class="d-flex flex-wrap gap-2 mb-4">
-                {% if project.repo_url %}
-                <a href="{{ project.repo_url }}" class="btn btn-dark" target="_blank">
-                    <i class="fab fa-github"></i> View Source Code
-                </a>
-                {% endif %}
-                {% if project.live_url %}
-                <a href="{{ project.live_url }}" class="btn btn-primary" target="_blank">
-                    <i class="fa-solid fa-globe"></i> Live Demo
-                </a>
-                {% endif %}
-                {% if project.template_url %}
-                <a href="{{ project.template_url }}" class="btn btn-outline-primary" target="_blank">
-                    <i class="fa-regular fa-file-code"></i> Template
-                </a>
-                {% endif %}
+            <div class="row g-4">
+                <div class="col-lg-8">
+                    <!-- Action Buttons -->
+                    <div class="d-flex flex-wrap gap-2 mb-4">
+                        {% if project.repo_url %}
+                        <a href="{{ project.repo_url }}" class="btn btn-dark" target="_blank">
+                            <i class="fab fa-github"></i> {{ i18n.code }}
+                        </a>
+                        {% endif %}
+                        {% if project.live_url %}
+                        <a href="{{ project.live_url }}" class="btn btn-primary" target="_blank">
+                            <i class="fa-solid fa-globe"></i> {{ i18n.demo }}
+                        </a>
+                        {% endif %}
+                        {% if project.template_url %}
+                        <a href="{{ project.template_url }}" class="btn btn-outline-primary" target="_blank">
+                            <i class="fa-regular fa-file-code"></i> Template
+                        </a>
+                        {% endif %}
+                    </div>
+
+                    <!-- Project README Content -->
+                    <div class="readme-shell">
+                        <div class="readme-shell-header">
+                            <span class="badge showcase-badge">
+                                <i class="fa-solid fa-book"></i> README
+                            </span>
+                        </div>
+                        <article class="readme-content">
+                            {{ project.full_description | safe }}
+                        </article>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="card project-sidecard">
+                        <div class="card-body">
+                            <h5 class="mb-3"><i class="fa-solid fa-vial"></i> {{ i18n.projects_test_label }}</h5>
+                            {% if project.test_hint %}
+                            <p class="text-muted">{{ i18n.projects_test_help }}</p>
+                            <pre class="test-command"><code>{{ project.test_hint }}</code></pre>
+                            {% else %}
+                            <p class="text-muted mb-0">{{ i18n.projects_test_fallback }}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
             </div>
-
-            <hr>
-
-            <!-- Project README Content -->
-            <article class="readme-content mt-4">
-                {{ project.full_description | safe }}
-            </article>
         </div>
     </div>
 </div>
 
 <!-- Navigation -->
 <div class="d-flex justify-content-between align-items-center">
-    <a href="/projects" class="btn btn-outline-primary">
-        <i class="fa-solid fa-arrow-left"></i> Back to Projects
+    <a href="{{ projects_url }}" class="btn btn-outline-primary">
+        <i class="fa-solid fa-arrow-left"></i> {{ i18n.back_to_projects }}
     </a>
 
     {% if project.repo_url %}
     <a href="{{ project.repo_url }}/issues" class="btn btn-outline-secondary" target="_blank">
-        <i class="fa-solid fa-bug"></i> Report Issue
+        <i class="fa-solid fa-bug"></i> {{ i18n.report_issue }}
     </a>
     {% endif %}
 </div>

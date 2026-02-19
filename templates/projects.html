@@ -5,15 +5,16 @@
 <div class="text-center mb-5 fade-in-up">
     <h1 class="display-4 fw-bold mb-3">
         <i class="fa-solid fa-folder-open" style="color: var(--accent-primary);"></i>
-        Project Portfolio
+        {{ i18n.projects_page_title }}
     </h1>
     <p class="lead text-muted" style="max-width: 700px; margin: 0 auto;">
-        A collection of Python projects showcasing backend development, automation, and system integration
+        {{ i18n.projects_page_subtitle }}
     </p>
 </div>
 
 {% if projects %}
 <!-- Projects Grid -->
+{% set detail_endpoint = 'project_detail_en' if lang == 'en' else 'project_detail' %}
 <div class="row g-4 mb-5">
     {% for project in projects %}
     <div class="col-md-6 col-lg-4 fade-in">
@@ -21,7 +22,7 @@
             <div class="card-body d-flex flex-column">
                 <div class="d-flex align-items-start justify-content-between mb-3">
                     <h5 class="card-title mb-0 flex-grow-1">
-                        <a href="{{ url_for('project_detail', slug=project.slug) }}" class="text-decoration-none">
+                        <a href="{{ url_for(detail_endpoint, slug=project.slug) }}" class="text-decoration-none">
                             {{ project.name }}
                         </a>
                     </h5>
@@ -29,23 +30,31 @@
                 </div>
 
                 <div class="card-text project-description flex-grow-1 mb-3">
-                    {{ project.description | safe }}
+                    <div class="readme-preview">
+                        {{ project.readme_preview | safe }}
+                    </div>
+                    {% if project.test_hint %}
+                    <div class="project-test-pill mt-3">
+                        <span class="badge badge-python"><i class="fa-solid fa-vial"></i> {{ i18n.projects_test_label }}</span>
+                        <code>{{ project.test_hint }}</code>
+                    </div>
+                    {% endif %}
                 </div>
 
                 <div class="mt-auto">
                     <div class="d-flex flex-wrap gap-2">
                         {% if project.repo_url %}
                         <a href="{{ project.repo_url }}" class="btn btn-sm btn-dark" target="_blank" title="View source code">
-                            <i class="fab fa-github"></i> Code
+                            <i class="fab fa-github"></i> {{ i18n.code }}
                         </a>
                         {% endif %}
                         {% if project.live_url %}
                         <a href="{{ project.live_url }}" class="btn btn-sm btn-primary" target="_blank" title="View live demo">
-                            <i class="fa-solid fa-globe"></i> Demo
+                            <i class="fa-solid fa-globe"></i> {{ i18n.demo }}
                         </a>
                         {% endif %}
-                        <a href="{{ url_for('project_detail', slug=project.slug) }}" class="btn btn-sm btn-outline-primary" title="View project details">
-                            Details <i class="fa-solid fa-arrow-right ms-1"></i>
+                        <a href="{{ url_for(detail_endpoint, slug=project.slug) }}" class="btn btn-sm btn-outline-primary" title="View project details">
+                            {{ i18n.details }} <i class="fa-solid fa-arrow-right ms-1"></i>
                         </a>
                     </div>
                 </div>
@@ -92,13 +101,21 @@
     <div class="card">
         <div class="card-body py-5">
             <i class="fa-regular fa-folder-open" style="font-size: 5rem; color: var(--accent-primary);"></i>
-            <h3 class="mt-4 mb-3">No Projects Yet</h3>
+            <h3 class="mt-4 mb-3">{{ i18n.projects_empty }}</h3>
             <p class="text-muted mb-4">
-                Projects will appear here once they are added to the <code>projects/</code> directory.
+                {% if lang == 'en' %}
+                Add projects in <code>projects/</code> with a <strong>README.md</strong>.
+                {% else %}
+                Agrega proyectos en <code>projects/</code> con su <strong>README.md</strong>.
+                {% endif %}
             </p>
             <div class="alert alert-info d-inline-block">
                 <i class="fa-solid fa-info-circle"></i>
-                Each project folder should contain a <strong>README.md</strong> file
+                {% if lang == 'en' %}
+                A README.md helps show descriptions and links
+                {% else %}
+                README.md recomendado para mostrar descripción y enlaces
+                {% endif %}
             </div>
         </div>
     </div>
@@ -107,8 +124,8 @@
 
 <!-- Back to Home -->
 <div class="text-center mt-5 fade-in">
-    <a href="/" class="btn btn-outline-primary btn-lg">
-        <i class="fa-solid fa-arrow-left"></i> Back to Home
+    <a href="{{ home_url }}" class="btn btn-outline-primary btn-lg">
+        <i class="fa-solid fa-arrow-left"></i> {{ i18n.projects_back_home }}
     </a>
 </div>
 {% endblock %}

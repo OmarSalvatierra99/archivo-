@@ -6,7 +6,14 @@ Handles complete deployment pipeline:
 - Creates/updates systemd services for Flask apps
 - Generates NGINX configurations with SSL
 - Sets up virtual environments and dependencies
+- Validates and loads .env files for environment variables
 - Manages permissions and service restarts
+
+Features:
+- Automatic .env file validation for projects with environment requirements
+- Support for Flask-SocketIO projects with WebSocket configuration
+- Custom gunicorn worker configurations per project
+- Dry-run mode for safe testing
 
 Requires: sudo privileges
 Idempotent: Safe to run multiple times
@@ -39,7 +46,7 @@ PROJECTS = [
     ("lexnum", "04-lexnum", 5004, "lexnum.omar-xyz.shop"),
     ("sasp", "05-sasp", 5006, "sasp.omar-xyz.shop"),
     ("sasp-php", "06-sasp-php", None, "sasp-php.omar-xyz.shop"),
-    ("sifet-estatales", "07-sifet-estatales", 5008, "sifet-estatales.omar-xyz.shop"),
+    ("sifet-estatales", "07-sifet-estatales", 5008, "sifeet-estatales.omar-xyz.shop"),
     ("siif", "08-siif", 5009, "siif.omar-xyz.shop"),
     ("xml-php", "09-xml-php", None, "xml-php.omar-xyz.shop"),
 ]
@@ -57,6 +64,27 @@ PROJECT_GUNICORN_CONFIG = {
     #     "worker_class": "eventlet",
     #     "workers": 1,
     #     "timeout": 0,
+    # },
+}
+
+# Environment variable requirements for projects
+# Defines which projects need .env files and which variables are required
+PROJECT_ENV_REQUIREMENTS = {
+    "siif": {
+        "required_vars": ["SECRET_KEY"],
+        "optional_vars": ["DATABASE_URL", "PORT"],
+        "description": "SIIF/SIPAC accounting system"
+    },
+    "sasp": {
+        "required_vars": ["SECRET_KEY"],
+        "optional_vars": ["DATABASE_URL"],
+        "description": "SASP system"
+    },
+    # Add more projects as needed
+    # "project-name": {
+    #     "required_vars": ["VAR1", "VAR2"],
+    #     "optional_vars": ["VAR3"],
+    #     "description": "Project description"
     # },
 }
 
@@ -133,6 +161,101 @@ def detect_socketio_project(project_path):
         return False
 
 
+def validate_env_file(project_path, project_name, verbose=False):
+    """
+    Validate .env file exists and contains required variables.
+
+    Args:
+        project_path: Path to project directory
+        project_name: Name of the project
+        verbose: Show detailed output
+
+    Returns:
+        tuple: (success: bool, env_file_path: Path or None, warnings: list)
+    """
+    colors = setup_colors()
+    env_file = project_path / ".env"
+    warnings = []
+
+    # Check if project has env requirements
+    env_config = PROJECT_ENV_REQUIREMENTS.get(project_name)
+
+    if not env_config:
+        # No env requirements defined for this project
+        return (True, None, warnings)
+
+    # Check if .env file exists
+    if not env_file.exists():
+        # Check for .env.example as template
+        env_example = project_path / ".env.example"
+        if env_example.exists():
+            error_msg = f".env file missing (found .env.example template)"
+            if verbose:
+                log(f"  ✗ {error_msg}", "R", colors)
+                log(f"  💡 Copy .env.example to .env and configure it", "Y", colors)
+        else:
+            error_msg = f".env file missing"
+            if verbose:
+                log(f"  ✗ {error_msg}", "R", colors)
+
+        return (False, None, [error_msg])
+
+    # Read .env file
+    try:
+        env_content = env_file.read_text()
+        env_vars = {}
+
+        for line in env_content.splitlines():
+            line = line.strip()
+            # Skip comments and empty lines
+            if not line or line.startswith('#'):
+                continue
+            # Parse KEY=VALUE
+            if '=' in line:
+                key, _, value = line.partition('=')
+                env_vars[key.strip()] = value.strip()
+
+    except Exception as e:
+        error_msg = f"Failed to read .env file: {e}"
+        if verbose:
+            log(f"  ✗ {error_msg}", "R", colors)
+        return (False, env_file, [error_msg])
+
+    # Validate required variables
+    required_vars = env_config.get("required_vars", [])
+    optional_vars = env_config.get("optional_vars", [])
+    missing_required = []
+    missing_optional = []
+
+    for var in required_vars:
+        if var not in env_vars or not env_vars[var]:
+            missing_required.append(var)
+
+    for var in optional_vars:
+        if var not in env_vars or not env_vars[var]:
+            missing_optional.append(var)
+
+    # Report results
+    if missing_required:
+        error_msg = f"Missing required env vars: {', '.join(missing_required)}"
+        if verbose:
+            log(f"  ✗ {error_msg}", "R", colors)
+        return (False, env_file, [error_msg])
+
+    if missing_optional:
+        warning_msg = f"Missing optional env vars: {', '.join(missing_optional)}"
+        warnings.append(warning_msg)
+        if verbose:
+            log(f"  ⚠ {warning_msg}", "Y", colors)
+
+    if verbose:
+        log(f"  ✓ .env file validated ({len(env_vars)} variables)", "G", colors)
+        if required_vars:
+            log(f"    Required vars present: {', '.join(required_vars)}", "G", colors)
+
+    return (True, env_file, warnings)
+
+
 # === FLASK ENVIRONMENT ===
 def setup_flask_environment(project_path, verbose=False):
     """
@@ -203,7 +326,7 @@ def setup_flask_environment(project_path, verbose=False):
 
 
 # === SYSTEMD SERVICE ===
-def generate_systemd_service(name, project_path, port, gunicorn_config=None):
+def generate_systemd_service(name, project_path, port, gunicorn_config=None, env_file_path=None):
     """
     Create systemd service file for Flask app.
 
@@ -213,6 +336,7 @@ def generate_systemd_service(name, project_path, port, gunicorn_config=None):
         port: Port number for gunicorn
         gunicorn_config: Optional dict with gunicorn worker settings
                         (worker_class, workers, timeout)
+        env_file_path: Optional path to .env file for environment variables
 
     Returns:
         Path: Path to service file
@@ -240,6 +364,11 @@ def generate_systemd_service(name, project_path, port, gunicorn_config=None):
     wsgi_target = "app:app"
     gunicorn_cmd += f" {wsgi_target}"
 
+    # Build environment file directive if .env exists
+    env_file_directive = ""
+    if env_file_path:
+        env_file_directive = f"EnvironmentFile={env_file_path}"
+
     service_content = f"""[Unit]
 Description={name} Flask Application
 After=network.target
@@ -248,6 +377,7 @@ After=network.target
 User={user}
 WorkingDirectory={project_path}
 Environment="PATH={venv_path}/bin"
+{env_file_directive}
 ExecStart={gunicorn_cmd}
 Restart=always
 RestartSec=10
@@ -473,7 +603,16 @@ def deploy_project(name, folder, port, domain, web_user, verbose=False, dry_run=
     if dry_run:
         log(f"[DRY RUN] {name} ({domain})", "Y", colors)
         if has_flask and port:
-            return (name, "Flask [would deploy]")
+            # Check .env even in dry-run mode
+            env_valid, env_file_path, env_warnings = validate_env_file(
+                project_path, name, verbose
+            )
+            status = "Flask [would deploy]"
+            if not env_valid:
+                status = "Flask [env missing]"
+            elif env_file_path:
+                status = "Flask+.env [would deploy]"
+            return (name, status)
         elif has_php_root or has_php_public:
             return (name, "PHP [would deploy]")
         else:
@@ -486,6 +625,19 @@ def deploy_project(name, folder, port, domain, web_user, verbose=False, dry_run=
         # FLASK DEPLOYMENT
         if has_flask and port:
             log(f"🔧 Deploying Flask: {name} ({domain})", "B", colors)
+
+            # Validate .env file if required
+            env_valid, env_file_path, env_warnings = validate_env_file(
+                project_path, name, verbose
+            )
+
+            if not env_valid:
+                log(f"  ✗ Environment validation failed", "R", colors)
+                return (name, "env validation failed")
+
+            if env_warnings and verbose:
+                for warning in env_warnings:
+                    log(f"  ⚠ {warning}", "Y", colors)
 
             # Setup environment
             if not setup_flask_environment(project_path, verbose):
@@ -500,8 +652,8 @@ def deploy_project(name, folder, port, domain, web_user, verbose=False, dry_run=
             elif verbose and enable_websocket:
                 log(f"  Detected Flask-SocketIO, enabling WebSocket support", "Y", colors)
 
-            # Generate systemd service
-            generate_systemd_service(name, project_path, port, gunicorn_config)
+            # Generate systemd service with .env file support
+            generate_systemd_service(name, project_path, port, gunicorn_config, env_file_path)
 
             # Generate NGINX config
             nginx_config = generate_nginx_flask(

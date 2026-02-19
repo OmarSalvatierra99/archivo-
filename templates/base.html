@@ -1,16 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ i18n.html_lang }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ data.name }} — Python Developer Portfolio</title>
+    <title>{{ data.name }} — {{ i18n.site_title_suffix }}</title>
     <meta name="description" content="{{ data.headline }}">
     <meta name="keywords" content="Python Developer, Backend Engineer, Flask, Linux, Automation">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700;800&family=Sora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- Bootstrap & Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -33,7 +33,7 @@
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg shadow-sm sticky-top">
         <div class="container">
-            <a class="navbar-brand" href="/">
+            <a class="navbar-brand" href="{{ home_url }}">
                 <i class="fa-brands fa-python"></i>
                 <span>{{ data.name.split()[0] }}</span>
             </a>
@@ -45,18 +45,23 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto align-items-center">
                     <li class="nav-item">
-                        <a class="nav-link" href="/">
-                            <i class="fa-solid fa-house"></i> Home
+                        <a class="nav-link" href="{{ home_url }}">
+                            <i class="fa-solid fa-house"></i> {{ i18n.nav_home }}
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/projects">
-                            <i class="fa-solid fa-code"></i> Projects
+                        <a class="nav-link" href="{{ projects_url }}">
+                            <i class="fa-solid fa-code"></i> {{ i18n.nav_projects }}
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ data.resume.url }}" target="_blank">
-                            <i class="fa-solid fa-file-pdf"></i> Resume
+                            <i class="fa-solid fa-file-pdf"></i> {{ i18n.nav_resume }}
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ alt_lang_url }}">
+                            <i class="fa-solid fa-language"></i> {{ alt_lang_label }}
                         </a>
                     </li>
                     <li class="nav-item">
@@ -93,7 +98,7 @@
                 {% endfor %}
             </div>
             <small style="color: var(--text-muted); font-size: 0.875rem;">
-                © {{ year }} {{ data.name }} — Built with <span style="color: var(--accent-primary);">♥</span> using Python & Flask
+                © {{ year }} {{ data.name }} — {{ i18n.footer_built_with }}
             </small>
         </div>
     </footer>

@@ -1,0 +1,475 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Vitrina | Diseños con actitud</title>
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #f7f7f8;
+    --surface: #ffffff;
+    --surface-2: #f1f2f4;
+    --text: #0b0c0f;
+    --muted: #5a5f6a;
+    --brand: #0d6efd;
+    --brand-2: #0a58ca;
+    --ring: rgba(13, 110, 253, 0.25);
+    --shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    --shadow-hover: 0 16px 40px rgba(0, 0, 0, 0.12);
+    --border: rgba(0,0,0,0.08);
+    --glow: 0 0 0 1px rgba(13, 110, 253, 0.2), 0 0 28px rgba(13, 110, 253, 0.18);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0b0c0f;
+      --surface: #12141a;
+      --surface-2: #171a22;
+      --text: #f5f7fb;
+      --muted: #a5adba;
+      --brand: #5aa2ff;
+      --brand-2: #3e8bff;
+      --ring: rgba(90, 162, 255, 0.25);
+      --shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+      --shadow-hover: 0 16px 40px rgba(0, 0, 0, 0.55);
+      --border: rgba(255,255,255,0.08);
+      --glow: 0 0 0 1px rgba(90, 162, 255, 0.25), 0 0 28px rgba(90, 162, 255, 0.22);
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    background: radial-gradient(1200px 600px at 10% -10%, rgba(13,110,253,0.10), transparent 60%),
+                radial-gradient(1200px 600px at 90% -10%, rgba(13,110,253,0.08), transparent 60%),
+                var(--bg);
+    color: var(--text);
+  }
+  .wrap {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 28px 20px 40px;
+  }
+  header {
+    display: grid;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  .slogan {
+    font-size: clamp(24px, 3.2vw, 36px);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+  .subtitle {
+    color: var(--muted);
+    font-size: clamp(14px, 1.7vw, 16px);
+  }
+  .toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    box-shadow: var(--shadow);
+  }
+  .search {
+    flex: 1 1 240px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--surface-2);
+    border-radius: 10px;
+    padding: 10px 12px;
+    border: 1px solid transparent;
+  }
+  .search:focus-within { border-color: var(--brand); box-shadow: 0 0 0 3px var(--ring); }
+  .search input {
+    width: 100%;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: var(--text);
+    font-size: 14px;
+  }
+  .toggle {
+    display: inline-flex;
+    background: var(--surface-2);
+    border-radius: 10px;
+    padding: 4px;
+    border: 1px solid transparent;
+  }
+  .toggle button {
+    border: none;
+    background: transparent;
+    color: var(--muted);
+    font-weight: 600;
+    padding: 8px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 180ms ease;
+  }
+  .toggle button[aria-pressed="true"] {
+    color: var(--text);
+    background: var(--surface);
+    box-shadow: var(--shadow);
+  }
+  .grid {
+    display: grid;
+    gap: 16px;
+    margin-top: 18px;
+  }
+  @media (min-width: 720px) {
+    .grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
+  }
+  @media (min-width: 1024px) {
+    .grid { grid-template-columns: repeat(3, minmax(0,1fr)); }
+  }
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 16px;
+    box-shadow: var(--shadow);
+    display: grid;
+    gap: 10px;
+    transition: transform 200ms ease, box-shadow 200ms ease, border-color 200ms ease;
+  }
+  .card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-hover);
+    border-color: rgba(13,110,253,0.3);
+  }
+  .card[aria-selected="true"] {
+    box-shadow: var(--shadow-hover), var(--glow);
+    border-color: rgba(13,110,253,0.5);
+  }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: var(--surface-2);
+    color: var(--muted);
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .title {
+    font-weight: 700;
+    font-size: 18px;
+    letter-spacing: -0.01em;
+  }
+  .url {
+    font-size: 13px;
+    color: var(--muted);
+    word-break: break-all;
+  }
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .btn {
+    border: 1px solid transparent;
+    padding: 8px 12px;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: 180ms ease;
+    text-decoration: none;
+    text-align: center;
+  }
+  .btn.primary {
+    background: var(--brand);
+    color: #fff;
+  }
+  .btn.primary:hover { background: var(--brand-2); }
+  .btn.ghost {
+    background: var(--surface-2);
+    color: var(--text);
+  }
+  .btn.ghost:hover { filter: brightness(0.98); }
+  .spotlight {
+    display: none;
+    margin-top: 18px;
+    gap: 16px;
+  }
+  .spotlight.active {
+    display: grid;
+  }
+  @media (min-width: 900px) {
+    .spotlight.active { grid-template-columns: 1.1fr 1.9fr; align-items: start; }
+  }
+  .spotlight .panel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 16px;
+    box-shadow: var(--shadow);
+  }
+  .preview {
+    position: relative;
+    background: var(--surface-2);
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    aspect-ratio: 16 / 10;
+  }
+  .preview iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    display: block;
+  }
+  .skeleton {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, var(--surface-2), rgba(255,255,255,0.08), var(--surface-2));
+    background-size: 200% 100%;
+    animation: shimmer 1.4s ease infinite;
+  }
+  .fallback {
+    position: absolute;
+    inset: 0;
+    display: none;
+    place-items: center;
+    padding: 20px;
+    text-align: center;
+    background: var(--surface-2);
+    color: var(--muted);
+  }
+  .fallback.active { display: grid; }
+  .fallback strong { color: var(--text); }
+  @keyframes shimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; animation: none !important; }
+  }
+</style>
+</head>
+<body>
+  <div class="wrap" role="region" aria-label="Galería de proyectos">
+    <header>
+      <div class="slogan">Diseños con actitud</div>
+      <div class="subtitle">Vitrina premium de proyectos activos con enfoque en conversión.</div>
+    </header>
+
+    <div class="toolbar" role="toolbar" aria-label="Controles de galería">
+      <label class="search" aria-label="Buscar proyectos">
+        <span aria-hidden="true">Buscar</span>
+        <input id="searchInput" type="search" placeholder="Buscar por nombre o categoría..." />
+      </label>
+      <div class="toggle" role="group" aria-label="Cambiar vista">
+        <button id="gridBtn" aria-pressed="true" type="button">Vista: Grid</button>
+        <button id="spotlightBtn" aria-pressed="false" type="button">Vista: Spotlight</button>
+      </div>
+    </div>
+
+    <section id="grid" class="grid" aria-live="polite"></section>
+
+    <section id="spotlight" class="spotlight" aria-live="polite">
+      <div class="panel" id="spotlightInfo"></div>
+      <div class="panel">
+        <div class="preview" aria-label="Preview del sitio seleccionado">
+          <iframe id="spotlightFrame" title="Preview del sitio"></iframe>
+          <div class="skeleton" id="spotlightSkeleton" aria-hidden="true"></div>
+          <div class="fallback" id="spotlightFallback" role="status">
+            <div>
+              <strong>Preview no disponible</strong>
+              <div>Este sitio bloquea iframes. Usa "Ver sitio".</div>
+              <div style="margin-top:10px;">
+                <a id="fallbackLink" class="btn primary" href="#" target="_blank" rel="noopener">Ver sitio</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+<script>
+(() => {
+  const projects = [
+    { url: "https://sakurabarber.omar-xyz.shop", category: "Barbería" },
+    { url: "https://sociedadherpetologicamexicana.omar-xyz.shop", category: "Herpetología" },
+    { url: "https://neotatto.omar-xyz.shop", category: "Tattoo" },
+    { url: "https://oraleuncafe.omar-xyz.shop", category: "Café" },
+    { url: "https://xml-php.omar-xyz.shop", category: "Dev / XML" }
+  ].map(p => {
+    const host = new URL(p.url).hostname;
+    const name = host.split(".")[0]
+      .replace(/-/g, " ")
+      .replace(/\b\w/g, m => m.toUpperCase());
+    return { ...p, name, host };
+  });
+
+  const grid = document.getElementById("grid");
+  const searchInput = document.getElementById("searchInput");
+  const gridBtn = document.getElementById("gridBtn");
+  const spotlightBtn = document.getElementById("spotlightBtn");
+  const spotlight = document.getElementById("spotlight");
+  const spotlightInfo = document.getElementById("spotlightInfo");
+  const spotlightFrame = document.getElementById("spotlightFrame");
+  const spotlightSkeleton = document.getElementById("spotlightSkeleton");
+  const spotlightFallback = document.getElementById("spotlightFallback");
+  const fallbackLink = document.getElementById("fallbackLink");
+
+  let selectedIndex = 0;
+  let hasInteracted = false;
+  let autoplayTimer = null;
+
+  const renderGrid = (list) => {
+    grid.innerHTML = "";
+    list.forEach((p, i) => {
+      const card = document.createElement("article");
+      card.className = "card";
+      card.setAttribute("tabindex", "0");
+      card.setAttribute("role", "button");
+      card.setAttribute("aria-label", `Seleccionar ${p.name}`);
+      card.setAttribute("data-index", i);
+
+      card.innerHTML = `
+        <span class="badge" aria-label="Categoría ${p.category}">Categoría: ${p.category}</span>
+        <div class="title">${p.name}</div>
+        <div class="url">${p.url}</div>
+        <div class="actions">
+          <a class="btn primary" href="${p.url}" target="_blank" rel="noopener">Ver sitio</a>
+          <a class="btn ghost" href="${p.url}" target="_blank" rel="noopener">Abrir en nueva pestaña</a>
+        </div>
+      `;
+      card.addEventListener("click", () => {
+        selectProject(i, true);
+      });
+      card.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          selectProject(i, true);
+        }
+      });
+      grid.appendChild(card);
+    });
+  };
+
+  const updateSpotlightInfo = (p) => {
+    spotlightInfo.innerHTML = `
+      <span class="badge">Categoría: ${p.category}</span>
+      <div class="title" style="margin-top:8px;">${p.name}</div>
+      <div class="url">${p.url}</div>
+      <div class="actions" style="margin-top:12px;">
+        <a class="btn primary" href="${p.url}" target="_blank" rel="noopener">Ver sitio</a>
+        <a class="btn ghost" href="${p.url}" target="_blank" rel="noopener">Abrir en nueva pestaña</a>
+      </div>
+    `;
+  };
+
+  const loadPreview = (p) => {
+    spotlightSkeleton.style.display = "block";
+    spotlightFallback.classList.remove("active");
+    spotlightFrame.src = p.url;
+    fallbackLink.href = p.url;
+
+    let fallbackTimer = setTimeout(() => {
+      spotlightFallback.classList.add("active");
+      spotlightSkeleton.style.display = "none";
+    }, 3200);
+
+    spotlightFrame.onload = () => {
+      spotlightSkeleton.style.display = "none";
+      clearTimeout(fallbackTimer);
+    };
+  };
+
+  const selectProject = (index, fromUser = false) => {
+    selectedIndex = index;
+    const list = getFiltered();
+    const p = list[index] || list[0];
+    if (!p) return;
+
+    document.querySelectorAll(".card").forEach((c, idx) => {
+      c.setAttribute("aria-selected", idx === index ? "true" : "false");
+    });
+
+    updateSpotlightInfo(p);
+    loadPreview(p);
+
+    if (fromUser) stopAutoplay();
+  };
+
+  const getFiltered = () => {
+    const q = searchInput.value.trim().toLowerCase();
+    if (!q) return projects;
+    return projects.filter(p =>
+      p.name.toLowerCase().includes(q) ||
+      p.category.toLowerCase().includes(q) ||
+      p.host.toLowerCase().includes(q)
+    );
+  };
+
+  const applyFilter = () => {
+    const list = getFiltered();
+    renderGrid(list);
+    if (spotlight.classList.contains("active")) {
+      selectProject(0);
+    }
+  };
+
+  const toggleView = (mode) => {
+    const isSpotlight = mode === "spotlight";
+    spotlight.classList.toggle("active", isSpotlight);
+    gridBtn.setAttribute("aria-pressed", String(!isSpotlight));
+    spotlightBtn.setAttribute("aria-pressed", String(isSpotlight));
+    if (isSpotlight) selectProject(0);
+  };
+
+  const startAutoplay = () => {
+    if (autoplayTimer) return;
+    autoplayTimer = setInterval(() => {
+      if (hasInteracted) return stopAutoplay();
+      const list = getFiltered();
+      if (!list.length) return;
+      const next = (selectedIndex + 1) % list.length;
+      selectProject(next);
+    }, 6000);
+  };
+
+  const stopAutoplay = () => {
+    hasInteracted = true;
+    if (autoplayTimer) {
+      clearInterval(autoplayTimer);
+      autoplayTimer = null;
+    }
+  };
+
+  renderGrid(projects);
+  toggleView("grid");
+  startAutoplay();
+
+  searchInput.addEventListener("input", () => {
+    applyFilter();
+    stopAutoplay();
+  });
+
+  gridBtn.addEventListener("click", () => {
+    toggleView("grid");
+    stopAutoplay();
+  });
+
+  spotlightBtn.addEventListener("click", () => {
+    toggleView("spotlight");
+    stopAutoplay();
+  });
+
+  ["click", "keydown", "mousemove", "touchstart"].forEach(evt => {
+    window.addEventListener(evt, () => stopAutoplay(), { once: true, passive: true });
+  });
+})();
+</script>
+</body>
+</html>
