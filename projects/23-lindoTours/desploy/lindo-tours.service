@@ -1,0 +1,29 @@
+[Unit]
+Description=Lindo Tours Node service
+After=network.target
+
+[Service]
+Type=simple
+User=gabo
+Group=gabo
+WorkingDirectory=/home/gabo/portfolio/projects/23-lindoTours
+Environment="NODE_ENV=production"
+Environment="PORT=5023"
+Environment="SQLITE_DB_PATH=/var/lib/lindo-tours/lindotours.db"
+Environment="PRIVATE_STORAGE_PATH=/var/lib/lindo-tours/storage"
+EnvironmentFile=-/etc/default/lindo-tours
+StateDirectory=lindo-tours
+ExecStartPre=/usr/bin/mkdir -p /var/lib/lindo-tours/storage
+ExecStart=/usr/bin/node /home/gabo/portfolio/projects/23-lindoTours/server.js
+
+Restart=on-failure
+RestartSec=5
+
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=lindo-tours
+NoNewPrivileges=true
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

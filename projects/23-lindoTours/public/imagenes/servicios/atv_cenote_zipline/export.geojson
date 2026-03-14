@@ -1,0 +1,4987 @@
+{
+  "type": "FeatureCollection",
+  "generator": "overpass-turbo",
+  "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL.",
+  "timestamp": "2026-02-18T06:21:46Z",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "relation/3358972",
+        "building": "yes",
+        "layer": "1",
+        "name": "Yalmakan",
+        "tourism": "hotel",
+        "type": "multipolygon",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.7825926,
+          21.0455612
+        ]
+      },
+      "id": "relation/3358972"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "relation/3358973",
+        "addr:city": "Cancún",
+        "addr:housenumber": "km 20.5",
+        "addr:neighbourhood": "Zona Hotelera",
+        "addr:postcode": "77500",
+        "addr:state": "Quintana Roo",
+        "addr:street": "Boulevard Kukulcán",
+        "brand": "Westin",
+        "brand:wikidata": "Q1969162",
+        "brand:wikipedia": "en:Westin Hotels & Resorts",
+        "building": "yes",
+        "internet_access": "yes",
+        "internet_access:fee": "customers",
+        "name": "Westin Resort Cancun",
+        "phone": "+52 998-848-7400",
+        "tourism": "hotel",
+        "type": "multipolygon",
+        "website": "https://www.marriott.com/en-us/hotels/cunwo-the-westin-resort-and-spa-cancun/overview",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.7821179,
+          21.0391752
+        ]
+      },
+      "id": "relation/3358973"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "relation/3358974",
+        "brand": "Club Med",
+        "brand:wikidata": "Q1076645",
+        "building": "yes",
+        "name": "Club Med",
+        "tourism": "hotel",
+        "type": "multipolygon",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.7796683,
+          21.0345852
+        ]
+      },
+      "id": "relation/3358974"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "relation/3373561",
+        "building": "yes",
+        "name": "Solymar",
+        "tourism": "hotel",
+        "type": "multipolygon",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.7819354,
+          21.0524608
+        ]
+      },
+      "id": "relation/3373561"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "relation/6933605",
+        "addr:city": "Cancún",
+        "addr:housenumber": "Mz52",
+        "addr:postcode": "77500",
+        "addr:state": "Quintana Roo",
+        "addr:street": "Avenida Kukulcán",
+        "air_conditioning": "yes",
+        "bar": "yes",
+        "building": "residential",
+        "contact:facebook": "https://www.facebook.com/nyxhotels",
+        "description": "Hotel NYX Cancun is a holiday resort in the Cancun with spa, 4 restaurants, 2 bars and a friendly staff. The rooms are equipped to provide comfort and most of them have overlooking views to the sea.",
+        "email": "e-commerce@nyxhotels.com",
+        "image": "https://en.nyxhotels.com/cache/57/60/57603e2707f2658bd925a819f2add4ea.jpg",
+        "internet_access": "yes",
+        "internet_access:fee": "customers",
+        "layer": "-1",
+        "name": "Hotel NYX Cancun",
+        "not:name": "Avalon Grand",
+        "opening_hours": "24/7",
+        "operator": "NYX DEVELOPMENT SA DE CV",
+        "payment:american_express": "yes",
+        "payment:cash": "yes",
+        "payment:credit_cards": "yes",
+        "payment:debit_cards": "yes",
+        "payment:maestro": "yes",
+        "payment:mastercard": "yes",
+        "payment:visa": "yes",
+        "phone": "+52 998 848 9300",
+        "reservation": "yes",
+        "rooms": "163",
+        "smoking": "no",
+        "source": "survey;local knowledge;https://www.nyxhotels.com",
+        "stars": "4",
+        "tourism": "hotel",
+        "type": "multipolygon",
+        "website": "https://www.nyxhotels.com",
+        "wheelchair": "yes",
+        "wikidata": "Q136503687",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.7586735,
+          21.1142927
+        ]
+      },
+      "id": "relation/6933605"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "relation/13603606",
+        "building": "yes",
+        "building:levels": "7",
+        "internet_access": "wlan",
+        "internet_access:fee": "customers",
+        "name": "GR Solaris",
+        "tourism": "hotel",
+        "type": "multipolygon",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.7815017,
+          21.0550291
+        ]
+      },
+      "id": "relation/13603606"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "relation/15610155",
+        "addr:city": "Cancún",
+        "addr:housenumber": "Km 8.5-Km. 9 Lotes 9 y 9A",
+        "addr:postcode": "77500",
+        "addr:street": "Avenida Kukulcán",
+        "air_conditioning": "yes",
+        "bar": "yes",
+        "brand": "Krystal Hotels & Resorts",
+        "building": "yes",
+        "contact:facebook": "https://www.facebook.com/HotelKrystalResortCancun/",
+        "description": "Located in Punta Cancún, the Hotel Krystal Cancun is a beachfront hotel with swimming pools, sun terrace, bars and restaurants, comfortable rooms, meeting rooms, water sports, playground, animation and direct access to the beach.",
+        "email": "reservacionescancun2@krystal-hotels.com",
+        "image": "https://www.krystal-cancun.com/media/uploads/cms_apps/imagenes/backgrounds-krystalcancun_qRbsKsF.jpg",
+        "internet_access": "yes",
+        "internet_access:fee": "no",
+        "name": "Hotel Krystal Cancún",
+        "opening_hours": "24/7",
+        "operator": "Santa Fe Grupo Hotelero",
+        "payment:cash": "yes",
+        "payment:credit_cards": "yes",
+        "payment:debit_cards": "yes",
+        "payment:maestro": "yes",
+        "payment:mastercard": "yes",
+        "payment:visa": "yes",
+        "payment:visa_debit": "yes",
+        "payment:visa_electron": "yes",
+        "phone": "+52 9988489800",
+        "reservation": "yes",
+        "smoking": "outside",
+        "source": "https://www.krystal-cancun.com",
+        "stars": "4",
+        "tourism": "hotel",
+        "type": "multipolygon",
+        "website": "https://www.krystal-cancun.com",
+        "wheelchair": "yes",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.7449979,
+          21.1339517
+        ]
+      },
+      "id": "relation/15610155"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "relation/15610156",
+        "addr:city": "Cancun",
+        "addr:housenumber": "km 8,5",
+        "addr:postcode": "77500",
+        "addr:street": "Avenida Kukulcán",
+        "brand": "Krystal Hotels",
+        "building": "yes",
+        "internet_access": "yes",
+        "name": "Krystal Altitude Cancún",
+        "rooms": "398",
+        "tourism": "hotel",
+        "type": "multipolygon",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.7431317,
+          21.1346043
+        ]
+      },
+      "id": "relation/15610156"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "relation/17189310",
+        "brand": "Palace Resorts",
+        "building": "yes",
+        "internet_access": "wlan",
+        "internet_access:fee": "no",
+        "name": "Moon Palace Nizuc",
+        "tourism": "hotel",
+        "type": "multipolygon",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8296482,
+          20.9814666
+        ]
+      },
+      "id": "relation/17189310"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "relation/17189311",
+        "brand": "Palace Resorts",
+        "building": "yes",
+        "internet_access": "wlan",
+        "internet_access:fee": "no",
+        "name": "Moon Palace The Grand",
+        "tourism": "hotel",
+        "type": "multipolygon",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8327944,
+          20.9755691
+        ]
+      },
+      "id": "relation/17189311"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/36884202",
+        "brand": "Club Med",
+        "brand:wikidata": "Q1076645",
+        "building": "yes",
+        "name": "Jade",
+        "tourism": "hotel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.7792375,
+          21.0329666
+        ]
+      },
+      "id": "way/36884202"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/84722634",
+        "addr:city": "Cancún",
+        "addr:housenumber": "Km. 17",
+        "addr:postcode": "77500",
+        "addr:street": "Avenida Kukulcán",
+        "air_conditioning": "yes",
+        "bar": "yes",
+        "brand": "Iberostar Hotels & Resorts",
+        "brand:wikidata": "Q2035939",
+        "building": "hotel",
+        "contact:facebook": "https://www.facebook.com/IberostarSelectionCancun",
+        "description": "5-star hotel by the beach in Cancun.",
+        "email": "reservas.cancun@iberostar.com.mx",
+        "image": "https://apiimg.iberostar.com/uploads/image/80497/crops/16:9/1920/image.jpeg",
+        "internet_access": "yes",
+        "internet_access:fee": "customers",
+        "name": "Iberostar Selection Cancun",
+        "opening_hours": "24/7",
+        "operator": "Iberostar Hotels & Resorts",
+        "payment:cash": "yes",
+        "payment:credit_cards": "yes",
+        "payment:debit_cards": "yes",
+        "phone": "+52 998 881 8000",
+        "reservation": "yes",
+        "rooms": "426",
+        "smoking": "outside",
+        "source": "survey;local knowledge;www.iberostar.com",
+        "stars": "5",
+        "tourism": "hotel",
+        "website": "https://www.iberostar.com/eu/hotels/cancun/iberostar-selection-cancun/",
+        "wheelchair": "yes",
+        "wikidata": "Q135652636",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.7785114,
+          21.0672405
+        ]
+      },
+      "id": "way/84722634"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/126334679",
+        "addr:city": "Cancún",
+        "addr:housenumber": "Lte 64",
+        "addr:postcode": "77500",
+        "addr:street": "Boulevard Kukulcán",
+        "building": "yes",
+        "email": "royalsolariscancun@clubsolaris.com",
+        "internet_access": "wlan",
+        "name": "Royal Solaris Cancun",
+        "phone": "+52 998 800 1353",
+        "smoking": "isolated",
+        "stars": "4",
+        "tourism": "hotel",
+        "website": "https://clubsolaris.com/hotel/Royal-solaris-cancun",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.7824715,
+          21.0495702
+        ]
+      },
+      "id": "way/126334679"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/126334680",
+        "building": "yes",
+        "name": "Sun Palace",
+        "tourism": "hotel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.7825747,
+          21.044135
+        ]
+      },
+      "id": "way/126334680"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/126334746",
+        "building": "yes",
+        "name": "Now Emerald Cancun",
+        "tourism": "hotel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.7815753,
+          21.0538516
+        ]
+      },
+      "id": "way/126334746"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/126562790",
+        "addr:city": "Cancún",
+        "addr:postcode": "77500",
+        "addr:street": "Boulevard Kukulcan, km 16.5",
+        "building": "hotel",
+        "name": "Paradisus Cancún",
+        "operator": "Meliá Hotels International",
+        "tourism": "hotel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.7720649,
+          21.0836032
+        ]
+      },
+      "id": "way/126562790"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/155413453",
+        "addr:city": "Cancún",
+        "addr:housenumber": "Mz 50 Lt 5-Km 9",
+        "addr:postcode": "77500",
+        "addr:street": "Avenida Kukulcán",
+        "air_conditioning": "yes",
+        "bar": "yes",
+        "brand": "RIU",
+        "brand:wikidata": "Q2005557",
+        "building": "yes",
+        "contact:facebook": "https://www.facebook.com/HotelRiuCancun/",
+        "description": "The Hotel Riu Cancun is a 5-star All Inclusive hotel in Cancun's most popular area for tourists. The hotel has prime location on a white sandy beach and provides comfort rooms, spa area, gym and Jacuzzi, 3 swimming pools and infinity pool.",
+        "email": "hotel.cancun@riu.com",
+        "image": "https://www.riu.com/en/binaris/Slide_cancun-min_tcm55-179862.jpg",
+        "internet_access": "wlan",
+        "internet_access:fee": "no",
+        "name": "Hotel Riu Cancun",
+        "opening_hours": "24/7",
+        "operator": "RIU Hotels & Resorts",
+        "payment:cash": "yes",
+        "payment:credit_cards": "yes",
+        "payment:debit_cards": "yes",
+        "phone": "+52 998 848 7151",
+        "reservation": "yes",
+        "smoking": "outside",
+        "source": "survey;local knowledge;www.riu.com",
+        "stars": "5",
+        "tourism": "hotel",
+        "website": "https://www.riu.com/en/hotel/mexico/cancun/hotel-riu-cancun/",
+        "wheelchair": "yes",
+        "wikidata": "Q135919412",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.7488381,
+          21.1380149
+        ]
+      },
+      "id": "way/155413453"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/175941957",
+        "addr:city": "Cancún",
+        "addr:housenumber": "36",
+        "addr:postcode": "77500",
+        "addr:street": "Retorno del Rey",
+        "brand": "Kempinski",
+        "brand:wikipedia": "en:kempinski",
+        "building": "yes",
+        "email": "info.cancun@kempinski.com",
+        "name": "Kempinski Hotel Cancún",
+        "phone": "+52 998 881 0808",
+        "tourism": "hotel",
+        "website": "https://www.kempinski.com/en/cancun/grand-hotel-cancun/",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.768063,
+          21.0932159
+        ]
+      },
+      "id": "way/175941957"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/175941959",
+        "air_conditioning": "yes",
+        "building": "yes",
+        "internet_access": "wlan",
+        "internet_access:fee": "customers",
+        "name": "Gran Oasis Cancun",
+        "name:en": "Grand Oasis Cancun",
+        "tourism": "hotel",
+        "wheelchair": "yes",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.7747269,
+          21.0778379
+        ]
+      },
+      "id": "way/175941959"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/175941961",
+        "addr:city": "Cancún",
+        "addr:housenumber": "Blvd. Kukulcán Km.17, Lote 52-04. Zona Hotelera",
+        "addr:postcode": "77500",
+        "addr:street": "Avenida Kukulcán",
+        "building": "yes",
+        "email": "reservations@seadustcancun.com",
+        "internet_access": "yes",
+        "internet_access:fee": "yes",
+        "name": "Seadust Cancun Family Resort",
+        "phone": "+52(998)2871400",
+        "rooms": "505",
+        "smoking": "outside",
+        "stars": "5",
+        "tourism": "hotel",
+        "website": "https://www.seadustcancun.com/",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.7780022,
+          21.0688315
+        ]
+      },
+      "id": "way/175941961"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/175941970",
+        "addr:city": "Cancún",
+        "addr:housenumber": "Blvd. Kukulcán Km.17, Lote 52-04. Zona Hotelera",
+        "addr:postcode": "77500",
+        "addr:street": "Avenida Kukulcán",
+        "building": "yes",
+        "email": "reservations@seadustcancun.com",
+        "internet_access": "yes",
+        "internet_access:fee": "yes",
+        "name": "Seadust Cancun Family Resort",
+        "phone": "+52(998)2871400",
+        "rooms": "505",
+        "smoking": "outside",
+        "stars": "5",
+        "tourism": "hotel",
+        "website": "https://www.seadustcancun.com/",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.778868,
+          21.0691436
+        ]
+      },
+      "id": "way/175941970"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/190546402",
+        "brand": "Palace Resorts",
+        "building": "yes",
+        "internet_access": "wlan",
+        "internet_access:fee": "no",
+        "name": "Moon Palace Sunrise",
+        "tourism": "hotel",
+        "website": "https://www.moonpalacecancun.com/",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8277101,
+          20.9882898
+        ]
+      },
+      "id": "way/190546402"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/200374920",
+        "addr:city": "Cancun",
+        "addr:postcode": "77500",
+        "addr:street": "Blvd. Kukulcan, Manzana 51, Lote. 7",
+        "brand": "Hyatt",
+        "brand:wikidata": "Q1425063",
+        "brand:wikipedia": "en:Hyatt",
+        "building": "yes",
+        "name": "Hyatt Ziva Cancun",
+        "operator": "Hyatt",
+        "phone": "529988487000",
+        "tourism": "hotel",
+        "website": "https://www.cancun.ziva.hyatt.com/en/hotel/home.html",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.7418761,
+          21.1358966
+        ]
+      },
+      "id": "way/200374920"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/200449704",
+        "building": "yes",
+        "layer": "1",
+        "name": "Fiesta Americana Coral Beach",
+        "tourism": "hotel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.7448833,
+          21.135968
+        ]
+      },
+      "id": "way/200449704"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/200451666",
+        "building": "yes",
+        "name": "Condominios Maralago",
+        "name:en": "Condominios Maralago",
+        "name:es": "Condominios Maralago",
+        "tourism": "hotel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.7491063,
+          21.1301675
+        ]
+      },
+      "id": "way/200451666"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/200451667",
+        "addr:city": "Cancún",
+        "addr:postcode": "77500",
+        "addr:street": "Boulevard Kukulcan",
+        "building": "yes",
+        "internet_access": "yes",
+        "name": "Fiesta Americana Villas Cancun",
+        "stars": "5",
+        "tourism": "hotel",
+        "website": "https://www.fiestamericana.com/web/fiesta-americana-villas-cancun",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.7515605,
+          21.1388111
+        ]
+      },
+      "id": "way/200451667"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/200451683",
+        "addr:city": "Cancún",
+        "addr:housenumber": "km 8.5, Manzana 50, Lote 4",
+        "addr:postcode": "77500",
+        "addr:state": "Quintana Roo",
+        "addr:street": "Boulevard Kukulcán",
+        "air_conditioning": "yes",
+        "bar": "yes",
+        "brand": "RIU",
+        "brand:wikidata": "Q2005557",
+        "building": "yes",
+        "contact:facebook": "https://www.facebook.com/HotelRiuPalaceLasAmericas",
+        "contact:phone": "+52 99 88 91 43 00",
+        "contact:website": "https://www.riu.com/en/hotel/mexico/cancun/hotel-riu-palace-las-americas",
+        "description": "Located on the beach of Cancún, the Hotel Riu Palace Las Americas is a 5-star Adults Only hotel in Cancun with All Inclusive board, concierge service, comfort suites, entertainment program, spa area, water sports, 3 pools and more.",
+        "email": "palace.lasamericas@riu.com",
+        "image": "https://www.riu.com/en/binaris/americas002_tcm55-50210.jpg?v=tm141021_1159",
+        "internet_access": "wlan",
+        "internet_access:fee": "no",
+        "name": "Hotel Riu Palace Las Americas",
+        "opening_hours": "24/7",
+        "operator": "RIU Hotels & Resorts",
+        "payment:cash": "yes",
+        "payment:credit_cards": "yes",
+        "payment:debit_cards": "yes",
+        "payment:mastercard": "yes",
+        "payment:visa": "yes",
+        "phone": "+52 99 88 91 43 00",
+        "reservation": "yes",
+        "smoking": "outside",
+        "source": "survey;local knowledge;www.riu.com",
+        "stars": "5",
+        "tourism": "hotel",
+        "website": "https://www.riu.com/en/hotel/mexico/cancun/hotel-riu-palace-las-americas",
+        "wheelchair": "yes",
+        "wikidata": "Q136324073",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.7502891,
+          21.1388799
+        ]
+      },
+      "id": "way/200451683"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/200454037",
+        "building": "yes",
+        "building:levels": "10",
+        "name": "Melia Casa Maya",
+        "tourism": "hotel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.7790385,
+          21.1449528
+        ]
+      },
+      "id": "way/200454037"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/246201346",
+        "addr:city": "Cancún",
+        "addr:housenumber": "Km. 5,5",
+        "addr:postcode": "77500",
+        "addr:street": "Avenida Kukulcán",
+        "air_conditioning": "yes",
+        "bar": "yes",
+        "brand": "RIU",
+        "brand:wikidata": "Q2005557",
+        "building": "yes",
+        "contact:facebook": "https://www.facebook.com/HotelRiuCaribe/",
+        "description": "Located right on the beach in Cancun, the Riu Caribe is a 5-star hotel with comfort rooms, All Inclusive 24 hours, free Wi-Fi, 3 swimming pools, wellness center, entertainment programme for adults and children, water sports and Pacha club.",
+        "email": "hotel.caribe@riu.com",
+        "fax": "+52 99 88 48 78 51",
+        "image": "https://www.riu.com/en/binaris/hotel-riu-caribe-2_tcm55-228578.jpg",
+        "internet_access": "wlan",
+        "internet_access:fee": "no",
+        "name": "Hotel Riu Caribe",
+        "opening_hours": "24/7",
+        "operator": "RIU Hotels & Resorts",
+        "payment:american_express": "yes",
+        "payment:amex": "yes",
+        "payment:cash": "yes",
+        "payment:credit_cards": "yes",
+        "payment:debit_cards": "yes",
+        "payment:maestro": "yes",
+        "payment:mastercard": "yes",
+        "payment:visa": "yes",
+        "phone": "+52 998 848 7850",
+        "reservation": "yes",
+        "smoking": "outside",
+        "source": "survey;local knowledge;www.riu.com",
+        "stars": "5",
+        "tourism": "hotel",
+        "website": "https://www.riu.com/en/hotel/mexico/cancun/hotel-riu-caribe/",
+        "wheelchair": "yes",
+        "wikidata": "Q135919568",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.7747063,
+          21.1429939
+        ]
+      },
+      "id": "way/246201346"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/249821480",
+        "building": "yes",
+        "name": "Melody Maker Cancun",
+        "operator": "Melia",
+        "tourism": "hotel",
+        "wikidata": "Q6064983",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.7594359,
+          21.1128283
+        ]
+      },
+      "id": "way/249821480"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/249821482",
+        "brand": "Westin",
+        "brand:wikidata": "Q1969162",
+        "brand:wikipedia": "en:Westin Hotels & Resorts",
+        "building": "yes",
+        "name": "The Westin Lagunamar",
+        "tourism": "hotel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.7614885,
+          21.1091501
+        ]
+      },
+      "id": "way/249821482"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/251194644",
+        "building": "yes",
+        "name": "Secrets The Vine Cancún ",
+        "tourism": "hotel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.7692711,
+          21.0913012
+        ]
+      },
+      "id": "way/251194644"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/251194645",
+        "building": "yes",
+        "name": "Golden Parnassus",
+        "tourism": "hotel",
+        "wikidata": "Q5579697",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.768783,
+          21.0919305
+        ]
+      },
+      "id": "way/251194645"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/251196265",
+        "building": "yes",
+        "name": "The Royal Sands",
+        "tourism": "hotel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.7665748,
+          21.0979435
+        ]
+      },
+      "id": "way/251196265"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/251198285",
+        "building": "yes",
+        "name": "Las Arenas Reales",
+        "tourism": "hotel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.7657574,
+          21.098858
+        ]
+      },
+      "id": "way/251198285"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/251202610",
+        "building": "yes",
+        "name": "Hotel Flamingo",
+        "tourism": "hotel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.7566741,
+          21.117708
+        ]
+      },
+      "id": "way/251202610"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/251203351",
+        "addr:housenumber": "77500",
+        "addr:street": "Boulevard Kukulcán",
+        "building": "yes",
+        "internet_access": "wlan",
+        "name": "Sunscape Resort",
+        "phone": "+52 (998) 881 5500",
+        "tourism": "hotel",
+        "website": "https://www.playaresorts.com/",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.7550875,
+          21.1209601
+        ]
+      },
+      "id": "way/251203351"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/251205743",
+        "building": "yes",
+        "name": "Le Blanc Spa Resort",
+        "tourism": "hotel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.7526241,
+          21.1253853
+        ]
+      },
+      "id": "way/251205743"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/251236293",
+        "addr:city": "Cancún",
+        "building": "yes",
+        "internet_access": "wlan",
+        "internet_access:fee": "customers",
+        "name": "Emporio Cancun",
+        "phone": "+52 998 283 3800",
+        "rooms": "400",
+        "stars": "4",
+        "tourism": "hotel",
+        "website": "https://www.emporiocancun.com",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.7758638,
+          21.0732077
+        ]
+      },
+      "id": "way/251236293"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/251236481",
+        "addr:city": "Cancún",
+        "addr:postcode": "77500",
+        "addr:street": "Blvd. Kukulcan KM 17 B",
+        "air_conditioning": "yes",
+        "bar": "yes",
+        "brand": "Iberostar Hotels & Resorts",
+        "brand:wikidata": "Q2035939",
+        "building": "hotel",
+        "contact:facebook": "https://www.facebook.com/IberostarSelectionCoralBavaro",
+        "email": "cunre2@iberostar.com",
+        "image": "https://apiimg.iberostar.com/uploads/image/50114/crops/16:9/1920/image.jpeg",
+        "internet_access": "yes",
+        "internet_access:fee": "customers",
+        "name": "Iberostar Selection Coral Cancun",
+        "opening_hours": "24/7",
+        "operator": "IBEROSTAR Hotels & Resorts",
+        "payment:cash": "yes",
+        "payment:credit_cards": "yes",
+        "payment:debit_cards": "yes",
+        "phone": "+52 998 881 8000",
+        "reservation": "yes",
+        "rooms": "156",
+        "smoking": "outside",
+        "source": "survey;local knowledge;www.iberostar.com",
+        "stars": "5",
+        "tourism": "hotel",
+        "website": "https://www.iberostar.com/eu/hotels/cancun/iberostar-selection-coral-cancun/",
+        "wheelchair": "yes",
+        "wikidata": "Q135658348",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.7779178,
+          21.0676016
+        ]
+      },
+      "id": "way/251236481"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/251394562",
+        "addr:city": "Cancún",
+        "addr:postcode": "77500",
+        "addr:street": "Kukulcan Km 17, Zona Hotelera",
+        "air_conditioning": "yes",
+        "bar": "yes",
+        "brand": "Hilton Hotels & Resorts",
+        "building": "yes",
+        "email": "CUNMC_Hotel@hilton.com",
+        "internet_access": "yes",
+        "internet_access:fee": "no",
+        "name": "Hilton Cancun Mar Caribe All-Inclusive Resort",
+        "phone": "+52 998 689 2660",
+        "rooms": "540",
+        "stars": "4.5",
+        "tourism": "hotel",
+        "website": "https://hilton.com/cancunmarcaribe",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.7762288,
+          21.0716764
+        ]
+      },
+      "id": "way/251394562"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/251394571",
+        "building": "yes",
+        "name": "The Royal Islander",
+        "tourism": "hotel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.7768361,
+          21.0701263
+        ]
+      },
+      "id": "way/251394571"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/251395689",
+        "building": "yes",
+        "name": "Iberostar",
+        "tourism": "hotel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.7789923,
+          21.0658136
+        ]
+      },
+      "id": "way/251395689"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/251395691",
+        "building": "yes",
+        "name": "Iberostar",
+        "tourism": "hotel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.7790327,
+          21.0653608
+        ]
+      },
+      "id": "way/251395691"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/251395693",
+        "building": "yes",
+        "name": "Iberostar",
+        "tourism": "hotel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.778857,
+          21.0649158
+        ]
+      },
+      "id": "way/251395693"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/251395695",
+        "building": "yes",
+        "name": "Iberostar",
+        "tourism": "hotel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.7780609,
+          21.0652073
+        ]
+      },
+      "id": "way/251395695"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/251395698",
+        "building": "yes",
+        "name": "Iberostar",
+        "tourism": "hotel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.7782311,
+          21.0647349
+        ]
+      },
+      "id": "way/251395698"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/346305360",
+        "addr:city": "Cancun",
+        "addr:housenumber": "Km. 8.5",
+        "addr:postcode": "77500",
+        "addr:street": "Boulevard Kukulcán",
+        "air_conditioning": "yes",
+        "bar": "yes",
+        "description": "Beachscape Kin Ha Villas & Suites is a resort located in Cancun, just steps away from a golf course and a few meters from the heart of the Zona Hotelera. Designed in blocks of buildings surrounded by gardens, the 132 rooms provide comfort, convenient amen",
+        "email": "ecommerce@beachscape.com.mx",
+        "image": "https://en.beachscape.com.mx/uploads/galeriahoteles/HotelAerea.jpg",
+        "internet_access": "wlan",
+        "internet_access:fee": "customers",
+        "name": "Beachscape Kin Ha Villas & Suites",
+        "payment:cash": "yes",
+        "payment:credit_cards": "yes",
+        "payment:debit_cards": "yes",
+        "payment:mastercard": "yes",
+        "payment:visa": "yes",
+        "phone": "+52 998 891 5427",
+        "reservation": "yes",
+        "smoking": "separated",
+        "source": "local knowledge",
+        "stars": "4",
+        "tourism": "hotel",
+        "website": "https://www.beachscape.com.mx",
+        "wheelchair": "limited",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.7537212,
+          21.1360619
+        ]
+      },
+      "id": "way/346305360"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/358989618",
+        "brand": "Fiesta Americana",
+        "building": "hotel",
+        "internet_access": "yes",
+        "internet_access:fee": "customers",
+        "layer": "1",
+        "name": "Hotel Fiesta Americana Condesa",
+        "tourism": "hotel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.7730476,
+          21.0810605
+        ]
+      },
+      "id": "way/358989618"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/358989622",
+        "brand": "JW Marriott",
+        "brand:wikidata": "Q1067636",
+        "brand:wikipedia": "en:JW Marriott Hotels",
+        "building": "hotel",
+        "name": "JW Marriott Cancun Resort",
+        "operator": "Marriott",
+        "tourism": "hotel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.7707158,
+          21.0874768
+        ]
+      },
+      "id": "way/358989622"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/358989626",
+        "brand": "Marriott",
+        "brand:wikidata": "Q1141173",
+        "brand:wikipedia": "en:Marriott International",
+        "building": "hotel",
+        "name": "Marriott Cancun Resort",
+        "operator": "Marriott",
+        "tourism": "hotel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.7710637,
+          21.0861648
+        ]
+      },
+      "id": "way/358989626"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/446880241",
+        "addr:city": "Cancún",
+        "addr:housenumber": "Km. 6.5",
+        "addr:postcode": "77500",
+        "addr:state": "Quintana Roo",
+        "addr:street": "Boulevard Kukulkan",
+        "air_conditioning": "yes",
+        "bar": "yes",
+        "brand": "Faranda Hotels & Resorts",
+        "building": "hotel",
+        "contact:facebook": "https://www.facebook.com/DosPlayas/",
+        "description": "El Hotel Dos Playas Faranda Cancún es un hotel todo incluido próximo al muelle de Playa Tortugas, Cancún. El hotel posee habitaciones modernas, albercas, restaurantes, sushi bar, gimnasio, masajes en la playa, servicio de bodas y otros servicios.",
+        "email": "reservaciones@dosplayas.com",
+        "image": "https://www.dosplayas.com/cache/1e/ad/1ead96b18a5992157cf2c52977bee4f1.jpg",
+        "internet_access": "yes",
+        "name": "Hotel Dos Playas Faranda",
+        "opening_hours": "24/7",
+        "operator": "FARANDA HOTELS",
+        "payment:cash": "yes",
+        "payment:credit_cards": "yes",
+        "payment:debit_cards": "yes",
+        "payment:maestro": "yes",
+        "payment:mastercard": "yes",
+        "payment:visa": "yes",
+        "phone": "+52 9988494920",
+        "reservation": "yes",
+        "smoking": "outside",
+        "source": "https://www.dosplayas.com/",
+        "stars": "3",
+        "tourism": "hotel",
+        "website": "https://www.dosplayas.com/",
+        "wheelchair": "yes",
+        "wikidata": "Q138328658",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.7704461,
+          21.1397068
+        ]
+      },
+      "id": "way/446880241"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/471131063",
+        "building": "yes",
+        "name": "Comfort Inn Cancun",
+        "phone": "+529985326194",
+        "tourism": "hotel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8499617,
+          21.0443288
+        ]
+      },
+      "id": "way/471131063"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/477165982",
+        "addr:city": "Cancun",
+        "addr:country": "MX",
+        "addr:housenumber": "km 7,5",
+        "addr:postcode": "77500",
+        "addr:street": "Boulevard Kukulcán",
+        "brand": "InterContinental",
+        "brand:wikidata": "Q1825730",
+        "brand:wikipedia": "en:InterContinental",
+        "building": "hotel",
+        "name": "INTERCONTINENTAL PRESIDENTE CANCUN RESORT",
+        "tourism": "hotel",
+        "website": "https://www.ihg.com/intercontinental/hotels/gb/en/cancun/cunhc/hoteldetail#",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.7547767,
+          21.1356094
+        ]
+      },
+      "id": "way/477165982"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/481224544",
+        "building": "yes",
+        "layer": "1",
+        "name": "Bell Air Cancun",
+        "tourism": "hotel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.7826606,
+          21.0467528
+        ]
+      },
+      "id": "way/481224544"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/503283670",
+        "addr:city": "Cancún",
+        "addr:postcode": "77500",
+        "addr:street": "Boulevard Kukulcan Km. 4,5, Zona Hotelera",
+        "building": "yes",
+        "building:levels": "6",
+        "description": "The Occidental Costa Cancún hotel (belonging to the Barceló Hotel Group) faces the Caribbean Sea on the famous Boulevard Kukulcán. Your visit to Linda Beach makes this hotel a stunning vacation destination where you can enjoy maximum relaxation.",
+        "email": "costacancun@occidentalhotels.com",
+        "name": "Occidental Costa Cancún",
+        "phone": "+52 998 849 7100",
+        "smoking": "separated",
+        "tourism": "hotel",
+        "website": "https://www.barcelo.com/en-us/occidental-hotels/hotels/mexico/cancun/occidental-costa-cancun/",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.788946,
+          21.1450668
+        ]
+      },
+      "id": "way/503283670"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/665886615",
+        "alt_name": "Hampton Inn",
+        "brand": "Hampton",
+        "brand:wikidata": "Q5646230",
+        "brand:wikipedia": "en:Hampton by Hilton",
+        "building": "yes",
+        "name": "Hampton Inn",
+        "official_name": "Hampton by Hilton",
+        "tourism": "hotel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8406065,
+          21.1110589
+        ]
+      },
+      "id": "way/665886615"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/683653057",
+        "addr:city": "Cancún",
+        "addr:housenumber": "Mza 14 SM 4 Lote 2",
+        "addr:postcode": "77500",
+        "addr:street": "Avenida Tulúm",
+        "brand": "La Quinta Inn",
+        "brand:wikidata": "Q6464734",
+        "brand:wikipedia": "en:La Quinta Inns & Suites",
+        "building": "yes",
+        "name": "La Quinta by Wyndham Cancún",
+        "official_name": "La Quinta Inn by Wyndham",
+        "tourism": "hotel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8242546,
+          21.1519331
+        ]
+      },
+      "id": "way/683653057"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/689002612",
+        "addr:city": "Cancún",
+        "addr:street": "Calle 17",
+        "name": "Hacienda de Castilla",
+        "stars": "3",
+        "tourism": "hotel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8222269,
+          21.1742988
+        ]
+      },
+      "id": "way/689002612"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/698801375",
+        "addr:city": "Cancún",
+        "addr:housenumber": "67",
+        "addr:postcode": "77500",
+        "addr:street": "Calle Venado",
+        "building": "yes",
+        "building:levels": "3",
+        "email": "xunglacancunrecepcion@gmail.com",
+        "internet_access": "wlan",
+        "internet_access:fee": "no",
+        "name": "Xungla Cancun",
+        "operator": "Xungla Cancun",
+        "phone": "+529983996299",
+        "rooms": "5",
+        "tourism": "guest_house",
+        "website": "https://frontdesk.counter.app/booking/xunglacancun",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8283674,
+          21.1548088
+        ]
+      },
+      "id": "way/698801375"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/701341678",
+        "addr:city": "Cancún",
+        "addr:housenumber": "227",
+        "addr:postcode": "77500",
+        "addr:street": "Avenida Tulúm",
+        "building": "yes",
+        "name": "Ambiance Suites Cancún",
+        "tourism": "hotel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8254323,
+          21.1509862
+        ]
+      },
+      "id": "way/701341678"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/883760047",
+        "name": "Sunset Royal Beach Resort",
+        "tourism": "hotel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.7522687,
+          21.1264749
+        ]
+      },
+      "id": "way/883760047"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/889137479",
+        "building": "yes",
+        "name": "Hotel Plaza Caribe",
+        "tourism": "hotel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8269732,
+          21.1646524
+        ]
+      },
+      "id": "way/889137479"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/892249209",
+        "name": "Live Aqua Beach Resort",
+        "tourism": "hotel",
+        "tourism_1": "yes",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.7625067,
+          21.1072245
+        ]
+      },
+      "id": "way/892249209"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/918669812",
+        "name": "Beach Palace",
+        "tourism": "hotel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.7590545,
+          21.1137827
+        ]
+      },
+      "id": "way/918669812"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/1017446030",
+        "addr:city": "Cancún",
+        "addr:state": "Quintana Roo",
+        "building": "yes",
+        "building:levels": "4",
+        "internet_access": "wlan",
+        "internet_access:fee": "no",
+        "name": "Fairfield Inn & Suites Cancun Airport",
+        "tourism": "hotel",
+        "website": "https://www.marriott.com/en-us/hotels/cunfi-fairfield-inn-and-suites-cancun-airport/overview/",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8496979,
+          21.0507102
+        ]
+      },
+      "id": "way/1017446030"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/1111618086",
+        "brand": "Club Med",
+        "brand:wikidata": "Q1076645",
+        "building": "yes",
+        "name": "Aquamarina 1",
+        "tourism": "hotel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.7815385,
+          21.0323841
+        ]
+      },
+      "id": "way/1111618086"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/1111618087",
+        "brand": "Club Med",
+        "brand:wikidata": "Q1076645",
+        "building": "yes",
+        "name": "Aquamarina 2",
+        "tourism": "hotel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.7834243,
+          21.0321624
+        ]
+      },
+      "id": "way/1111618087"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/1111619785",
+        "brand": "Club Med",
+        "brand:wikidata": "Q1076645",
+        "building": "yes",
+        "name": "Aquamarina Reception",
+        "tourism": "hotel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.7826166,
+          21.0324592
+        ]
+      },
+      "id": "way/1111619785"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/1116595298",
+        "name": "Grand Oasis Palm",
+        "tourism": "hotel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.7858711,
+          21.1437364
+        ]
+      },
+      "id": "way/1116595298"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/1116685154",
+        "name": "Royal Resort The Royal Cancun",
+        "tourism": "hotel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.7839606,
+          21.1438939
+        ]
+      },
+      "id": "way/1116685154"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/1153600249",
+        "brand": "Aloft",
+        "brand:wikidata": "Q4734166",
+        "building": "yes",
+        "name": "Aloft",
+        "tourism": "hotel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.7466,
+          21.1352923
+        ]
+      },
+      "id": "way/1153600249"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/1206909769",
+        "addr:city": "Cancún",
+        "addr:housenumber": "Supermanzana 4 Manzana 1 A, Centro",
+        "addr:postcode": "77500",
+        "addr:street": "Avenida Sayil",
+        "air_conditioning": "yes",
+        "bar": "yes",
+        "brand": "Krystal Hotels & Resorts",
+        "building": "yes",
+        "contact:facebook": "https://www.facebook.com/KrystalUrbanCancunCentro",
+        "description": "Located in the center of Cancun and next to Hotel Zone, the Krystal Urban Cancun & Beach Club Hotel features modern accommodation with meeting rooms, several bars and restaurants, pool, gym, beach club, parking, meeting rooms and business center.",
+        "email": "reservaciones.kuc@krystal-hotels.com",
+        "image": "https://www.krystalurban-cancun.com/media/uploads/cms_apps/imagenes/krystal-urban-cancun-fachada-atardecer-comprimida.jpg",
+        "internet_access": "yes",
+        "internet_access:fee": "no",
+        "name": "Krystal Urban Cancún & Beach Club",
+        "opening_hours": "24/7",
+        "operator": "Santa Fe Grupo Hotelero",
+        "payment:cash": "yes",
+        "payment:credit_cards": "yes",
+        "payment:debit_cards": "yes",
+        "payment:maestro": "yes",
+        "payment:mastercard": "yes",
+        "payment:visa": "yes",
+        "payment:visa_debit": "yes",
+        "payment:visa_electron": "yes",
+        "phone": "+52 9988488000",
+        "reservation": "yes",
+        "smoking": "outside",
+        "source": "https://www.krystalurban-cancun.com",
+        "stars": "4",
+        "tourism": "hotel",
+        "website": "https://www.krystalurban-cancun.com",
+        "wheelchair": "yes",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8197896,
+          21.1502586
+        ]
+      },
+      "id": "way/1206909769"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/1229505028",
+        "addr:city": "Cancún",
+        "addr:housenumber": "83",
+        "addr:postcode": "77509",
+        "addr:street": "Xel ha",
+        "air_conditioning": "yes",
+        "building": "yes",
+        "email": "hostalvenado28@gmail.com",
+        "fixme": "Hostal pequeño con dormitorio compartidos de 6 y 4 camas, También tiene cuartos privados",
+        "internet_access": "wlan",
+        "internet_access:fee": "no",
+        "name": "Hostal Venado 28",
+        "payment:cash": "yes",
+        "phone": "*529984191245",
+        "rooms": "6",
+        "tourism": "guest_house",
+        "website": "https://frontdesk.counter.app/booking/Venado28",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8343642,
+          21.1600326
+        ]
+      },
+      "id": "way/1229505028"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/1283722478",
+        "addr:city": "Cancún",
+        "addr:housenumber": "Manzana 12 Lote 1-03",
+        "addr:neighbourhood": "Supermanzana 84",
+        "addr:postcode": "77525",
+        "addr:state": "Q. Roo.",
+        "addr:street": "Avenida López Portillo",
+        "branch": "Dreams",
+        "brand": "Hyatt",
+        "brand:wikidata": "Q1425063",
+        "building": "yes",
+        "building:levels": "15",
+        "internet_access": "yes",
+        "internet_access:fee": "customers",
+        "name": "Dreams Vista Cancún Golf & Spa Resort",
+        "operator": "Hyatt",
+        "rooms": "416",
+        "tourism": "hotel",
+        "website": "https://www.hyattinclusivecollection.com/en/resorts-hotels/dreams/mexico/vista-cancun-golf-spa-resort/",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8074941,
+          21.1772558
+        ]
+      },
+      "id": "way/1283722478"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/1296786546",
+        "addr:city": "Cancún",
+        "addr:neighbourhood": "Centro",
+        "addr:postcode": "77533",
+        "addr:state": "Quintana Roo",
+        "addr:street": "Plaza Murano, Av Huayacán Supermanzana 313 Manzana 227 Lote 6, 77533 Cancún, Q.R., México",
+        "air_conditioning": "yes",
+        "building": "yes",
+        "email": "cancuninternationalsuites@gmail.com",
+        "internet_access": "yes",
+        "internet_access:fee": "no",
+        "layer": "1",
+        "name": "Cancun International Suites",
+        "payment:cash": "yes",
+        "payment:credit_cards": "yes",
+        "payment:mastercard": "yes",
+        "payment:visa": "yes",
+        "phone": "+52 998 884 1771",
+        "rooms": "36",
+        "tourism": "hotel",
+        "website": "https://www.cancuninternationalsuites.com/",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8281616,
+          21.1606085
+        ]
+      },
+      "id": "way/1296786546"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/1316558224",
+        "addr:city": "Cancún",
+        "addr:housenumber": "Manzana 01 Lote 1-22",
+        "addr:neighbourhood": "Supermanzana 47",
+        "addr:postcode": "77506",
+        "addr:state": "Quintana Roo",
+        "addr:street": "Carretera Cancún - Puerto Morelos",
+        "brand": "City Express",
+        "brand:wikidata": "Q109329542",
+        "building": "yes",
+        "internet_access": "yes",
+        "internet_access:fee": "customers",
+        "name": "City Express Plus by Marriott Cancún Aeropuerto Riviera",
+        "phone": "+52 998 872 8710",
+        "smoking": "no",
+        "tourism": "hotel",
+        "website": "https://www.marriott.com/es/hotels/cunpo-city-express-plus-cancun-aeropuerto-riviera/overview/",
+        "wheelchair": "yes",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8622315,
+          20.9875955
+        ]
+      },
+      "id": "way/1316558224"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/1316558225",
+        "addr:city": "Cancún",
+        "addr:housenumber": "Manzana 1 Lote 1-22",
+        "addr:neighbourhood": "Supermanzana 47",
+        "addr:postcode": "77506",
+        "addr:state": "Quintana Roo",
+        "addr:street": "Carretera Cancún - Puerto Morelos",
+        "brand": "NH Hotels",
+        "brand:wikidata": "Q1604631",
+        "building": "yes",
+        "email": "cancunairport@avani-hotels.com",
+        "internet_access": "yes",
+        "internet_access:fee": "customers",
+        "name": "Avani Cancún Airport Hotel",
+        "phone": "+52 998 881 1200",
+        "tourism": "hotel",
+        "website": "https://www.avanihotels.com/es/cancun-airport",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8620439,
+          20.9885601
+        ]
+      },
+      "id": "way/1316558225"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/1369653284",
+        "addr:city": "Cancún",
+        "addr:neighbourhood": "Playa Hotelera",
+        "addr:postcode": "77500",
+        "addr:state": "Quintana Roo",
+        "addr:street": "Blvd. Kukulcan",
+        "air_conditioning": "yes",
+        "bar": "yes",
+        "brand": "RIU",
+        "brand:wikidata": "Q2005557",
+        "building": "yes",
+        "description": "Hotel Riu Ventura on Delfines Beach in Cancun offers 24-hour All Inclusive service, 6 pools, diverse dining options, and entertainment for all ages. Enjoy the Caribbean paradise with family activities, RIULand for kids, and Renova Spa for relaxation.",
+        "image": "https://www.riu.com/dam/02-RIU-Espanol/Building-Blocks/04-Paises/13-Mexico/01-Cancun/09-Hotel-Riu-Ventura/Imagenes/001-Piscina-Exterior/model-pool-ven.jpg",
+        "internet_access": "yes",
+        "internet_access:fee": "customers",
+        "name": "Hotel Riu Ventura",
+        "opening_hours": "24/7",
+        "operator": "RIU Hotels & Resorts",
+        "payment:american_express": "yes",
+        "payment:credit_cards": "yes",
+        "payment:debit_cards": "yes",
+        "payment:maestro": "yes",
+        "payment:mastercard": "yes",
+        "payment:visa": "yes",
+        "phone": "+52 998-689-1014",
+        "reservation": "yes",
+        "smoking": "outside",
+        "source": "local knowledge;https://www.riu.com/en/hotel/mexico/cancun/hotel-riu-ventura",
+        "stars": "5",
+        "start_date": "2025-12-01",
+        "tourism": "hotel",
+        "website": "https://www.riu.com/en/hotel/mexico/cancun/hotel-riu-ventura",
+        "wheelchair": "yes",
+        "wikidata": "Q136457982",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.7808053,
+          21.0581844
+        ]
+      },
+      "id": "way/1369653284"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/1369942046",
+        "addr:city": "Cancún",
+        "addr:housenumber": "KM 6.",
+        "addr:postcode": "77500",
+        "addr:state": "Quintana Roo",
+        "addr:street": "Boulevard Kukulcán",
+        "air_conditioning": "yes",
+        "bar": "yes",
+        "brand": "Faranda Hotels & Resorts",
+        "building": "yes",
+        "contact:facebook": "https://www.facebook.com/farandahotels",
+        "description": "El Hotel Maya Caribe se encuentra en primera línea de la playa de Cancún ofreciendo una terraza solárium con tumbonas, parqueadero, minimarket, masajes, restaurante, bar, gimnasio, alberca y servicio de bodas.",
+        "email": "reservaciones2@dosplayas.com",
+        "internet_access": "yes",
+        "internet_access:fee": "no",
+        "name": "Hotel Maya Caribe",
+        "opening_hours": "24/7",
+        "operator": "FARANDA HOTELS",
+        "payment:cash": "yes",
+        "payment:credit_cards": "yes",
+        "payment:debit_cards": "yes",
+        "payment:maestro": "yes",
+        "payment:mastercard": "yes",
+        "payment:visa": "yes",
+        "phone": "+52 998 849 4920",
+        "reservation": "yes",
+        "smoking": "outside",
+        "stars": "3",
+        "tourism": "hotel",
+        "website": "https://www.maya-caribe.com",
+        "wheelchair": "yes",
+        "wikidata": "Q138328517",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.7710554,
+          21.1411765
+        ]
+      },
+      "id": "way/1369942046"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/1369944984",
+        "addr:city": "Cancún",
+        "addr:housenumber": "17",
+        "addr:postcode": "77500",
+        "addr:state": "Quintana Roo",
+        "addr:street": "Quetzal",
+        "air_conditioning": "yes",
+        "bar": "yes",
+        "brand": "Faranda Hotels & Resorts",
+        "building": "yes",
+        "contact:facebook": "https://www.facebook.com/imperiallaguna",
+        "description": "El Hotel Imperial Laguna ofrece un alojamiento de larga estadía con alberca con vistas a la laguna, terraza solárium, desayuno de cortesía, Wi-Fi, parqueadero en el exterior, recepción 24 horas, entre otros servicios.",
+        "email": "reservaciones2@dosplayas.com",
+        "image": "https://www.hotelimperiallaguna.com/cache/42/7e/427ef434d333fa563369b2353e72827b.jpg",
+        "internet_access": "yes",
+        "internet_access:fee": "no",
+        "name": "Hotel Imperial Laguna",
+        "opening_hours": "24/7",
+        "operator": "FARANDA HOTELS",
+        "payment:cash": "yes",
+        "payment:credit_cards": "yes",
+        "payment:debit_cards": "yes",
+        "payment:maestro": "yes",
+        "payment:mastercard": "yes",
+        "payment:visa": "yes",
+        "phone": "+52 9988833446",
+        "reservation": "yes",
+        "smoking": "outside",
+        "source": "https://www.hotelimperiallaguna.com",
+        "stars": "2",
+        "tourism": "hotel",
+        "website": "https://www.hotelimperiallaguna.com",
+        "wheelchair": "yes",
+        "wikidata": "Q138328806",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.7571606,
+          21.1331985
+        ]
+      },
+      "id": "way/1369944984"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/1374890691",
+        "addr:city": "Cancún",
+        "addr:neighbourhood": "Zona Hotelera",
+        "addr:postcode": "77500",
+        "addr:state": "Quintana Roo",
+        "addr:street": "Boulevard Puerto Cancún",
+        "brand": "Renaissance",
+        "brand:wikidata": "Q2143252",
+        "building": "yes",
+        "email": "hrc.concierge@grupodiestra.com",
+        "name": "Renaissance Cancún Resort & Marina",
+        "phone": "+52 998 868 5100",
+        "tourism": "hotel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8070705,
+          21.1617197
+        ]
+      },
+      "id": "way/1374890691"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/1413142192",
+        "addr:city": "Cancún",
+        "addr:housenumber": "Km 5,5 Lote 6-C,",
+        "addr:neighbourhood": "Zona Hotelera",
+        "addr:postcode": "77500",
+        "addr:state": "Quintana Roo",
+        "addr:street": "Boulevard Kukulcán",
+        "air_conditioning": "yes",
+        "bar": "yes",
+        "brand": "RIU",
+        "brand:wikidata": "Q2005557",
+        "building": "yes",
+        "contact:facebook": "HotelRiuPalacePeninsula",
+        "email": "palace.peninsula@riu.com",
+        "internet_access": "yes",
+        "internet_access:fee": "no",
+        "name": "Hotel Riu Palace Peninsula",
+        "opening_hours": "24/7",
+        "operator": "RIU Hotels & Resorts",
+        "payment:american_express": "yes",
+        "payment:cash": "yes",
+        "payment:credit_cards": "yes",
+        "payment:maestro": "yes",
+        "payment:mastercard": "yes",
+        "payment:visa": "yes",
+        "phone": "+52 9988488090",
+        "reservation": "yes",
+        "smoking": "outside",
+        "stars": "5",
+        "tourism": "hotel",
+        "website": "https://www.riu.com/en/hotel/mexico/cancun/hotel-riu-palace-peninsula",
+        "wheelchair": "yes",
+        "wikidata": "Q136324652",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.7723715,
+          21.141236
+        ]
+      },
+      "id": "way/1413142192"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/1429194605",
+        "addr:city": "Cancún",
+        "addr:housenumber": "Km 12",
+        "addr:postcode": "77500",
+        "addr:state": "Quintana Roo",
+        "addr:street": "Boulevard Kukulcán",
+        "air_conditioning": "yes",
+        "bar": "yes",
+        "brand": "RIU",
+        "brand:wikidata": "Q2005557",
+        "building": "yes",
+        "email": "palace.kukulkan@riu.com",
+        "internet_access": "yes",
+        "internet_access:fee": "no",
+        "name": "Hotel Riu Palace Kukulkan",
+        "opening_hours": "24/7",
+        "operator": "RIU Hotels & Resorts",
+        "payment:american_express": "yes",
+        "payment:cash": "yes",
+        "payment:credit_cards": "yes",
+        "payment:maestro": "yes",
+        "payment:mastercard": "yes",
+        "payment:visa": "yes",
+        "phone": "+52 9986892253",
+        "reservation": "yes",
+        "short_name": "Riu Kukulkan",
+        "smoking": "outside",
+        "stars": "5",
+        "tourism": "hotel",
+        "website": "https://www.riu.com/en/hotel/mexico/cancun/hotel-riu-palace-kukulkan",
+        "wheelchair": "yes",
+        "wikidata": "Q136229670",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.7631487,
+          21.1058331
+        ]
+      },
+      "id": "way/1429194605"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/1873781068",
+        "addr:city": "Cancun City",
+        "addr:housenumber": "41",
+        "addr:postcode": "77500",
+        "addr:street": "Avenida Yaxchilán",
+        "brand": "Ramada",
+        "brand:wikidata": "Q1502859",
+        "brand:wikipedia": "en:Ramada",
+        "name": "Ramada",
+        "official_name": "Ramada by Wyndham",
+        "tourism": "hotel",
+        "wheelchair": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8291804,
+          21.162769
+        ]
+      },
+      "id": "node/1873781068"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/1873781112",
+        "internet_access": "wlan",
+        "name": "Ka'beh",
+        "opening_hours": "24/7",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8272385,
+          21.1598593
+        ]
+      },
+      "id": "node/1873781112"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/1873781170",
+        "name": "Hotel Xbalamque",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8290417,
+          21.1617486
+        ]
+      },
+      "id": "node/1873781170"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/1873781200",
+        "addr:city": "Cancún",
+        "addr:housenumber": "25",
+        "addr:street": "Avenida Uxmal",
+        "name": "Hostel Mundo Joven Cancun",
+        "tourism": "hostel",
+        "wheelchair": "no"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8281531,
+          21.164828
+        ]
+      },
+      "id": "node/1873781200"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/2128363132",
+        "name": "Grand Park Royal Cancún Caribe",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.7541032,
+          21.1231078
+        ]
+      },
+      "id": "node/2128363132"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/2214266536",
+        "name": "Suite sirenas",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8402463,
+          21.1562373
+        ]
+      },
+      "id": "node/2214266536"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/2214753695",
+        "brand": "Ibis",
+        "brand:wikidata": "Q920166",
+        "brand:wikipedia": "en:Ibis (hotel)",
+        "name": "Ibis Cancun Centro",
+        "tourism": "hotel",
+        "wheelchair": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8250955,
+          21.1436005
+        ]
+      },
+      "id": "node/2214753695"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/2436855633",
+        "name": "Hotel Batab",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8298827,
+          21.1684379
+        ]
+      },
+      "id": "node/2436855633"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/2460765464",
+        "name": "Casa Roja",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8457127,
+          21.1592604
+        ]
+      },
+      "id": "node/2460765464"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/3218373655",
+        "addr:city": "Cancun",
+        "addr:housenumber": "Km. 3.5",
+        "addr:street": "Blvd. Kukulcan. Zona Hotelera",
+        "name": "Temptation Resort Spa Cancun",
+        "tourism": "hotel",
+        "wheelchair": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.7922146,
+          21.1484808
+        ]
+      },
+      "id": "node/3218373655"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/3430042747",
+        "brand": "Marriott",
+        "brand:wikidata": "Q3918608",
+        "brand:wikipedia": "en:Marriott Hotels & Resorts",
+        "name": "Marriott Courtyard Cancun Airport",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8507659,
+          21.0500846
+        ]
+      },
+      "id": "node/3430042747"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/3860770005",
+        "name": "Cancun Plaza",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.7829493,
+          21.0475367
+        ]
+      },
+      "id": "node/3860770005"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/3885824586",
+        "addr:city": "Cancún",
+        "addr:postcode": "77500",
+        "addr:street": "Blvd. Kukulcan KM 11.5, Zona Hotelera",
+        "brand": "Hyatt",
+        "brand:wikidata": "Q1425063",
+        "brand:wikipedia": "en:Hyatt",
+        "name": "Hyatt Zilara Cancun",
+        "operator": "Hyatt",
+        "phone": "529988815600",
+        "tourism": "hotel",
+        "website": "https://cancun.zilara.hyatt.com/en/hotel/home.html"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.7564783,
+          21.1191472
+        ]
+      },
+      "id": "node/3885824586"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4079936006",
+        "name": "Hostel Haina",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8284019,
+          21.1596415
+        ]
+      },
+      "id": "node/4079936006"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4134396073",
+        "name": "Cancun Allen",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8303614,
+          21.1643314
+        ]
+      },
+      "id": "node/4134396073"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4134396074",
+        "name": "Simon Hostel",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8278501,
+          21.1640131
+        ]
+      },
+      "id": "node/4134396074"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4142652189",
+        "email": "laspalmascancun@gmail.com",
+        "name": "Las Palmas",
+        "phone": "9988842513",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8284484,
+          21.1660541
+        ]
+      },
+      "id": "node/4142652189"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4143175489",
+        "addr:street": "Calle Palmera",
+        "name": "Mi Hotel",
+        "tourism": "hotel",
+        "wheelchair": "no"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.828793,
+          21.1655259
+        ]
+      },
+      "id": "node/4143175489"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4143175589",
+        "addr:street": "Avenida Uxmal",
+        "name": "Alux",
+        "tourism": "hotel",
+        "wheelchair": "limited"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8278624,
+          21.1646317
+        ]
+      },
+      "id": "node/4143175589"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4143175689",
+        "addr:housenumber": "41",
+        "addr:street": "Calle Laurel",
+        "name": "Laurel 41",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8284348,
+          21.1650893
+        ]
+      },
+      "id": "node/4143175689"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4143524889",
+        "name": "Hard Rock Hotel Cancun",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.7699219,
+          21.0894363
+        ]
+      },
+      "id": "node/4143524889"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4209634489",
+        "internet_access": "wlan",
+        "name": "Hostel Natura ",
+        "phone": "+529988830585",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.7497912,
+          21.1298683
+        ]
+      },
+      "id": "node/4209634489"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4213815172",
+        "addr:city": "Cancún",
+        "addr:housenumber": "40",
+        "addr:state": "Quintana Roo",
+        "addr:street": "Calle Cedro",
+        "contact:phone": "+52  998 884 0602",
+        "email": "contacto@hotelcolonialsancarlos.com",
+        "name": "Hotel Colonial San Carlos",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8271856,
+          21.1674603
+        ]
+      },
+      "id": "node/4213815172"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4217927708",
+        "addr:city": "Cancún",
+        "addr:housenumber": "Lt 1",
+        "addr:street": "POK TA POK",
+        "internet_access": "wlan",
+        "name": "Condo Hotel Las Gaviotas",
+        "phone": "+5219988834747",
+        "source": "INEGI",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.7651398,
+          21.1268756
+        ]
+      },
+      "id": "node/4217927708"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4217927709",
+        "name": "Hotel Green 16",
+        "phone": "+5219988832217",
+        "source": "INEGI",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.7642249,
+          21.1290915
+        ]
+      },
+      "id": "node/4217927709"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4229399189",
+        "addr:city": "Cancún",
+        "addr:country": "MX",
+        "addr:housenumber": "69",
+        "addr:postcode": "77509",
+        "addr:street": "Avenida Tankah",
+        "email": "reservacionescancun@hoteltankah.com",
+        "name": "Hotel Tankah",
+        "phone": "+5219988844844",
+        "source": "INEGI",
+        "tourism": "hotel",
+        "website": "http://www.hoteltankah.com"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8344141,
+          21.1635212
+        ]
+      },
+      "id": "node/4229399189"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4243764891",
+        "addr:housenumber": "#4",
+        "addr:street": "Mero",
+        "name": "Casa 吉田",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8237443,
+          21.1627126
+        ]
+      },
+      "id": "node/4243764891"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4243767689",
+        "addr:housenumber": "7",
+        "addr:street": "Calle Rosas",
+        "name": "ROSAS7",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.828694,
+          21.1639455
+        ]
+      },
+      "id": "node/4243767689"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4255644889",
+        "addr:street": "Avenida Sunyaxchen",
+        "name": "Hacienda Hotel",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8301438,
+          21.1624802
+        ]
+      },
+      "id": "node/4255644889"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4276378290",
+        "addr:housenumber": "18 y 20",
+        "addr:postcode": "77500",
+        "addr:street": "Av. Uxmal",
+        "internet_access": "wlan",
+        "name": "Hostel El Corazon",
+        "opening_hours": "24/7",
+        "tourism": "hostel",
+        "website": "https://www.elcorazonhostel.com/"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8226602,
+          21.1637318
+        ]
+      },
+      "id": "node/4276378290"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4281342090",
+        "internet_access": "wlan",
+        "name": "Hostal Pueblito",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8276195,
+          21.159516
+        ]
+      },
+      "id": "node/4281342090"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4283257092",
+        "addr:housenumber": "2",
+        "addr:postcode": "77500",
+        "addr:street": "Calle Orquídeas",
+        "email": "info@hostelorquideas.com",
+        "internet_access": "wlan",
+        "name": "Hostel Orquideas",
+        "opening_hours": "24/7",
+        "phone": "+52 998 884 0674",
+        "tourism": "hostel",
+        "website": "http://hostelorquideas.com/"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8286251,
+          21.1602434
+        ]
+      },
+      "id": "node/4283257092"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4304670401",
+        "addr:street": "Calle Marañón",
+        "internet_access": "wlan",
+        "name": "Hostel kankun",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8310015,
+          21.1602592
+        ]
+      },
+      "id": "node/4304670401"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4314960491",
+        "addr:housenumber": "2",
+        "addr:street": "Calle Orquídeas",
+        "name": "Hostel Orquideas",
+        "name:en": "Quetzal Hostel",
+        "name:es": "Quetzal Hostel",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8282321,
+          21.1598575
+        ]
+      },
+      "id": "node/4314960491"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4328080490",
+        "addr:city": "Cancún",
+        "addr:housenumber": "lte 64 biz",
+        "addr:postcode": "77500",
+        "addr:street": "Boulevard Kukulcán",
+        "internet_access": "wlan",
+        "name": "GR Caribe Deluxe By Solaris",
+        "phone": "+52 998 800 1353",
+        "stars": "4",
+        "tourism": "hotel",
+        "website": "https://clubsolaris.com"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.7827229,
+          21.0482154
+        ]
+      },
+      "id": "node/4328080490"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4363305490",
+        "name": "Alamo",
+        "name:es": "casa organica",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8400162,
+          21.1307327
+        ]
+      },
+      "id": "node/4363305490"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4374970089",
+        "brand": "Club Med",
+        "brand:wikidata": "Q1076645",
+        "internet_access": "wlan",
+        "name": "Club Med Cancun",
+        "name:en": "club med",
+        "name:es": "club med",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.7793395,
+          21.0359149
+        ]
+      },
+      "id": "node/4374970089"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4377032706",
+        "internet_access": "wlan",
+        "name": "Hostal Las Flores",
+        "tourism": "hostel",
+        "wheelchair": "no"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8287984,
+          21.1653928
+        ]
+      },
+      "id": "node/4377032706"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4401798483",
+        "addr:city": "Cancún",
+        "addr:housenumber": "16.5 l-48",
+        "addr:postcode": "77500",
+        "addr:street": "Boulevard Kukulcán",
+        "brand:wikidata": "Q7090329",
+        "brand:wikipedia": "en:Omni Hotels & Resorts",
+        "name": "Omni Cancun Hotel & Villas",
+        "operator": "Omni Hotels & Resorts",
+        "phone": "52 998 881 0600",
+        "tourism": "hotel",
+        "website": "https://www.omnihotels.com/hotels/cancun"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.775804,
+          21.0748861
+        ]
+      },
+      "id": "node/4401798483"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4504998790",
+        "addr:housenumber": "3.5",
+        "addr:postcode": "75500",
+        "addr:street": "Avenida Kukulcan",
+        "air_conditioning": "yes",
+        "bar": "yes",
+        "description": "The Cancun Bay Resort is an all inclusive hotel located in front of the beach in Bahía de Mujeres with 2 outdoor pools, restaurant, bars and shows, as well as suites with sea views, room service, gym, palapas for massages, pier over the sea, hammocks, mee",
+        "email": "ventas@cancunbayresort.com",
+        "internet_access": "wlan",
+        "internet_access:fee": "customers",
+        "name": "Cancun Bay Resort",
+        "name:en": "Cancun Bay Resort",
+        "name:es": "Cancun Bay Resort",
+        "opening_hours": "24/7",
+        "payment:cash": "yes",
+        "payment:credit_cards": "yes",
+        "payment:debit_cards": "yes",
+        "payment:maestro": "yes",
+        "payment:visa": "yes",
+        "phone": "+52 998 849 5776",
+        "reservation": "recommended",
+        "smoking": "no",
+        "source": "survey",
+        "stars": "3",
+        "tourism": "hotel",
+        "website": "https://www.cancunbayresort.com",
+        "wheelchair": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.7932494,
+          21.149522
+        ]
+      },
+      "id": "node/4504998790"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4536533090",
+        "name": "VIP Loungue Casa Nueva",
+        "name:en": "VIP Loungue Casa Nueva",
+        "name:es": "VIP Loungue Casa Nueva",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8519608,
+          21.0899627
+        ]
+      },
+      "id": "node/4536533090"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4540413889",
+        "name": "VIP Loungue Casa Grande",
+        "name:es": "VIP Loungue Casa Grande",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.855845,
+          21.1020419
+        ]
+      },
+      "id": "node/4540413889"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4653677892",
+        "addr:housenumber": "21",
+        "addr:street": "Calle Punta Conoco",
+        "name": "La Morena",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8311086,
+          21.1634757
+        ]
+      },
+      "id": "node/4653677892"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4674894488",
+        "name": "Calypso Hotel",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.789998,
+          21.1439625
+        ]
+      },
+      "id": "node/4674894488"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4674895191",
+        "name": "Sotavento Yacht Club",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.7908777,
+          21.1435698
+        ]
+      },
+      "id": "node/4674895191"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4690506919",
+        "name": "Quintas Laguna Real",
+        "tourism": "apartment"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.7907732,
+          21.1441002
+        ]
+      },
+      "id": "node/4690506919"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4714753510",
+        "alt_name": "Occidental Tucancun",
+        "internet_access": "wlan",
+        "internet_access:fee": "yes",
+        "loc_name": "Occidental Tucancún",
+        "name": "Occidental Tucancún",
+        "operator": "Barcelo",
+        "phone": "+52 998 891 5900",
+        "rooms": "334",
+        "stars": "4",
+        "tourism": "hotel",
+        "website": "https://www.barcelo.com/en-us/hotels/mexico/cancun/occidental-tucancun/"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.7648205,
+          21.1010827
+        ]
+      },
+      "id": "node/4714753510"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4726343289",
+        "addr:housenumber": "5",
+        "addr:street": "Benito Juarez",
+        "internet_access": "wlan",
+        "name": "Villa Tropical",
+        "name:en": "Villa Tropical",
+        "name:es": "Villa Tropical",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.843118,
+          21.0916094
+        ]
+      },
+      "id": "node/4726343289"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4726924494",
+        "name": "Posada BOMBAY",
+        "tourism": "motel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8362556,
+          21.1680159
+        ]
+      },
+      "id": "node/4726924494"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4751465721",
+        "name": "Mariacarmen",
+        "name:es": "Mariacarmen",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8217313,
+          21.1651508
+        ]
+      },
+      "id": "node/4751465721"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4751465722",
+        "name": "Nina",
+        "name:es": "Nina",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8331303,
+          21.1627589
+        ]
+      },
+      "id": "node/4751465722"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4780211623",
+        "addr:street": "Avenida Yaxchilán",
+        "email": "reservas@cancunlemond.com.mx",
+        "internet_access": "wlan",
+        "name": "Le Monde",
+        "operator": "Ariel, Fausto",
+        "phone": "9988879720",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.828945,
+          21.162733
+        ]
+      },
+      "id": "node/4780211623"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4787389098",
+        "name": "Oleo Cancun Playa",
+        "operator": "Yalmakan",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.7827814,
+          21.0456333
+        ]
+      },
+      "id": "node/4787389098"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4951879522",
+        "addr:postcode": "77500",
+        "addr:street": "Av. Tikal",
+        "name": "Habitalia Paraíso",
+        "name:en": "Habitalia Paraiso",
+        "phone": "+529982732288",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8518921,
+          21.1511501
+        ]
+      },
+      "id": "node/4951879522"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4973035521",
+        "name": "Hostel Moloch",
+        "name:es": "Hostel Moloch",
+        "tourism": "motel",
+        "wheelchair": "limited"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8273444,
+          21.1630898
+        ]
+      },
+      "id": "node/4973035521"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/5016668222",
+        "name": "Hostel Moloch",
+        "name:es": "Hostel Moloch",
+        "tourism": "guest_house",
+        "wheelchair": "limited"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8273413,
+          21.1630747
+        ]
+      },
+      "id": "node/5016668222"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/5020696521",
+        "name": "Casa de Jani",
+        "name:es": "Casa de Jani",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8309826,
+          21.167591
+        ]
+      },
+      "id": "node/5020696521"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/5023411922",
+        "addr:housenumber": "392",
+        "addr:postcode": "77533",
+        "addr:street": "Libélula",
+        "name": "Casa Libélula",
+        "name:en": "Libélula House",
+        "opening_hours": "24/7",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8472787,
+          21.1392204
+        ]
+      },
+      "id": "node/5023411922"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/5027355421",
+        "name": "hotel Carrillo's",
+        "name:es": "hotel Carrillo's",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8262965,
+          21.1602077
+        ]
+      },
+      "id": "node/5027355421"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/5041939221",
+        "name": "Alain hospedaje",
+        "name:es": "Alain hospedaje",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8301548,
+          21.168009
+        ]
+      },
+      "id": "node/5041939221"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/5110353321",
+        "name": "dogtown suites",
+        "name:es": "dogtown suites",
+        "tourism": "hostel",
+        "wheelchair": "limited"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8320664,
+          21.1713638
+        ]
+      },
+      "id": "node/5110353321"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/5174769721",
+        "name": "Felix",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8285615,
+          21.1479364
+        ]
+      },
+      "id": "node/5174769721"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/5218567221",
+        "name": "hotel villas mira sol",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8530206,
+          21.0646873
+        ]
+      },
+      "id": "node/5218567221"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/5218744022",
+        "check_date": "2025-04-16",
+        "name": "HOTEL CERESAS",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8457427,
+          21.0701542
+        ]
+      },
+      "id": "node/5218744022"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/5228840122",
+        "name": "Casa Lopez Cancun",
+        "tourism": "apartment"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8343453,
+          21.1566536
+        ]
+      },
+      "id": "node/5228840122"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/5253268522",
+        "addr:postcode": "77528",
+        "addr:street": "Privada Monte Higa, SM 252, Mz 48,Lt 5",
+        "name": "Privada Monte Higa, Vista Real",
+        "tourism": "apartment"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8924774,
+          21.1863674
+        ]
+      },
+      "id": "node/5253268522"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/5264907421",
+        "addr:housenumber": "Sm 2A Mz 04",
+        "addr:postcode": "77500",
+        "addr:street": "Avenida Nader",
+        "internet_access": "wlan",
+        "name": "Nomads",
+        "opening_hours": "24/7",
+        "phone": "+5219982274434",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8236386,
+          21.1653444
+        ]
+      },
+      "id": "node/5264907421"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/5275209928",
+        "addr:housenumber": "12",
+        "addr:street": "Mero",
+        "internet_access": "wlan",
+        "name": "Mezcal Hostel",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8230529,
+          21.1618839
+        ]
+      },
+      "id": "node/5275209928"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/5282440921",
+        "name": "Milagros",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8333947,
+          21.1667417
+        ]
+      },
+      "id": "node/5282440921"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/5283095721",
+        "name": "Magdelis Hause",
+        "name:es": "Magdelis Hause",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8302737,
+          21.1667165
+        ]
+      },
+      "id": "node/5283095721"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/5308369121",
+        "internet_access": "wlan",
+        "internet_access:fee": "customers",
+        "name": "Cancun Clipper Club",
+        "name:en": "Clipper Club",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.7497372,
+          21.1344859
+        ]
+      },
+      "id": "node/5308369121"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/5323206421",
+        "internet_access": "wlan",
+        "name": "Casa Ikal",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8233459,
+          21.1597579
+        ]
+      },
+      "id": "node/5323206421"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/5335621119",
+        "name": "Club Regina Cancun",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.7823381,
+          21.0402579
+        ]
+      },
+      "id": "node/5335621119"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/5339772022",
+        "addr:street": "Sierra",
+        "internet_access": "wlan",
+        "name": "Hostal Coba",
+        "name:en": "Hostel Coba",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8222657,
+          21.1568082
+        ]
+      },
+      "id": "node/5339772022"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/5422636022",
+        "addr:housenumber": "20",
+        "addr:street": "SM 223 M6 L12 CALLE FRANCISCO i MADERO",
+        "name": "Casa.",
+        "name:es": "Casa.",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8696071,
+          21.1813578
+        ]
+      },
+      "id": "node/5422636022"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/5475525421",
+        "addr:housenumber": "39",
+        "addr:postcode": "77524",
+        "addr:street": "Calle 4",
+        "name": "Hotel Jardin",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8236036,
+          21.1724302
+        ]
+      },
+      "id": "node/5475525421"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/5485261648",
+        "name": "B&B Pecari",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8263949,
+          21.1535412
+        ]
+      },
+      "id": "node/5485261648"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/5638047521",
+        "name": "Casa Wayak",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8333528,
+          21.1636646
+        ]
+      },
+      "id": "node/5638047521"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/5688289231",
+        "addr:city": "Cancùn",
+        "addr:country": "MX",
+        "addr:housenumber": "11",
+        "addr:place": "Playa Blanca",
+        "addr:postcode": "77500",
+        "addr:street": "Villas Playa Blanca SM 86, Gupy",
+        "breakfast": "yes",
+        "email": "info@themermaidhostel.com",
+        "internet_access": "wlan",
+        "name": "The Mermaid Hostel",
+        "tourism": "hostel",
+        "website": "http://www.themermaidhostel.com",
+        "wheelchair": "no"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.807124,
+          21.1928182
+        ]
+      },
+      "id": "node/5688289231"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/5696760332",
+        "addr:city": "Cancún",
+        "addr:country": "MX",
+        "addr:housenumber": "11",
+        "addr:postcode": "77520",
+        "addr:street": "Villas Playa Blanca Calle Gupy",
+        "building": "yes",
+        "building:colour": "white",
+        "building:levels": "4",
+        "building:material": "concrete",
+        "building:use": "hotel",
+        "name": "The Mermaid Hostel Beach",
+        "payment:coins": "no",
+        "payment:maestro": "yes",
+        "payment:notes": "no",
+        "phone": "+52 1 998 820 1598",
+        "tourism": "hostel",
+        "website": "http://www.themermaidhostel.com"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8071249,
+          21.1927842
+        ]
+      },
+      "id": "node/5696760332"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/5702086526",
+        "addr:street": "super manzana 327, num 38 lote 17",
+        "name": "piso cancun Raquel",
+        "phone": "+5219982123765",
+        "tourism": "apartment"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8808679,
+          21.113005
+        ]
+      },
+      "id": "node/5702086526"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/5788937055",
+        "name": "the royal islander",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.7769643,
+          21.0699058
+        ]
+      },
+      "id": "node/5788937055"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/5840691527",
+        "addr:housenumber": "22",
+        "addr:street": "Calle Punta Tulbayab",
+        "name": "La Casa del Arbol",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8339784,
+          21.1646564
+        ]
+      },
+      "id": "node/5840691527"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/5975658287",
+        "addr:street": "Avenida Uxmal",
+        "name": "Hotel Uxmal",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8325219,
+          21.1668006
+        ]
+      },
+      "id": "node/5975658287"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/5999303485",
+        "internet_access": "wlan",
+        "name": "Casa Kimaya",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8225232,
+          21.1640853
+        ]
+      },
+      "id": "node/5999303485"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/6171271985",
+        "addr:street": "Av. Bonampak",
+        "brand": "Fiesta Inn",
+        "email": "recepficuc@posadas.com",
+        "internet_access": "wlan",
+        "internet_access:fee": "customers",
+        "name": "Fiesta Inn Cancún Las Américas",
+        "opening_hours": "24/7",
+        "phone": "9988915650",
+        "tourism": "hotel",
+        "website": "https://www.fiestainn.com/",
+        "wheelchair": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8219114,
+          21.1465682
+        ]
+      },
+      "id": "node/6171271985"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/6175932387",
+        "addr:housenumber": "9",
+        "addr:postcode": "77500",
+        "addr:street": "Boulevard Kukulcán",
+        "brand": "Selina",
+        "brand:wikidata": "Q110173599",
+        "internet_access": "wlan",
+        "name": "Selina Hotel Cancun Lagoon Zona Hotelera",
+        "opening_hours": "24/7",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.7494873,
+          21.1341645
+        ]
+      },
+      "id": "node/6175932387"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/6220025885",
+        "name": "Hostal bambú",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8277629,
+          21.1667674
+        ]
+      },
+      "id": "node/6220025885"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/6264624189",
+        "name": "Fito y rosy",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8641851,
+          21.149887
+        ]
+      },
+      "id": "node/6264624189"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/6290148886",
+        "name": "Casa de migue",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.830425,
+          21.1646854
+        ]
+      },
+      "id": "node/6290148886"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/6324350888",
+        "addr:city": "Cancún",
+        "addr:housenumber": "km 19.5",
+        "addr:postcode": "77500",
+        "addr:street": "Boulevard Kukulcán",
+        "internet_access": "wlan",
+        "name": "GR Solaris Cancun",
+        "phone": "+52 998 800 1353",
+        "smoking": "isolated",
+        "stars": "4",
+        "tourism": "hotel",
+        "website": "https://clubsolaris.com"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.781662,
+          21.055082
+        ]
+      },
+      "id": "node/6324350888"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/6429440286",
+        "name": "renta viaje abril",
+        "tourism": "apartment"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8378706,
+          21.1559169
+        ]
+      },
+      "id": "node/6429440286"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/6718134586",
+        "addr:housenumber": "4",
+        "addr:street": "Calle del Caribe",
+        "name": "Claudia & Giovanna",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.819076,
+          21.1960947
+        ]
+      },
+      "id": "node/6718134586"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/6733380385",
+        "name": "Nomads Hotel Hostel & Bar ",
+        "tourism": "hotel",
+        "wheelchair": "no"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8237728,
+          21.165349
+        ]
+      },
+      "id": "node/6733380385"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/6742555485",
+        "name": "Condominios Terramar Plaza",
+        "tourism": "apartment"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.7505572,
+          21.1377581
+        ]
+      },
+      "id": "node/6742555485"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/6841295286",
+        "addr:city": "Cancun",
+        "addr:housenumber": "28",
+        "addr:postcode": "77500",
+        "addr:street": "Av. Nader",
+        "brand": "Gamma - Posadas",
+        "internet_access": "yes",
+        "internet_access:fee": "yes",
+        "name": "GAMMA Cancun Centro",
+        "operator": "Gamma - Posadas",
+        "phone": "01 998 884 6190",
+        "rooms": "128",
+        "smoking": "no",
+        "stars": "4",
+        "tourism": "hotel",
+        "website": "https://www.gammahoteles.com/es/web/gamma-cancun-centro",
+        "wheelchair": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8250484,
+          21.1611645
+        ]
+      },
+      "id": "node/6841295286"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/6964881986",
+        "addr:housenumber": "24",
+        "addr:street": "Calle Punta Conoco",
+        "name": "Casa de Carlos",
+        "tourism": "apartment"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8311174,
+          21.1630605
+        ]
+      },
+      "id": "node/6964881986"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7330347440",
+        "email": "yhotelmexico@gmail.com",
+        "name": "Hotel México",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8291183,
+          21.16548
+        ]
+      },
+      "id": "node/7330347440"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7729395785",
+        "internet_access": "wlan",
+        "name": "Azteca",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8234071,
+          21.1756732
+        ]
+      },
+      "id": "node/7729395785"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7773468287",
+        "addr:housenumber": "26",
+        "addr:street": "Calle Laurel",
+        "internet_access": "wlan",
+        "name": "Casa Sr. Rafael García",
+        "name:es": "Casa Sr. Rafael García, Hospedaje",
+        "phone": "9983379662",
+        "tourism": "apartment"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8300927,
+          21.1670716
+        ]
+      },
+      "id": "node/7773468287"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/8415775912",
+        "addr:city": "Cancún",
+        "addr:housenumber": "\"Novo Cancún Torre 1” Mz 27 Lt 1-02 UC-20 UP-P Secc.",
+        "addr:neighbourhood": "Zona Hotelera",
+        "addr:postcode": "77500",
+        "addr:state": "Quintana Roo",
+        "addr:street": "Avenida Bonampak",
+        "brand": "Ennismore",
+        "email": "SLS_Cancun-Reservations@slshotels.com",
+        "internet_access": "yes",
+        "internet_access:fee": "customers",
+        "name": "SLS Cancun Hotel & Residences",
+        "phone": "+52 998 689 0757",
+        "short_name": "SLS Cancun",
+        "tourism": "hotel",
+        "website": "https://slshotels.com/cancun/"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8041045,
+          21.1669201
+        ]
+      },
+      "id": "node/8415775912"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/8836713417",
+        "name": "Casa Kosan",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8274689,
+          21.1664199
+        ]
+      },
+      "id": "node/8836713417"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/9287292617",
+        "name": "calle robelo 71",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8214523,
+          21.1587232
+        ]
+      },
+      "id": "node/9287292617"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/9424740156",
+        "addr:city": "Cancún",
+        "addr:housenumber": "Villas Tropical #82",
+        "addr:postcode": "77500",
+        "addr:street": "Retorno del Rey, Boulevard Kukulcan 14.5",
+        "brand": "Breeze & Garden",
+        "internet_access": "yes",
+        "internet_access:fee": "customers",
+        "name": "Casa Palmera by B&G",
+        "rooms": "6",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.7699738,
+          21.0921561
+        ]
+      },
+      "id": "node/9424740156"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/9473256117",
+        "addr:city": "Cancún",
+        "addr:housenumber": "16",
+        "addr:postcode": "77524",
+        "addr:street": "Calle 60 Oriente",
+        "air_conditioning": "yes",
+        "guest_house": "guest_house",
+        "internet_access": "yes",
+        "internet_access:fee": "no",
+        "name": "Airbnb",
+        "operator": "Roberto Javier",
+        "phone": "+52 998 168 5827",
+        "rooms": "1",
+        "tourism": "guest_house",
+        "website": "https://www.airbnb.es/rooms/22300533?bev_ref=&c=.pi80.pkYm9va2luZy92MV9taWdyYXRpb24vcmVzZXJ2YXRpb25fYWNjZXB0YW5jZV9jb25maXJtYXRpb25fZ3Vlc3Q%3D&eal_exp=1645641301&eal_sig=7865ab7afe80c6cdd21f909164d2e019e1830b76b18e106a35d1bb06c0be4b9e&eal_uid=439656406&eu"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8209904,
+          21.1889334
+        ]
+      },
+      "id": "node/9473256117"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/9477921418",
+        "addr:city": "Cancún",
+        "addr:housenumber": "35",
+        "addr:postcode": "77516",
+        "addr:street": "Paseo de Girasoles",
+        "air_conditioning": "yes",
+        "guest_house": "homestay",
+        "internet_access": "yes",
+        "internet_access:fee": "no",
+        "name": "Frank's House",
+        "phone": "+52 998 734 8307",
+        "rooms": "2",
+        "tourism": "guest_house",
+        "website": "https://www.booking.com/hotel/mx/franks-house.en-gb.html?label=gen000nr-10CDkoggI46AdICVgEaLgCiAEBmAEzuAEFyAEF2AED6AEB-AEBiAIBqAIBuALWp66PBsACAdICJDVhMzk1OWI3LTZjMDMtNDUwMS05ZjA3LTE5NzM2YzZkZmU0M9gCAeACAQ;sid=75bb3b182b27ca3e5ec319b795e1be32;dist=0;room1="
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8761656,
+          21.202302
+        ]
+      },
+      "id": "node/9477921418"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/9563771517",
+        "addr:housenumber": "43",
+        "addr:postcode": "77500",
+        "addr:street": "Alcatraces",
+        "internet_access": "wlan",
+        "name": "Fiesta Party Hostel",
+        "tourism": "hostel",
+        "website": "https://fiesta-party-hostel-cancun.business.site"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8272127,
+          21.1599819
+        ]
+      },
+      "id": "node/9563771517"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/9704102117",
+        "addr:postcode": "77520",
+        "addr:street": "Carreta Punta Sam SM85 MZ5",
+        "internet_access": "wlan",
+        "name": "Casa Namal",
+        "opening_hours": "24/7",
+        "phone": "+529983367210",
+        "tourism": "hotel",
+        "wikidata": "Q111116821"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.808335,
+          21.1846414
+        ]
+      },
+      "id": "node/9704102117"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/9894236417",
+        "name": "Guest house La Aldea",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8587498,
+          21.1128927
+        ]
+      },
+      "id": "node/9894236417"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/10121738517",
+        "name": "The Yellow Capsule",
+        "tourism": "hotel",
+        "wikidata": "Q111116811"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8395793,
+          21.1107236
+        ]
+      },
+      "id": "node/10121738517"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/10274219260",
+        "name": "Play Motel",
+        "tourism": "motel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8445844,
+          21.0774662
+        ]
+      },
+      "id": "node/10274219260"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/10285001030",
+        "brand": "Hilton Garden Inn",
+        "brand:wikidata": "Q1162859",
+        "name": "Hilton Garden Inn",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8702226,
+          21.0405066
+        ]
+      },
+      "id": "node/10285001030"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/10298533209",
+        "name": "Torre Hawua",
+        "name:en": "Hawua Tower",
+        "tourism": "apartment"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8821191,
+          21.1251156
+        ]
+      },
+      "id": "node/10298533209"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/10538292209",
+        "name": "Caleta",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.825138,
+          21.164919
+        ]
+      },
+      "id": "node/10538292209"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/10601661881",
+        "addr:city": "Alfredo V. Bonfil",
+        "addr:housenumber": "Smz 336 Mnz 9. Lote 3",
+        "addr:postcode": "77500",
+        "addr:street": "Avenida Huayacan",
+        "air_conditioning": "yes",
+        "bar": "yes",
+        "brand": "GRUPO G HOTELS",
+        "email": "reservations@hivecancun.com",
+        "internet_access": "yes",
+        "internet_access:fee": "customers",
+        "name": "Hive Cancún",
+        "phone": "+529989801446",
+        "rooms": "50",
+        "tourism": "hotel",
+        "website": "https://hivecancun.com",
+        "wheelchair": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8672383,
+          21.0957143
+        ]
+      },
+      "id": "node/10601661881"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/10633045681",
+        "addr:city": "Cancún",
+        "addr:housenumber": "lote 21",
+        "addr:postcode": "77534",
+        "addr:street": "Calle Malva",
+        "contact:phone": "+52 998 134 3997",
+        "name": "Santa Fe Studios and Suites",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8656584,
+          21.1315091
+        ]
+      },
+      "id": "node/10633045681"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/10633620904",
+        "addr:city": "Cancún",
+        "addr:housenumber": "5",
+        "addr:postcode": "77500",
+        "addr:street": "Avenida Cobá",
+        "name": "Soberanis",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8264357,
+          21.157802
+        ]
+      },
+      "id": "node/10633620904"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/10635050453",
+        "name": "Hotel Casa Fernanda",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8294044,
+          21.161438
+        ]
+      },
+      "id": "node/10635050453"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/10666148205",
+        "name": "Humant Coliving & Coworking Spaces",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8275498,
+          21.1393175
+        ]
+      },
+      "id": "node/10666148205"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/10740039905",
+        "addr:city": "Cancun",
+        "addr:postcode": "77533",
+        "addr:street": "Av Huayacán Supermanzana 313 Manzana 227 Lote 6 Plaza Murano, 77533, Cancún",
+        "email": "info@murahotelboutique.com",
+        "internet_access": "yes",
+        "internet_access:fee": "no",
+        "name": "Mura Hotel Boutique",
+        "name:en": "Mura Hotel Boutique",
+        "phone": "+52998 480 6620",
+        "tourism": "hotel",
+        "website": "https://www.murahotelboutique.com/"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8438886,
+          21.1212546
+        ]
+      },
+      "id": "node/10740039905"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11081541780",
+        "brand": "Kavia",
+        "name": "Hotel Luma",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8258373,
+          21.1604521
+        ]
+      },
+      "id": "node/11081541780"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11234367637",
+        "addr:postcode": "77560",
+        "addr:street": "Sm 301 Mz 61 Lt 61 Calle Monte Líbano #1, Bodegas GINS 2da Etapa Riviera Park, Cancún, 77560",
+        "name": "1st Luxury Warehouse",
+        "phone": "+52 998 241 3656",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8594725,
+          21.0463713
+        ]
+      },
+      "id": "node/11234367637"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11583617269",
+        "addr:street": "Quetzal",
+        "name": "Hotel Grand Royal Lagoon",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.7571099,
+          21.1339647
+        ]
+      },
+      "id": "node/11583617269"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11676400269",
+        "addr:city": "Cancún",
+        "addr:housenumber": "Manzana 6, Lote 4, Número 9",
+        "addr:neighbourhood": "Supermanzana 23",
+        "addr:state": "Quintana roo",
+        "addr:street": "Calle Sac Xib",
+        "internet_access": "wlan",
+        "name": "Hotel Villa Leo",
+        "opening_hours": "24/7",
+        "tourism": "hotel",
+        "website": "https://www.booking.com/hotel/mx/villa-leo-cancun12.es-mx.html"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8349732,
+          21.1599488
+        ]
+      },
+      "id": "node/11676400269"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11689677469",
+        "addr:housenumber": "28, Mz. 11",
+        "addr:street": "Avenida Nader",
+        "name": "Mex Hoteles Cancún",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.82466,
+          21.1627688
+        ]
+      },
+      "id": "node/11689677469"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11891776371",
+        "name": "Mayafair Design Hotel",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.7510533,
+          21.1378011
+        ]
+      },
+      "id": "node/11891776371"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11964507569",
+        "name": "Hotel Kavia",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8266376,
+          21.1605376
+        ]
+      },
+      "id": "node/11964507569"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12040455886",
+        "contact:phone": "+52 998 881 6500",
+        "contact:website": "https://www.adharacancun.com/es",
+        "name": "Hotel Adhara",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.824171,
+          21.1683804
+        ]
+      },
+      "id": "node/12040455886"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12333522629",
+        "brand": "Club Med",
+        "brand:wikidata": "Q1076645",
+        "name": "Jade Reception",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.7791417,
+          21.0332514
+        ]
+      },
+      "id": "node/12333522629"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12333522633",
+        "brand": "Club Med",
+        "brand:wikidata": "Q1076645",
+        "name": "Reception",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.7784609,
+          21.0357164
+        ]
+      },
+      "id": "node/12333522633"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12421284901",
+        "addr:housenumber": "12",
+        "addr:street": "Calle Claveles",
+        "internet_access": "wlan",
+        "name": "Nomads Party Hostel",
+        "phone": "+52 998 561 6078",
+        "tourism": "hotel",
+        "website": "https://www.nomadsexperience.com/"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8265258,
+          21.1599738
+        ]
+      },
+      "id": "node/12421284901"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12454374901",
+        "addr:housenumber": "75",
+        "addr:postcode": "77500",
+        "addr:street": "Avenida Tulúm",
+        "brand": "Selina",
+        "brand:wikidata": "Q110173599",
+        "internet_access": "wlan",
+        "name": "Selina Hostel Cancun",
+        "phone": "+529981454023",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8262359,
+          21.1631505
+        ]
+      },
+      "id": "node/12454374901"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12455957304",
+        "addr:housenumber": "308",
+        "addr:postcode": "77500",
+        "addr:street": "Avenida Benito Juárez",
+        "internet_access": "wlan",
+        "name": "Tulipanes Cancun",
+        "phone": "+529982060102",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8448611,
+          21.0811596
+        ]
+      },
+      "id": "node/12455957304"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12539280101",
+        "name": "Casa Wayak",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.833392,
+          21.1638
+        ]
+      },
+      "id": "node/12539280101"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12540376801",
+        "name": "Casa Brana",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8306274,
+          21.1652148
+        ]
+      },
+      "id": "node/12540376801"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12574125601",
+        "addr:housenumber": "402",
+        "addr:street": "Calle Sergio Butrón Casas",
+        "name": "Villa Palmeras",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8549143,
+          21.0726499
+        ]
+      },
+      "id": "node/12574125601"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12776805401",
+        "addr:housenumber": "32-1",
+        "addr:postcode": "77500",
+        "addr:street": "Quetzal",
+        "internet_access": "wlan",
+        "name": "La Villa du Golf à Cancún",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.7590136,
+          21.1315522
+        ]
+      },
+      "id": "node/12776805401"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/13084945682",
+        "addr:street": "Quetzal 33",
+        "name": "Sina Suites Cancun",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.75851,
+          21.1314865
+        ]
+      },
+      "id": "node/13084945682"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/13109062501",
+        "addr:street": "Calle 112",
+        "name": "Casa Caribe Cancún",
+        "tourism": "apartment"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8080476,
+          21.1844483
+        ]
+      },
+      "id": "node/13109062501"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/13171709001",
+        "name": "Moon Palace Sunrise - Hotel",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8291625,
+          20.9887748
+        ]
+      },
+      "id": "node/13171709001"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/13470720101",
+        "name": "Casa Suki",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8408008,
+          21.1632199
+        ]
+      },
+      "id": "node/13470720101"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/13547000461",
+        "Calle": "Yaxchilán",
+        "addr:city": "Cancun City",
+        "addr:housenumber": "41",
+        "addr:postcode": "77500",
+        "addr:street": "Avenida Yaxchilán",
+        "brand": "Adhara Express",
+        "name": "Hotel Adhara Express",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8291492,
+          21.1628365
+        ]
+      },
+      "id": "node/13547000461"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/13570985801",
+        "name": "Eco-Hotel El Rey del Caribe",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.8231992,
+          21.1640357
+        ]
+      },
+      "id": "node/13570985801"
+    }
+  ]
+}
