@@ -1,0 +1,676 @@
+{% extends "base.html" %}
+
+{% block title %}Consultar Transacciones - SCG4{% endblock %}
+
+{% block extra_css %}
+<style>
+    main {
+        padding: 0;
+        max-width: 100%;
+    }
+
+    .consulta-container {
+        position: relative;
+        width: min(1600px, 100%);
+        margin: 0 auto;
+        padding: 2.5rem 2rem 5.5rem;
+    }
+
+    .consulta-container::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        background:
+            radial-gradient(circle at 15% 10%, rgba(31, 59, 44, 0.08), transparent 40%),
+            radial-gradient(circle at 90% 5%, rgba(31, 90, 57, 0.08), transparent 42%);
+        z-index: 0;
+    }
+
+    .consulta-container > * {
+        position: relative;
+        z-index: 1;
+    }
+
+    .page-hero {
+        display: grid;
+        grid-template-columns: minmax(0, 1.8fr) minmax(250px, 0.9fr);
+        gap: 1.3rem;
+        background: rgba(255, 255, 255, 0.98);
+        border-radius: 20px;
+        border: 1px solid rgba(31, 59, 44, 0.12);
+        padding: 1.75rem;
+        box-shadow: var(--shadow-sm);
+        margin-bottom: 1.8rem;
+    }
+
+    .hero-copy h2 {
+        margin: 0;
+        font-size: clamp(2.5rem, 3.5vw, 3.4rem);
+    }
+
+    .hero-copy .subtitle {
+        margin-top: 0.4rem;
+        max-width: 620px;
+    }
+
+    .hero-panel {
+        border-radius: 18px;
+        padding: 1rem;
+        border: 1px solid rgba(31, 59, 44, 0.08);
+        background: linear-gradient(180deg, #ffffff 0%, #f8fbf8 100%);
+        display: flex;
+        flex-direction: column;
+        gap: 0.9rem;
+        justify-content: space-between;
+    }
+
+    .hero-panel .hero-stats {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.7rem;
+    }
+
+    .hero-stat {
+        border-radius: 16px;
+        padding: 0.9rem 1rem;
+        border: 1px solid rgba(31, 59, 44, 0.12);
+        background: rgba(31, 59, 44, 0.05);
+    }
+
+    .hero-stat-label {
+        display: block;
+        font-size: 0.72rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--color-muted);
+        margin-bottom: 0.25rem;
+    }
+
+    .hero-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.4rem;
+    }
+
+    .hero-chip {
+        border-radius: 999px;
+        padding: 0.35rem 0.9rem;
+        font-size: 0.78rem;
+        font-weight: 600;
+        border: 1px solid rgba(31, 59, 44, 0.12);
+        background: #fff;
+        color: var(--color-primary);
+    }
+
+    .filters-section {
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 20px;
+        border: 1px solid rgba(31, 59, 44, 0.12);
+        padding: 1rem 1.2rem 1rem;
+        box-shadow: var(--shadow-sm);
+        position: sticky;
+        top: 5rem;
+        z-index: 30;
+        backdrop-filter: blur(10px);
+    }
+
+    .filters-section.is-condensed .filters-strip-shell,
+    .filters-section.is-condensed .filter-actions {
+        display: none;
+    }
+
+    .section-heading {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        margin-bottom: 0.75rem;
+    }
+
+    .section-heading h3 {
+        margin: 0;
+        font-size: 1rem;
+        color: var(--color-primary);
+    }
+
+    .section-heading p {
+        margin: 0;
+        color: var(--color-muted);
+        font-size: 0.85rem;
+    }
+
+    .filters-strip-actions {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        flex-wrap: wrap;
+    }
+
+    .summary-pill {
+        padding: 0.4rem 0.9rem;
+        border-radius: 999px;
+        border: 1px solid rgba(31, 59, 44, 0.12);
+        font-size: 0.78rem;
+        font-weight: 600;
+        color: var(--color-muted);
+        background: rgba(231, 237, 230, 0.8);
+    }
+
+    .summary-pill--active {
+        border-color: var(--color-primary);
+        color: var(--color-primary);
+        background: rgba(31, 59, 44, 0.08);
+    }
+
+    .filters-toggle-btn,
+    .filters-scroll-btn {
+        border: none;
+        background: #fff;
+        border-radius: 999px;
+        padding: 0.35rem 0.75rem;
+        font-size: 0.85rem;
+        cursor: pointer;
+        box-shadow: 0 4px 10px rgba(15, 23, 42, 0.12);
+        transition: var(--transition);
+    }
+
+    .filters-scroll-btn {
+        width: 36px;
+        height: 36px;
+        padding: 0;
+        font-weight: 700;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .filters-strip-shell {
+        border-radius: 16px;
+        border: 1px solid rgba(31, 59, 44, 0.12);
+        background: #f8fbf8;
+        padding: 0.35rem;
+        overflow: hidden;
+    }
+
+    .filters-grid {
+        display: grid;
+        grid-auto-flow: column;
+        grid-auto-columns: minmax(230px, 1fr);
+        gap: 0.85rem;
+        padding: 0.2rem 0.1rem 0.5rem;
+        overflow-x: auto;
+        scroll-behavior: smooth;
+        align-items: start;
+    }
+
+    .filters-grid::-webkit-scrollbar {
+        height: 6px;
+    }
+
+    .filters-grid::-webkit-scrollbar-thumb {
+        background: rgba(31, 59, 44, 0.3);
+        border-radius: 999px;
+    }
+
+    .filter-group {
+        background: #fff;
+        border-radius: 12px;
+        border: 1px solid rgba(31, 59, 44, 0.08);
+        padding: 0.9rem 0.85rem 0.9rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.35rem;
+    }
+
+    .filter-group label {
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--color-muted);
+    }
+
+    .filter-group input,
+    .filter-group select {
+        border-radius: 8px;
+        border: 1px solid rgba(31, 59, 44, 0.2);
+        padding: 0.45rem 0.5rem;
+        font-size: 0.95rem;
+        font-family: inherit;
+        color: var(--color-text);
+        background: #fff;
+    }
+
+    .filter-help {
+        font-size: 0.72rem;
+        color: var(--color-muted);
+        min-height: 1.1rem;
+    }
+
+    .filter-actions {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        margin-top: 0.85rem;
+        flex-wrap: wrap;
+    }
+
+    .filter-actions-buttons {
+        display: flex;
+        gap: 0.6rem;
+        flex-wrap: wrap;
+    }
+
+    .active-filters-bar {
+        margin: -1rem 0 1rem;
+        padding: 0.4rem 0.6rem;
+        border-radius: 999px;
+        border: 1px solid rgba(31, 59, 44, 0.12);
+        background: rgba(248, 251, 248, 0.9);
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.4rem;
+        align-items: center;
+        min-height: 48px;
+    }
+
+    .active-filter-chip {
+        padding: 0.35rem 0.9rem;
+        border-radius: 999px;
+        background: #ffffff;
+        border: 1px solid rgba(31, 59, 44, 0.15);
+        font-size: 0.78rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+    }
+
+    .results-section {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .table-empty {
+        color: var(--color-muted);
+        text-align: center;
+        margin: 1rem 0;
+    }
+
+    .pagination-controls {
+        display: flex;
+        justify-content: flex-end;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+        font-size: 0.85rem;
+    }
+
+    .pagination-info {
+        padding: 0.45rem 0.9rem;
+        border-radius: 999px;
+        background: rgba(31, 59, 44, 0.08);
+        color: var(--color-primary);
+        font-weight: 600;
+    }
+
+    @media (max-width: 960px) {
+        .page-hero {
+            grid-template-columns: 1fr;
+        }
+
+        .filters-section {
+            position: static;
+        }
+
+        .filters-strip-actions {
+            justify-content: space-between;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="consulta-container">
+    <div class="page-hero">
+        <div class="hero-copy">
+            <span class="hero-kicker">Consulta operativa</span>
+            <h2>Consultar Transacciones</h2>
+            <p class="subtitle">Replicamos las dimensiones, las barras de filtros y la presentación de
+                <strong>../08-siif</strong>, pero con la estructura de salida definida en <code>example/output.xlsx</code>.</p>
+        </div>
+        <div class="hero-panel">
+            <div class="hero-stats">
+                <div class="hero-stat">
+                    <span class="hero-stat-label">Criterios activos</span>
+                    <strong id="heroFiltersCount">0</strong>
+                </div>
+                <div class="hero-stat">
+                    <span class="hero-stat-label">Registros totales</span>
+                    <strong id="heroResultCount">0</strong>
+                </div>
+            </div>
+            <div class="hero-meta">
+                <span class="hero-chip">Estructura: example/output.xlsx</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="consulta-layout">
+        <section class="filters-section" id="filtersSection">
+            <div class="section-heading">
+                <div>
+                    <h3>Barra de filtros</h3>
+                    <p>Desplázate horizontalmente por los filtros, activa combinaciones y pulsa Mostrar para recargar.</p>
+                </div>
+                <div class="filters-strip-actions">
+                    <span class="summary-pill" id="filtersSummaryBadge">Sin filtros activos</span>
+                    <button class="filters-toggle-btn" id="filtersCompactToggle" type="button">Compactar</button>
+                    <button class="filters-scroll-btn" id="filtersScrollPrev" type="button" aria-label="Desplazar filtros a la izquierda">‹</button>
+                    <button class="filters-scroll-btn" id="filtersScrollNext" type="button" aria-label="Desplazar filtros a la derecha">›</button>
+                </div>
+            </div>
+            <div class="filters-strip-shell">
+                <div class="filters-grid" id="filtersScroller">
+                    <div class="filter-group">
+                        <label>Cuenta contable</label>
+                        <input type="text" id="fCuenta" placeholder="1.1.1...">
+                        <span class="filter-help" data-filter-help="cuenta_contable">Sin filtro</span>
+                    </div>
+                    <div class="filter-group">
+                        <label>Ente</label>
+                        <select id="fEnte">
+                            <option value="">Todos</option>
+                        </select>
+                        <span class="filter-help" data-filter-help="ente_nombre">Sin filtro</span>
+                    </div>
+                    <div class="filter-group">
+                        <label>Fecha inicio</label>
+                        <input type="date" id="fFechaIni">
+                        <span class="filter-help" data-filter-help="fecha_inicio">Sin filtro</span>
+                    </div>
+                    <div class="filter-group">
+                        <label>Fecha fin</label>
+                        <input type="date" id="fFechaFin">
+                        <span class="filter-help" data-filter-help="fecha_fin">Sin filtro</span>
+                    </div>
+                    <div class="filter-group">
+                        <label>Póliza</label>
+                        <input type="text" id="fPoliza" placeholder="Ej: D000123">
+                        <span class="filter-help" data-filter-help="poliza">Sin filtro</span>
+                    </div>
+                    <div class="filter-group">
+                        <label>Beneficiario</label>
+                        <input type="text" id="fBenef" placeholder="Nombre o RFC">
+                        <span class="filter-help" data-filter-help="beneficiario">Sin filtro</span>
+                    </div>
+                </div>
+            </div>
+            <div class="filter-actions">
+                <div class="filter-actions-meta">
+                    <strong id="filtersStatusHeading">Selecciona filtros y aplica cambios</strong>
+                    <span id="filtersStatusText">Puedes combinar varios criterios, recorrer la barra horizontal y pulsar Mostrar.</span>
+                </div>
+                <div class="filter-actions-buttons">
+                    <button class="btn btn-primary" type="button" id="applyFiltersBtn">Mostrar</button>
+                    <button class="btn btn-outline" type="button" id="clearFiltersBtn">Limpiar</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="active-filters-bar" id="activeFiltersBar" hidden>
+            <div class="active-filters-shell" id="activeFiltersShell"></div>
+        </section>
+
+        <section class="results-section">
+            <div class="table-wrapper">
+                <div id="tableLoading" style="text-align:center;padding:2.5rem;color:var(--color-muted);display:none;">
+                    <div class="spinner"></div>
+                    <p>Cargando transacciones...</p>
+                </div>
+                <div id="tableBodyWrapper">
+                    <table class="tabla-resultados">
+                        <thead>
+                            <tr>
+                                <th>Cuenta</th>
+                                <th>Nombre de cuenta</th>
+                                <th>Descripción</th>
+                                <th>Ente</th>
+                                <th>Beneficiario</th>
+                                <th>Fecha</th>
+                                <th>Póliza</th>
+                                <th class="money">Cargos</th>
+                                <th class="money">Abonos</th>
+                                <th class="money">Saldo</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="pagination-controls" id="pagination"></div>
+            <p id="tableEmpty" class="table-empty" style="display:none;">Sin resultados.</p>
+        </section>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+const FILTER_DEFINITIONS = [
+    { id: 'fCuenta', key: 'cuenta_contable', label: 'Cuenta contable' },
+    { id: 'fEnte', key: 'ente_nombre', label: 'Ente' },
+    { id: 'fFechaIni', key: 'fecha_inicio', label: 'Fecha inicio' },
+    { id: 'fFechaFin', key: 'fecha_fin', label: 'Fecha fin' },
+    { id: 'fPoliza', key: 'poliza', label: 'Póliza' },
+    { id: 'fBenef', key: 'beneficiario', label: 'Beneficiario' },
+];
+
+let currentPage = 1;
+
+function fmt(value) {
+    return (value || 0).toLocaleString('es-MX', { minimumFractionDigits: 2 });
+}
+
+function getFilters() {
+    const filters = {};
+    FILTER_DEFINITIONS.forEach(({ id, key }) => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        const value = el.value.trim();
+        if (value) filters[key] = value;
+    });
+    return filters;
+}
+
+function updateFiltersHelp(filters) {
+    FILTER_DEFINITIONS.forEach(({ key }) => {
+        const help = document.querySelector(`[data-filter-help="${key}"]`);
+        if (!help) return;
+        help.textContent = filters[key] ? `Aplicado: ${filters[key]}` : 'Sin filtro';
+    });
+}
+
+function updateFilterSummary(filters) {
+    const entries = Object.entries(filters);
+    const badge = document.getElementById('filtersSummaryBadge');
+    const activeBadge = badge.classList;
+    if (entries.length === 0) {
+        badge.textContent = 'Sin filtros activos';
+        activeBadge.remove('summary-pill--active');
+    } else {
+        badge.textContent = `${entries.length} filtro${entries.length > 1 ? 'es' : ''} activos`;
+        activeBadge.add('summary-pill--active');
+    }
+
+    const heroFilters = document.getElementById('heroFiltersCount');
+    if (heroFilters) {
+        heroFilters.textContent = entries.length;
+    }
+
+    const activeBar = document.getElementById('activeFiltersBar');
+    const shell = document.getElementById('activeFiltersShell');
+    shell.innerHTML = '';
+    if (entries.length === 0) {
+        activeBar.hidden = true;
+    } else {
+        activeBar.hidden = false;
+        entries.forEach(([key, value]) => {
+            const prop = FILTER_DEFINITIONS.find((f) => f.key === key);
+            const chip = document.createElement('span');
+            chip.className = 'active-filter-chip';
+            chip.textContent = `${prop?.label || key}: ${value}`;
+            shell.appendChild(chip);
+        });
+    }
+}
+
+async function loadTransacciones(page) {
+    currentPage = page;
+    const filters = getFilters();
+    updateFiltersHelp(filters);
+    updateFilterSummary(filters);
+
+    const params = new URLSearchParams({ page, per_page: 50, ...filters });
+    document.getElementById('tableLoading').style.display = '';
+    document.getElementById('tableBodyWrapper').style.display = 'none';
+    document.getElementById('tableEmpty').style.display = 'none';
+    try {
+        const res = await fetch(`/api/transacciones?${params}`);
+        const data = await res.json();
+        document.getElementById('tableLoading').style.display = 'none';
+
+        const tbody = document.getElementById('tableBody');
+        tbody.innerHTML = '';
+        if (!data.transacciones || data.transacciones.length === 0) {
+            document.getElementById('tableEmpty').style.display = '';
+            document.getElementById('heroResultCount').textContent = (data.total || 0).toLocaleString();
+            document.getElementById('filtersStatusHeading').textContent = 'Sin resultados';
+            document.getElementById('filtersStatusText').textContent = 'Ninguna transacción coincide con los criterios.';
+            document.getElementById('pagination').innerHTML = '';
+            return;
+        }
+
+        document.getElementById('tableBodyWrapper').style.display = '';
+        document.getElementById('filtersStatusHeading').textContent = `Página ${data.page} de ${data.pages}`;
+        document.getElementById('filtersStatusText').textContent = `Mostrando ${data.transacciones.length} registros en esta página (total ${data.total} registros).`;
+        document.getElementById('heroResultCount').textContent = (data.total || 0).toLocaleString();
+
+        data.transacciones.forEach((t) => {
+            const tr = tbody.insertRow();
+            tr.innerHTML = `
+                <td><code>${t.cuenta_contable || ''}</code></td>
+                <td>${t.nombre_cuenta || ''}</td>
+                <td style="max-width:240px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${t.descripcion || ''}">${t.descripcion || ''}</td>
+                <td>${t.ente_siglas || t.ente_nombre || ''}</td>
+                <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${t.beneficiario || ''}">${t.beneficiario || ''}</td>
+                <td>${t.fecha_transaccion || ''}</td>
+                <td>${t.poliza || ''}</td>
+                <td class="money">${fmt(t.cargos)}</td>
+                <td class="money">${fmt(t.abonos)}</td>
+                <td class="money">${fmt(t.saldo_final)}</td>
+            `;
+        });
+
+        renderPagination(data.page, data.pages);
+    } catch (e) {
+        document.getElementById('tableLoading').style.display = 'none';
+        document.getElementById('tableBodyWrapper').style.display = 'none';
+        document.getElementById('tableEmpty').textContent = 'Error al cargar.';
+        document.getElementById('tableEmpty').style.display = '';
+    }
+}
+
+function renderPagination(page, pages) {
+    const div = document.getElementById('pagination');
+    div.innerHTML = '';
+    if (pages <= 1) return;
+
+    const makeButton = (label, pg, disabled) => {
+        const button = document.createElement('button');
+        button.textContent = label;
+        button.disabled = disabled;
+        button.className = 'btn btn-outline';
+        if (!disabled) button.addEventListener('click', () => loadTransacciones(pg));
+        return button;
+    };
+
+    div.appendChild(makeButton('«', 1, page === 1));
+    div.appendChild(makeButton('‹', page - 1, page === 1));
+    const span = document.createElement('span');
+    span.className = 'pagination-info';
+    span.textContent = `${page} / ${pages}`;
+    div.appendChild(span);
+    div.appendChild(makeButton('›', page + 1, page === pages));
+    div.appendChild(makeButton('»', pages, page === pages));
+}
+
+function clearFilters() {
+    FILTER_DEFINITIONS.forEach(({ id }) => {
+        const el = document.getElementById(id);
+        if (el) el.value = '';
+    });
+    document.getElementById('fEnte').value = '';
+    loadTransacciones(1);
+}
+
+function applyFilters() {
+    loadTransacciones(1);
+}
+
+function scrollFilters(delta) {
+    const scroller = document.getElementById('filtersScroller');
+    if (!scroller) return;
+    scroller.scrollBy({ left: delta, behavior: 'smooth' });
+}
+
+function toggleCompact() {
+    const container = document.getElementById('filtersSection');
+    const button = document.getElementById('filtersCompactToggle');
+    const collapsed = container.classList.toggle('is-condensed');
+    button.textContent = collapsed ? 'Expandir' : 'Compactar';
+}
+
+function loadEntes() {
+    fetch('/api/entes/lista')
+        .then((res) => res.json())
+        .then((data) => {
+            const sel = document.getElementById('fEnte');
+            const current = sel.value;
+            sel.innerHTML = '<option value=\"\">Todos</option>';
+            (data.entes || []).forEach((nombre) => {
+                const opt = document.createElement('option');
+                opt.value = nombre;
+                opt.textContent = nombre;
+                if (nombre === current) opt.selected = true;
+                sel.appendChild(opt);
+            });
+        })
+        .catch(() => {
+            /* ignore */
+        });
+}
+
+function loadStats() {
+    fetch('/api/dashboard/stats')
+        .then((res) => res.json())
+        .then((data) => {
+            document.getElementById('heroResultCount').textContent = (data.total_transacciones || 0).toLocaleString();
+        })
+        .catch(() => {
+            /* ignore */
+        });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('applyFiltersBtn').addEventListener('click', applyFilters);
+    document.getElementById('clearFiltersBtn').addEventListener('click', clearFilters);
+    document.getElementById('filtersScrollPrev').addEventListener('click', () => scrollFilters(-360));
+    document.getElementById('filtersScrollNext').addEventListener('click', () => scrollFilters(360));
+    document.getElementById('filtersCompactToggle').addEventListener('click', toggleCompact);
+    loadStats();
+    loadEntes();
+    applyFilters();
+});
+</script>
+{% endblock %}

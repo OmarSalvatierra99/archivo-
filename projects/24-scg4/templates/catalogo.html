@@ -1,0 +1,449 @@
+{% extends "base.html" %}
+
+{% block title %}Catalogo - SCG4{% endblock %}
+
+{% block extra_css %}
+<style>
+    .catalogo-page {
+        max-width: 1400px;
+        width: 100%;
+        margin: 2rem auto 3rem;
+        padding: 0 1.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+    }
+
+    .catalogo-section {
+        background: var(--color-surface);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow-md);
+        padding: 2rem;
+    }
+
+    .header-flex {
+        text-align: left;
+        margin-bottom: 1.5rem;
+    }
+
+    .header-flex h2 {
+        color: var(--color-primary);
+        font-size: 1.9rem;
+        margin-bottom: 0.45rem;
+    }
+
+    .header-flex .subtitle {
+        color: var(--color-muted);
+        font-size: 0.95rem;
+    }
+
+    .catalogo-hub {
+        border: 1px solid rgba(31, 59, 44, 0.15);
+        background: linear-gradient(180deg, rgba(31, 59, 44, 0.08), rgba(255, 255, 255, 0.9));
+        border-radius: var(--radius);
+        box-shadow: var(--shadow-sm);
+        padding-bottom: 1rem;
+    }
+
+    .hub-intro {
+        color: var(--color-muted);
+        font-size: 0.95rem;
+        margin-bottom: 1.5rem;
+        max-width: 720px;
+    }
+
+    .hub-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1.25rem;
+    }
+
+    .hub-card {
+        flex: 1;
+        min-width: 280px;
+        background: rgba(255, 255, 255, 0.85);
+        border-radius: 16px;
+        border: 1px solid var(--color-border);
+        padding: 1.5rem;
+        box-shadow: var(--shadow-sm);
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        text-decoration: none;
+        color: inherit;
+        transition: var(--transition);
+    }
+
+    .hub-card:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-md);
+        border-color: var(--color-primary);
+    }
+
+    .hub-card-title {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: var(--color-primary);
+    }
+
+    .hub-card-desc {
+        color: var(--color-muted);
+        font-size: 0.9rem;
+        line-height: 1.5;
+    }
+
+    .hub-card-action {
+        margin-top: auto;
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: var(--color-primary);
+    }
+
+    .search-section {
+        background: #f8fafc;
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius);
+        padding: 1.2rem;
+        margin-bottom: 2rem;
+    }
+
+    .search-box {
+        position: relative;
+    }
+
+    .search-input {
+        width: 100%;
+        padding: 0.75rem 1rem 0.75rem 3rem;
+        border: 1px solid var(--color-border);
+        border-radius: 8px;
+        font-size: 0.95rem;
+        transition: var(--transition);
+        background: white;
+    }
+
+    .search-input:focus {
+        outline: none;
+        border-color: var(--color-accent);
+        box-shadow: 0 0 0 3px rgba(31, 59, 44, 0.14);
+    }
+
+    .search-icon {
+        position: absolute;
+        left: 1rem;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--color-muted);
+        font-size: 1.25rem;
+    }
+
+    .stats-bar {
+        display: flex;
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+        padding: 1rem 1.5rem;
+        background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+        border-radius: var(--radius);
+        border: 1px solid #bfdbfe;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .stat-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .stat-label {
+        font-size: 0.75rem;
+        color: var(--color-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        margin-bottom: 0.25rem;
+    }
+
+    .stat-value {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--color-primary);
+    }
+
+    .table-wrapper {
+        border-radius: var(--radius);
+        overflow: hidden;
+        border: 1px solid var(--color-border);
+    }
+
+    .table-scroll {
+        overflow-x: auto;
+    }
+
+    .tabla-resultados {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .tabla-resultados thead {
+        background: var(--color-primary);
+    }
+
+    .tabla-resultados th {
+        background: var(--color-primary);
+        color: #fff;
+        padding: 0.7rem 1rem;
+        text-align: left;
+        font-weight: 600;
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        white-space: nowrap;
+    }
+
+    .tabla-resultados td {
+        border-bottom: 1px solid var(--color-border);
+        padding: 0.6rem 1rem;
+        font-size: 0.9rem;
+    }
+
+    .tabla-resultados tr:nth-child(even) td {
+        background: #f9fafc;
+    }
+
+    .tabla-resultados tr:hover td {
+        background: #f3f4f6;
+    }
+
+    .badge {
+        display: inline-block;
+        padding: 0.35rem 0.75rem;
+        border-radius: 6px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        white-space: nowrap;
+    }
+
+    .badge-estatal {
+        background: #dbeafe;
+        color: #1e40af;
+    }
+
+    .section-loading,
+    .no-results {
+        text-align: center;
+        padding: 3rem 2rem;
+        color: var(--color-muted);
+    }
+
+    .msg-vacio {
+        text-align: center;
+        color: var(--color-muted);
+        margin-top: 2rem;
+        font-size: 0.95rem;
+    }
+
+    @media (max-width: 768px) {
+        .catalogo-section {
+            padding: 1.25rem;
+        }
+
+        .tabla-resultados th,
+        .tabla-resultados td {
+            font-size: 0.8rem;
+            padding: 0.5rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="catalogo-page">
+    <!-- Hub section with navigation cards -->
+    <section class="catalogo-section catalogo-hub">
+        <div class="header-flex">
+            <h2>Catalogo</h2>
+            <span class="subtitle">Consulta los catalogos de entes y fuentes de financiamiento del sistema SCG4.</span>
+        </div>
+        <p class="hub-intro">
+            Selecciona el catalogo que deseas consultar. Cada seccion cuenta con busqueda y filtros propios.
+        </p>
+        <div class="hub-grid">
+            <a href="/catalogo-entes" class="hub-card">
+                <div class="hub-card-title">Catalogo de Entes</div>
+                <div class="hub-card-desc">Consulta los entes publicos estatales de Tlaxcala registrados en el sistema. Incluye clave, nombre, siglas y ambito.</div>
+                <div class="hub-card-action">Ver catalogo de entes &rarr;</div>
+            </a>
+            <a href="/catalogo-fuentes" class="hub-card">
+                <div class="hub-card-title">Catalogo de Fuentes de Financiamiento</div>
+                <div class="hub-card-desc">Explora las fuentes de financiamiento con sus claves, descripciones, ramos federales y fondos de ingreso asociados.</div>
+                <div class="hub-card-action">Ver catalogo de fuentes &rarr;</div>
+            </a>
+        </div>
+    </section>
+
+    <!-- Inline entes catalog -->
+    <section class="catalogo-section" id="catalogo-entes">
+        <div class="header-flex">
+            <h2>Catalogo de Entes</h2>
+            <span class="subtitle">Entes publicos estatales de Tlaxcala</span>
+        </div>
+        <div class="search-section">
+            <div class="search-box">
+                <span class="search-icon">&#x2315;</span>
+                <input
+                    type="text"
+                    class="search-input"
+                    id="searchInputEntes"
+                    placeholder="Buscar por nombre, clave o siglas..."
+                    autocomplete="off"
+                >
+            </div>
+        </div>
+        <div class="stats-bar">
+            <div class="stat-item">
+                <span class="stat-label">Total de Entes</span>
+                <span class="stat-value" id="totalEntes">0</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Mostrando</span>
+                <span class="stat-value" id="mostrandoEntes">0</span>
+            </div>
+        </div>
+        <div class="table-wrapper">
+            <div class="section-loading" id="entesLoading">
+                <div class="spinner"></div>
+                <p>Cargando catalogo...</p>
+            </div>
+            <div class="table-scroll" id="entesTableContainer" style="display: none;">
+                <table class="tabla-resultados">
+                    <thead>
+                        <tr>
+                            <th>Clave</th>
+                            <th>Nombre</th>
+                            <th>Siglas</th>
+                            <th>Ambito</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tablaBodyEntes"></tbody>
+                </table>
+            </div>
+            <div id="entesNoResults" class="no-results" style="display: none;">
+                <p class="msg-vacio">No se encontraron registros en el catalogo de entes.</p>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+const debounce = (func, wait) => {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
+};
+
+let todosLosEntes = [];
+let entesFiltrados = [];
+
+async function cargarEntes() {
+    try {
+        const response = await fetch('/api/entes');
+        const data = await response.json();
+
+        todosLosEntes = data.entes || [];
+        entesFiltrados = [...todosLosEntes];
+
+        actualizarEstadisticasEntes();
+        renderizarTablaEntes();
+
+        const loading = document.getElementById('entesLoading');
+        const container = document.getElementById('entesTableContainer');
+        if (loading) loading.style.display = 'none';
+        if (container) container.style.display = 'block';
+    } catch (error) {
+        console.error('Error al cargar entes:', error);
+        const loading = document.getElementById('entesLoading');
+        if (loading) {
+            loading.innerHTML = '<div class="no-results"><p class="msg-vacio">Error al cargar el catalogo</p></div>';
+        }
+    }
+}
+
+function renderizarTablaEntes() {
+    const tbody = document.getElementById('tablaBodyEntes');
+    const noResults = document.getElementById('entesNoResults');
+    const tableContainer = document.getElementById('entesTableContainer');
+
+    if (!tbody || !noResults || !tableContainer) return;
+
+    tbody.innerHTML = '';
+
+    if (entesFiltrados.length === 0) {
+        tableContainer.style.display = 'none';
+        noResults.style.display = 'block';
+        return;
+    }
+
+    const fragment = document.createDocumentFragment();
+
+    entesFiltrados.forEach((ente) => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td><strong>${ente.codigo || '-'}</strong></td>
+            <td>${ente.nombre || '-'}</td>
+            <td><strong>${ente.siglas || '-'}</strong></td>
+            <td><span class="badge badge-estatal">${ente.ambito || '-'}</span></td>
+        `;
+        fragment.appendChild(row);
+    });
+
+    tbody.appendChild(fragment);
+    tableContainer.style.display = 'block';
+    noResults.style.display = 'none';
+    actualizarEstadisticasEntes();
+}
+
+function aplicarFiltrosEntes() {
+    const searchInput = document.getElementById('searchInputEntes');
+    const busqueda = searchInput ? searchInput.value.toLowerCase().trim() : '';
+
+    let resultado = todosLosEntes;
+
+    if (busqueda) {
+        resultado = resultado.filter((ente) => {
+            return (
+                (ente.nombre || '').toLowerCase().includes(busqueda) ||
+                (ente.codigo || '').toLowerCase().includes(busqueda) ||
+                (ente.siglas || '').toLowerCase().includes(busqueda)
+            );
+        });
+    }
+
+    entesFiltrados = resultado;
+    renderizarTablaEntes();
+}
+
+function actualizarEstadisticasEntes() {
+    const totalElement = document.getElementById('totalEntes');
+    const mostrandoElement = document.getElementById('mostrandoEntes');
+
+    if (totalElement) totalElement.textContent = todosLosEntes.length;
+    if (mostrandoElement) mostrandoElement.textContent = entesFiltrados.length;
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+    cargarEntes();
+
+    const searchEntes = document.getElementById('searchInputEntes');
+    if (searchEntes) {
+        searchEntes.addEventListener('input', debounce(() => aplicarFiltrosEntes(), 300));
+    }
+});
+</script>
+{% endblock %}

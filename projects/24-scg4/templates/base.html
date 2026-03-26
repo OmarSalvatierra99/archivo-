@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="SCG4 · Plataforma de consulta y carga de auxiliares contables">
+    <title>{% block title %}SCG4{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='img/ofs_logo.png') }}">
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <header class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <img src="{{ url_for('static', filename='img/ofs_logo.png') }}" alt="Logo" class="nav-logo">
+                <div class="nav-title">
+                    <h1 class="nav-system">SCG4</h1>
+                    <span class="nav-subtitle">Sistema de Procesamiento de Auxiliares Contables</span>
+                </div>
+            </div>
+            <nav class="nav-links">
+                <a href="/" class="nav-link{% if request.path == '/' %} active{% endif %}">Carga de Datos</a>
+                <a href="/reporte-online" class="nav-link{% if request.path == '/reporte-online' %} active{% endif %}">Consultar Transacciones</a>
+                <a href="/reporte-resumen" class="nav-link{% if request.path == '/reporte-resumen' %} active{% endif %}">Resumen General</a>
+                <a href="/catalogo" class="nav-link{% if request.path.startswith('/catalogo') %} active{% endif %}">Catálogo</a>
+                {% if session.get('auth_user') %}
+                <a href="{{ url_for('logout') }}" class="nav-link nav-link-logout">Cerrar sesión</a>
+                {% endif %}
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        <p>&copy; 2025 SCG4 - Sistema de Procesamiento de Auxiliares Contables</p>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>
