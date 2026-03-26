@@ -57,11 +57,30 @@ id INTEGER PRIMARY KEY AUTOINCREMENT,
 public_id TEXT UNIQUE NOT NULL,
 email TEXT UNIQUE NOT NULL,
 full_name TEXT,
+password_hash TEXT,
+avatar_url TEXT,
+last_login_at DATETIME,
 email_verified_at DATETIME,
 created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
 updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 CREATE INDEX IF NOT EXISTS idx_customer_profiles_email ON customer_profiles(email);
+
+CREATE TABLE IF NOT EXISTS customer_identities(
+id INTEGER PRIMARY KEY AUTOINCREMENT,
+profile_public_id TEXT NOT NULL,
+provider TEXT NOT NULL,
+provider_user_id TEXT NOT NULL,
+email TEXT,
+email_verified_at DATETIME,
+metadata_json TEXT,
+created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+FOREIGN KEY(profile_public_id) REFERENCES customer_profiles(public_id) ON DELETE CASCADE
+);
+CREATE UNIQUE INDEX IF NOT EXISTS idx_customer_identities_provider_user ON customer_identities(provider, provider_user_id);
+CREATE UNIQUE INDEX IF NOT EXISTS idx_customer_identities_profile_provider ON customer_identities(profile_public_id, provider);
+CREATE INDEX IF NOT EXISTS idx_customer_identities_profile ON customer_identities(profile_public_id);
 
 CREATE TABLE IF NOT EXISTS customer_auth_codes(
 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -84,6 +103,16 @@ created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
 last_seen_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 CREATE INDEX IF NOT EXISTS idx_customer_sessions_profile ON customer_sessions(profile_public_id);
+
+CREATE TABLE IF NOT EXISTS customer_carts(
+id INTEGER PRIMARY KEY AUTOINCREMENT,
+profile_public_id TEXT UNIQUE NOT NULL,
+cart_json TEXT NOT NULL DEFAULT '[]',
+created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+FOREIGN KEY(profile_public_id) REFERENCES customer_profiles(public_id) ON DELETE CASCADE
+);
+CREATE INDEX IF NOT EXISTS idx_customer_carts_profile ON customer_carts(profile_public_id);
 
 CREATE TABLE IF NOT EXISTS order_claims(
 id INTEGER PRIMARY KEY AUTOINCREMENT,

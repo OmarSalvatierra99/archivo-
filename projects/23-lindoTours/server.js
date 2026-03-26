@@ -26,6 +26,7 @@ db.pragma('foreign_keys=ON');
 const schema = fs.readFileSync(path.join(__dirname, 'db', 'schema.sql'), 'utf8');
 db.exec(schema);
 ensureCheckoutPricingSchema(db);
+ensureCustomerAuthSchema(db);
 const seedFile = path.join(__dirname, 'db', 'seed.sql');
 if (fs.existsSync(seedFile)) {
     const c = db.prepare('SELECT count(*) as c FROM tours').get();
@@ -45,6 +46,7 @@ const PAYPAL_CLIENT_ID = String(process.env.PAYPAL_CLIENT_ID || '').trim();
 const PAYPAL_CLIENT_SECRET = String(process.env.PAYPAL_CLIENT_SECRET || '').trim();
 const PAYPAL_WEBHOOK_ID = String(process.env.PAYPAL_WEBHOOK_ID || '').trim();
 const PAYPAL_API_BASE = String(process.env.PAYPAL_API_BASE || 'https://api-m.sandbox.paypal.com').trim();
+const PAYPAL_ACCOUNT_EMAIL = sanitizeText(process.env.PAYPAL_ACCOUNT_EMAIL, 180);
 const ORDER_PUBLIC_ID_PREFIX = sanitizeText(process.env.ORDER_PUBLIC_ID_PREFIX || 'LT', 12) || 'LT';
 const ORDER_CURRENCY = 'USD';
 const CUSTOMER_PORTAL_TOKEN_TTL_MS = Math.max(5 * 60 * 1000, Number(process.env.CUSTOMER_PORTAL_TOKEN_TTL_MS || 1000 * 60 * 30));
@@ -52,6 +54,22 @@ const CUSTOMER_PROFILE_ID_PREFIX = sanitizeText(process.env.CUSTOMER_PROFILE_ID_
 const CUSTOMER_AUTH_CODE_TTL_MS = Math.max(5 * 60 * 1000, Number(process.env.CUSTOMER_AUTH_CODE_TTL_MS || 1000 * 60 * 10));
 const CUSTOMER_SESSION_TTL_MS = Math.max(60 * 60 * 1000, Number(process.env.CUSTOMER_SESSION_TTL_MS || 1000 * 60 * 60 * 24 * 7));
 const CUSTOMER_AUTH_DEBUG = process.env.CUSTOMER_AUTH_DEBUG === 'true' || !IS_PRODUCTION;
+const DEMO_MODE = process.env.DEMO_MODE === 'true';
+const GOOGLE_CLIENT_IDS = String(process.env.GOOGLE_CLIENT_IDS || process.env.GOOGLE_CLIENT_ID || '')
+    .split(',')
+    .map((value) => sanitizeText(value, 240))
+    .filter(Boolean);
+const GOOGLE_PRIMARY_CLIENT_ID = GOOGLE_CLIENT_IDS[0] || '';
+const GOOGLE_JWKS_URL = 'https://www.googleapis.com/oauth2/v3/certs';
+const CONTACT_EMAIL = sanitizeText(
+    process.env.CONTACT_EMAIL || (DEMO_MODE ? 'miarsito@gmail.com' : 'lindotours@hotmail.com'),
+    180
+);
+const WHATSAPP_PHONE = sanitizeText(
+    process.env.WHATSAPP_PHONE || (DEMO_MODE ? '5212481237940' : '5219981440320'),
+    32
+);
+const DEMO_PAYPAL_URL = sanitizeText(process.env.DEMO_PAYPAL_URL || 'https://paypal.me/miarsito', 240);
 const BANK_TRANSFER_BANK_NAME = sanitizeText(process.env.BANK_TRANSFER_BANK_NAME, 120);
 const BANK_TRANSFER_BENEFICIARY = sanitizeText(process.env.BANK_TRANSFER_BENEFICIARY, 180);
 const BANK_TRANSFER_CLABE = sanitizeText(process.env.BANK_TRANSFER_CLABE, 64);
@@ -64,6 +82,10 @@ const PAYPAL_FEE_PERCENT = normalizeFeePercent(process.env.PAYPAL_FEE_PERCENT, 5
 const BANK_TRANSFER_FEE_PERCENT = normalizeFeePercent(process.env.BANK_TRANSFER_FEE_PERCENT, 0);
 const adminSessions = new Map();
 const customerPortalSessions = new Map();
+const googleKeysCache = {
+    expiresAt: 0,
+    byKid: new Map()
+};
 const paypalTokenCache = {
     accessToken: '',
     expiresAt: 0
@@ -116,6 +138,25 @@ function normalizeFeePercent(value, fallback) {
     return Math.max(0, n);
 }
 
+function formatPhoneDisplay(phone) {
+    const digits = String(phone || '').replace(/\D/g, '');
+    if (/^521\d{10}$/.test(digits)) {
+        return `+52 1 ${digits.slice(3, 6)} ${digits.slice(6, 9)} ${digits.slice(9, 13)}`;
+    }
+    if (/^52\d{10}$/.test(digits)) {
+        return `+52 ${digits.slice(2, 5)} ${digits.slice(5, 8)} ${digits.slice(8, 12)}`;
+    }
+    if (/^\d{10}$/.test(digits)) {
+        return `${digits.slice(0, 3)} ${digits.slice(3, 6)} ${digits.slice(6, 10)}`;
+    }
+    return String(phone || '').trim();
+}
+
+function buildWhatsAppUrl(phone) {
+    const digits = String(phone || '').replace(/\D/g, '');
+    return digits ? `https://wa.me/${digits}` : '';
+}
+
 function amountsEqual(a, b) {
     if (!Number.isFinite(safeNumber(a, NaN)) || !Number.isFinite(safeNumber(b, NaN))) return false;
     return roundCurrencyAmount(a) === roundCurrencyAmount(b);
@@ -145,6 +186,14 @@ function ensureCheckoutPricingSchema(database) {
         SET subtotal = amount, fee_percent = 0, fee_amount = 0, total_final = amount
         WHERE subtotal IS NULL OR fee_percent IS NULL OR fee_amount IS NULL OR total_final IS NULL
     `);
+}
+
+function ensureCustomerAuthSchema(database) {
+    ensureTableColumns(database, 'customer_profiles', [
+        'password_hash TEXT',
+        'avatar_url TEXT',
+        'last_login_at DATETIME'
+    ]);
 }
 
 function ensureTableColumns(database, tableName, columns) {
@@ -227,6 +276,191 @@ function normalizeEmail(input) {
 
 function hashSecret(value) {
     return crypto.createHash('sha256').update(String(value || '')).digest('hex');
+}
+
+function encodePasswordHash(password) {
+    const salt = crypto.randomBytes(16).toString('hex');
+    const derived = crypto.scryptSync(String(password || ''), salt, 64).toString('hex');
+    return `scrypt$${salt}$${derived}`;
+}
+
+function verifyPasswordHash(password, encodedHash) {
+    const value = String(encodedHash || '');
+    const parts = value.split('$');
+    if (parts.length !== 3 || parts[0] !== 'scrypt') return false;
+
+    const salt = parts[1];
+    const expected = parts[2];
+    const actual = crypto.scryptSync(String(password || ''), salt, Buffer.from(expected, 'hex').length).toString('hex');
+    return safeCompare(actual, expected);
+}
+
+function validateCustomerPassword(password) {
+    const value = String(password || '');
+    if (value.length < 8) return 'Password must contain at least 8 characters';
+    if (value.length > 120) return 'Password is too long';
+    return '';
+}
+
+function decodeBase64Url(input) {
+    const normalized = String(input || '').replace(/-/g, '+').replace(/_/g, '/');
+    const padding = normalized.length % 4 === 0 ? '' : '='.repeat(4 - (normalized.length % 4));
+    return Buffer.from(normalized + padding, 'base64');
+}
+
+function parseBase64UrlJson(input) {
+    return JSON.parse(decodeBase64Url(input).toString('utf8'));
+}
+
+function readMaxAgeSeconds(headerValue) {
+    const match = String(headerValue || '').match(/max-age=(\d+)/i);
+    return match ? Math.max(60, safeInt(match[1], 300)) : 300;
+}
+
+async function loadGooglePublicKeys() {
+    if (googleKeysCache.expiresAt > Date.now() && googleKeysCache.byKid.size > 0) {
+        return googleKeysCache.byKid;
+    }
+
+    const response = await fetch(GOOGLE_JWKS_URL);
+    if (!response.ok) {
+        throw new Error('Google public keys are unavailable');
+    }
+
+    const body = await response.json();
+    const keys = Array.isArray(body && body.keys) ? body.keys : [];
+    const byKid = new Map();
+    keys.forEach((jwk) => {
+        if (!jwk || !jwk.kid) return;
+        byKid.set(String(jwk.kid), jwk);
+    });
+
+    if (byKid.size === 0) {
+        throw new Error('Google public keys payload is empty');
+    }
+
+    googleKeysCache.byKid = byKid;
+    googleKeysCache.expiresAt = Date.now() + readMaxAgeSeconds(response.headers.get('cache-control')) * 1000;
+    return googleKeysCache.byKid;
+}
+
+async function verifyGoogleIdToken(idToken) {
+    if (!GOOGLE_CLIENT_IDS.length) {
+        throw new Error('Google sign-in is not configured');
+    }
+
+    const token = String(idToken || '').trim();
+    const parts = token.split('.');
+    if (parts.length !== 3) {
+        throw new Error('Invalid Google credential');
+    }
+
+    let header;
+    let payload;
+    try {
+        header = parseBase64UrlJson(parts[0]);
+        payload = parseBase64UrlJson(parts[1]);
+    } catch (_) {
+        throw new Error('Invalid Google credential payload');
+    }
+
+    if (header.alg !== 'RS256' || !header.kid) {
+        throw new Error('Unsupported Google credential');
+    }
+
+    const keys = await loadGooglePublicKeys();
+    const jwk = keys.get(String(header.kid));
+    if (!jwk) {
+        googleKeysCache.expiresAt = 0;
+        throw new Error('Google signing key not found');
+    }
+
+    const verifier = crypto.createVerify('RSA-SHA256');
+    verifier.update(`${parts[0]}.${parts[1]}`);
+    verifier.end();
+
+    const publicKey = crypto.createPublicKey({ key: jwk, format: 'jwk' });
+    const signatureValid = verifier.verify(publicKey, decodeBase64Url(parts[2]));
+    if (!signatureValid) {
+        throw new Error('Invalid Google token signature');
+    }
+
+    const issuer = String(payload.iss || '');
+    if (issuer !== 'https://accounts.google.com' && issuer !== 'accounts.google.com') {
+        throw new Error('Invalid Google token issuer');
+    }
+    if (!GOOGLE_CLIENT_IDS.includes(String(payload.aud || ''))) {
+        throw new Error('Google token audience mismatch');
+    }
+
+    const now = Date.now();
+    const expiresAt = safeInt(payload.exp, 0) * 1000;
+    const issuedAt = safeInt(payload.iat, 0) * 1000;
+    if (!expiresAt || expiresAt <= now) {
+        throw new Error('Google token expired');
+    }
+    if (issuedAt && issuedAt > now + 60 * 1000) {
+        throw new Error('Google token issued in the future');
+    }
+    if (!payload.sub || !payload.email) {
+        throw new Error('Google account data is incomplete');
+    }
+    if (payload.email_verified !== true) {
+        throw new Error('Google account email is not verified');
+    }
+
+    return {
+        sub: sanitizeText(payload.sub, 255),
+        email: normalizeEmail(payload.email),
+        fullName: sanitizeText(payload.name, 180),
+        avatarUrl: sanitizeText(payload.picture, 500),
+        givenName: sanitizeText(payload.given_name, 120),
+        familyName: sanitizeText(payload.family_name, 120)
+    };
+}
+
+function normalizeStoredAddOns(addOns) {
+    if (!Array.isArray(addOns)) return [];
+    return addOns.slice(0, 12).map((entry) => {
+        if (entry && typeof entry === 'object') {
+            return {
+                id: normalizeSlug(entry.id || entry.slug),
+                name: sanitizeText(entry.name, 180),
+                pricePerPerson: roundCurrencyAmount(entry.pricePerPerson)
+            };
+        }
+
+        return {
+            id: normalizeSlug(entry),
+            name: '',
+            pricePerPerson: 0
+        };
+    }).filter((entry) => entry.id);
+}
+
+function normalizeStoredCart(cart) {
+    if (!Array.isArray(cart)) return [];
+
+    return cart.slice(0, 24).map((item, index) => {
+        const adults = Math.max(0, Math.min(10, safeInt(item && item.adults, 0)));
+        const children = Math.max(0, Math.min(10, safeInt(item && item.children, 0)));
+        if (!normalizeSlug(item && item.tourId) || adults + children === 0) {
+            return null;
+        }
+
+        return {
+            id: sanitizeText(item && item.id, 80) || `cart-${index + 1}`,
+            tourId: normalizeSlug(item && item.tourId),
+            name: sanitizeText(item && item.name, 255),
+            image: sanitizeText(item && item.image, 600),
+            adults,
+            children,
+            adultPriceUSD: roundCurrencyAmount(item && item.adultPriceUSD),
+            childPriceUSD: roundCurrencyAmount(item && item.childPriceUSD),
+            addOns: normalizeStoredAddOns(item && item.addOns),
+            subtotalUSD: roundCurrencyAmount(item && item.subtotalUSD)
+        };
+    }).filter(Boolean);
 }
 
 function hasValidAdminCredentials(username, password) {
@@ -554,8 +788,14 @@ const findPaymentByAuthorizationIdStmt = db.prepare('SELECT * FROM payments WHER
 const findPaymentByCaptureIdStmt = db.prepare('SELECT * FROM payments WHERE paypal_capture_id = ? ORDER BY id DESC LIMIT 1');
 const findCustomerProfileByEmailStmt = db.prepare('SELECT * FROM customer_profiles WHERE email = ? LIMIT 1');
 const findCustomerProfileByPublicIdStmt = db.prepare('SELECT * FROM customer_profiles WHERE public_id = ? LIMIT 1');
+const findCustomerIdentityByProviderStmt = db.prepare(`
+    SELECT * FROM customer_identities
+    WHERE provider = ? AND provider_user_id = ?
+    LIMIT 1
+`);
+const findCustomerCartByProfileStmt = db.prepare('SELECT * FROM customer_carts WHERE profile_public_id = ? LIMIT 1');
 const findCustomerSessionByHashStmt = db.prepare(`
-    SELECT cs.*, cp.full_name, cp.email_verified_at
+    SELECT cs.*, cp.email AS profile_email, cp.full_name, cp.email_verified_at, cp.avatar_url, cp.password_hash
     FROM customer_sessions cs
     JOIN customer_profiles cp ON cp.public_id = cs.profile_public_id
     WHERE cs.token_hash = ? AND cs.expires_at > ?
@@ -568,6 +808,8 @@ function serializeCustomerProfile(profile) {
         publicId: profile.public_id,
         email: profile.email,
         fullName: profile.full_name,
+        avatarUrl: profile.avatar_url || null,
+        hasPassword: Boolean(profile.password_hash),
         emailVerifiedAt: profile.email_verified_at,
         createdAt: profile.created_at
     };
@@ -586,42 +828,137 @@ function loadCustomerSessionByToken(token) {
     return {
         id: session.id,
         profilePublicId: session.profile_public_id,
-        email: session.email,
+        email: session.profile_email || session.email,
         expiresAt: session.expires_at,
         profile: {
             public_id: session.profile_public_id,
-            email: session.email,
+            email: session.profile_email || session.email,
             full_name: session.full_name,
-            email_verified_at: session.email_verified_at
+            email_verified_at: session.email_verified_at,
+            avatar_url: session.avatar_url || null,
+            password_hash: session.password_hash || null
         }
     };
 }
 
-function upsertCustomerProfile(email, fullName) {
+function upsertCustomerProfile(email, fullName, options) {
     const normalizedEmail = normalizeEmail(email);
     const normalizedName = sanitizeText(fullName, 180);
+    const opts = options || {};
+    const normalizedAvatar = sanitizeText(opts.avatarUrl, 500);
     let profile = findCustomerProfileByEmailStmt.get(normalizedEmail);
     if (!profile) {
         const publicId = createPublicId(CUSTOMER_PROFILE_ID_PREFIX);
         db.prepare(`
-            INSERT INTO customer_profiles(public_id, email, full_name, updated_at)
-            VALUES(?,?,?,?)
-        `).run(publicId, normalizedEmail, normalizedName || null, nowAsSqlDateTime());
+            INSERT INTO customer_profiles(public_id, email, full_name, avatar_url, updated_at)
+            VALUES(?,?,?,?,?)
+        `).run(publicId, normalizedEmail, normalizedName || null, normalizedAvatar || null, nowAsSqlDateTime());
         profile = findCustomerProfileByPublicIdStmt.get(publicId);
-    } else if (normalizedName && normalizedName !== profile.full_name) {
-        db.prepare('UPDATE customer_profiles SET full_name = ?, updated_at = ? WHERE id = ?')
-            .run(normalizedName, nowAsSqlDateTime(), profile.id);
+    } else if (
+        (normalizedName && normalizedName !== profile.full_name)
+        || (normalizedAvatar && normalizedAvatar !== profile.avatar_url)
+    ) {
+        db.prepare('UPDATE customer_profiles SET full_name = ?, avatar_url = ?, updated_at = ? WHERE id = ?')
+            .run(normalizedName || profile.full_name || null, normalizedAvatar || profile.avatar_url || null, nowAsSqlDateTime(), profile.id);
         profile = findCustomerProfileByPublicIdStmt.get(profile.public_id);
     }
 
     return profile;
 }
 
-function markCustomerEmailVerified(profilePublicId) {
-    const now = nowAsSqlDateTime();
+function updateCustomerProfileEmail(profilePublicId, email) {
+    const normalizedEmail = normalizeEmail(email);
+    if (!profilePublicId || !normalizedEmail) return null;
+
+    db.prepare('UPDATE customer_profiles SET email = ?, updated_at = ? WHERE public_id = ?')
+        .run(normalizedEmail, nowAsSqlDateTime(), profilePublicId);
+    return findCustomerProfileByPublicIdStmt.get(profilePublicId);
+}
+
+function setCustomerPassword(profilePublicId, password) {
+    db.prepare('UPDATE customer_profiles SET password_hash = ?, updated_at = ? WHERE public_id = ?')
+        .run(encodePasswordHash(password), nowAsSqlDateTime(), profilePublicId);
+    return findCustomerProfileByPublicIdStmt.get(profilePublicId);
+}
+
+function markCustomerEmailVerified(profilePublicId, verifiedAt) {
+    const now = sanitizeText(verifiedAt, 60) || nowAsSqlDateTime();
     db.prepare('UPDATE customer_profiles SET email_verified_at = ?, updated_at = ? WHERE public_id = ?')
         .run(now, now, profilePublicId);
     return findCustomerProfileByPublicIdStmt.get(profilePublicId);
+}
+
+function touchCustomerLastLogin(profilePublicId) {
+    const now = nowAsSqlDateTime();
+    db.prepare('UPDATE customer_profiles SET last_login_at = ?, updated_at = ? WHERE public_id = ?')
+        .run(now, now, profilePublicId);
+    return findCustomerProfileByPublicIdStmt.get(profilePublicId);
+}
+
+function upsertCustomerIdentity(profile, provider, providerUserId, details) {
+    if (!profile || !profile.public_id) return null;
+
+    const normalizedProvider = sanitizeText(provider, 40).toLowerCase();
+    const normalizedProviderUserId = sanitizeText(providerUserId, 255);
+    const info = details || {};
+    const normalizedEmail = normalizeEmail(info.email || profile.email);
+    const emailVerifiedAt = sanitizeText(info.emailVerifiedAt, 60) || null;
+    const metadataJson = JSON.stringify({
+        fullName: sanitizeText(info.fullName, 180) || null,
+        avatarUrl: sanitizeText(info.avatarUrl, 500) || null
+    });
+
+    let identity = findCustomerIdentityByProviderStmt.get(normalizedProvider, normalizedProviderUserId);
+    if (!identity) {
+        db.prepare(`
+            INSERT INTO customer_identities(
+                profile_public_id, provider, provider_user_id, email, email_verified_at, metadata_json, updated_at
+            ) VALUES(?,?,?,?,?,?,?)
+        `).run(
+            profile.public_id,
+            normalizedProvider,
+            normalizedProviderUserId,
+            normalizedEmail || null,
+            emailVerifiedAt,
+            metadataJson,
+            nowAsSqlDateTime()
+        );
+    } else {
+        db.prepare(`
+            UPDATE customer_identities
+            SET profile_public_id = ?, email = ?, email_verified_at = ?, metadata_json = ?, updated_at = ?
+            WHERE id = ?
+        `).run(
+            profile.public_id,
+            normalizedEmail || identity.email || null,
+            emailVerifiedAt || identity.email_verified_at || null,
+            metadataJson,
+            nowAsSqlDateTime(),
+            identity.id
+        );
+    }
+
+    return findCustomerIdentityByProviderStmt.get(normalizedProvider, normalizedProviderUserId);
+}
+
+function loadCustomerCart(profilePublicId) {
+    const row = findCustomerCartByProfileStmt.get(profilePublicId);
+    return normalizeStoredCart(parseJsonSafely(row && row.cart_json ? row.cart_json : '[]', []));
+}
+
+function saveCustomerCart(profilePublicId, cart) {
+    const normalizedCart = normalizeStoredCart(cart);
+    const existing = findCustomerCartByProfileStmt.get(profilePublicId);
+    if (!existing) {
+        db.prepare(`
+            INSERT INTO customer_carts(profile_public_id, cart_json, updated_at)
+            VALUES(?,?,?)
+        `).run(profilePublicId, JSON.stringify(normalizedCart), nowAsSqlDateTime());
+    } else {
+        db.prepare('UPDATE customer_carts SET cart_json = ?, updated_at = ? WHERE id = ?')
+            .run(JSON.stringify(normalizedCart), nowAsSqlDateTime(), existing.id);
+    }
+    return normalizedCart;
 }
 
 function createCustomerSession(profile) {
@@ -642,6 +979,17 @@ function createCustomerSession(profile) {
     return {
         token,
         expiresAt
+    };
+}
+
+function buildCustomerAuthResponse(profile, session, claimedOrders) {
+    return {
+        status: 'ok',
+        token: session.token,
+        expiresAt: session.expiresAt,
+        profile: serializeCustomerProfile(profile),
+        claimedOrders: Array.isArray(claimedOrders) ? claimedOrders : [],
+        cart: loadCustomerCart(profile.public_id)
     };
 }
 
@@ -729,6 +1077,111 @@ function listOrdersForCustomer(profilePublicId) {
         WHERE o.user_id = ?
         ORDER BY o.created_at DESC
     `).all(profilePublicId);
+}
+
+function finalizeCustomerAuthentication(profile, options) {
+    const opts = options || {};
+    let nextProfile = profile;
+
+    if (opts.verifyEmail && !nextProfile.email_verified_at) {
+        nextProfile = markCustomerEmailVerified(nextProfile.public_id, opts.verifiedAt);
+    }
+
+    nextProfile = touchCustomerLastLogin(nextProfile.public_id);
+    const claimedOrders = claimOrdersForCustomer(
+        nextProfile,
+        opts.claimEmail || nextProfile.email,
+        opts.claimMethod || 'email_password'
+    );
+    const session = createCustomerSession(nextProfile);
+    return buildCustomerAuthResponse(nextProfile, session, claimedOrders);
+}
+
+function registerCustomerWithPassword(payload) {
+    const email = normalizeEmail(payload && payload.email);
+    const fullName = sanitizeText(payload && payload.fullName, 180);
+    const password = payload && typeof payload.password === 'string' ? payload.password : '';
+
+    if (!email) {
+        return { statusCode: 400, error: 'Email is required' };
+    }
+
+    const passwordError = validateCustomerPassword(password);
+    if (passwordError) {
+        return { statusCode: 400, error: passwordError };
+    }
+
+    const existing = findCustomerProfileByEmailStmt.get(email);
+    if (existing && existing.password_hash) {
+        return { statusCode: 409, error: 'This email is already registered' };
+    }
+
+    let profile = upsertCustomerProfile(email, fullName);
+    profile = setCustomerPassword(profile.public_id, password);
+    return finalizeCustomerAuthentication(profile, {
+        claimEmail: email,
+        claimMethod: 'email_password',
+        verifyEmail: true
+    });
+}
+
+function loginCustomerWithPassword(payload) {
+    const email = normalizeEmail(payload && payload.email);
+    const password = payload && typeof payload.password === 'string' ? payload.password : '';
+    if (!email || !password) {
+        return { statusCode: 400, error: 'Email and password are required' };
+    }
+
+    const profile = findCustomerProfileByEmailStmt.get(email);
+    if (!profile || !profile.password_hash || !verifyPasswordHash(password, profile.password_hash)) {
+        return { statusCode: 401, error: 'Email or password is incorrect' };
+    }
+
+    return finalizeCustomerAuthentication(profile, {
+        claimEmail: email,
+        claimMethod: 'email_password',
+        verifyEmail: true
+    });
+}
+
+async function loginCustomerWithGoogleCredential(credential) {
+    const googleAccount = await verifyGoogleIdToken(credential);
+    let identity = findCustomerIdentityByProviderStmt.get('google', googleAccount.sub);
+    let profile = identity ? findCustomerProfileByPublicIdStmt.get(identity.profile_public_id) : null;
+    const emailProfile = googleAccount.email ? findCustomerProfileByEmailStmt.get(googleAccount.email) : null;
+
+    if (!profile && emailProfile) {
+        profile = emailProfile;
+    }
+    if (!profile) {
+        profile = upsertCustomerProfile(googleAccount.email, googleAccount.fullName, {
+            avatarUrl: googleAccount.avatarUrl
+        });
+    } else {
+        if (googleAccount.email && googleAccount.email !== profile.email) {
+            const conflictProfile = findCustomerProfileByEmailStmt.get(googleAccount.email);
+            if (!conflictProfile || conflictProfile.public_id === profile.public_id) {
+                profile = updateCustomerProfileEmail(profile.public_id, googleAccount.email);
+            }
+        }
+        profile = upsertCustomerProfile(profile.email, googleAccount.fullName || profile.full_name, {
+            avatarUrl: googleAccount.avatarUrl || profile.avatar_url
+        });
+    }
+
+    profile = markCustomerEmailVerified(profile.public_id);
+    identity = upsertCustomerIdentity(profile, 'google', googleAccount.sub, {
+        email: googleAccount.email,
+        emailVerifiedAt: profile.email_verified_at,
+        fullName: googleAccount.fullName,
+        avatarUrl: googleAccount.avatarUrl
+    });
+
+    return finalizeCustomerAuthentication(profile, {
+        claimEmail: googleAccount.email,
+        claimMethod: 'google_oauth',
+        verifyEmail: Boolean(identity)
+    });
 }
 
 function normalizeAddonIds(addOns) {
@@ -1219,6 +1672,30 @@ function extractPayPalAuthorization(orderResponse) {
     const payments = purchaseUnits[0] && purchaseUnits[0].payments ? purchaseUnits[0].payments : {};
     const authorizations = Array.isArray(payments.authorizations) ? payments.authorizations : [];
     return authorizations[0] || null;
+}
+
+function extractPayPalPayer(orderResponse) {
+    const payer = orderResponse && typeof orderResponse.payer === 'object' && orderResponse.payer
+        ? orderResponse.payer
+        : {};
+    const name = payer && typeof payer.name === 'object' && payer.name ? payer.name : {};
+    const givenName = sanitizeText(name.given_name || payer.given_name || payer.first_name, 80);
+    const surname = sanitizeText(name.surname || payer.surname || payer.last_name, 80);
+    const fullName = sanitizeText([givenName, surname].filter(Boolean).join(' '), 180);
+    const normalized = {
+        payerId: sanitizeText(payer.payer_id || payer.id, 64) || null,
+        email: sanitizeText(payer.email_address || payer.email, 180) || null,
+        givenName: givenName || null,
+        surname: surname || null,
+        fullName: fullName || null,
+        countryCode: sanitizeText(payer.address && payer.address.country_code, 8) || null,
+        status: sanitizeText(payer.status, 40) || null,
+        imageUrl: sanitizeText(payer.image_url || payer.picture || payer.avatar_url || payer.photo_url, 512) || null
+    };
+    if (!normalized.payerId && !normalized.email && !normalized.fullName && !normalized.imageUrl) {
+        return null;
+    }
+    return normalized;
 }
 
 function findPaymentByPayPalResource(resource) {
@@ -1789,8 +2266,11 @@ app.post('/api/orders', (req, res) => {
 
     const customerToken = readCustomerToken(req);
     const customerSession = customerToken ? loadCustomerSessionByToken(customerToken) : null;
-    if (customerSession && customerSession.email === normalizeEmail(payload.guestEmail)) {
+    if (customerSession) {
         payload.userId = customerSession.profilePublicId;
+        if (!payload.guestEmail) {
+            payload.guestEmail = customerSession.email;
+        }
     }
 
     const created = createOrderRecord(payload);
@@ -2067,6 +2547,8 @@ app.post('/api/payments/paypal/finalize', async (req, res) => {
             });
         }
 
+        const payer = extractPayPalPayer(paypalResult);
+
         logAudit('guest', aggregate.order.guest_email, 'paypal.finalized', 'order', aggregate.order.public_id, {
             paypalOrderId,
             intent: aggregate.payment.intent || aggregate.order.paypal_intent
@@ -2087,7 +2569,8 @@ app.post('/api/payments/paypal/finalize', async (req, res) => {
                 paypalOrderId: refreshed.payment.paypal_order_id,
                 paypalAuthorizationId: refreshed.payment.paypal_authorization_id,
                 paypalCaptureId: refreshed.payment.paypal_capture_id
-            } : null
+            } : null,
+            payer
         });
     } catch (error) {
         console.error('PayPal finalize error:', error);
@@ -2177,6 +2660,38 @@ function handleTransferProofUpload(req, res, aggregate, actorType, actorId) {
     });
 }
 
+app.post('/api/auth/customer/register', (req, res) => {
+    const result = registerCustomerWithPassword(req.body);
+    if (result.error) {
+        return res.status(result.statusCode || 400).json({ error: result.error });
+    }
+
+    logAudit('guest', normalizeEmail(req.body && req.body.email), 'customer_auth.registered', 'customer_profile', result.profile.publicId, null);
+    res.status(201).json(result);
+});
+
+app.post('/api/auth/customer/login', (req, res) => {
+    const result = loginCustomerWithPassword(req.body);
+    if (result.error) {
+        return res.status(result.statusCode || 400).json({ error: result.error });
+    }
+
+    logAudit('guest', normalizeEmail(req.body && req.body.email), 'customer_auth.password_login', 'customer_profile', result.profile.publicId, null);
+    res.json(result);
+});
+
+app.post('/api/auth/customer/google', async (req, res) => {
+    try {
+        const credential = req.body && req.body.credential;
+        const result = await loginCustomerWithGoogleCredential(credential);
+        logAudit('guest', result.profile.email, 'customer_auth.google_login', 'customer_profile', result.profile.publicId, null);
+        res.json(result);
+    } catch (error) {
+        const message = error && error.message ? error.message : 'Google sign-in failed';
+        res.status(401).json({ error: message });
+    }
+});
+
 app.post('/api/auth/customer/request-code', (req, res) => {
     const email = normalizeEmail(req.body && req.body.email);
     const fullName = sanitizeText(req.body && req.body.fullName, 180);
@@ -2230,6 +2745,7 @@ app.post('/api/auth/customer/verify-code', (req, res) => {
     let profile = upsertCustomerProfile(email, fullName);
     profile = markCustomerEmailVerified(profile.public_id);
     const claimedOrderIds = claimOrdersForCustomer(profile, email, 'email_otp');
+    profile = touchCustomerLastLogin(profile.public_id);
     const session = createCustomerSession(profile);
 
     logAudit('guest', email, 'customer_auth.verified', 'customer_profile', profile.public_id, {
@@ -2241,7 +2757,8 @@ app.post('/api/auth/customer/verify-code', (req, res) => {
         token: session.token,
         expiresAt: session.expiresAt,
         profile: serializeCustomerProfile(profile),
-        claimedOrders: claimedOrderIds
+        claimedOrders: claimedOrderIds,
+        cart: loadCustomerCart(profile.public_id)
     });
 });
 
@@ -2259,7 +2776,29 @@ app.get('/api/me', requireCustomerAuth, (req, res) => {
         session: {
             expiresAt: req.customer.expiresAt
         },
-        ordersCount: orders.length
+        ordersCount: orders.length,
+        cart: loadCustomerCart(req.customer.profilePublicId)
+    });
+});
+
+app.get('/api/me/cart', requireCustomerAuth, (req, res) => {
+    res.json({
+        status: 'ok',
+        cart: loadCustomerCart(req.customer.profilePublicId),
+        session: {
+            expiresAt: req.customer.expiresAt
+        }
+    });
+});
+
+app.put('/api/me/cart', requireCustomerAuth, (req, res) => {
+    const cart = saveCustomerCart(req.customer.profilePublicId, req.body && req.body.cart);
+    res.json({
+        status: 'ok',
+        cart,
+        session: {
+            expiresAt: req.customer.expiresAt
+        }
     });
 });
 
@@ -2717,10 +3256,26 @@ app.get('/api/config', (req, res) => {
             serviceId: 'lindo_Tours',
             templateId: 'template_ms3160x'
         },
-        whatsapp: { phone: '5219981440320' },
+        whatsapp: {
+            phone: WHATSAPP_PHONE,
+            url: buildWhatsAppUrl(WHATSAPP_PHONE)
+        },
+        contact: {
+            email: CONTACT_EMAIL,
+            phone: WHATSAPP_PHONE,
+            phoneDisplay: formatPhoneDisplay(WHATSAPP_PHONE),
+            whatsappUrl: buildWhatsAppUrl(WHATSAPP_PHONE)
+        },
+        demoMode: {
+            enabled: DEMO_MODE,
+            paypalUrl: DEMO_PAYPAL_URL || null
+        },
         auth: {
             customer: {
                 enabled: true,
+                passwordEnabled: true,
+                googleEnabled: Boolean(GOOGLE_PRIMARY_CLIENT_ID),
+                googleClientId: GOOGLE_PRIMARY_CLIENT_ID || null,
                 debugOtp: CUSTOMER_AUTH_DEBUG,
                 codeTtlMs: CUSTOMER_AUTH_CODE_TTL_MS,
                 sessionTtlMs: CUSTOMER_SESSION_TTL_MS
@@ -2731,6 +3286,7 @@ app.get('/api/config', (req, res) => {
             paypal: {
                 enabled: hasPayPalConfig(),
                 clientId: PAYPAL_CLIENT_ID || null,
+                accountEmail: PAYPAL_ACCOUNT_EMAIL || null,
                 feePercent: PAYPAL_FEE_PERCENT
             },
             bankTransfer: {
@@ -2761,6 +3317,14 @@ app.use((err, req, res, next) => {
         return res.status(400).json({ error: err.message });
     }
     next(err);
+});
+
+app.get('/login', (req, res) => {
+    res.redirect('/?auth=login');
+});
+
+app.get('/register', (req, res) => {
+    res.redirect('/?auth=register');
 });
 
 app.get('/{*path}', (req, res) => {

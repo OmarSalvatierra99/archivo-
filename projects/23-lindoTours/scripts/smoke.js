@@ -1,4 +1,5 @@
 const assert = require('node:assert/strict');
+const crypto = require('node:crypto');
 const fs = require('node:fs');
 const os = require('node:os');
 const path = require('node:path');
@@ -70,6 +71,8 @@ function setupEnvironment(rootDir) {
     process.env.CUSTOMER_AUTH_CODE_TTL_MS = '600000';
     process.env.CUSTOMER_SESSION_TTL_MS = '604800000';
     process.env.CUSTOMER_PORTAL_TOKEN_TTL_MS = '1800000';
+    process.env.GOOGLE_CLIENT_ID = 'smoke-google-client-id';
+    process.env.DEMO_MODE = 'false';
     process.env.PAYPAL_CLIENT_ID = 'smoke-client-id';
     process.env.PAYPAL_CLIENT_SECRET = 'smoke-client-secret';
     process.env.PAYPAL_WEBHOOK_ID = 'smoke-webhook-id';
@@ -147,30 +150,44 @@ async function runCustomerAuthScenario(ctx) {
         tour: ctx.regularTour
     });
 
-    const requestCode = await postJson(ctx.baseUrl, '/api/auth/customer/request-code', {
+    const registered = await postJson(ctx.baseUrl, '/api/auth/customer/register', {
         email,
-        fullName: 'Smoke Customer'
+        fullName: 'Smoke Customer',
+        password: 'smoke-password-123'
+    }, {
+        expectedStatus: 201
     });
 
-    assert.equal(requestCode.status, 'ok');
-    assert.match(requestCode.debugCode, /^\d{6}$/);
-
-    const verify = await postJson(ctx.baseUrl, '/api/auth/customer/verify-code', {
-        email,
-        code: requestCode.debugCode,
-        fullName: 'Smoke Customer'
-    });
-
-    assert.equal(verify.status, 'ok');
-    assert.ok(Array.isArray(verify.claimedOrders));
-    assert.ok(verify.claimedOrders.includes(created.order.publicId));
+    assert.equal(registered.status, 'ok');
+    assert.ok(Array.isArray(registered.claimedOrders));
+    assert.ok(registered.claimedOrders.includes(created.order.publicId));
+    assert.equal(registered.profile.email, email);
 
     const authHeaders = {
-        Authorization: `Bearer ${verify.token}`
+        Authorization: `Bearer ${registered.token}`
     };
     const me = await getJson(ctx.baseUrl, '/api/me', { headers: authHeaders });
     assert.equal(me.status, 'ok');
     assert.ok(me.ordersCount >= 1);
+
+    const storedCart = await putJson(ctx.baseUrl, '/api/me/cart', {
+        cart: [{
+            id: 'persisted-cart-item',
+            tourId: ctx.regularTour.id,
+            name: 'Persisted cart item',
+            image: '/imagenes/test.jpg',
+            adults: 2,
+            children: 0,
+            addOns: [],
+            subtotalUSD: 100
+        }]
+    }, { headers: authHeaders });
+    assert.equal(storedCart.status, 'ok');
+    assert.equal(storedCart.cart.length, 1);
+
+    const restoredCart = await getJson(ctx.baseUrl, '/api/me/cart', { headers: authHeaders });
+    assert.equal(restoredCart.status, 'ok');
+    assert.equal(restoredCart.cart.length, 1);
 
     const orders = await getJson(ctx.baseUrl, '/api/me/orders', { headers: authHeaders });
     assert.equal(orders.status, 'ok');
@@ -182,6 +199,37 @@ async function runCustomerAuthScenario(ctx) {
 
     const logout = await postJson(ctx.baseUrl, '/api/auth/customer/logout', null, { headers: authHeaders });
     assert.equal(logout.status, 'ok');
+
+    const passwordLogin = await postJson(ctx.baseUrl, '/api/auth/customer/login', {
+        email,
+        password: 'smoke-password-123'
+    });
+    assert.equal(passwordLogin.status, 'ok');
+    assert.equal(passwordLogin.cart.length, 1);
+
+    const secondGuestOrder = await createCheckoutOrder(ctx, {
+        email,
+        paymentMethod: 'manual_contact',
+        tour: ctx.privateTour
+    });
+
+    const googleLogin = await postJson(ctx.baseUrl, '/api/auth/customer/google', {
+        credential: ctx.paypal.createGoogleIdToken({
+            email,
+            name: 'Smoke Customer'
+        })
+    });
+    assert.equal(googleLogin.status, 'ok');
+    assert.ok(googleLogin.claimedOrders.includes(secondGuestOrder.order.publicId));
+    assert.equal(googleLogin.cart.length, 1);
+
+    const googleHeaders = {
+        Authorization: `Bearer ${googleLogin.token}`
+    };
+    const googleMe = await getJson(ctx.baseUrl, '/api/me', { headers: googleHeaders });
+    assert.equal(googleMe.status, 'ok');
+    assert.equal(googleMe.cart.length, 1);
+    assert.ok(googleMe.ordersCount >= 2);
 }
 
 async function runBankTransferScenario(ctx) {
@@ -485,7 +533,23 @@ async function postJson(baseUrl, pathname, payload, options) {
         body: payload == null ? undefined : JSON.stringify(payload)
     });
     const body = await parseResponse(response);
-    assert.equal(response.status, 200, formatFailure(`POST ${pathname}`, response.status, body));
+    const expectedStatus = options && options.expectedStatus ? options.expectedStatus : 200;
+    assert.equal(response.status, expectedStatus, formatFailure(`POST ${pathname}`, response.status, body));
+    return body;
+}
+
+async function putJson(baseUrl, pathname, payload, options) {
+    const response = await fetch(`${baseUrl}${pathname}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            ...(options && options.headers ? options.headers : {})
+        },
+        body: payload == null ? undefined : JSON.stringify(payload)
+    });
+    const body = await parseResponse(response);
+    const expectedStatus = options && options.expectedStatus ? options.expectedStatus : 200;
+    assert.equal(response.status, expectedStatus, formatFailure(`PUT ${pathname}`, response.status, body));
     return body;
 }
 
@@ -575,6 +639,12 @@ function PayPalMock(baseUrl, delegateFetch) {
     this.ordersByPayPalId = new Map();
     this.outcomesByPublicId = new Map();
     this.authorizationsById = new Map();
+    const keyPair = crypto.generateKeyPairSync('rsa', { modulusLength: 2048 });
+    this.googlePrivateKey = keyPair.privateKey;
+    this.googleJwk = keyPair.publicKey.export({ format: 'jwk' });
+    this.googleJwk.kid = 'smoke-google-kid';
+    this.googleJwk.use = 'sig';
+    this.googleJwk.alg = 'RS256';
 }
 
 PayPalMock.prototype.setOutcome = function setOutcome(publicId, outcome) {
@@ -584,8 +654,43 @@ PayPalMock.prototype.setOutcome = function setOutcome(publicId, outcome) {
     });
 };
 
+PayPalMock.prototype.createGoogleIdToken = function createGoogleIdToken(overrides) {
+    const claims = overrides || {};
+    const issuedAt = Math.floor(Date.now() / 1000);
+    const header = encodeBase64UrlJson({
+        alg: 'RS256',
+        typ: 'JWT',
+        kid: this.googleJwk.kid
+    });
+    const payload = encodeBase64UrlJson({
+        iss: 'https://accounts.google.com',
+        aud: process.env.GOOGLE_CLIENT_ID,
+        sub: claims.sub || `google-${Date.now()}`,
+        email: claims.email,
+        email_verified: true,
+        name: claims.name || 'Smoke Google User',
+        picture: claims.picture || 'https://example.com/avatar.png',
+        iat: issuedAt,
+        exp: issuedAt + 3600
+    });
+    const signature = crypto.sign('RSA-SHA256', Buffer.from(`${header}.${payload}`), this.googlePrivateKey)
+        .toString('base64url');
+    return `${header}.${payload}.${signature}`;
+};
+
 PayPalMock.prototype.fetch = async function fetchWithMock(input, init) {
     const url = typeof input === 'string' ? input : input.url;
+    if (String(url) === 'https://www.googleapis.com/oauth2/v3/certs') {
+        return new Response(JSON.stringify({
+            keys: [this.googleJwk]
+        }), {
+            status: 200,
+            headers: {
+                'Content-Type': 'application/json',
+                'Cache-Control': 'public, max-age=3600'
+            }
+        });
+    }
     if (!String(url).startsWith(this.baseUrl)) {
         return this.delegateFetch(input, init);
     }
@@ -726,6 +831,10 @@ async function readJsonBody(body) {
         }
     }
     return null;
+}
+
+function encodeBase64UrlJson(value) {
+    return Buffer.from(JSON.stringify(value)).toString('base64url');
 }
 
 function jsonResponse(payload, status) {

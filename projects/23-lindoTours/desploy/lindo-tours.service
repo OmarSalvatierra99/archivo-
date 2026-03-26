@@ -14,7 +14,7 @@ Environment="PRIVATE_STORAGE_PATH=/var/lib/lindo-tours/storage"
 EnvironmentFile=-/etc/default/lindo-tours
 StateDirectory=lindo-tours
 ExecStartPre=/usr/bin/mkdir -p /var/lib/lindo-tours/storage
-ExecStart=/usr/bin/node /home/gabo/portfolio/projects/23-lindoTours/server.js
+ExecStart=/usr/bin/node --watch /home/gabo/portfolio/projects/23-lindoTours/server.js
 
 Restart=on-failure
 RestartSec=5

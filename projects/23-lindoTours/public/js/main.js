@@ -19,9 +19,22 @@ let HOTELS = [];
 let CONFIG = {
     emailjs: {},
     whatsapp: {},
+    contact: {
+        email: '',
+        phone: '',
+        phoneDisplay: '',
+        whatsappUrl: ''
+    },
+    demoMode: {
+        enabled: false,
+        paypalUrl: ''
+    },
     auth: {
         customer: {
             enabled: false,
+            passwordEnabled: false,
+            googleEnabled: false,
+            googleClientId: '',
             debugOtp: false,
             codeTtlMs: 0,
             sessionTtlMs: 0
@@ -29,8 +42,18 @@ let CONFIG = {
     },
     payments: {
         currency: 'USD',
-        paypal: { enabled: false, clientId: null, feePercent: 0 },
-        bankTransfer: { enabled: false, bankName: null, account: null, cardNumber: null, feePercent: 0 }
+        paypal: { enabled: false, clientId: null, accountEmail: null, feePercent: 0 },
+        bankTransfer: {
+            enabled: false,
+            bankName: null,
+            beneficiary: null,
+            clabe: null,
+            account: null,
+            cardNumber: null,
+            swift: null,
+            referencePrefix: null,
+            feePercent: 0
+        }
     }
 };
 
@@ -41,6 +64,14 @@ let heroIndex = 0;
 let revealObserver = null;
 let bookingSubmissionInProgress = false;
 let lastFocusedBeforeCartModal = null;
+let lastFocusedBeforeAuthModal = null;
+let localCartOwner = 'guest';
+let customerCartSyncTimer = null;
+let googleIdentityInitialized = false;
+let authUIState = {
+    mode: 'login',
+    busy: false
+};
 let adminOrdersState = {
     rows: [],
     selectedPublicId: '',
@@ -60,8 +91,12 @@ let customerPortalState = {
 
 var CUSTOMER_PORTAL_SESSION_KEY = 'lindotours_customer_portal';
 var CUSTOMER_AUTH_SESSION_KEY = 'lindotours_customer_auth';
+var CUSTOMER_CART_OWNER_KEY = 'lindotours_cart_owner';
 
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const PAYPAL_LOGO_FALLBACK_SRC = '/imagenes/pagos/paypal-logo.svg';
+const BANK_TRANSFER_LOGO_FALLBACK_SRC = '/imagenes/pagos/bank-transfer-icon.svg';
+const PAYPAL_PAYER_AVATAR_ROUTE = '/imagenes/pagos/paypal-payer-avatar.jpg';
 
 const I18N = {
     es: {
@@ -90,11 +125,16 @@ const I18N = {
         sessionExpiredTitle: 'Sesión expirada',
         sessionExpiredMessage: 'Vuelve a iniciar sesión para continuar',
         cartEmpty: 'Tu carrito está vacío',
-        previewCheckoutButton: 'Ver flujo sin tour',
-        previewCheckoutTitle: 'Vista previa del checkout',
-        previewCheckoutMessage: 'Este modo temporal solo deja recorrer el flujo. No crea una orden ni habilita el pago final.',
-        previewCheckoutCartLabel: 'Vista previa',
-        previewCheckoutCartValue: 'Sin tours seleccionados. Este modo solo muestra los siguientes pasos.',
+        previewCheckoutButton: 'Probar checkout demo',
+        previewCheckoutTitle: 'Checkout demo',
+        previewCheckoutMessage: 'Cargamos un servicio aleatorio y habilitamos una simulacion del pago final para revisar UI, comision y pasos sin depender de datos reales.',
+        previewCheckoutCartLabel: 'Servicio demo',
+        previewCheckoutCartValue: 'Tour de prueba precargado para revisar el flujo completo.',
+        previewDemoBadge: 'MODO DEMO',
+        previewDemoService: 'Servicio',
+        previewDemoTravelers: 'Viajeros',
+        previewSimulationNote: 'Los botones finales usan datos demo y no cobran de verdad.',
+        demoPayPalLinkLabel: 'Link PayPal de prueba',
         adultUnit: 'adulto(s)',
         childUnit: 'niño(s)',
         maps: 'Mapa',
@@ -140,15 +180,15 @@ const I18N = {
         backToCart: 'Volver al carrito',
         editDetails: 'Editar datos',
         paymentMethod: 'Método de pago',
-        paymentMethodHelp: 'Elige cómo quieres completar tu reservación.',
+        paymentMethodHelp: 'Elige PayPal o transferencia y revisa exactamente a dónde enviar el pago.',
         paymentPayPal: 'PayPal / Tarjeta',
-        paymentPayPalDesc: 'Paga online con comisión.',
+        paymentPayPalDesc: 'Paga en línea y te redirigimos al perfil configurado de PayPal.',
         paymentTransfer: 'Transferencia bancaria',
-        paymentTransferDesc: 'Recibe CLABE, cuenta y referencia exacta para transferir.',
+        paymentTransferDesc: 'Copia los datos bancarios y envía el monto exacto.',
         paymentManual: 'Reservar por contacto',
         paymentManualDesc: 'Envía tu solicitud por WhatsApp o email para confirmación manual.',
-        continueWithPayPal: 'Pagar online',
-        getTransferInstructions: 'Ver datos para transferencia',
+        continueWithPayPal: 'Pagar con PayPal',
+        getTransferInstructions: 'Ver instrucciones de transferencia',
         sendReservationEmail: 'Enviar reservación por email',
         sendReservationWhatsApp: 'Enviar por WhatsApp',
         orderNumber: 'Número de orden',
@@ -162,13 +202,16 @@ const I18N = {
         depositCard: 'Tarjeta para depósito',
         swift: 'SWIFT / BIC',
         reference: 'Referencia',
+        paypalProfileLabel: 'Perfil PayPal',
+        paypalProfileLink: 'Abrir perfil de PayPal',
+        referencePending: 'Se confirma con tu número de orden',
         expiresAt: 'Vence',
         copy: 'Copiar',
         copiedTitle: 'Copiado',
         copiedMessage: 'Dato copiado al portapapeles.',
         copyFailed: 'No se pudo copiar el dato.',
         paymentHelpTitle: '¿Necesitas ayuda para pagar?',
-        paymentHelpText: 'Te apoyamos por WhatsApp sin cambiar el método de pago de tu orden.',
+        paymentHelpText: 'Te ayudamos por WhatsApp.',
         paymentHelpWhatsApp: 'Ayuda por WhatsApp',
         paymentLegendPayPal: 'PayPal / Tarjeta',
         paymentLegendTransfer: 'Transferencia',
@@ -176,17 +219,25 @@ const I18N = {
         supportPaymentMessage: 'Hola, necesito ayuda para completar el pago de mi reservación.',
         selectedPaymentMethod: 'Método elegido',
         uploadProofTitle: 'Subir comprobante',
-        uploadProofHelp: 'El screenshot no confirma pago por sí solo, pero nos ayuda a iniciar la revisión.',
+        uploadProofHelp: 'Sube tu comprobante para revisión.',
         uploadProofButton: 'Subir comprobante',
         uploadProofSuccess: 'Comprobante subido. Revisaremos tu transferencia.',
         uploadProofError: 'No se pudo subir el comprobante.',
-        transferInstructionsReady: 'Orden creada. Usa exactamente estos datos para tu transferencia.',
-        transferExactMatchNote: 'La conciliación requiere coincidencia exacta de monto y referencia.',
+        transferInstructionsReady: 'Orden creada. Transfiere a estos datos.',
+        transferExactMatchNote: 'Usa monto y referencia exactos.',
+        transferDestinationTitle: 'Dónde transferir',
+        transferDetailsTitle: 'Referencia y monto exacto',
+        transferAmountToSend: 'Monto a transferir',
+        paypalPayerLabel: 'Pagador PayPal',
+        paypalPayerUnknown: 'Cliente PayPal',
+        paypalPayerId: 'ID PayPal',
         paypalRedirecting: 'Redirigiendo a PayPal...',
         paypalCheckoutCancelled: 'El pago en PayPal fue cancelado.',
         paypalPaymentCompleted: 'Pago completado. Tu orden quedó registrada.',
         paypalPaymentPending: 'La orden quedó autorizada o pendiente. La confirmación final depende del webhook.',
         paypalPaymentError: 'No se pudo finalizar el pago con PayPal.',
+        previewPayPalSimulated: 'Pago PayPal simulado para revision visual.',
+        previewTransferSimulated: 'Transferencia Banamex simulada con datos de prueba.',
         paymentMethodUnavailable: 'Este método de pago no está disponible en este momento.',
         manualOrderCreated: 'Tu solicitud fue registrada. Te contactaremos para confirmar.',
         manualOrderReference: 'Comparte tu número de orden si nos contactas por WhatsApp.',
@@ -268,7 +319,49 @@ const I18N = {
         customerOrdersTitle: 'Tus órdenes',
         customerOrdersEmpty: 'Inicia sesión con tu email para ver todas tus órdenes.',
         customerOrdersHint: 'Las compras guest con el mismo email se enlazan después de verificar el código.',
-        customerLoggedOut: 'Sesión de cliente cerrada'
+        customerLoggedOut: 'Sesión de cliente cerrada',
+        registerNav: 'Regístrate',
+        loginNav: 'Iniciar sesión',
+        accountNav: 'Mi cuenta',
+        authCardKicker: 'Cuenta',
+        authModalTitle: 'Accede a tu cuenta',
+        authModalIntro: 'Guarda tus compras y recupéralas desde cualquier dispositivo.',
+        authModalIntroRegister: 'Crea tu cuenta para sincronizar carrito, compras y reservas entre dispositivos.',
+        authModalIntroLogin: 'Inicia sesión para restaurar tu carrito y tus compras guardadas.',
+        authPasswordLabel: 'Contraseña',
+        authConfirmPasswordLabel: 'Confirmar contraseña',
+        continueWithEmail: 'Continuar con email',
+        continueWithGoogle: 'Continuar con Google',
+        authSecondaryGoogle: 'O continúa con Google',
+        authFooterRegister: '¿Ya tienes cuenta? Inicia sesión',
+        authFooterLogin: '¿Aún no tienes cuenta? Regístrate',
+        authRegisterSuccess: 'Cuenta creada. Tus compras ya están disponibles.',
+        authLoginSuccess: 'Sesión iniciada. Tus compras fueron restauradas.',
+        authPasswordMismatch: 'Las contraseñas no coinciden.',
+        authGoogleUnavailable: 'Google Sign-In no está listo en este momento.',
+        authGoogleError: 'No se pudo completar el acceso con Google.',
+        authGoogleSetupHint: 'Google Sign-In estará disponible cuando se configure GOOGLE_CLIENT_ID en el servidor.',
+        authGoogleReadyHint: 'También puedes entrar con Google en un solo paso.',
+        authGoogleLoading: 'Estamos cargando Google Sign-In...',
+        authAccountExists: 'Este correo ya está registrado.',
+        authInvalidCredentials: 'Correo o contraseña incorrectos.',
+        authPasswordRules: 'La contraseña debe tener al menos 8 caracteres.',
+        authEmailRequired: 'Ingresa tu correo electrónico.',
+        authContinueAsGuest: 'Seguir explorando sin cuenta',
+        accountOrdersIntro: 'Tus compras y tu carrito se sincronizan con tu cuenta para recuperarlos desde cualquier dispositivo.',
+        accountOrdersEmptyState: 'Selecciona una orden para ver su detalle.',
+        accountGuestProfileName: 'Explora sin iniciar sesión',
+        accountGuestProfileEmail: 'Tu carrito y tus órdenes se pueden sincronizar cuando quieras.',
+        accountGuestBadge: 'Cuenta opcional',
+        accountGuestTitle: 'Navega, agrega tours al carrito y entra sólo cuando quieras guardar todo en tu cuenta.',
+        accountGuestCopy: 'No necesitas iniciar sesión para explorar la web. Usa tu cuenta sólo si quieres sincronizar compras, restaurar tu carrito o ver órdenes desde otro dispositivo.',
+        accountGuestBenefitSync: 'Carrito sincronizado',
+        accountGuestBenefitOrders: 'Órdenes en un solo lugar',
+        accountGuestBenefitFastCheckout: 'Checkout más rápido',
+        accountGuestBrowse: 'Seguir explorando',
+        accountGuestOrdersEmpty: 'Inicia sesión cuando quieras para ver aquí todas tus órdenes y compras recuperadas.',
+        accountGuestDetailEmpty: 'Explora tours o inicia sesión para ver aquí el detalle de tus órdenes.',
+        accountRestored: 'Restauramos tu cuenta y tu carrito.'
     },
     en: {
         from: 'From',
@@ -296,11 +389,16 @@ const I18N = {
         sessionExpiredTitle: 'Session expired',
         sessionExpiredMessage: 'Sign in again to continue',
         cartEmpty: 'Your cart is empty',
-        previewCheckoutButton: 'Preview flow without tour',
-        previewCheckoutTitle: 'Checkout preview',
-        previewCheckoutMessage: 'This temporary mode only lets you browse the flow. It does not create an order or enable final payment.',
-        previewCheckoutCartLabel: 'Preview',
-        previewCheckoutCartValue: 'No tours selected. This mode only shows the next steps.',
+        previewCheckoutButton: 'Try demo checkout',
+        previewCheckoutTitle: 'Demo checkout',
+        previewCheckoutMessage: 'We preload a random service and enable a simulated final payment so you can review the UI, fee, and steps without real customer data.',
+        previewCheckoutCartLabel: 'Demo service',
+        previewCheckoutCartValue: 'A sample tour is preloaded so you can review the full flow.',
+        previewDemoBadge: 'DEMO MODE',
+        previewDemoService: 'Service',
+        previewDemoTravelers: 'Travelers',
+        previewSimulationNote: 'Final action buttons use demo data and do not charge for real.',
+        demoPayPalLinkLabel: 'PayPal test link',
         adultUnit: 'adult(s)',
         childUnit: 'child(ren)',
         maps: 'Maps',
@@ -346,15 +444,15 @@ const I18N = {
         backToCart: 'Back to cart',
         editDetails: 'Edit details',
         paymentMethod: 'Payment method',
-        paymentMethodHelp: 'Choose how you want to complete your booking.',
+        paymentMethodHelp: 'Choose PayPal or bank transfer and review exactly where the money goes.',
         paymentPayPal: 'PayPal / Card',
-        paymentPayPalDesc: 'Pay online with a fee.',
+        paymentPayPalDesc: 'Pay online and we will redirect you to the configured PayPal profile.',
         paymentTransfer: 'Bank transfer',
-        paymentTransferDesc: 'Get CLABE, account, and the exact transfer reference.',
+        paymentTransferDesc: 'Copy the bank details and send the exact amount.',
         paymentManual: 'Book by contact',
         paymentManualDesc: 'Send your request by WhatsApp or email for manual confirmation.',
-        continueWithPayPal: 'Pay online',
-        getTransferInstructions: 'Get transfer instructions',
+        continueWithPayPal: 'Pay with PayPal',
+        getTransferInstructions: 'Show transfer instructions',
         sendReservationEmail: 'Send booking by email',
         sendReservationWhatsApp: 'Send via WhatsApp',
         orderNumber: 'Order number',
@@ -368,13 +466,16 @@ const I18N = {
         depositCard: 'Deposit card',
         swift: 'SWIFT / BIC',
         reference: 'Reference',
+        paypalProfileLabel: 'PayPal profile',
+        paypalProfileLink: 'Open PayPal profile',
+        referencePending: 'Confirmed with your order number',
         expiresAt: 'Expires',
         copy: 'Copy',
         copiedTitle: 'Copied',
         copiedMessage: 'Copied to clipboard.',
         copyFailed: 'The value could not be copied.',
         paymentHelpTitle: 'Need help paying?',
-        paymentHelpText: 'We can help you on WhatsApp without changing your order payment method.',
+        paymentHelpText: 'We can help you on WhatsApp.',
         paymentHelpWhatsApp: 'WhatsApp help',
         paymentLegendPayPal: 'PayPal / Card',
         paymentLegendTransfer: 'Transfer',
@@ -382,17 +483,25 @@ const I18N = {
         supportPaymentMessage: 'Hi, I need help completing the payment for my booking.',
         selectedPaymentMethod: 'Selected method',
         uploadProofTitle: 'Upload proof',
-        uploadProofHelp: 'A screenshot alone does not confirm payment, but it helps us start the review.',
+        uploadProofHelp: 'Upload your payment proof for review.',
         uploadProofButton: 'Upload proof',
         uploadProofSuccess: 'Proof uploaded. We will review your transfer.',
         uploadProofError: 'The proof could not be uploaded.',
-        transferInstructionsReady: 'Order created. Use these exact details for your transfer.',
-        transferExactMatchNote: 'Reconciliation requires an exact amount and exact reference.',
+        transferInstructionsReady: 'Order created. Transfer using these details.',
+        transferExactMatchNote: 'Use the exact amount and exact reference.',
+        transferDestinationTitle: 'Where to transfer',
+        transferDetailsTitle: 'Reference and exact amount',
+        transferAmountToSend: 'Amount to transfer',
+        paypalPayerLabel: 'PayPal payer',
+        paypalPayerUnknown: 'PayPal customer',
+        paypalPayerId: 'PayPal ID',
         paypalRedirecting: 'Redirecting to PayPal...',
         paypalCheckoutCancelled: 'The PayPal checkout was canceled.',
         paypalPaymentCompleted: 'Payment completed. Your order is now registered.',
         paypalPaymentPending: 'The order is authorized or pending. Final confirmation depends on the webhook.',
         paypalPaymentError: 'The PayPal payment could not be finalized.',
+        previewPayPalSimulated: 'PayPal payment simulated for visual review.',
+        previewTransferSimulated: 'Banamex transfer simulated with sample data.',
         paymentMethodUnavailable: 'This payment method is not available right now.',
         manualOrderCreated: 'Your request was recorded. We will contact you to confirm.',
         manualOrderReference: 'Share your order number if you contact us on WhatsApp.',
@@ -474,7 +583,49 @@ const I18N = {
         customerOrdersTitle: 'Your orders',
         customerOrdersEmpty: 'Sign in with your email to view all of your orders.',
         customerOrdersHint: 'Guest purchases with the same email are linked after you verify the code.',
-        customerLoggedOut: 'Customer session closed'
+        customerLoggedOut: 'Customer session closed',
+        registerNav: 'Sign up',
+        loginNav: 'Log in',
+        accountNav: 'My account',
+        authCardKicker: 'Account',
+        authModalTitle: 'Access your account',
+        authModalIntro: 'Save your purchases and recover them from any device.',
+        authModalIntroRegister: 'Create your account to sync your cart, purchases, and bookings across devices.',
+        authModalIntroLogin: 'Sign in to restore your saved cart and purchases.',
+        authPasswordLabel: 'Password',
+        authConfirmPasswordLabel: 'Confirm password',
+        continueWithEmail: 'Continue with email',
+        continueWithGoogle: 'Continue with Google',
+        authSecondaryGoogle: 'Or continue with Google',
+        authFooterRegister: 'Already have an account? Log in',
+        authFooterLogin: 'Still need an account? Sign up',
+        authRegisterSuccess: 'Account created. Your purchases are now available.',
+        authLoginSuccess: 'Signed in. Your purchases were restored.',
+        authPasswordMismatch: 'Passwords do not match.',
+        authGoogleUnavailable: 'Google Sign-In is not ready right now.',
+        authGoogleError: 'Google sign-in could not be completed.',
+        authGoogleSetupHint: 'Google Sign-In will be available once GOOGLE_CLIENT_ID is configured on the server.',
+        authGoogleReadyHint: 'You can also sign in with Google in one step.',
+        authGoogleLoading: 'Loading Google Sign-In...',
+        authAccountExists: 'This email is already registered.',
+        authInvalidCredentials: 'Incorrect email or password.',
+        authPasswordRules: 'Password must contain at least 8 characters.',
+        authEmailRequired: 'Enter your email address.',
+        authContinueAsGuest: 'Keep exploring without an account',
+        accountOrdersIntro: 'Your purchases and cart sync with your account so you can recover them from any device.',
+        accountOrdersEmptyState: 'Select an order to view its details.',
+        accountGuestProfileName: 'Explore without signing in',
+        accountGuestProfileEmail: 'Your cart and orders can be synced whenever you want.',
+        accountGuestBadge: 'Optional account',
+        accountGuestTitle: 'Browse freely, add tours to your cart, and sign in only when you want to save everything to your account.',
+        accountGuestCopy: 'You do not need to sign in to explore the website. Use your account only if you want to sync purchases, restore your cart, or view orders from another device.',
+        accountGuestBenefitSync: 'Synced cart',
+        accountGuestBenefitOrders: 'Orders in one place',
+        accountGuestBenefitFastCheckout: 'Faster checkout',
+        accountGuestBrowse: 'Keep exploring',
+        accountGuestOrdersEmpty: 'Sign in whenever you want to see all your restored orders and purchases here.',
+        accountGuestDetailEmpty: 'Explore tours or sign in to view your order details here.',
+        accountRestored: 'Your account and cart were restored.'
     }
 };
 
@@ -482,6 +633,9 @@ var SVG = {
     check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>',
     cross: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>',
     cart: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>',
+    bank: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 10h18"/><path d="M5 10v7"/><path d="M12 10v7"/><path d="M19 10v7"/><path d="M2 21h20"/><path d="M12 3l9 4v3H3V7l9-4z"/></svg>',
+    card: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/><path d="M6 15h4"/></svg>',
+    sparkles: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l1.8 4.2L18 9l-4.2 1.8L12 15l-1.8-4.2L6 9l4.2-1.8L12 3z"/><path d="M19 14l.9 2.1L22 17l-2.1.9L19 20l-.9-2.1L16 17l2.1-.9L19 14z"/><path d="M5 14l.9 2.1L8 17l-2.1.9L5 20l-.9-2.1L2 17l2.1-.9L5 14z"/></svg>',
     warning: '<svg class="warning-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>',
     arrowLeft: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>',
     arrowRight: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>',
@@ -507,6 +661,9 @@ var COMMONS_HERO_SEARCH_TERMS = [
     'Playa Delfines Cancun beach',
     'Riviera Maya beach Mexico'
 ];
+var checkoutHeroRotationTimer = null;
+var checkoutHeroIndex = 0;
+var checkoutHeroRemoteSlides = null;
 
 var TOUR_CATEGORY_META = {
     sea: {
@@ -530,6 +687,43 @@ var TOUR_CATEGORY_META = {
 function t(key) {
     var dict = I18N[state.language] || I18N.es;
     return dict[key] || key;
+}
+
+function isDemoModeEnabled() {
+    return Boolean(CONFIG.demoMode && CONFIG.demoMode.enabled);
+}
+
+function applyDemoModeState() {
+    var enabled = isDemoModeEnabled();
+    var banner = document.getElementById('demo-mode-banner');
+    document.body.classList.toggle('demo-mode', enabled);
+    if (banner) banner.hidden = !enabled;
+}
+
+function updateContactInfoUI() {
+    var contact = CONFIG.contact || {};
+    var email = safeText(contact.email).trim();
+    var phoneDisplay = safeText(contact.phoneDisplay || contact.phone).trim();
+    var whatsappUrl = safeText(contact.whatsappUrl || (CONFIG.whatsapp && CONFIG.whatsapp.url)).trim();
+
+    var contactPhoneText = document.getElementById('contact-phone-text');
+    var contactEmailLink = document.getElementById('contact-email-link');
+    var contactWhatsAppLink = document.getElementById('contact-whatsapp-link');
+    var footerEmail = document.getElementById('footer-contact-email');
+    var footerPhone = document.getElementById('footer-contact-phone');
+
+    if (contactPhoneText && phoneDisplay) contactPhoneText.textContent = phoneDisplay;
+    if (footerPhone && phoneDisplay) footerPhone.textContent = phoneDisplay;
+
+    if (contactEmailLink && email) {
+        contactEmailLink.textContent = email;
+        contactEmailLink.href = 'mailto:' + email;
+    }
+    if (footerEmail && email) footerEmail.textContent = email;
+
+    if (contactWhatsAppLink && whatsappUrl) {
+        contactWhatsAppLink.href = whatsappUrl;
+    }
 }
 
 function normalizeLanguage(lang) {
@@ -591,6 +785,32 @@ function formatDateTime(value) {
     });
 }
 
+function randomIntBetween(min, max) {
+    var lower = Math.ceil(Math.min(min, max));
+    var upper = Math.floor(Math.max(min, max));
+    return Math.floor(Math.random() * (upper - lower + 1)) + lower;
+}
+
+function pickRandomItem(items) {
+    if (!Array.isArray(items) || items.length === 0) return null;
+    return items[randomIntBetween(0, items.length - 1)];
+}
+
+function getDisplayBankTransferConfig() {
+    var bankTransfer = CONFIG.payments && CONFIG.payments.bankTransfer ? CONFIG.payments.bankTransfer : {};
+    var previewFallback = isCheckoutPreviewModeActive() || isDemoModeEnabled();
+
+    return {
+        bankName: safeText(bankTransfer.bankName).trim() || (previewFallback ? 'Banamex' : ''),
+        beneficiary: safeText(bankTransfer.beneficiary).trim() || (previewFallback ? 'Miarsito Demo' : ''),
+        clabe: safeText(bankTransfer.clabe).trim() || (previewFallback ? '002180700000123456' : ''),
+        account: safeText(bankTransfer.account).trim() || (previewFallback ? '7001234567' : ''),
+        cardNumber: safeText(bankTransfer.cardNumber).trim() || (previewFallback ? '5204161234567890' : ''),
+        swift: safeText(bankTransfer.swift).trim() || (previewFallback ? 'BNMXMXMM' : ''),
+        referencePrefix: safeText(bankTransfer.referencePrefix).trim() || 'LT'
+    };
+}
+
 function getConfiguredPaymentMethods() {
     var methods = [];
     if (CONFIG.payments && CONFIG.payments.bankTransfer && CONFIG.payments.bankTransfer.enabled) {
@@ -598,6 +818,10 @@ function getConfiguredPaymentMethods() {
     }
     if (CONFIG.payments && CONFIG.payments.paypal && CONFIG.payments.paypal.enabled) {
         methods.push('paypal');
+    }
+    if (isCheckoutPreviewModeActive() || isDemoModeEnabled()) {
+        if (methods.indexOf('bank_transfer') === -1) methods.push('bank_transfer');
+        if (methods.indexOf('paypal') === -1) methods.push('paypal');
     }
     return methods;
 }
@@ -626,9 +850,13 @@ function clearCheckoutResult() {
 
     if (card) card.hidden = true;
     if (message) message.textContent = '';
-    if (grid) grid.replaceChildren();
+    if (grid) {
+        grid.className = 'checkout-result-grid';
+        grid.replaceChildren();
+    }
     if (proofBox) proofBox.hidden = true;
     if (proofFile) proofFile.value = '';
+    renderCheckoutPaymentCards();
 }
 
 async function copyTextValue(value) {
@@ -668,8 +896,18 @@ function appendCheckoutResultItem(container, label, value, options) {
     var valueWrap = document.createElement('div');
     valueWrap.className = 'checkout-result-item-value';
 
-    var valueEl = document.createElement('strong');
-    valueEl.textContent = value;
+    var valueEl;
+    if (opts.href) {
+        valueEl = document.createElement('a');
+        valueEl.className = 'checkout-result-link';
+        valueEl.href = opts.href;
+        valueEl.target = '_blank';
+        valueEl.rel = 'noopener';
+        valueEl.textContent = opts.linkText || value;
+    } else {
+        valueEl = document.createElement('strong');
+        valueEl.textContent = value;
+    }
 
     item.appendChild(labelEl);
     valueWrap.appendChild(valueEl);
@@ -687,6 +925,215 @@ function appendCheckoutResultItem(container, label, value, options) {
 
     item.appendChild(valueWrap);
     container.appendChild(item);
+}
+
+function appendPaymentCardDetail(container, label, value, options) {
+    if (!container) return;
+
+    var opts = options || {};
+    var normalizedValue = safeText(value).trim();
+    if (!normalizedValue && !opts.href) return;
+
+    var item = document.createElement('div');
+    item.className = 'payment-card-detail';
+
+    var labelEl = document.createElement('span');
+    labelEl.className = 'payment-card-detail-label';
+    labelEl.textContent = label;
+
+    var valueWrap = document.createElement('div');
+    valueWrap.className = 'payment-card-detail-value';
+
+    var valueEl;
+    if (opts.href) {
+        valueEl = document.createElement('a');
+        valueEl.className = 'payment-card-detail-link';
+        valueEl.href = opts.href;
+        valueEl.target = '_blank';
+        valueEl.rel = 'noopener';
+        valueEl.textContent = opts.linkText || normalizedValue;
+    } else {
+        valueEl = document.createElement('strong');
+        valueEl.textContent = normalizedValue;
+    }
+
+    item.appendChild(labelEl);
+    valueWrap.appendChild(valueEl);
+
+    if (opts.copyValue) {
+        var button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'checkout-copy-btn';
+        button.textContent = t('copy');
+        button.addEventListener('click', function (event) {
+            event.stopPropagation();
+            copyTextValue(opts.copyValue);
+        });
+        valueWrap.appendChild(button);
+    }
+
+    item.appendChild(valueWrap);
+    container.appendChild(item);
+}
+
+function createCheckoutResultSection(title) {
+    var section = document.createElement('section');
+    section.className = 'checkout-result-section';
+
+    var heading = document.createElement('h6');
+    heading.className = 'checkout-result-section-title';
+    heading.textContent = title;
+    section.appendChild(heading);
+
+    var grid = document.createElement('div');
+    grid.className = 'checkout-result-grid compact';
+    section.appendChild(grid);
+
+    return {
+        section: section,
+        grid: grid
+    };
+}
+
+function appendCheckoutResultHighlight(section, label, value) {
+    if (!section) return;
+
+    var wrapper = document.createElement('div');
+    wrapper.className = 'checkout-result-highlight';
+
+    var labelEl = document.createElement('p');
+    labelEl.className = 'checkout-result-highlight-label';
+    labelEl.textContent = label;
+
+    var valueEl = document.createElement('p');
+    valueEl.className = 'checkout-result-highlight-value';
+    valueEl.textContent = value;
+
+    wrapper.appendChild(labelEl);
+    wrapper.appendChild(valueEl);
+
+    var sectionGrid = section.querySelector('.checkout-result-grid');
+    if (sectionGrid) {
+        section.insertBefore(wrapper, sectionGrid);
+        return;
+    }
+    section.appendChild(wrapper);
+}
+
+function getAvatarInitials(seedText) {
+    var normalized = safeText(seedText).trim();
+    if (!normalized) return 'PP';
+
+    var parts = normalized.split(/\s+/).filter(Boolean);
+    if (parts.length === 0) return 'PP';
+    if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
+    return (parts[0].charAt(0) + parts[parts.length - 1].charAt(0)).toUpperCase();
+}
+
+function buildCheckoutAvatarFallbackDataUrl(seedText) {
+    var seed = safeText(seedText || 'paypal').toLowerCase();
+    var hash = 0;
+    for (var i = 0; i < seed.length; i += 1) {
+        hash = ((hash * 31) + seed.charCodeAt(i)) % 360;
+    }
+    var hue = Math.abs(hash) % 360;
+    var initials = getAvatarInitials(seedText);
+    var svg = ''
+        + '<svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 96 96">'
+        + '<rect width="96" height="96" fill="hsl(' + hue + ',72%,44%)"/>'
+        + '<text x="50%" y="55%" fill="#ffffff" font-size="36" font-family="Arial, sans-serif" '
+        + 'font-weight="700" text-anchor="middle" dominant-baseline="middle">' + initials + '</text>'
+        + '</svg>';
+    return 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(svg);
+}
+
+function normalizePayPalPayer(orderResult) {
+    var raw = orderResult && orderResult.payer
+        ? orderResult.payer
+        : (orderResult && orderResult.payment && orderResult.payment.payer ? orderResult.payment.payer : null);
+    raw = raw && typeof raw === 'object' ? raw : {};
+
+    var givenName = safeText(raw.givenName || raw.firstName).trim();
+    var surname = safeText(raw.surname || raw.lastName).trim();
+    var fullName = safeText(raw.fullName || raw.name).trim();
+    var combinedName = [givenName, surname].filter(Boolean).join(' ');
+    if (!fullName) fullName = combinedName;
+    if (!fullName) {
+        var customerNameInput = document.getElementById('customer-name');
+        fullName = safeText(customerNameInput && customerNameInput.value).trim();
+    }
+
+    var email = safeText(raw.email || raw.emailAddress).trim();
+    if (!email) {
+        var customerEmailInput = document.getElementById('customer-email');
+        email = safeText(customerEmailInput && customerEmailInput.value).trim();
+    }
+
+    var payerId = safeText(raw.payerId || raw.id).trim();
+    var countryCode = safeText(raw.countryCode || raw.country).trim().toUpperCase();
+    var imageUrl = safeText(raw.imageUrl || raw.picture || raw.avatarUrl || raw.photoUrl).trim();
+    if (imageUrl && !/^(https?:\/\/|\/|data:image\/)/i.test(imageUrl)) {
+        imageUrl = '';
+    }
+
+    var fallbackSeed = fullName || email || payerId || 'paypal';
+    return {
+        fullName: fullName,
+        email: email,
+        payerId: payerId,
+        countryCode: countryCode,
+        imageUrl: imageUrl || PAYPAL_PAYER_AVATAR_ROUTE,
+        fallbackAvatar: buildCheckoutAvatarFallbackDataUrl(fallbackSeed)
+    };
+}
+
+function renderPayPalPayerCard(container, orderResult) {
+    if (!container || !orderResult) return;
+
+    var payer = normalizePayPalPayer(orderResult);
+    if (!payer.fullName && !payer.email && !payer.payerId && !payer.countryCode) return;
+
+    var card = document.createElement('div');
+    card.className = 'checkout-payer-card';
+
+    var avatar = document.createElement('img');
+    avatar.className = 'checkout-payer-avatar';
+    avatar.alt = payer.fullName || t('paypalPayerUnknown');
+    avatar.src = payer.imageUrl || payer.fallbackAvatar;
+    avatar.loading = 'lazy';
+    avatar.decoding = 'async';
+    avatar.addEventListener('error', function () {
+        if (avatar.dataset.fallbackApplied === '1') return;
+        avatar.dataset.fallbackApplied = '1';
+        avatar.src = payer.fallbackAvatar;
+    });
+
+    var copy = document.createElement('div');
+    copy.className = 'checkout-payer-copy';
+
+    var label = document.createElement('span');
+    label.className = 'checkout-payer-label';
+    label.textContent = t('paypalPayerLabel');
+
+    var name = document.createElement('strong');
+    name.className = 'checkout-payer-name';
+    name.textContent = payer.fullName || t('paypalPayerUnknown');
+
+    var meta = document.createElement('span');
+    meta.className = 'checkout-payer-meta';
+    var metaParts = [];
+    if (payer.email) metaParts.push(payer.email);
+    if (payer.payerId) metaParts.push(t('paypalPayerId') + ': ' + payer.payerId);
+    if (payer.countryCode) metaParts.push(payer.countryCode);
+    meta.textContent = metaParts.join(' · ');
+
+    copy.appendChild(label);
+    copy.appendChild(name);
+    if (meta.textContent) copy.appendChild(meta);
+
+    card.appendChild(avatar);
+    card.appendChild(copy);
+    container.appendChild(card);
 }
 
 function buildCurrentPageUrl(params) {
@@ -742,7 +1189,7 @@ function getCartPricingBreakdown(method) {
 }
 
 function getPaymentTitle(method, feePercentOverride) {
-    var bankName = safeText(CONFIG.payments && CONFIG.payments.bankTransfer ? CONFIG.payments.bankTransfer.bankName : '').trim();
+    var bankName = getDisplayBankTransferConfig().bankName;
     var feePercentValue = Number.isFinite(safeNumber(feePercentOverride, NaN)) ? roundCurrencyAmount(feePercentOverride) : getPaymentFeePercent(method);
     var feePercent = formatFeePercent(feePercentValue);
 
@@ -757,30 +1204,21 @@ function getPaymentTitle(method, feePercentOverride) {
 }
 
 function getPaymentDescription(method) {
-    var bankName = safeText(CONFIG.payments && CONFIG.payments.bankTransfer ? CONFIG.payments.bankTransfer.bankName : '').trim();
-    var feePercentValue = getPaymentFeePercent(method);
-    var feePercent = formatFeePercent(feePercentValue);
+    var bankName = getDisplayBankTransferConfig().bankName;
 
     if (method === 'paypal') {
-        if (feePercentValue > 0) {
-            return state.language === 'en'
-                ? 'Pay online with PayPal or card. +' + feePercent + '% fee.'
-                : 'Paga online con PayPal o tarjeta. +' + feePercent + '% de comisión.';
-        }
-        return state.language === 'en'
-            ? 'Pay online with PayPal or card.'
-            : 'Paga online con PayPal o tarjeta.';
+        return t('paymentPayPalDesc');
     }
     if (method === 'bank_transfer') {
-        if (state.language === 'en') {
-            return (bankName ? bankName + '. ' : '') + 'No fee. Get CLABE, account, and the exact transfer reference.';
-        }
-        return (bankName ? bankName + '. ' : '') + 'Sin comisión. Recibe CLABE, cuenta y la referencia exacta para transferir.';
+        return bankName ? bankName + '. ' + t('paymentTransferDesc') : t('paymentTransferDesc');
     }
     return t('paymentManualDesc');
 }
 
 function getPayPalCtaLabel() {
+    if (isDemoModeEnabled()) {
+        return state.language === 'en' ? 'Open demo PayPal' : 'Abrir PayPal demo';
+    }
     var feePercent = getPaymentFeePercent('paypal');
     if (feePercent > 0) {
         return state.language === 'en'
@@ -788,6 +1226,97 @@ function getPayPalCtaLabel() {
             : 'Pagar online +' + formatFeePercent(feePercent) + '%';
     }
     return t('continueWithPayPal');
+}
+
+function getPrimaryCheckoutActionLabel(method) {
+    var value = safeText(method).toLowerCase();
+    if (value === 'bank_transfer') return t('getTransferInstructions');
+    return getPayPalCtaLabel();
+}
+
+function getPayPalProfileUrl() {
+    var paypal = CONFIG.payments && CONFIG.payments.paypal ? CONFIG.payments.paypal : {};
+    return safeText(paypal.profileUrl || (CONFIG.demoMode && CONFIG.demoMode.paypalUrl) || '').trim();
+}
+
+function getPayPalAccountEmail() {
+    var paypal = CONFIG.payments && CONFIG.payments.paypal ? CONFIG.payments.paypal : {};
+    return safeText(paypal.accountEmail || paypal.email || '').trim();
+}
+
+function getLatestTransferReference() {
+    var latest = state.latestCheckoutOrder;
+    var bankConfig = getDisplayBankTransferConfig();
+    var latestMethod = safeText(latest && latest.order && latest.order.paymentMethod).toLowerCase();
+    if (latestMethod === 'bank_transfer') {
+        return safeText(
+            (latest && latest.bankTransfer && latest.bankTransfer.reference)
+            || ([bankConfig.referencePrefix, latest && latest.order && latest.order.publicId].filter(Boolean).join('-'))
+        ).trim();
+    }
+    return '';
+}
+
+function getTransferReferencePreview() {
+    var reference = getLatestTransferReference();
+    if (reference) return reference;
+
+    var prefix = safeText(getDisplayBankTransferConfig().referencePrefix).trim() || 'LT';
+    return prefix + '-{orderId}';
+}
+
+function renderPaymentBrandIcon(iconContainer, fallbackSvg, fallbackSrc, altText) {
+    if (!iconContainer) return;
+
+    var logoSource = safeText(iconContainer.getAttribute('data-logo-src') || fallbackSrc).trim();
+    iconContainer.classList.remove('logo-ready');
+    iconContainer.innerHTML = fallbackSvg;
+    if (!logoSource) return;
+
+    iconContainer.innerHTML = '';
+
+    var logo = document.createElement('img');
+    logo.className = 'payment-brand-logo';
+    if (fallbackSrc === PAYPAL_LOGO_FALLBACK_SRC) {
+        logo.classList.add('paypal-logo');
+    }
+    logo.alt = altText || '';
+    logo.src = logoSource;
+    logo.loading = 'lazy';
+    logo.decoding = 'async';
+    logo.addEventListener('load', function () {
+        iconContainer.classList.add('logo-ready');
+    });
+    logo.addEventListener('error', function () {
+        iconContainer.classList.remove('logo-ready');
+        iconContainer.innerHTML = fallbackSvg;
+    });
+
+    iconContainer.appendChild(logo);
+}
+
+function renderPayPalBrandIcon(iconContainer) {
+    renderPaymentBrandIcon(iconContainer, SVG.card, PAYPAL_LOGO_FALLBACK_SRC, 'PayPal');
+}
+
+function renderBankTransferBrandIcon(iconContainer) {
+    renderPaymentBrandIcon(
+        iconContainer,
+        SVG.bank,
+        BANK_TRANSFER_LOGO_FALLBACK_SRC,
+        state.language === 'en' ? 'Bank transfer' : 'Transferencia bancaria'
+    );
+}
+
+function triggerPrimaryCheckoutAction() {
+    if (bookingSubmissionInProgress) return;
+
+    var method = getSelectedPaymentMethod();
+    if (method === 'bank_transfer') {
+        startBankTransferCheckout();
+        return;
+    }
+    startPayPalCheckout();
 }
 
 function normalizePaymentMethodLabel(method, feePercentOverride) {
@@ -803,21 +1332,31 @@ function renderPaymentMethodCopy() {
     var paypalDesc = document.getElementById('payment-option-paypal-desc');
     var transferTitle = document.getElementById('payment-option-bank-transfer-title');
     var transferDesc = document.getElementById('payment-option-bank-transfer-desc');
-    var transferLegend = document.getElementById('payment-legend-transfer');
-    var paypalLegend = document.getElementById('payment-legend-paypal');
+    var paypalIcon = document.getElementById('payment-option-paypal-icon');
+    var transferIcon = document.getElementById('payment-option-bank-transfer-icon');
+    var transferFee = document.getElementById('payment-option-bank-transfer-fee');
+    var paypalFee = document.getElementById('payment-option-paypal-fee');
     var payLabel = document.getElementById('pay-paypal-label');
+    var mobilePayLabel = document.getElementById('confirm-mobile-pay-label');
+    var transferFeeValue = getPaymentFeePercent('bank_transfer');
+    var paypalFeeValue = getPaymentFeePercent('paypal');
 
-    if (paypalTitle) paypalTitle.textContent = getPaymentTitle('paypal');
+    if (paypalTitle) paypalTitle.textContent = t('paymentPayPal');
     if (paypalDesc) paypalDesc.textContent = getPaymentDescription('paypal');
-    if (transferTitle) transferTitle.textContent = getPaymentTitle('bank_transfer');
+    if (transferTitle) transferTitle.textContent = t('paymentTransfer');
     if (transferDesc) transferDesc.textContent = getPaymentDescription('bank_transfer');
-    if (transferLegend) {
-        transferLegend.textContent = t('paymentLegendTransfer') + ': ' + (getPaymentFeePercent('bank_transfer') > 0 ? '+' + formatFeePercent(getPaymentFeePercent('bank_transfer')) + '%' : t('noCommission'));
-    }
-    if (paypalLegend) {
-        paypalLegend.textContent = t('paymentLegendPayPal') + ': ' + (getPaymentFeePercent('paypal') > 0 ? '+' + formatFeePercent(getPaymentFeePercent('paypal')) + '%' : t('noCommission'));
+    renderPayPalBrandIcon(paypalIcon);
+    renderBankTransferBrandIcon(transferIcon);
+    if (transferFee) transferFee.textContent = transferFeeValue > 0 ? '+' + formatFeePercent(transferFeeValue) + '%' : t('noCommission');
+    if (paypalFee) paypalFee.textContent = paypalFeeValue > 0 ? '+' + formatFeePercent(paypalFeeValue) + '%' : t('noCommission');
+    if (isDemoModeEnabled() && paypalDesc) {
+        paypalDesc.textContent = state.language === 'en'
+            ? 'Demo mode. Opens the personal PayPal test link and never uses the company account.'
+            : 'Modo demo. Abre el enlace personal de PayPal de prueba y no usa la cuenta de la empresa.';
     }
     if (payLabel) payLabel.textContent = getPayPalCtaLabel();
+    if (mobilePayLabel) mobilePayLabel.textContent = getPrimaryCheckoutActionLabel(getSelectedPaymentMethod());
+    renderCheckoutPaymentCards();
 }
 
 function normalizeStatusLabel(status) {
@@ -1160,6 +1699,84 @@ function applyCatalogHeroSlides(layerA, layerB, slides) {
     }, 7000);
 }
 
+function stopCheckoutHero() {
+    clearInterval(checkoutHeroRotationTimer);
+    checkoutHeroRotationTimer = null;
+}
+
+function setHeroLayerImage(layer, url) {
+    if (!layer) return;
+    var source = safeText(url).replace(/"/g, '%22');
+    layer.style.backgroundImage = 'url("' + source + '")';
+}
+
+function renderCheckoutSeaGallery(slides) {
+    var gallery = document.getElementById('checkout-sea-gallery');
+    if (!gallery) return;
+
+    var activeSlides = Array.isArray(slides) && slides.length > 0 ? slides : SEA_HERO_SLIDES.slice();
+    gallery.replaceChildren();
+
+    activeSlides.slice(0, 4).forEach(function (imageUrl) {
+        var tile = document.createElement('span');
+        tile.className = 'checkout-sea-image';
+        setHeroLayerImage(tile, imageUrl);
+        gallery.appendChild(tile);
+    });
+}
+
+function applyCheckoutHeroSlides(slides) {
+    var layerA = document.getElementById('checkout-hero-bg-a');
+    var layerB = document.getElementById('checkout-hero-bg-b');
+    if (!layerA || !layerB) return;
+
+    var activeSlides = Array.isArray(slides) && slides.length > 0 ? slides : SEA_HERO_SLIDES.slice();
+
+    stopCheckoutHero();
+    checkoutHeroIndex = 0;
+
+    setHeroLayerImage(layerA, activeSlides[0]);
+    layerA.classList.add('active');
+    layerB.classList.remove('active');
+
+    if (activeSlides.length > 1) {
+        setHeroLayerImage(layerB, activeSlides[1]);
+    }
+
+    renderCheckoutSeaGallery(activeSlides);
+
+    if (prefersReducedMotion || activeSlides.length < 2) return;
+
+    checkoutHeroRotationTimer = setInterval(function () {
+        var nextIndex = (checkoutHeroIndex + 1) % activeSlides.length;
+        var incomingLayer = layerA.classList.contains('active') ? layerB : layerA;
+        var outgoingLayer = incomingLayer === layerA ? layerB : layerA;
+
+        setHeroLayerImage(incomingLayer, activeSlides[nextIndex]);
+        incomingLayer.classList.add('active');
+        outgoingLayer.classList.remove('active');
+        checkoutHeroIndex = nextIndex;
+    }, 6500);
+}
+
+function initCheckoutHero() {
+    if (Array.isArray(checkoutHeroRemoteSlides) && checkoutHeroRemoteSlides.length > 0) {
+        applyCheckoutHeroSlides(checkoutHeroRemoteSlides);
+        return;
+    }
+
+    applyCheckoutHeroSlides(SEA_HERO_SLIDES);
+    fetchCommonsSeaHeroSlides()
+        .then(function (remoteSlides) {
+            if (!Array.isArray(remoteSlides) || remoteSlides.length === 0) return;
+            checkoutHeroRemoteSlides = remoteSlides.slice(0, 4);
+            applyCheckoutHeroSlides(checkoutHeroRemoteSlides);
+        })
+        .catch(function (error) {
+            console.warn('initCheckoutHero error', error);
+        });
+}
+
 function getAdminToken() {
     return sessionStorage.getItem('admin_token') || '';
 }
@@ -1214,7 +1831,15 @@ function getCustomerAuthSession() {
 }
 
 function setCustomerAuthStatus(status, message) {
-    var statusEl = document.getElementById('customer-auth-status');
+    setInlineStatus('customer-auth-status', status, message);
+}
+
+function setAuthModalStatus(status, message) {
+    setInlineStatus('auth-modal-status', status, message);
+}
+
+function setInlineStatus(id, status, message) {
+    var statusEl = document.getElementById(id);
     if (!statusEl) return;
 
     statusEl.classList.remove('loading', 'success', 'error');
@@ -1230,25 +1855,113 @@ function setCustomerAuthStatus(status, message) {
 }
 
 function renderCustomerAuthDebugCode(code) {
-    var note = document.getElementById('customer-auth-debug-note');
-    var value = document.getElementById('customer-auth-debug-code');
-    if (!note || !value) return;
+    if (code) {
+        console.info('customer auth debug code', code);
+    }
+}
 
-    if (!code) {
-        note.hidden = true;
-        value.textContent = '';
-        return;
+function getCustomerDisplayName(profile) {
+    var source = profile || customerAccountState.profile || null;
+    var fullName = safeText(source && source.fullName ? source.fullName : source && source.full_name).trim();
+    if (fullName) return fullName;
+
+    var email = safeText(source && source.email).trim();
+    if (!email) return t('accountNav');
+    return email.split('@')[0];
+}
+
+function getCustomerInitials(profile) {
+    var name = getCustomerDisplayName(profile);
+    var parts = name.split(/\s+/).filter(Boolean).slice(0, 2);
+    if (parts.length === 0) return 'LT';
+    return parts.map(function (part) {
+        return part.charAt(0).toUpperCase();
+    }).join('').slice(0, 2);
+}
+
+function syncCheckoutAccountPrefill() {
+    var session = getCustomerAuthSession();
+    var emailInput = document.getElementById('customer-email');
+    var nameInput = document.getElementById('customer-name');
+
+    if (emailInput) {
+        if (session && session.profile && session.profile.email) {
+            emailInput.value = session.profile.email;
+            emailInput.readOnly = true;
+        } else {
+            emailInput.readOnly = false;
+        }
     }
 
-    note.hidden = false;
-    value.textContent = code;
+    if (nameInput && session && session.profile && session.profile.fullName && !nameInput.value.trim()) {
+        nameInput.value = session.profile.fullName;
+    }
+}
+
+function getCustomerAuthConfig() {
+    return CONFIG.auth && CONFIG.auth.customer ? CONFIG.auth.customer : {};
+}
+
+function isGoogleSignInConfigured() {
+    var authConfig = getCustomerAuthConfig();
+    return Boolean(authConfig.googleEnabled && authConfig.googleClientId);
+}
+
+function getGoogleSignInHelperCopy() {
+    return isGoogleSignInConfigured() ? t('authGoogleReadyHint') : t('authGoogleSetupHint');
+}
+
+function buildAccountGuestDetailEmptyState() {
+    return ''
+        + '<div class="account-empty-state">'
+        + '<span class="account-empty-kicker">' + escapeHtml(t('accountGuestBadge')) + '</span>'
+        + '<h3>' + escapeHtml(t('accountNav')) + '</h3>'
+        + '<p>' + escapeHtml(t('accountGuestDetailEmpty')) + '</p>'
+        + '<div class="account-empty-actions">'
+        + '<button type="button" class="btn btn-primary" onclick="openAuthModal(\'login\')">' + escapeHtml(t('loginNav')) + '</button>'
+        + '<button type="button" class="btn btn-secondary" onclick="navigateTo(\'catalog\')">' + escapeHtml(t('accountGuestBrowse')) + '</button>'
+        + '</div>'
+        + '</div>';
+}
+
+function syncCustomerAccountSummary() {
+    var session = getCustomerAuthSession();
+    var profile = session && session.profile ? session.profile : customerAccountState.profile;
+    var hasProfile = Boolean(profile && (profile.email || profile.fullName || profile.full_name));
+    var name = hasProfile ? getCustomerDisplayName(profile) : t('accountGuestProfileName');
+    var email = hasProfile ? safeText(profile && profile.email).trim() : t('accountGuestProfileEmail');
+    var ordersCount = session && Array.isArray(customerAccountState.orders) ? customerAccountState.orders.length : 0;
+    var accountAvatar = document.getElementById('account-avatar');
+    var profileName = document.getElementById('account-profile-name');
+    var profileEmail = document.getElementById('account-profile-email');
+    var summaryEmail = document.getElementById('account-summary-email');
+    var summaryOrders = document.getElementById('account-summary-orders');
+    var accountNavLabel = document.getElementById('account-nav-label');
+
+    if (accountAvatar) accountAvatar.textContent = hasProfile ? getCustomerInitials(profile) : 'LT';
+    if (profileName) profileName.textContent = name;
+    if (profileEmail) profileEmail.textContent = email;
+    if (summaryEmail) summaryEmail.textContent = email;
+    if (summaryOrders) summaryOrders.textContent = String(ordersCount);
+    if (accountNavLabel) accountNavLabel.textContent = session ? name : t('accountNav');
 }
 
 function syncCustomerAuthForm() {
-    var emailInput = document.getElementById('customer-auth-email');
+    var emailInput = document.getElementById('auth-email-input');
+    var nameInput = document.getElementById('auth-full-name-input');
+    var loginBtn = document.getElementById('auth-login-btn');
+    var registerBtn = document.getElementById('auth-register-btn');
+    var accountBtn = document.getElementById('account-nav-btn');
     var logoutBtn = document.getElementById('customer-auth-logout-btn');
+    var summaryGrid = document.querySelector('.account-summary-grid');
+    var accountActions = document.querySelector('.account-view-actions');
+    var guestPanel = document.getElementById('account-guest-panel');
+    var ordersPanel = document.getElementById('customer-orders-list-panel');
+    var authGoogleNote = document.getElementById('auth-google-note');
+    var accountGoogleStatus = document.getElementById('account-google-status');
     var session = getCustomerAuthSession();
     var portalSession = getCustomerPortalSession();
+    var googleHelperCopy = getGoogleSignInHelperCopy();
 
     if (emailInput) {
         if (session && session.profile && session.profile.email) {
@@ -1257,8 +1970,26 @@ function syncCustomerAuthForm() {
             emailInput.value = portalSession.email;
         }
     }
+    if (nameInput && session && session.profile && session.profile.fullName && !nameInput.value.trim()) {
+        nameInput.value = session.profile.fullName;
+    }
 
+    if (loginBtn) loginBtn.hidden = Boolean(session);
+    if (registerBtn) registerBtn.hidden = Boolean(session);
+    if (accountBtn) accountBtn.hidden = !session;
     if (logoutBtn) logoutBtn.hidden = !session;
+    if (summaryGrid) summaryGrid.hidden = !session;
+    if (accountActions) accountActions.hidden = !session;
+    if (guestPanel) guestPanel.hidden = Boolean(session);
+    if (ordersPanel && !session) {
+        ordersPanel.hidden = true;
+        ordersPanel.innerHTML = '';
+    }
+    if (authGoogleNote) authGoogleNote.textContent = googleHelperCopy;
+    if (accountGoogleStatus) accountGoogleStatus.textContent = googleHelperCopy;
+
+    syncCustomerAccountSummary();
+    syncCheckoutAccountPrefill();
 }
 
 function rememberCustomerAuthSession(result) {
@@ -1281,34 +2012,486 @@ function rememberCustomerAuthSession(result) {
     return session;
 }
 
+function isAuthModalOpen() {
+    var modal = document.getElementById('auth-modal');
+    return Boolean(modal && !modal.hidden);
+}
+
+function syncAuthModeUI() {
+    var isLogin = authUIState.mode === 'login';
+    var registerBtn = document.getElementById('auth-mode-register-btn');
+    var loginBtn = document.getElementById('auth-mode-login-btn');
+    var title = document.getElementById('auth-modal-title');
+    var fullNameGroup = document.getElementById('auth-full-name-group');
+    var confirmGroup = document.getElementById('auth-confirm-password-group');
+    var passwordInput = document.getElementById('auth-password-input');
+    var confirmInput = document.getElementById('auth-confirm-password-input');
+    var submitBtn = document.getElementById('auth-submit-btn');
+
+    if (registerBtn) registerBtn.classList.toggle('active', !isLogin);
+    if (loginBtn) loginBtn.classList.toggle('active', isLogin);
+    if (title) title.textContent = isLogin ? t('loginNav') : t('registerNav');
+    if (fullNameGroup) fullNameGroup.hidden = isLogin;
+    if (confirmGroup) confirmGroup.hidden = isLogin;
+    if (confirmInput) confirmInput.required = !isLogin;
+    if (passwordInput) passwordInput.setAttribute('autocomplete', isLogin ? 'current-password' : 'new-password');
+    if (submitBtn) submitBtn.textContent = isLogin ? t('loginNav') : t('registerNav');
+
+    setAuthModalStatus('idle');
+    syncCustomerAuthForm();
+}
+
+function openAuthModal(mode) {
+    var modal = document.getElementById('auth-modal');
+    var passwordInput = document.getElementById('auth-password-input');
+    var confirmInput = document.getElementById('auth-confirm-password-input');
+    var focusTargetId = mode === 'register' ? 'auth-full-name-input' : 'auth-email-input';
+    var wasOpen = isAuthModalOpen();
+
+    if (!modal) return;
+
+    if (!wasOpen && document.activeElement && document.activeElement !== document.body) {
+        lastFocusedBeforeAuthModal = document.activeElement;
+    }
+
+    authUIState.mode = mode === 'register' ? 'register' : 'login';
+    modal.hidden = false;
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+
+    if (passwordInput) passwordInput.value = '';
+    if (confirmInput) confirmInput.value = '';
+
+    syncAuthModeUI();
+
+    window.requestAnimationFrame(function () {
+        ensureGoogleSignInUI();
+        var focusTarget = document.getElementById(focusTargetId) || document.getElementById('auth-email-input');
+        if (focusTarget && typeof focusTarget.focus === 'function') focusTarget.focus();
+    });
+}
+
+function closeAuthModal() {
+    var modal = document.getElementById('auth-modal');
+    if (!modal) return;
+    var passwordInput = document.getElementById('auth-password-input');
+    var confirmInput = document.getElementById('auth-confirm-password-input');
+
+    modal.hidden = true;
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    authUIState.busy = false;
+    setAuthModalStatus('idle');
+    if (passwordInput) passwordInput.value = '';
+    if (confirmInput) confirmInput.value = '';
+    if (lastFocusedBeforeAuthModal && document.contains(lastFocusedBeforeAuthModal)) {
+        lastFocusedBeforeAuthModal.focus();
+    }
+    lastFocusedBeforeAuthModal = null;
+}
+
+function switchAuthMode(mode) {
+    authUIState.mode = mode === 'login' ? 'login' : 'register';
+    syncAuthModeUI();
+    ensureGoogleSignInUI();
+}
+
+function showGoogleUnavailableMessage(context) {
+    var configured = isGoogleSignInConfigured();
+    var message = configured ? t('authGoogleLoading') : t('authGoogleSetupHint');
+    if (context === 'account') {
+        var accountGoogleStatus = document.getElementById('account-google-status');
+        if (accountGoogleStatus) accountGoogleStatus.textContent = message;
+        showToast('info', t('accountNav'), message);
+        ensureGoogleSignInUI();
+        return;
+    }
+
+    setAuthModalStatus(configured ? 'loading' : 'error', message);
+    ensureGoogleSignInUI();
+}
+
+function getGoogleSignInTargets() {
+    return [
+        {
+            container: document.getElementById('google-signin-primary'),
+            fallback: document.getElementById('google-fallback-primary'),
+            minWidth: 240,
+            maxWidth: 420
+        },
+        {
+            container: document.getElementById('google-signin-account'),
+            fallback: document.getElementById('google-fallback-account'),
+            minWidth: 240,
+            maxWidth: 360
+        }
+    ];
+}
+
+function resetGoogleSignInTargets(targets) {
+    targets.forEach(function (target) {
+        if (!target || !target.container) return;
+        target.container.innerHTML = '';
+        target.container.dataset.googleRendered = 'false';
+    });
+}
+
+function ensureGoogleSignInUI() {
+    var authConfig = getCustomerAuthConfig();
+    var targets = getGoogleSignInTargets();
+    var primary = document.getElementById('google-signin-primary');
+    if (!primary && !document.getElementById('google-signin-account')) return false;
+
+    targets.forEach(function (target) {
+        if (target && target.fallback) {
+            target.fallback.classList.toggle('is-pending', !(authConfig.googleEnabled && authConfig.googleClientId));
+        }
+    });
+
+    if (!authConfig.googleEnabled || !authConfig.googleClientId) {
+        targets.forEach(function (target) {
+            if (target && target.fallback) target.fallback.hidden = false;
+        });
+        resetGoogleSignInTargets(targets);
+        googleIdentityInitialized = false;
+        return false;
+    }
+
+    if (!(window.google && google.accounts && google.accounts.id)) {
+        targets.forEach(function (target) {
+            if (target && target.fallback) target.fallback.hidden = false;
+        });
+        window.setTimeout(function () {
+            if (isAuthModalOpen() || state.currentView === 'account') ensureGoogleSignInUI();
+        }, 400);
+        return false;
+    }
+
+    if (!googleIdentityInitialized) {
+        google.accounts.id.initialize({
+            client_id: authConfig.googleClientId,
+            callback: handleGoogleCredentialResponse,
+            auto_select: false,
+            cancel_on_tap_outside: true
+        });
+        googleIdentityInitialized = true;
+    }
+
+    targets.forEach(function (target) {
+        if (target && target.fallback) target.fallback.hidden = true;
+        if (!target || !target.container || target.container.dataset.googleRendered === 'true') return;
+        target.container.innerHTML = '';
+        google.accounts.id.renderButton(target.container, {
+            theme: 'outline',
+            size: 'large',
+            shape: 'pill',
+            text: 'continue_with',
+            width: Math.max(target.minWidth, Math.min(target.maxWidth, target.container.clientWidth || target.maxWidth))
+        });
+        target.container.dataset.googleRendered = 'true';
+    });
+    return true;
+}
+
+function normalizeStoredCartItem(item) {
+    if (!item || !item.tourId) return null;
+
+    var addOns = Array.isArray(item.addOns) ? item.addOns.map(function (entry) {
+        if (entry && typeof entry === 'object') {
+            return {
+                id: safeText(entry.id || entry.slug).trim(),
+                name: safeText(entry.name).trim(),
+                pricePerPerson: safeInt(entry.pricePerPerson, 0)
+            };
+        }
+        return {
+            id: safeText(entry).trim(),
+            name: '',
+            pricePerPerson: 0
+        };
+    }).filter(function (entry) {
+        return entry.id;
+    }) : [];
+
+    return {
+        id: safeText(item.id).trim() || (safeText(item.tourId).trim() + '-' + Date.now()),
+        tourId: safeText(item.tourId).trim(),
+        name: safeText(item.name).trim(),
+        image: safeText(item.image).trim(),
+        adults: Math.max(0, safeInt(item.adults, 0)),
+        children: Math.max(0, safeInt(item.children, 0)),
+        adultPriceUSD: safeInt(item.adultPriceUSD, 0),
+        childPriceUSD: safeInt(item.childPriceUSD, 0),
+        addOns: addOns,
+        subtotalUSD: safeInt(item.subtotalUSD, 0)
+    };
+}
+
+function buildCartItemSignature(item) {
+    var normalized = normalizeStoredCartItem(item);
+    if (!normalized) return '';
+    var addOns = normalized.addOns.map(function (entry) {
+        return entry.id;
+    }).sort().join(',');
+    return [
+        normalized.tourId,
+        normalized.adults,
+        normalized.children,
+        addOns
+    ].join('|');
+}
+
+function mergeCartCollections(primary, secondary) {
+    var seen = {};
+    var merged = [];
+
+    [primary, secondary].forEach(function (collection) {
+        if (!Array.isArray(collection)) return;
+        collection.forEach(function (item) {
+            var normalized = normalizeStoredCartItem(item);
+            var signature = buildCartItemSignature(normalized);
+            if (!normalized || !signature || seen[signature]) return;
+            seen[signature] = true;
+            merged.push(normalized);
+        });
+    });
+
+    return merged;
+}
+
+function mergeAuthenticatedCart(remoteCart, profilePublicId) {
+    var localCart = Array.isArray(state.cart) ? state.cart : [];
+    var canMergeLocal = !localCartOwner || localCartOwner === 'guest' || localCartOwner === profilePublicId;
+    var merged = mergeCartCollections(Array.isArray(remoteCart) ? remoteCart : [], canMergeLocal ? localCart : []);
+    state.cart = merged;
+    localCartOwner = profilePublicId || 'guest';
+    saveState();
+    updateCartUI();
+    return merged;
+}
+
+async function syncCustomerCartNow() {
+    var session = getCustomerAuthSession();
+    if (!session || !session.token) return null;
+
+    var response = await customerAuthFetch('/api/me/cart', {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            cart: state.cart
+        })
+    });
+    var result = await response.json().catch(function () { return {}; });
+    if (!response.ok || (result && result.error)) {
+        throw new Error(result && result.error ? result.error : t('adminActionFailed'));
+    }
+    return result;
+}
+
+function scheduleCustomerCartSync() {
+    if (!getCustomerAuthSession()) return;
+    window.clearTimeout(customerCartSyncTimer);
+    customerCartSyncTimer = window.setTimeout(function () {
+        syncCustomerCartNow().catch(function (error) {
+            console.warn('syncCustomerCartNow error', error);
+        });
+    }, 300);
+}
+
+async function completeCustomerAuthentication(result, successMessage) {
+    var session = rememberCustomerAuthSession(result);
+    if (!session || !session.profile) {
+        throw new Error(t('authInvalidCredentials'));
+    }
+
+    mergeAuthenticatedCart(result && result.cart, session.profile.publicId);
+    await loadCustomerAccountOrders({ silent: true, autoSelect: true });
+    syncCustomerAuthForm();
+    closeAuthModal();
+    setCustomerAuthStatus('success', successMessage || t('authLoginSuccess'));
+    showToast('success', t('accountNav'), successMessage || t('authLoginSuccess'));
+    navigateTo('account');
+}
+
+async function restoreCustomerSession() {
+    var session = getCustomerAuthSession();
+    if (!session) {
+        syncCustomerAuthForm();
+        return null;
+    }
+
+    try {
+        var response = await customerAuthFetch('/api/me');
+        var result = await response.json();
+        if (!response.ok || (result && result.error)) {
+            throw new Error(result && result.error ? result.error : t('sessionExpiredMessage'));
+        }
+
+        rememberCustomerAuthSession({
+            token: session.token,
+            expiresAt: result.session && result.session.expiresAt ? result.session.expiresAt : session.expiresAt,
+            profile: result.profile || session.profile
+        });
+        mergeAuthenticatedCart(result.cart, session.profile.publicId);
+        await loadCustomerAccountOrders({ silent: true, autoSelect: true });
+        setCustomerAuthStatus('success', t('accountRestored'));
+        return result;
+    } catch (error) {
+        console.warn('restoreCustomerSession error', error);
+        clearCustomerAuthSession(false);
+        return null;
+    }
+}
+
+async function submitCustomerAuth(event) {
+    if (event) event.preventDefault();
+    if (authUIState.busy) return;
+
+    var mode = authUIState.mode === 'login' ? 'login' : 'register';
+    var nameInput = document.getElementById('auth-full-name-input');
+    var emailInput = document.getElementById('auth-email-input');
+    var passwordInput = document.getElementById('auth-password-input');
+    var confirmInput = document.getElementById('auth-confirm-password-input');
+    var submitBtn = document.getElementById('auth-submit-btn');
+    var payload = {
+        fullName: safeText(nameInput && nameInput.value).trim(),
+        email: safeText(emailInput && emailInput.value).trim().toLowerCase(),
+        password: passwordInput ? passwordInput.value : ''
+    };
+
+    if (!payload.email) {
+        setAuthModalStatus('error', t('authEmailRequired'));
+        return;
+    }
+    if (!payload.password || payload.password.length < 8) {
+        setAuthModalStatus('error', t('authPasswordRules'));
+        return;
+    }
+    if (mode === 'register' && payload.password !== (confirmInput ? confirmInput.value : '')) {
+        setAuthModalStatus('error', t('authPasswordMismatch'));
+        return;
+    }
+
+    authUIState.busy = true;
+    if (submitBtn) submitBtn.classList.add('loading');
+    setAuthModalStatus('loading', t('portalLoading'));
+
+    try {
+        var response = await fetch(mode === 'login' ? '/api/auth/customer/login' : '/api/auth/customer/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+        });
+        var result = await response.json().catch(function () { return {}; });
+        if (!response.ok || (result && result.error)) {
+            throw new Error(result && result.error ? result.error : (mode === 'login' ? t('authInvalidCredentials') : t('authAccountExists')));
+        }
+
+        await completeCustomerAuthentication(result, mode === 'login' ? t('authLoginSuccess') : t('authRegisterSuccess'));
+    } catch (error) {
+        console.error(error);
+        setAuthModalStatus('error', error.message || t('authInvalidCredentials'));
+    } finally {
+        authUIState.busy = false;
+        if (submitBtn) submitBtn.classList.remove('loading');
+    }
+}
+
+async function handleGoogleCredentialResponse(response) {
+    if (!response || !response.credential) {
+        setAuthModalStatus('error', t('authGoogleError'));
+        return;
+    }
+
+    authUIState.busy = true;
+    setAuthModalStatus('loading', t('portalLoading'));
+    try {
+        var apiResponse = await fetch('/api/auth/customer/google', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                credential: response.credential
+            })
+        });
+        var result = await apiResponse.json().catch(function () { return {}; });
+        if (!apiResponse.ok || (result && result.error)) {
+            throw new Error(result && result.error ? result.error : t('authGoogleError'));
+        }
+
+        await completeCustomerAuthentication(result, t('authLoginSuccess'));
+    } catch (error) {
+        console.error(error);
+        setAuthModalStatus('error', error.message || t('authGoogleError'));
+    } finally {
+        authUIState.busy = false;
+    }
+}
+
+function initAuthModal() {
+    var modal = document.getElementById('auth-modal');
+    if (!modal) return;
+
+    modal.addEventListener('click', function (event) {
+        if (event.target === modal) closeAuthModal();
+    });
+
+    document.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape' && isAuthModalOpen()) {
+            event.preventDefault();
+            closeAuthModal();
+        }
+    });
+
+    syncAuthModeUI();
+}
+
 function clearCustomerOrdersList() {
     var panel = document.getElementById('customer-orders-list-panel');
     if (!panel) return;
 
     if (!getCustomerAuthSession()) {
         panel.hidden = true;
-        panel.innerHTML = '<p class="admin-orders-empty">' + escapeHtml(t('customerOrdersEmpty')) + '</p>';
+        panel.innerHTML = '';
         return;
     }
 
     panel.hidden = false;
     panel.innerHTML = '<p class="admin-orders-empty">' + escapeHtml(t('customerOrdersEmpty')) + '</p>';
+    syncCustomerAccountSummary();
 }
 
 function clearCustomerAuthSession(shouldToast) {
+    window.clearTimeout(customerCartSyncTimer);
     customerAccountState.session = null;
     customerAccountState.profile = null;
     customerAccountState.orders = [];
     customerAccountState.selectedPublicId = '';
+    localCartOwner = 'guest';
+    state.cart = [];
     sessionStorage.removeItem(CUSTOMER_AUTH_SESSION_KEY);
+    saveState();
+    updateCartUI();
     syncCustomerAuthForm();
     clearCustomerOrdersList();
     setCustomerAuthStatus('idle');
+    setAuthModalStatus('idle');
     renderCustomerAuthDebugCode('');
 
     if (customerPortalState.source === 'account') {
         customerPortalState.data = null;
         customerPortalState.source = 'portal';
+        clearCustomerPortalResult();
+    }
+
+    if (state.currentView === 'account') {
+        syncCustomerAuthForm();
+        renderCustomerAccountOrders();
         clearCustomerPortalResult();
     }
 
@@ -1428,7 +2611,16 @@ function setOrderLookupStatus(status, message) {
 function clearCustomerPortalResult() {
     var container = document.getElementById('orders-portal-result');
     if (!container) return;
-    container.innerHTML = '<p class="admin-orders-empty">' + escapeHtml(t('myOrdersEmpty')) + '</p>';
+
+    if (state.currentView === 'account' && !getCustomerAuthSession()) {
+        container.innerHTML = buildAccountGuestDetailEmptyState();
+        return;
+    }
+
+    var key = customerPortalState.source === 'account' || state.currentView === 'account'
+        ? 'accountOrdersEmptyState'
+        : 'myOrdersEmpty';
+    container.innerHTML = '<p class="admin-orders-empty">' + escapeHtml(t(key)) + '</p>';
 }
 
 function syncCustomerPortalLookupForm() {
@@ -1772,6 +2964,7 @@ function renderCustomerAccountOrders() {
             + '<div><h3>' + escapeHtml(t('customerOrdersTitle')) + '</h3><p>' + escapeHtml(t('customerOrdersHint')) + '</p></div>'
             + '</div>'
             + '<p class="admin-orders-empty">' + escapeHtml(t('customerOrdersEmpty')) + '</p>';
+        syncCustomerAccountSummary();
         return;
     }
 
@@ -1799,6 +2992,7 @@ function renderCustomerAccountOrders() {
     });
 
     panel.innerHTML = html;
+    syncCustomerAccountSummary();
 }
 
 async function loadCustomerAccountOrders(options) {
@@ -2050,9 +3244,62 @@ async function adminFetch(url, options) {
     return response;
 }
 
+function redirectStandaloneAuthFallback() {
+    var path = window.location.pathname || '';
+    var normalized = path.replace(/\/+$/, '') || '/';
+    var targetPath = '';
+    var authMode = '';
+
+    if (normalized.endsWith('/login')) {
+        targetPath = normalized.slice(0, -6) || '/';
+        authMode = 'login';
+    } else if (normalized.endsWith('/register')) {
+        targetPath = normalized.slice(0, -9) || '/';
+        authMode = 'register';
+    }
+
+    if (!targetPath || !authMode) return false;
+    if (!targetPath.endsWith('/')) targetPath += '/';
+
+    try {
+        var params = new URLSearchParams(window.location.search || '');
+        params.set('auth', authMode);
+        window.location.replace(targetPath + (params.toString() ? '?' + params.toString() : '') + window.location.hash);
+    } catch (_) {
+        window.location.replace(targetPath + '?auth=' + authMode + window.location.hash);
+    }
+    return true;
+}
+
+function getRequestedAuthMode() {
+    try {
+        var params = new URLSearchParams(window.location.search || '');
+        var authMode = params.get('auth');
+        if (authMode === 'register') return 'register';
+        if (authMode === 'login') return 'login';
+    } catch (_) {
+        return '';
+    }
+    return '';
+}
+
+function clearRequestedAuthMode() {
+    try {
+        var url = new URL(window.location.href);
+        if (!url.searchParams.has('auth')) return;
+        url.searchParams.delete('auth');
+        window.history.replaceState({}, document.title, url.pathname + url.search + url.hash);
+    } catch (_) {
+        // ignore URL parsing failures
+    }
+}
+
 document.addEventListener('DOMContentLoaded', initApp);
 
 async function initApp() {
+    if (redirectStandaloneAuthFallback()) return;
+    var requestedAuthMode = getRequestedAuthMode();
+
     try {
         loadState();
     } catch (e) {
@@ -2104,6 +3351,9 @@ async function initApp() {
         if (CONFIG.emailjs && CONFIG.emailjs.publicKey && typeof emailjs !== 'undefined') {
             emailjs.init(CONFIG.emailjs.publicKey);
         }
+
+        updateContactInfoUI();
+        applyDemoModeState();
     } catch (e6) {
         console.error('API error', e6);
     }
@@ -2120,13 +3370,21 @@ async function initApp() {
         console.warn('initPaymentMethodOptions error', e8);
     }
 
+    try {
+        initAuthModal();
+    } catch (e9) {
+        console.warn('initAuthModal error', e9);
+    }
+
     initRevealObserver();
     bindBookingPreviewListeners();
 
     var modal = document.getElementById('cart-modal');
     if (modal) {
         modal.addEventListener('click', function (e) {
-            if (e.target === modal) closeCartModal();
+            if (e.target === modal && !document.body.classList.contains('checkout-view-active')) {
+                closeCartModal();
+            }
         });
     }
 
@@ -2137,6 +3395,7 @@ async function initApp() {
             closeCartModal();
             return;
         }
+        if (document.body.classList.contains('checkout-view-active')) return;
         trapCartModalFocus(e);
     });
 
@@ -2144,36 +3403,41 @@ async function initApp() {
 
     updateCartUI();
     setBookingStatus('idle');
+    syncCustomerAuthForm();
+    ensureGoogleSignInUI();
+    restoreCustomerSession().catch(function (error) {
+        console.warn('restoreCustomerSession error', error);
+    });
     handleCheckoutReturnFromPayPal().catch(function (error) {
         console.error('handleCheckoutReturnFromPayPal error', error);
     });
     handleHash();
+    if (requestedAuthMode) {
+        clearRequestedAuthMode();
+        openAuthModal(requestedAuthMode);
+    }
 }
 
 function handleHash() {
     var hash = window.location.hash.slice(1);
+
+    if (hash === 'checkout') {
+        showCheckoutView();
+        return;
+    }
 
     if (hash === 'about') {
         showAbout();
         return;
     }
 
-    if (hash === 'orders') {
-        showOrdersView();
+    if (hash === 'account') {
+        showAccount();
         return;
     }
 
-    if (hash === 'admin') {
-        showAdminLogin();
-        return;
-    }
-
-    if (hash === 'dashboard') {
-        if (isAdminLoggedIn()) {
-            showAdminDashboard();
-        } else {
-            navigateTo('admin');
-        }
+    if (hash === 'orders' || hash === 'admin' || hash === 'dashboard') {
+        showCatalog();
         return;
     }
 
@@ -2188,10 +3452,28 @@ function handleHash() {
 function navigateTo(view, tourId) {
     if (view === 'catalog') window.location.hash = '';
     else if (view === 'detail' && tourId) window.location.hash = tourId;
+    else if (view === 'checkout') window.location.hash = 'checkout';
     else if (view === 'about') window.location.hash = 'about';
-    else if (view === 'orders') window.location.hash = 'orders';
-    else if (view === 'admin') window.location.hash = 'admin';
-    else if (view === 'dashboard') window.location.hash = 'dashboard';
+    else if (view === 'account') window.location.hash = 'account';
+    else window.location.hash = '';
+}
+
+function setCheckoutLayoutActive(active) {
+    var modal = document.getElementById('cart-modal');
+    if (!modal) return;
+
+    if (active) {
+        modal.classList.add('active');
+        modal.setAttribute('aria-hidden', 'false');
+        document.body.classList.add('checkout-view-active');
+    } else {
+        modal.classList.remove('active');
+        modal.setAttribute('aria-hidden', 'true');
+        document.body.classList.remove('checkout-view-active');
+        stopCheckoutHero();
+    }
+
+    document.body.style.overflow = '';
 }
 
 function hideAllViews() {
@@ -2201,6 +3483,7 @@ function hideAllViews() {
     var mainView = document.getElementById('main-view');
     var detailView = document.getElementById('detail-view');
     var aboutView = document.getElementById('about-view');
+    var accountView = document.getElementById('account-view');
     var ordersView = document.getElementById('orders-view');
     var adminLoginView = document.getElementById('admin-login-view');
     var adminDashboardView = document.getElementById('admin-dashboard-view');
@@ -2210,10 +3493,12 @@ function hideAllViews() {
     if (mainView) mainView.style.display = 'none';
     if (detailView) detailView.style.display = 'none';
     if (aboutView) aboutView.style.display = 'none';
+    if (accountView) accountView.style.display = 'none';
     if (ordersView) ordersView.style.display = 'none';
     if (adminLoginView) adminLoginView.style.display = 'none';
     if (adminDashboardView) adminDashboardView.style.display = 'none';
     if (testimonials) testimonials.style.display = 'none';
+    setCheckoutLayoutActive(false);
 
     var floatingBack = document.getElementById('floating-back');
     if (floatingBack) floatingBack.remove();
@@ -2262,64 +3547,47 @@ function showAbout() {
     window.scrollTo(0, 0);
 }
 
-function showOrdersView() {
-    state.currentView = 'orders';
+function showAccount() {
+    state.currentView = 'account';
+    state.currentTour = null;
     hideAllViews();
-    document.getElementById('orders-view').style.display = '';
-    syncCustomerPortalLookupForm();
-    syncCustomerAuthForm();
-    applyLanguage({ rerender: false, persist: false });
 
-    var hasCustomerAuth = Boolean(getCustomerAuthSession());
-
-    if (hasCustomerAuth) {
-        loadCustomerAccountOrders({ silent: true, autoSelect: true }).catch(function (error) {
-            console.error('loadCustomerAccountOrders error', error);
-            setCustomerAuthStatus('error', error.message || t('adminActionFailed'));
-        });
+    var accountView = document.getElementById('account-view');
+    if (accountView) accountView.style.display = '';
+    if (getCustomerAuthSession()) {
+        renderCustomerAccountOrders();
+        renderCustomerPortalResult();
     } else {
         clearCustomerOrdersList();
-        setCustomerAuthStatus('idle');
+        clearCustomerPortalResult();
     }
+    applyLanguage({ rerender: false, persist: false });
+    ensureGoogleSignInUI();
+    syncCustomerAuthForm();
+    window.scrollTo(0, 0);
+}
 
-    if (!hasCustomerAuth && getCustomerPortalSession() && customerPortalState.source !== 'account') {
-        loadCustomerPortalDetail({ silent: true }).catch(function (error) {
-            console.error('loadCustomerPortalDetail error', error);
-            setOrderLookupStatus('error', error.message || t('portalLookupError'));
-        });
-    } else {
-        if (!customerPortalState.data || customerPortalState.source !== 'account') {
-            clearCustomerPortalResult();
-        }
-        setOrderLookupStatus('idle');
-    }
+function showOrdersView() {
+    showAccount();
+}
 
+function showCheckoutView() {
+    state.currentView = 'checkout';
+    hideAllViews();
+    setCheckoutLayoutActive(true);
+    initCheckoutHero();
+    updateCartUI();
+    applyLanguage({ rerender: false, persist: false });
+    focusCartModalPrimaryControl();
     window.scrollTo(0, 0);
 }
 
 function showAdminLogin() {
-    state.currentView = 'admin';
-    hideAllViews();
-    document.getElementById('admin-login-view').style.display = '';
-    document.getElementById('admin-login-error').style.display = 'none';
-    applyLanguage({ rerender: false, persist: false });
-    window.scrollTo(0, 0);
+    showCatalog();
 }
 
 function showAdminDashboard() {
-    if (!isAdminLoggedIn()) {
-        navigateTo('admin');
-        return;
-    }
-
-    state.currentView = 'dashboard';
-    hideAllViews();
-    document.getElementById('admin-dashboard-view').style.display = '';
-    applyLanguage({ rerender: false, persist: false });
-    loadAdminOrders(false).catch(function (error) {
-        console.error('loadAdminOrders error', error);
-    });
-    window.scrollTo(0, 0);
+    showCatalog();
 }
 
 async function handleAdminLogin(e) {
@@ -2683,7 +3951,7 @@ function changeLanguage(lang, options) {
             renderCatalog();
         } else if (state.currentTour && TOURS[state.currentTour]) {
             renderTourDetail(TOURS[state.currentTour]);
-        } else if (state.currentView === 'orders') {
+        } else if (state.currentView === 'orders' || state.currentView === 'account') {
             renderCustomerAccountOrders();
             renderCustomerPortalResult();
         } else if (state.currentView === 'dashboard') {
@@ -2730,6 +3998,8 @@ function applyDataTranslations() {
 
     renderPaymentMethodCopy();
     renderCheckoutPricingSummary();
+    syncCustomerAuthForm();
+    if (isAuthModalOpen()) syncAuthModeUI();
 }
 
 function getSelectedPaymentMethod() {
@@ -2743,6 +4013,8 @@ function getSelectedPaymentMethod() {
 }
 
 function setSelectedPaymentMethod(method) {
+    if (getConfiguredPaymentMethods().indexOf(method) === -1) return;
+
     if (state.selectedPaymentMethod !== method && state.latestCheckoutOrder) {
         clearCheckoutResult();
     }
@@ -2765,23 +4037,21 @@ function updatePaymentMethodUI() {
         var enabled = available.indexOf(method) !== -1;
         option.classList.toggle('disabled', !enabled);
         option.classList.toggle('active', enabled && method === selected);
+        option.setAttribute('aria-disabled', enabled ? 'false' : 'true');
+        option.setAttribute('aria-checked', enabled && method === selected ? 'true' : 'false');
         if (input) {
             input.disabled = !enabled;
             input.checked = enabled && method === selected;
         }
     });
 
-    var whatsappPreview = document.getElementById('whatsapp-preview');
-    var emailPreview = document.getElementById('email-preview');
-    if (whatsappPreview) whatsappPreview.style.display = 'none';
-    if (emailPreview) emailPreview.style.display = 'none';
-
+    hideBookingPreviews();
     renderCheckoutPricingSummary();
     syncCheckoutActionButtons();
 }
 
 function isCheckoutPreviewModeActive() {
-    return state.checkoutPreviewMode && state.cart.length === 0;
+    return state.checkoutPreviewMode;
 }
 
 function formatPreviewDateValue(date) {
@@ -2817,7 +4087,8 @@ function captureCheckoutFormSnapshot() {
             hotel: safeText(hotelInput && hotelInput.dataset ? hotelInput.dataset.hotel : ''),
             zone: safeText(hotelInput && hotelInput.dataset ? hotelInput.dataset.zone : '')
         },
-        comments: safeText(document.getElementById('customer-comments') && document.getElementById('customer-comments').value)
+        comments: safeText(document.getElementById('customer-comments') && document.getElementById('customer-comments').value),
+        selectedPaymentMethod: safeText(state.selectedPaymentMethod)
     };
 }
 
@@ -2869,6 +4140,8 @@ function restoreCheckoutFormSnapshot(snapshot) {
 
     if (commentsInput) commentsInput.value = data.comments || '';
 
+    state.selectedPaymentMethod = data.selectedPaymentMethod || getDefaultPaymentMethod();
+
     closeAC();
     setHotelNoMatchHint(false);
     if (data.hotelDataset && data.hotelDataset.hotel) {
@@ -2877,10 +4150,79 @@ function restoreCheckoutFormSnapshot(snapshot) {
         hideMapBtn();
     }
 
+    updatePaymentMethodUI();
     updatePreviews();
 }
 
-function applyCheckoutPreviewDummyData() {
+function buildPreviewCartItem() {
+    var tours = Object.values(TOURS).filter(function (tour) {
+        return tour
+            && tour.id
+            && tour.pricing
+            && Array.isArray(tour.pricing.tiers)
+            && tour.pricing.tiers.length > 0;
+    });
+    var tour = pickRandomItem(tours);
+    if (!tour) {
+        return {
+            id: 'preview-generic-' + Date.now(),
+            previewDemo: true,
+            name: state.language === 'en' ? 'Riviera Maya Demo Experience' : 'Experiencia demo Riviera Maya',
+            image: 'imagenes/whale.jpg',
+            adults: 4,
+            children: 1,
+            adultPriceUSD: 145,
+            childPriceUSD: 85,
+            addOns: [],
+            subtotalUSD: 665
+        };
+    }
+
+    var tiers = (tour.pricing.tiers || []).filter(function (tier) {
+        return safeInt(tier && tier.adults, 0) > 0 && safeInt(tier && tier.adultPrice, 0) > 0;
+    });
+    var selectedTier = pickRandomItem(tiers) || { adults: 2, adultPrice: safeInt(tour.card && tour.card.priceFrom, 0) };
+    var adults = Math.max(1, safeInt(selectedTier.adults, 2));
+    var children = randomIntBetween(0, Math.min(2, adults > 2 ? 2 : 1));
+    var childPrice = safeInt(tour.pricing.childPriceFlat, 0);
+    var totalTravelers = adults + children;
+    var selectedAddOns = [];
+    var addOnOptions = tour.addOns && Array.isArray(tour.addOns.options) ? tour.addOns.options : [];
+
+    if (addOnOptions.length > 0 && Math.random() >= 0.5) {
+        var selectedAddOn = pickRandomItem(addOnOptions);
+        if (selectedAddOn) {
+            selectedAddOns.push({
+                id: selectedAddOn.id,
+                name: getLocalized(selectedAddOn.title, state.language),
+                pricePerPerson: safeInt(selectedAddOn.pricePerPerson, 0)
+            });
+        }
+    }
+
+    var addOnsSubtotal = selectedAddOns.reduce(function (sum, addOn) {
+        return sum + safeInt(addOn.pricePerPerson, 0) * totalTravelers;
+    }, 0);
+    var firstImage = tour.gallery && Array.isArray(tour.gallery.images) && tour.gallery.images.length > 0
+        ? tour.gallery.images[0]
+        : 1;
+
+    return {
+        id: 'preview-' + tour.id + '-' + Date.now(),
+        previewDemo: true,
+        tourId: tour.id,
+        name: getLocalized(tour.hero.title, state.language),
+        image: sanitizeImageUrl(buildImageUrl(tour.imageFolder, firstImage)),
+        adults: adults,
+        children: children,
+        adultPriceUSD: safeInt(selectedTier.adultPrice, safeInt(tour.card && tour.card.priceFrom, 0)),
+        childPriceUSD: childPrice,
+        addOns: selectedAddOns,
+        subtotalUSD: adults * safeInt(selectedTier.adultPrice, 0) + children * childPrice + addOnsSubtotal
+    };
+}
+
+function applyCheckoutPreviewDummyData(previewItem) {
     var nameInput = document.getElementById('customer-name');
     var emailInput = document.getElementById('customer-email');
     var phoneInput = document.getElementById('customer-phone');
@@ -2890,30 +4232,34 @@ function applyCheckoutPreviewDummyData() {
     var pickupHour = document.getElementById('pickup-hour');
     var pickupMin = document.getElementById('pickup-min');
     var previewDate = new Date();
+    var pickupHourValue = String(randomIntBetween(8, 11));
+    var pickupMinuteValue = pickRandomItem(['00', '30']) || '00';
+    var previewTitle = previewItem ? getCartItemName(previewItem) : t('previewCheckoutCartValue');
+    var demoCode = Date.now().toString(36).slice(-5);
 
     previewDate.setDate(previewDate.getDate() + 1);
 
-    if (nameInput) nameInput.value = state.language === 'en' ? 'Preview Customer' : 'Cliente de prueba';
-    if (emailInput) emailInput.value = 'preview@lindotours.test';
-    if (phoneInput) phoneInput.value = '+52 998 000 0000';
+    if (nameInput) nameInput.value = state.language === 'en' ? 'Demo Guest' : 'Cliente demo';
+    if (emailInput) emailInput.value = 'demo+' + demoCode + '@lindotours.test';
+    if (phoneInput) phoneInput.value = '+52 998 101 2020';
     if (window.tourDatePicker) {
         window.tourDatePicker.setDate(previewDate, true);
     } else if (dateInput) {
         dateInput.value = formatPreviewDateValue(previewDate);
     }
-    if (pickupHour) pickupHour.value = '9';
-    if (pickupMin) pickupMin.value = '00';
+    if (pickupHour) pickupHour.value = pickupHourValue;
+    if (pickupMin) pickupMin.value = pickupMinuteValue;
     if (pickupHour) pickupHour.dispatchEvent(new Event('change', { bubbles: true }));
     if (pickupMin) pickupMin.dispatchEvent(new Event('change', { bubbles: true }));
     if (hotelInput) {
-        hotelInput.value = state.language === 'en' ? 'Preview Hotel' : 'Hotel de prueba';
+        hotelInput.value = state.language === 'en' ? 'Demo Hotel Cancun' : 'Hotel demo Cancun';
         delete hotelInput.dataset.hotel;
         delete hotelInput.dataset.zone;
     }
     if (commentsInput) {
         commentsInput.value = state.language === 'en'
-            ? 'Temporary preview flow without a selected tour.'
-            : 'Flujo temporal de vista previa sin un tour seleccionado.';
+            ? 'Demo checkout for ' + previewTitle + '. Review the fee display and final payment states.'
+            : 'Checkout demo para ' + previewTitle + '. Revisa la comision y los estados del pago final.';
     }
 
     hideMapBtn();
@@ -2926,19 +4272,39 @@ function activateCheckoutPreviewMode() {
     if (!state.checkoutPreviewBackup) {
         state.checkoutPreviewBackup = captureCheckoutFormSnapshot();
     }
+    clearCheckoutResult();
     state.checkoutPreviewMode = true;
-    applyCheckoutPreviewDummyData();
+    state.cart = [];
+
+    var previewItem = buildPreviewCartItem();
+    if (previewItem) {
+        state.cart = [previewItem];
+    }
+
+    state.selectedPaymentMethod = getConfiguredPaymentMethods().indexOf('bank_transfer') !== -1 ? 'bank_transfer' : getDefaultPaymentMethod();
+    applyCheckoutPreviewDummyData(previewItem);
+    updatePaymentMethodUI();
 }
 
 function resetCheckoutPreviewMode(options) {
     var opts = Object.assign({ restoreForm: true }, options || {});
     var snapshot = state.checkoutPreviewBackup;
+    var wasPreviewMode = state.checkoutPreviewMode;
 
     state.checkoutPreviewMode = false;
     state.checkoutPreviewBackup = null;
+    if (wasPreviewMode) {
+        state.cart = state.cart.filter(function (item) {
+            return !item || !item.previewDemo;
+        });
+        clearCheckoutResult();
+    }
 
     if (opts.restoreForm && snapshot) {
         restoreCheckoutFormSnapshot(snapshot);
+    } else if (snapshot && snapshot.selectedPaymentMethod) {
+        state.selectedPaymentMethod = snapshot.selectedPaymentMethod;
+        updatePaymentMethodUI();
     }
 }
 
@@ -2948,6 +4314,7 @@ function syncCheckoutActionButtons() {
     var canAdvance = hasItems || previewMode;
     var nextStep = state.checkoutStep;
     var selected = getSelectedPaymentMethod();
+    var available = getConfiguredPaymentMethods();
     var hasActiveResult = Boolean(
         state.latestCheckoutOrder
         && state.latestCheckoutOrder.order
@@ -2959,12 +4326,17 @@ function syncCheckoutActionButtons() {
     var confirmBtn = document.getElementById('confirm-btn');
     var backToCartBtn = document.getElementById('back-to-cart-btn');
     var editDetailsBtn = document.getElementById('edit-details-btn');
-    var sendEmailBtn = document.getElementById('send-email-btn');
-    var sendWhatsAppBtn = document.getElementById('send-whatsapp-btn');
     var payPayPalBtn = document.getElementById('pay-paypal-btn');
     var bankTransferBtn = document.getElementById('bank-transfer-btn');
-    var paymentHelpCard = document.getElementById('payment-help-card');
-    var previewCard = document.getElementById('checkout-preview-card');
+    var payPayPalCardBtn = document.getElementById('payment-option-paypal-cta');
+    var bankTransferCardBtn = document.getElementById('payment-option-bank-transfer-cta');
+    var confirmMobileActionBar = document.getElementById('confirm-mobile-action-bar');
+    var confirmMobilePayBtn = document.getElementById('confirm-mobile-pay-btn');
+    var confirmMobilePayLabel = document.getElementById('confirm-mobile-pay-label');
+    var showMobileActionBar = canAdvance
+        && nextStep === 3
+        && !hasActiveResult
+        && (selected === 'paypal' || selected === 'bank_transfer');
 
     if (checkoutBtn) checkoutBtn.style.display = hasItems && nextStep === 1 ? 'flex' : 'none';
     if (previewCheckoutBtn) previewCheckoutBtn.style.display = !hasItems ? 'flex' : 'none';
@@ -2972,22 +4344,46 @@ function syncCheckoutActionButtons() {
     if (backToCartBtn) backToCartBtn.style.display = canAdvance && nextStep >= 2 ? 'flex' : 'none';
     if (editDetailsBtn) editDetailsBtn.style.display = canAdvance && nextStep === 3 ? 'flex' : 'none';
 
-    if (payPayPalBtn) payPayPalBtn.style.display = hasItems && nextStep === 3 && selected === 'paypal' && !hasActiveResult ? 'flex' : 'none';
-    if (bankTransferBtn) bankTransferBtn.style.display = hasItems && nextStep === 3 && selected === 'bank_transfer' && !hasActiveResult ? 'flex' : 'none';
-    if (sendEmailBtn) sendEmailBtn.style.display = hasItems && nextStep === 3 && selected === 'manual_contact' ? 'flex' : 'none';
-    if (sendWhatsAppBtn) sendWhatsAppBtn.style.display = hasItems && nextStep === 3 && selected === 'manual_contact' ? 'flex' : 'none';
-    if (paymentHelpCard) paymentHelpCard.hidden = !(hasItems && nextStep === 3 && CONFIG.whatsapp && CONFIG.whatsapp.phone);
-    if (previewCard) previewCard.hidden = !(previewMode && nextStep === 3);
+    if (payPayPalBtn) payPayPalBtn.style.display = 'none';
+    if (bankTransferBtn) bankTransferBtn.style.display = 'none';
+    if (payPayPalCardBtn) {
+        payPayPalCardBtn.disabled = nextStep !== 3 || available.indexOf('paypal') === -1 || (hasActiveResult && selected === 'paypal');
+    }
+    if (bankTransferCardBtn) {
+        bankTransferCardBtn.disabled = nextStep !== 3 || available.indexOf('bank_transfer') === -1 || (hasActiveResult && selected === 'bank_transfer');
+    }
+    if (confirmMobileActionBar) confirmMobileActionBar.hidden = !showMobileActionBar;
+    if (confirmMobilePayBtn) confirmMobilePayBtn.disabled = !showMobileActionBar;
+    if (confirmMobilePayLabel) confirmMobilePayLabel.textContent = getPrimaryCheckoutActionLabel(selected);
 }
 
 function initPaymentMethodOptions() {
     document.querySelectorAll('input[name="payment_method"]').forEach(function (input) {
+        if (input.dataset.bound === '1') return;
+        input.dataset.bound = '1';
         input.addEventListener('change', function () {
             setSelectedPaymentMethod(input.value);
         });
     });
 
-    state.selectedPaymentMethod = getDefaultPaymentMethod();
+    document.querySelectorAll('.payment-method-option').forEach(function (option) {
+        if (option.dataset.bound === '1') return;
+        option.dataset.bound = '1';
+
+        option.addEventListener('click', function (event) {
+            if (event.target.closest('button') || event.target.closest('a') || event.target.closest('input')) return;
+            setSelectedPaymentMethod(option.getAttribute('data-payment-method'));
+        });
+
+        option.addEventListener('keydown', function (event) {
+            if (event.key !== 'Enter' && event.key !== ' ') return;
+            if (event.target.closest('button') || event.target.closest('a')) return;
+            event.preventDefault();
+            setSelectedPaymentMethod(option.getAttribute('data-payment-method'));
+        });
+    });
+
+    state.selectedPaymentMethod = getConfiguredPaymentMethods().indexOf('bank_transfer') !== -1 ? 'bank_transfer' : getDefaultPaymentMethod();
     updatePaymentMethodUI();
 }
 
@@ -3118,6 +4514,7 @@ async function cancelPayPalOrder(orderPublicId, paypalOrderId) {
 
 function renderCheckoutResult(orderResult, mode) {
     state.latestCheckoutOrder = orderResult;
+    renderCheckoutPaymentCards();
 
     var card = document.getElementById('checkout-result-card');
     var orderId = document.getElementById('checkout-result-order-id');
@@ -3129,49 +4526,93 @@ function renderCheckoutResult(orderResult, mode) {
 
     card.hidden = false;
     orderId.textContent = orderResult && orderResult.order ? orderResult.order.publicId : 'LT-XXXX';
+    grid.className = 'checkout-result-layout';
     grid.replaceChildren();
     if (proofBox) proofBox.hidden = true;
 
-    if (orderResult && orderResult.order) {
-        var finalTotal = orderResult.order.totalFinal != null ? orderResult.order.totalFinal : orderResult.order.total;
-        appendCheckoutResultItem(grid, t('subtotal'), formatCurrency(orderResult.order.subtotal, orderResult.order.currency));
-        appendCheckoutResultItem(
-            grid,
-            t('commission') + (orderResult.order.feePercent > 0 ? ' (+' + formatFeePercent(orderResult.order.feePercent) + '%)' : ''),
-            orderResult.order.feePercent > 0 ? formatCurrency(orderResult.order.feeAmount, orderResult.order.currency) : t('noCommission')
-        );
-        appendCheckoutResultItem(grid, t('totalFinal'), formatCurrency(finalTotal, orderResult.order.currency));
-    }
+    var order = orderResult && orderResult.order ? orderResult.order : null;
+    var finalTotal = order ? (order.totalFinal != null ? order.totalFinal : order.total) : null;
+    var normalizedMode = safeText(mode || (order && order.paymentMethod)).toLowerCase();
+    var isBankTransfer = normalizedMode === 'bank_transfer' && orderResult && orderResult.bankTransfer;
 
-    if (mode === 'bank_transfer' && orderResult.bankTransfer) {
-        message.textContent = t('transferInstructionsReady') + ' ' + t('transferExactMatchNote');
-        appendCheckoutResultItem(grid, t('bankName'), safeText(orderResult.bankTransfer.bankName || t('notSpecified')));
-        appendCheckoutResultItem(grid, t('beneficiary'), safeText(orderResult.bankTransfer.beneficiary || t('notSpecified')));
-        appendCheckoutResultItem(grid, t('clabe'), safeText(orderResult.bankTransfer.clabe || t('notSpecified')), {
-            copyValue: orderResult.bankTransfer.clabe || ''
-        });
-        if (orderResult.bankTransfer.account) {
-            appendCheckoutResultItem(grid, t('account'), safeText(orderResult.bankTransfer.account), {
-                copyValue: orderResult.bankTransfer.account
-            });
+    if (isBankTransfer) {
+        message.textContent = orderResult.demo
+            ? t('previewTransferSimulated')
+            : t('transferInstructionsReady') + ' ' + t('transferExactMatchNote');
+
+        var transferDetailsSection = createCheckoutResultSection(t('transferDetailsTitle'));
+        if (order) {
+            appendCheckoutResultHighlight(
+                transferDetailsSection.section,
+                t('transferAmountToSend'),
+                formatCurrency(finalTotal, order.currency)
+            );
         }
-        if (orderResult.bankTransfer.cardNumber) {
-            appendCheckoutResultItem(grid, t('depositCard'), safeText(orderResult.bankTransfer.cardNumber));
-        }
-        appendCheckoutResultItem(grid, t('reference'), safeText(orderResult.bankTransfer.reference || t('notSpecified')), {
+        appendCheckoutResultItem(transferDetailsSection.grid, t('reference'), safeText(orderResult.bankTransfer.reference || t('notSpecified')), {
             copyValue: orderResult.bankTransfer.reference || ''
         });
-        if (orderResult.bankTransfer.swift) {
-            appendCheckoutResultItem(grid, t('swift'), safeText(orderResult.bankTransfer.swift));
-        }
-        appendCheckoutResultItem(grid, t('expiresAt'), formatDateTime(orderResult.bankTransfer.expiresAt));
-        if (proofBox) proofBox.hidden = false;
+        appendCheckoutResultItem(transferDetailsSection.grid, t('expiresAt'), formatDateTime(orderResult.bankTransfer.expiresAt));
+        grid.appendChild(transferDetailsSection.section);
+
+        var destinationSection = createCheckoutResultSection(t('transferDestinationTitle'));
+        appendCheckoutResultItem(destinationSection.grid, t('bankName'), safeText(orderResult.bankTransfer.bankName || t('notSpecified')), {
+            copyValue: orderResult.bankTransfer.bankName || ''
+        });
+        appendCheckoutResultItem(destinationSection.grid, t('beneficiary'), safeText(orderResult.bankTransfer.beneficiary || t('notSpecified')), {
+            copyValue: orderResult.bankTransfer.beneficiary || ''
+        });
+        appendCheckoutResultItem(destinationSection.grid, t('clabe'), safeText(orderResult.bankTransfer.clabe || t('notSpecified')), {
+            copyValue: orderResult.bankTransfer.clabe || ''
+        });
+        appendCheckoutResultItem(destinationSection.grid, t('account'), safeText(orderResult.bankTransfer.account || t('notSpecified')), {
+            copyValue: orderResult.bankTransfer.account || ''
+        });
+        appendCheckoutResultItem(destinationSection.grid, t('depositCard'), safeText(orderResult.bankTransfer.cardNumber || t('notSpecified')), {
+            copyValue: orderResult.bankTransfer.cardNumber || ''
+        });
+        appendCheckoutResultItem(destinationSection.grid, t('swift'), safeText(orderResult.bankTransfer.swift || t('notSpecified')), {
+            copyValue: orderResult.bankTransfer.swift || ''
+        });
+        grid.appendChild(destinationSection.section);
+
+        if (proofBox) proofBox.hidden = Boolean(orderResult.demo);
         return;
     }
 
-    if (mode === 'manual_contact') {
-        message.textContent = t('manualOrderCreated') + ' ' + t('manualOrderReference');
-        appendCheckoutResultItem(grid, t('paymentMethod'), t('paymentManual'));
+    if (normalizedMode === 'paypal') {
+        var providerStatus = safeText(orderResult && orderResult.payment && orderResult.payment.providerStatus).toUpperCase();
+        var paypalStatus = safeText((orderResult && orderResult.payment && orderResult.payment.status) || (order && order.status)).toUpperCase();
+        var isPending = providerStatus === 'CREATED'
+            || providerStatus === 'PENDING'
+            || providerStatus === 'AUTHORIZED'
+            || paypalStatus === 'AUTHORIZED'
+            || paypalStatus === 'PAYMENT_AUTHORIZED';
+        var paypalSection = createCheckoutResultSection(t('paymentPayPal'));
+        var paypalProfileUrl = safeText((orderResult && orderResult.paypalUrl) || getPayPalProfileUrl()).trim();
+
+        message.textContent = orderResult && orderResult.demo
+            ? t('previewPayPalSimulated')
+            : (isPending ? t('paypalPaymentPending') : t('paypalPaymentCompleted'));
+
+        if (order) {
+            appendCheckoutResultHighlight(
+                paypalSection.section,
+                t('totalFinal'),
+                formatCurrency(finalTotal, order.currency)
+            );
+        }
+        if (paypalProfileUrl) {
+            appendCheckoutResultItem(paypalSection.grid, t('paypalProfileLabel'), paypalProfileUrl, {
+                href: paypalProfileUrl,
+                linkText: t('paypalProfileLink'),
+                copyValue: paypalProfileUrl
+            });
+        }
+        if (orderResult && orderResult.payment && orderResult.payment.providerStatus) {
+            appendCheckoutResultItem(paypalSection.grid, t('adminProviderStatus'), safeText(orderResult.payment.providerStatus));
+        }
+        grid.appendChild(paypalSection.section);
+        renderPayPalPayerCard(paypalSection.section, orderResult);
         return;
     }
 
@@ -3750,6 +5191,76 @@ function formatFeeAmountValue(breakdown) {
     return formatCurrency(breakdown.feeAmount, CONFIG.payments && CONFIG.payments.currency);
 }
 
+function renderCheckoutPaymentCards() {
+    var paypalTotalEl = document.getElementById('payment-option-paypal-total');
+    var bankTotalEl = document.getElementById('payment-option-bank-transfer-total');
+    var paypalDetails = document.getElementById('payment-option-paypal-details');
+    var bankDetails = document.getElementById('payment-option-bank-transfer-details');
+    var bankConfig = getDisplayBankTransferConfig();
+    var paypalBreakdown = getCartPricingBreakdown('paypal');
+    var bankBreakdown = getCartPricingBreakdown('bank_transfer');
+    var paypalUrl = getPayPalProfileUrl();
+    var paypalEmail = getPayPalAccountEmail();
+    var transferReference = getTransferReferencePreview();
+    var exactTransferReference = getLatestTransferReference();
+    var paypalFee = getPaymentFeePercent('paypal');
+    var bankName = safeText(bankConfig.bankName).trim();
+    var beneficiary = safeText(bankConfig.beneficiary).trim();
+    var clabe = safeText(bankConfig.clabe).trim();
+    var account = safeText(bankConfig.account).trim();
+    var cardNumber = safeText(bankConfig.cardNumber).trim();
+    var swift = safeText(bankConfig.swift).trim();
+
+    if (paypalTotalEl) paypalTotalEl.textContent = formatCurrency(paypalBreakdown.totalFinal, CONFIG.payments && CONFIG.payments.currency);
+    if (bankTotalEl) bankTotalEl.textContent = formatCurrency(bankBreakdown.totalFinal, CONFIG.payments && CONFIG.payments.currency);
+
+    if (paypalDetails) {
+        paypalDetails.replaceChildren();
+        if (paypalUrl) {
+            appendPaymentCardDetail(paypalDetails, t('paypalProfileLabel'), paypalUrl, {
+                href: paypalUrl,
+                linkText: t('paypalProfileLink'),
+                copyValue: paypalUrl
+            });
+        }
+        if (paypalEmail) {
+            appendPaymentCardDetail(paypalDetails, t('email'), paypalEmail, {
+                copyValue: paypalEmail
+            });
+        }
+        appendPaymentCardDetail(
+            paypalDetails,
+            t('commission'),
+            paypalFee > 0 ? '+' + formatFeePercent(paypalFee) + '%' : t('noCommission')
+        );
+    }
+
+    if (bankDetails) {
+        bankDetails.replaceChildren();
+        appendPaymentCardDetail(bankDetails, t('bankName'), bankName || t('notSpecified'), {
+            copyValue: bankName
+        });
+        appendPaymentCardDetail(bankDetails, t('beneficiary'), beneficiary || t('notSpecified'), {
+            copyValue: beneficiary
+        });
+        appendPaymentCardDetail(bankDetails, t('clabe'), clabe || t('notSpecified'), {
+            copyValue: clabe
+        });
+        appendPaymentCardDetail(bankDetails, t('account'), account || t('notSpecified'), {
+            copyValue: account
+        });
+        appendPaymentCardDetail(bankDetails, t('depositCard'), cardNumber || t('notSpecified'), {
+            copyValue: cardNumber
+        });
+        appendPaymentCardDetail(bankDetails, t('swift'), swift || t('notSpecified'), {
+            copyValue: swift
+        });
+        appendPaymentCardDetail(bankDetails, t('reference'), transferReference || t('referencePending'), {
+            copyValue: exactTransferReference
+        });
+    }
+}
+
 function renderCheckoutPricingSummary() {
     var breakdown = getCartPricingBreakdown(getSelectedPaymentMethod());
     var subtotalText = formatCurrency(breakdown.subtotal, CONFIG.payments && CONFIG.payments.currency);
@@ -3765,6 +5276,7 @@ function renderCheckoutPricingSummary() {
     var confirmFeeLabel = document.getElementById('confirm-fee-label');
     var confirmFee = document.getElementById('confirm-fee-amount');
     var confirmTotal = document.getElementById('confirm-total-amount');
+    var confirmMobileTotal = document.getElementById('confirm-mobile-total');
     var mobileAmount = document.getElementById('mobile-summary-total');
     var mobileLabel = document.getElementById('mobile-summary-label');
 
@@ -3779,8 +5291,10 @@ function renderCheckoutPricingSummary() {
     if (confirmFeeLabel) confirmFeeLabel.textContent = feeLabel;
     if (confirmFee) confirmFee.textContent = feeText;
     if (confirmTotal) confirmTotal.textContent = totalText;
+    if (confirmMobileTotal) confirmMobileTotal.textContent = totalText;
     if (mobileAmount) mobileAmount.textContent = totalText;
     if (mobileLabel) mobileLabel.textContent = t('totalToPay');
+    renderCheckoutPaymentCards();
 }
 
 function updateCartTotal() {
@@ -3790,10 +5304,16 @@ function updateCartTotal() {
 function loadState() {
     try {
         var cart = localStorage.getItem('lindotours_cart');
+        var cartOwner = localStorage.getItem(CUSTOMER_CART_OWNER_KEY);
         var language = localStorage.getItem('lindotours_language');
 
         if (cart) state.cart = JSON.parse(cart);
+        if (cartOwner) localCartOwner = cartOwner;
         if (language) state.language = normalizeLanguage(language);
+        if (!readStoredCustomerAuthSession() && localCartOwner && localCartOwner !== 'guest') {
+            state.cart = [];
+            localCartOwner = 'guest';
+        }
     } catch (e) {
         console.error('loadState error', e);
     }
@@ -3802,21 +5322,26 @@ function loadState() {
 function saveState() {
     try {
         localStorage.setItem('lindotours_cart', JSON.stringify(state.cart));
+        localStorage.setItem(CUSTOMER_CART_OWNER_KEY, getCustomerAuthSession() ? getCustomerAuthSession().profile.publicId : localCartOwner || 'guest');
         localStorage.setItem('lindotours_language', state.language);
     } catch (e) {
         console.error('saveState error', e);
     }
+
+    if (getCustomerAuthSession()) {
+        localCartOwner = getCustomerAuthSession().profile.publicId;
+        scheduleCustomerCartSync();
+    }
 }
 
 function openCartModal() {
-    var modal = document.getElementById('cart-modal');
-    if (!modal) return;
-    if (modal.classList.contains('active')) return;
+    if (state.currentView !== 'checkout') {
+        navigateTo('checkout');
+        return;
+    }
 
     lastFocusedBeforeCartModal = document.activeElement;
-    modal.classList.add('active');
-    modal.setAttribute('aria-hidden', 'false');
-    document.body.style.overflow = 'hidden';
+    setCheckoutLayoutActive(true);
     updateCartUI();
     focusCartModalPrimaryControl();
 }
@@ -3831,6 +5356,7 @@ function closeCartModal() {
 
     document.body.style.overflow = '';
     resetCheckoutPreviewMode();
+    updateCartUI();
     state.checkoutMode = false;
     state.checkoutStep = 1;
 
@@ -3842,6 +5368,11 @@ function closeCartModal() {
         scrollIntoView: false,
         preserveStatus: true
     });
+
+    if (state.currentView === 'checkout' || document.body.classList.contains('checkout-view-active')) {
+        navigateTo('catalog');
+        return;
+    }
 
     if (wasOpen && lastFocusedBeforeCartModal && document.contains(lastFocusedBeforeCartModal)) {
         lastFocusedBeforeCartModal.focus();
@@ -3985,8 +5516,8 @@ function initDatePicker() {
         locale: state.language === 'es' ? 'es' : 'default',
         minDate: 'today',
         dateFormat: getDateFormatByLanguage(),
-        position: 'auto center',
-        disableMobile: false,
+        position: 'auto left',
+        disableMobile: true,
         allowInput: false
     });
 }
@@ -4088,7 +5619,7 @@ function renderConfirmSummary() {
     appendConfirmSummaryRow(customerSummary, t('hotel'), hotel);
     appendConfirmSummaryRow(customerSummary, t('comments'), comments);
 
-    if (isCheckoutPreviewModeActive()) {
+    if (isCheckoutPreviewModeActive() && state.cart.length === 0) {
         appendConfirmSummaryRow(cartSummary, t('previewCheckoutCartLabel'), t('previewCheckoutCartValue'));
         renderCheckoutPricingSummary();
         return;
@@ -4154,6 +5685,11 @@ function goToCheckoutStep(step, options) {
 
     state.checkoutStep = nextStep;
     state.checkoutMode = nextStep > 1;
+
+    var modal = document.getElementById('cart-modal');
+    var dialog = document.getElementById('cart-modal-dialog');
+    if (modal) modal.setAttribute('data-checkout-step', String(nextStep));
+    if (dialog) dialog.setAttribute('data-checkout-step', String(nextStep));
 
     for (var i = 1; i <= 3; i += 1) {
         var view = getCheckoutStepView(i);
@@ -4268,6 +5804,31 @@ function openPaymentSupportWhatsApp() {
     window.open('https://wa.me/' + CONFIG.whatsapp.phone + '?text=' + encodeURIComponent(buildPaymentSupportWhatsAppMessage()), '_blank');
 }
 
+function openDemoSupportEmail(orderResult, payload, summary) {
+    var email = safeText(CONFIG.contact && CONFIG.contact.email).trim();
+    if (!email) return;
+
+    var subject = state.language === 'en'
+        ? 'Demo booking ' + safeText(orderResult && orderResult.order && orderResult.order.publicId)
+        : 'Reservacion demo ' + safeText(orderResult && orderResult.order && orderResult.order.publicId);
+    var body = [
+        t('name') + ': ' + safeText(payload && payload.name),
+        t('email') + ': ' + safeText(payload && payload.email),
+        t('phone') + ': ' + safeText(payload && payload.phone),
+        t('tourDate') + ': ' + safeText(payload && payload.date),
+        t('pickupTime') + ': ' + safeText(payload && payload.pickup_time),
+        t('hotel') + ': ' + safeText(payload && payload.hotel),
+        '',
+        summary || '',
+        '',
+        t('totalFinal') + ': $' + safeInt(payload && payload.total, 0) + ' USD'
+    ].join('\n');
+
+    window.location.href = 'mailto:' + encodeURIComponent(email)
+        + '?subject=' + encodeURIComponent(subject)
+        + '&body=' + encodeURIComponent(body);
+}
+
 function appendEmailRow(container, label, value) {
     var row = document.createElement('div');
     row.className = 'email-row';
@@ -4292,64 +5853,7 @@ function updatePreviews() {
         return;
     }
 
-    if (getSelectedPaymentMethod() !== 'manual_contact') {
-        hideBookingPreviews();
-        if (state.checkoutStep === 3) renderConfirmSummary();
-        return;
-    }
-
-    var whatsappPreview = document.getElementById('whatsapp-preview');
-    var whatsappContent = document.getElementById('whatsapp-message-content');
-    if (whatsappPreview && whatsappContent) {
-        whatsappPreview.style.display = 'block';
-        whatsappContent.textContent = buildWhatsAppMessage();
-    }
-
-    var emailPreview = document.getElementById('email-preview');
-    var emailContent = document.getElementById('email-preview-content');
-    if (!emailPreview || !emailContent) return;
-
-    emailPreview.style.display = 'block';
-    emailContent.replaceChildren();
-
-    var title = document.createElement('h4');
-    title.textContent = t('bookingSummary');
-    emailContent.appendChild(title);
-
-    var pickupTime = document.getElementById('pickup-time').value || t('notSpecified');
-    var hotel = document.getElementById('customer-hotel').value || t('notSpecified');
-
-    appendEmailRow(emailContent, t('name'), document.getElementById('customer-name').value);
-    appendEmailRow(emailContent, t('email'), document.getElementById('customer-email').value);
-    appendEmailRow(emailContent, t('phone'), document.getElementById('customer-phone').value);
-    appendEmailRow(emailContent, t('tourDate'), document.getElementById('tour-date').value);
-    appendEmailRow(emailContent, t('pickupTime'), pickupTime);
-    appendEmailRow(emailContent, t('hotel'), hotel);
-
-    var hr = document.createElement('hr');
-    hr.style.border = 'none';
-    hr.style.borderTop = '1px dashed #ddd';
-    hr.style.margin = '12px 0';
-    emailContent.appendChild(hr);
-
-    state.cart.forEach(function (item) {
-        appendEmailRow(emailContent, getCartItemName(item), '$' + safeInt(item.subtotalUSD, 0));
-    });
-
-    var total = getCartTotalUSD();
-
-    var totalRow = document.createElement('div');
-    totalRow.className = 'email-total';
-
-    var left = document.createElement('span');
-    left.textContent = 'TOTAL';
-    var right = document.createElement('span');
-    right.textContent = '$' + total + ' USD';
-
-    totalRow.appendChild(left);
-    totalRow.appendChild(right);
-    emailContent.appendChild(totalRow);
-
+    hideBookingPreviews();
     if (state.checkoutStep === 3) renderConfirmSummary();
 }
 
@@ -4405,12 +5909,13 @@ function validateCheckoutSubmission() {
 }
 
 function setBookingButtonsLoading(loading) {
-    var sendEmailBtn = document.getElementById('send-email-btn');
-    var sendWhatsAppBtn = document.getElementById('send-whatsapp-btn');
     var payPayPalBtn = document.getElementById('pay-paypal-btn');
     var bankTransferBtn = document.getElementById('bank-transfer-btn');
+    var payPayPalCardBtn = document.getElementById('payment-option-paypal-cta');
+    var bankTransferCardBtn = document.getElementById('payment-option-bank-transfer-cta');
+    var confirmMobilePayBtn = document.getElementById('confirm-mobile-pay-btn');
 
-    [sendEmailBtn, sendWhatsAppBtn, payPayPalBtn, bankTransferBtn].forEach(function (btn) {
+    [payPayPalBtn, bankTransferBtn, payPayPalCardBtn, bankTransferCardBtn, confirmMobilePayBtn].forEach(function (btn) {
         if (!btn) return;
         btn.disabled = loading;
         btn.classList.toggle('loading', loading);
@@ -4510,18 +6015,22 @@ async function sendBookingEmail() {
         }).join('\n');
 
         if (CONFIG.emailjs && CONFIG.emailjs.serviceId && CONFIG.emailjs.templateId && typeof emailjs !== 'undefined') {
-            await emailjs.send(CONFIG.emailjs.serviceId, CONFIG.emailjs.templateId, {
-                customer_name: payload.name,
-                customer_email: payload.email,
-                customer_phone: payload.phone,
-                tour_date: payload.date,
-                pickup_time: payload.pickup_time || t('notSpecified'),
-                customer_hotel: payload.hotel || t('notSpecified'),
-                customer_comments: payload.comments || t('noComments'),
-                cart_summary: summary,
-                total_amount: '$' + payload.total + ' USD',
-                order_public_id: orderResult.order.publicId
-            });
+            if (isDemoModeEnabled()) {
+                openDemoSupportEmail(orderResult, payload, summary);
+            } else {
+                await emailjs.send(CONFIG.emailjs.serviceId, CONFIG.emailjs.templateId, {
+                    customer_name: payload.name,
+                    customer_email: payload.email,
+                    customer_phone: payload.phone,
+                    tour_date: payload.date,
+                    pickup_time: payload.pickup_time || t('notSpecified'),
+                    customer_hotel: payload.hotel || t('notSpecified'),
+                    customer_comments: payload.comments || t('noComments'),
+                    cart_summary: summary,
+                    total_amount: '$' + payload.total + ' USD',
+                    order_public_id: orderResult.order.publicId
+                });
+            }
         }
 
         setBookingStatus('success');
@@ -4564,7 +6073,108 @@ async function sendToWhatsApp() {
     }
 }
 
+function buildPreviewOrderPublicId() {
+    return 'LT-DEMO-' + Math.random().toString(36).slice(2, 8).toUpperCase();
+}
+
+function buildPreviewCheckoutResult(paymentMethod) {
+    var method = paymentMethod === 'bank_transfer' ? 'bank_transfer' : 'paypal';
+    var breakdown = getCartPricingBreakdown(method);
+    var bankConfig = getDisplayBankTransferConfig();
+    var publicId = buildPreviewOrderPublicId();
+    var referenceCode = (bankConfig.referencePrefix || 'LT') + '-' + Math.random().toString(36).slice(2, 8).toUpperCase();
+    var currency = CONFIG.payments && CONFIG.payments.currency ? CONFIG.payments.currency : 'USD';
+    var isPayPal = method === 'paypal';
+    var customerNameInput = document.getElementById('customer-name');
+    var customerEmailInput = document.getElementById('customer-email');
+    var customerName = safeText(customerNameInput && customerNameInput.value).trim();
+    var customerEmail = safeText(customerEmailInput && customerEmailInput.value).trim();
+
+    return {
+        demo: true,
+        paypalUrl: safeText(CONFIG.demoMode && CONFIG.demoMode.paypalUrl).trim(),
+        order: {
+            publicId: publicId,
+            subtotal: breakdown.subtotal,
+            feePercent: breakdown.feePercent,
+            feeAmount: breakdown.feeAmount,
+            total: breakdown.totalFinal,
+            totalFinal: breakdown.totalFinal,
+            currency: currency,
+            paymentMethod: method,
+            status: isPayPal ? 'paid' : 'awaiting_transfer'
+        },
+        payment: {
+            provider: method,
+            status: isPayPal ? 'paid' : 'awaiting_transfer',
+            providerStatus: isPayPal ? 'COMPLETED' : 'PENDING_TRANSFER'
+        },
+        payer: isPayPal ? {
+            fullName: customerName || 'PayPal Demo User',
+            email: customerEmail || 'demo.paypal@lindotours.test',
+            payerId: 'PAYER-DEMO',
+            countryCode: 'MX',
+            imageUrl: PAYPAL_PAYER_AVATAR_ROUTE
+        } : null,
+        bankTransfer: !isPayPal ? {
+            bankName: bankConfig.bankName,
+            beneficiary: bankConfig.beneficiary,
+            clabe: bankConfig.clabe,
+            account: bankConfig.account,
+            cardNumber: bankConfig.cardNumber,
+            swift: bankConfig.swift,
+            reference: referenceCode,
+            expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 12).toISOString()
+        } : null
+    };
+}
+
+async function simulatePreviewCheckout(paymentMethod) {
+    if (bookingSubmissionInProgress || !validateCheckoutSubmission()) return;
+
+    updateProgressIndicator(3);
+    bookingSubmissionInProgress = true;
+    setBookingButtonsLoading(true);
+    setBookingStatus('loading');
+
+    try {
+        await new Promise(function (resolve) {
+            window.setTimeout(resolve, 380);
+        });
+
+        var orderResult = buildPreviewCheckoutResult(paymentMethod);
+        renderCheckoutResult(orderResult, paymentMethod);
+        setBookingStatus('success');
+        showToast(
+            'success',
+            t('bookingSaved'),
+            paymentMethod === 'paypal' ? t('previewPayPalSimulated') : t('previewTransferSimulated')
+        );
+        syncCheckoutActionButtons();
+    } catch (error) {
+        console.error(error);
+        setBookingStatus('error');
+        showToast('error', t('whatsappErrorTitle'), error.message || t('bookingFailed'));
+    } finally {
+        bookingSubmissionInProgress = false;
+        setBookingButtonsLoading(false);
+    }
+}
+
 async function startPayPalCheckout() {
+    if (isCheckoutPreviewModeActive()) {
+        await simulatePreviewCheckout('paypal');
+        return;
+    }
+    if (isDemoModeEnabled()) {
+        if (bookingSubmissionInProgress || !validateCheckoutSubmission()) return;
+        var demoPayPalUrl = safeText(CONFIG.demoMode && CONFIG.demoMode.paypalUrl).trim();
+        if (demoPayPalUrl) {
+            window.open(demoPayPalUrl, '_blank');
+        }
+        await simulatePreviewCheckout('paypal');
+        return;
+    }
     if (bookingSubmissionInProgress || !validateCheckoutSubmission()) return;
     if (!CONFIG.payments || !CONFIG.payments.paypal || !CONFIG.payments.paypal.enabled) {
         showToast('error', t('whatsappErrorTitle'), t('paymentMethodUnavailable'));
@@ -4596,6 +6206,15 @@ async function startPayPalCheckout() {
 }
 
 async function startBankTransferCheckout() {
+    if (isCheckoutPreviewModeActive()) {
+        await simulatePreviewCheckout('bank_transfer');
+        return;
+    }
+    if (isDemoModeEnabled()) {
+        if (bookingSubmissionInProgress || !validateCheckoutSubmission()) return;
+        await simulatePreviewCheckout('bank_transfer');
+        return;
+    }
     if (bookingSubmissionInProgress || !validateCheckoutSubmission()) return;
     if (!CONFIG.payments || !CONFIG.payments.bankTransfer || !CONFIG.payments.bankTransfer.enabled) {
         showToast('error', t('whatsappErrorTitle'), t('paymentMethodUnavailable'));
