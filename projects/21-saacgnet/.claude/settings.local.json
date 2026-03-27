@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find /home/gabo/portfolio/projects/21-saacgnet -maxdepth 2 -type f \\\\\\(-name *.md -o -name *.yml -o -name *.yaml -o -name .env* -o -name pytest.ini -o -name setup.py -o -name setup.cfg -o -name pyproject.toml -o -name .cursorrules -o -name CLAUDE.md \\\\\\))",
+      "Bash(sqlite3:*)",
+      "Bash(python3:*)",
+      "Bash(source venv/bin/activate)",
+      "Bash(curl -s http://127.0.0.1:5021/api/entes)",
+      "Bash(curl:*)",
+      "Bash(ls -la instance/saacgnet.db*)",
+      "Bash(kill -HUP 21837)",
+      "Bash(kill -HUP 22752)"
+    ]
+  }
+}

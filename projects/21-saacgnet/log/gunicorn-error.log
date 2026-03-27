@@ -1,0 +1,616 @@
+[2026-03-12 17:47:23 +0000] [40407] [INFO] Starting gunicorn 25.1.0
+[2026-03-12 17:47:23 +0000] [40407] [INFO] Listening at: http://127.0.0.1:5021 (40407)
+[2026-03-12 17:47:23 +0000] [40407] [INFO] Using worker: sync
+[2026-03-12 17:47:23 +0000] [40446] [INFO] Booting worker with pid: 40446
+[2026-03-12 17:47:23 +0000] [40407] [INFO] Control socket listening at /home/gabo/portfolio/projects/21-saacgnet/gunicorn.ctl
+[2026-03-12 17:47:24 +0000] [40447] [INFO] Booting worker with pid: 40447
+[2026-03-12 17:47:24 +0000] [40448] [INFO] Booting worker with pid: 40448
+[2026-03-12 18:00:28 +0000] [40407] [INFO] Handling signal: term
+[2026-03-12 18:00:28 +0000] [40446] [INFO] Worker exiting (pid: 40446)
+[2026-03-12 18:00:28 +0000] [40447] [INFO] Worker exiting (pid: 40447)
+[2026-03-12 18:00:28 +0000] [40448] [INFO] Worker exiting (pid: 40448)
+[2026-03-12 18:00:28 +0000] [40407] [INFO] Worker (pid:40446) was sent SIGTERM!
+[2026-03-12 18:00:28 +0000] [40407] [INFO] Worker (pid:40447) was sent SIGTERM!
+[2026-03-12 18:00:28 +0000] [40407] [INFO] Worker (pid:40448) was sent SIGTERM!
+[2026-03-12 18:00:28 +0000] [40407] [INFO] Shutting down: Master
+[2026-03-12 18:00:28 +0000] [40865] [INFO] Starting gunicorn 25.1.0
+[2026-03-12 18:00:28 +0000] [40865] [INFO] Listening at: http://127.0.0.1:5021 (40865)
+[2026-03-12 18:00:28 +0000] [40865] [INFO] Using worker: sync
+[2026-03-12 18:00:28 +0000] [40871] [INFO] Booting worker with pid: 40871
+[2026-03-12 18:00:28 +0000] [40865] [INFO] Control socket listening at /home/gabo/portfolio/projects/21-saacgnet/gunicorn.ctl
+[2026-03-12 18:00:28 +0000] [40872] [INFO] Booting worker with pid: 40872
+[2026-03-12 18:00:28 +0000] [40873] [INFO] Booting worker with pid: 40873
+[2026-03-12 18:23:29 +0000] [40865] [INFO] Handling signal: term
+[2026-03-12 18:23:29 +0000] [40871] [INFO] Worker exiting (pid: 40871)
+[2026-03-12 18:23:29 +0000] [40872] [INFO] Worker exiting (pid: 40872)
+[2026-03-12 18:23:29 +0000] [40873] [INFO] Worker exiting (pid: 40873)
+[2026-03-12 18:23:30 +0000] [40865] [INFO] Worker (pid:40871) was sent SIGTERM!
+[2026-03-12 18:23:30 +0000] [40865] [INFO] Worker (pid:40872) was sent SIGTERM!
+[2026-03-12 18:23:30 +0000] [40865] [INFO] Worker (pid:40873) was sent SIGTERM!
+[2026-03-12 18:23:30 +0000] [40865] [INFO] Shutting down: Master
+[2026-03-12 18:23:30 +0000] [41301] [INFO] Starting gunicorn 25.1.0
+[2026-03-12 18:23:30 +0000] [41301] [INFO] Listening at: http://127.0.0.1:5021 (41301)
+[2026-03-12 18:23:30 +0000] [41301] [INFO] Using worker: sync
+[2026-03-12 18:23:30 +0000] [41307] [INFO] Booting worker with pid: 41307
+[2026-03-12 18:23:30 +0000] [41301] [INFO] Control socket listening at /home/gabo/portfolio/projects/21-saacgnet/gunicorn.ctl
+[2026-03-12 18:23:30 +0000] [41308] [INFO] Booting worker with pid: 41308
+[2026-03-12 18:23:30 +0000] [41309] [INFO] Booting worker with pid: 41309
+[2026-03-12 18:28:52 +0000] [41301] [CRITICAL] WORKER TIMEOUT (pid:41309)
+[2026-03-12 18:28:52 +0000] [41309] [ERROR] Error handling request /api/progress/87891124-4a57-4911-90f8-ba6e0f2b8b93
+Traceback (most recent call last):
+  File "/home/gabo/portfolio/projects/21-saacgnet/venv/lib/python3.14/site-packages/gunicorn/workers/sync.py", line 142, in handle
+    self.handle_request(listener, req, client, addr)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/gabo/portfolio/projects/21-saacgnet/venv/lib/python3.14/site-packages/gunicorn/workers/sync.py", line 190, in handle_request
+    for item in respiter:
+                ^^^^^^^^
+  File "/home/gabo/portfolio/projects/21-saacgnet/venv/lib/python3.14/site-packages/werkzeug/wsgi.py", line 256, in __next__
+    return self._next()
+           ~~~~~~~~~~^^
+  File "/home/gabo/portfolio/projects/21-saacgnet/venv/lib/python3.14/site-packages/werkzeug/wrappers/response.py", line 32, in _iter_encoded
+    for item in iterable:
+                ^^^^^^^^
+  File "/home/gabo/portfolio/projects/21-saacgnet/app.py", line 1075, in generate
+    time.sleep(0.1)
+    ~~~~~~~~~~^^^^^
+  File "/home/gabo/portfolio/projects/21-saacgnet/venv/lib/python3.14/site-packages/gunicorn/workers/base.py", line 198, in handle_abort
+    sys.exit(1)
+    ~~~~~~~~^^^
+SystemExit: 1
+[2026-03-12 18:28:52 +0000] [41309] [INFO] Worker exiting (pid: 41309)
+[2026-03-12 18:28:52 +0000] [41353] [INFO] Booting worker with pid: 41353
+[2026-03-12 18:55:08 +0000] [41301] [CRITICAL] WORKER TIMEOUT (pid:41308)
+[2026-03-12 18:55:08 +0000] [41308] [ERROR] Error handling request /api/progress/376b9898-7716-4e11-b7a6-77b7b040750d
+Traceback (most recent call last):
+  File "/home/gabo/portfolio/projects/21-saacgnet/venv/lib/python3.14/site-packages/gunicorn/workers/sync.py", line 142, in handle
+    self.handle_request(listener, req, client, addr)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/gabo/portfolio/projects/21-saacgnet/venv/lib/python3.14/site-packages/gunicorn/workers/sync.py", line 190, in handle_request
+    for item in respiter:
+                ^^^^^^^^
+  File "/home/gabo/portfolio/projects/21-saacgnet/venv/lib/python3.14/site-packages/werkzeug/wsgi.py", line 256, in __next__
+    return self._next()
+           ~~~~~~~~~~^^
+  File "/home/gabo/portfolio/projects/21-saacgnet/venv/lib/python3.14/site-packages/werkzeug/wrappers/response.py", line 32, in _iter_encoded
+    for item in iterable:
+                ^^^^^^^^
+  File "/home/gabo/portfolio/projects/21-saacgnet/app.py", line 1075, in generate
+    time.sleep(0.1)
+    ~~~~~~~~~~^^^^^
+  File "/home/gabo/portfolio/projects/21-saacgnet/venv/lib/python3.14/site-packages/gunicorn/workers/base.py", line 198, in handle_abort
+    sys.exit(1)
+    ~~~~~~~~^^^
+SystemExit: 1
+[2026-03-12 18:55:08 +0000] [41308] [INFO] Worker exiting (pid: 41308)
+[2026-03-12 18:55:08 +0000] [41545] [INFO] Booting worker with pid: 41545
+[2026-03-12 19:35:56 +0000] [41301] [INFO] Handling signal: term
+[2026-03-12 19:35:56 +0000] [41307] [INFO] Worker exiting (pid: 41307)
+[2026-03-12 19:35:56 +0000] [41353] [INFO] Worker exiting (pid: 41353)
+[2026-03-12 19:35:56 +0000] [41545] [INFO] Worker exiting (pid: 41545)
+[2026-03-12 19:35:56 +0000] [41301] [INFO] Worker (pid:41307) was sent SIGTERM!
+[2026-03-12 19:35:56 +0000] [41301] [INFO] Worker (pid:41353) was sent SIGTERM!
+[2026-03-12 19:35:56 +0000] [41301] [INFO] Worker (pid:41545) was sent SIGTERM!
+[2026-03-12 19:35:56 +0000] [41301] [INFO] Shutting down: Master
+[2026-03-12 19:35:56 +0000] [42169] [INFO] Starting gunicorn 25.1.0
+[2026-03-12 19:35:56 +0000] [42169] [INFO] Listening at: http://127.0.0.1:5021 (42169)
+[2026-03-12 19:35:56 +0000] [42169] [INFO] Using worker: sync
+[2026-03-12 19:35:56 +0000] [42175] [INFO] Booting worker with pid: 42175
+[2026-03-12 19:35:56 +0000] [42169] [INFO] Control socket listening at /home/gabo/portfolio/projects/21-saacgnet/gunicorn.ctl
+[2026-03-12 19:35:57 +0000] [42176] [INFO] Booting worker with pid: 42176
+[2026-03-12 19:35:57 +0000] [42177] [INFO] Booting worker with pid: 42177
+[2026-03-12 19:44:26 +0000] [42169] [INFO] Handling signal: term
+[2026-03-12 19:44:26 +0000] [42176] [INFO] Worker exiting (pid: 42176)
+[2026-03-12 19:44:26 +0000] [42175] [INFO] Worker exiting (pid: 42175)
+[2026-03-12 19:44:26 +0000] [42177] [INFO] Worker exiting (pid: 42177)
+[2026-03-12 19:44:26 +0000] [42169] [INFO] Worker (pid:42175) was sent SIGTERM!
+[2026-03-12 19:44:26 +0000] [42169] [INFO] Worker (pid:42176) was sent SIGTERM!
+[2026-03-12 19:44:26 +0000] [42169] [INFO] Worker (pid:42177) was sent SIGTERM!
+[2026-03-12 19:44:26 +0000] [42169] [INFO] Shutting down: Master
+[2026-03-12 19:44:26 +0000] [42315] [INFO] Starting gunicorn 25.1.0
+[2026-03-12 19:44:26 +0000] [42315] [INFO] Listening at: http://127.0.0.1:5021 (42315)
+[2026-03-12 19:44:26 +0000] [42315] [INFO] Using worker: sync
+[2026-03-12 19:44:26 +0000] [42315] [INFO] Control socket listening at /home/gabo/portfolio/projects/21-saacgnet/gunicorn.ctl
+[2026-03-12 19:44:26 +0000] [42321] [INFO] Booting worker with pid: 42321
+[2026-03-12 19:44:26 +0000] [42322] [INFO] Booting worker with pid: 42322
+[2026-03-12 19:44:26 +0000] [42323] [INFO] Booting worker with pid: 42323
+[2026-03-12 19:51:25 +0000] [42315] [INFO] Handling signal: term
+[2026-03-12 19:51:25 +0000] [42321] [INFO] Worker exiting (pid: 42321)
+[2026-03-12 19:51:25 +0000] [42322] [INFO] Worker exiting (pid: 42322)
+[2026-03-12 19:51:25 +0000] [42323] [INFO] Worker exiting (pid: 42323)
+[2026-03-12 19:51:25 +0000] [42315] [INFO] Worker (pid:42321) was sent SIGTERM!
+[2026-03-12 19:51:25 +0000] [42315] [INFO] Worker (pid:42322) was sent SIGTERM!
+[2026-03-12 19:51:25 +0000] [42315] [INFO] Worker (pid:42323) was sent SIGTERM!
+[2026-03-12 19:51:25 +0000] [42315] [INFO] Shutting down: Master
+[2026-03-12 19:51:25 +0000] [42435] [INFO] Starting gunicorn 25.1.0
+[2026-03-12 19:51:25 +0000] [42435] [INFO] Listening at: http://127.0.0.1:5021 (42435)
+[2026-03-12 19:51:25 +0000] [42435] [INFO] Using worker: sync
+[2026-03-12 19:51:25 +0000] [42441] [INFO] Booting worker with pid: 42441
+[2026-03-12 19:51:25 +0000] [42435] [INFO] Control socket listening at /home/gabo/portfolio/projects/21-saacgnet/gunicorn.ctl
+[2026-03-12 19:51:25 +0000] [42442] [INFO] Booting worker with pid: 42442
+[2026-03-12 19:51:25 +0000] [42443] [INFO] Booting worker with pid: 42443
+[2026-03-12 19:56:46 +0000] [42435] [INFO] Handling signal: term
+[2026-03-12 19:56:46 +0000] [42441] [INFO] Worker exiting (pid: 42441)
+[2026-03-12 19:56:46 +0000] [42443] [INFO] Worker exiting (pid: 42443)
+[2026-03-12 19:56:46 +0000] [42442] [INFO] Worker exiting (pid: 42442)
+[2026-03-12 19:56:46 +0000] [42435] [INFO] Worker (pid:42441) was sent SIGTERM!
+[2026-03-12 19:56:46 +0000] [42435] [INFO] Worker (pid:42443) was sent SIGTERM!
+[2026-03-12 19:56:47 +0000] [42435] [INFO] Shutting down: Master
+[2026-03-12 19:56:47 +0000] [42598] [INFO] Starting gunicorn 25.1.0
+[2026-03-12 19:56:47 +0000] [42598] [INFO] Listening at: http://127.0.0.1:5021 (42598)
+[2026-03-12 19:56:47 +0000] [42598] [INFO] Using worker: sync
+[2026-03-12 19:56:47 +0000] [42598] [INFO] Control socket listening at /home/gabo/portfolio/projects/21-saacgnet/gunicorn.ctl
+[2026-03-12 19:56:47 +0000] [42604] [INFO] Booting worker with pid: 42604
+[2026-03-12 19:56:47 +0000] [42605] [INFO] Booting worker with pid: 42605
+[2026-03-12 19:56:47 +0000] [42606] [INFO] Booting worker with pid: 42606
+[2026-03-12 20:36:13 +0000] [42598] [INFO] Handling signal: term
+[2026-03-12 20:36:13 +0000] [42604] [INFO] Worker exiting (pid: 42604)
+[2026-03-12 20:36:13 +0000] [42605] [INFO] Worker exiting (pid: 42605)
+[2026-03-12 20:36:13 +0000] [42606] [INFO] Worker exiting (pid: 42606)
+[2026-03-12 20:36:14 +0000] [42598] [INFO] Worker (pid:42604) was sent SIGTERM!
+[2026-03-12 20:36:14 +0000] [42598] [INFO] Worker (pid:42605) was sent SIGTERM!
+[2026-03-12 20:36:14 +0000] [42598] [INFO] Worker (pid:42606) was sent SIGTERM!
+[2026-03-12 20:36:14 +0000] [42598] [INFO] Shutting down: Master
+[2026-03-12 20:36:14 +0000] [43046] [INFO] Starting gunicorn 25.1.0
+[2026-03-12 20:36:14 +0000] [43046] [INFO] Listening at: http://127.0.0.1:5021 (43046)
+[2026-03-12 20:36:14 +0000] [43046] [INFO] Using worker: sync
+[2026-03-12 20:36:14 +0000] [43052] [INFO] Booting worker with pid: 43052
+[2026-03-12 20:36:14 +0000] [43046] [INFO] Control socket listening at /home/gabo/portfolio/projects/21-saacgnet/gunicorn.ctl
+[2026-03-12 20:36:14 +0000] [43053] [INFO] Booting worker with pid: 43053
+[2026-03-12 20:36:14 +0000] [43054] [INFO] Booting worker with pid: 43054
+[2026-03-12 20:57:38 +0000] [43046] [INFO] Handling signal: term
+[2026-03-12 20:57:38 +0000] [43054] [INFO] Worker exiting (pid: 43054)
+[2026-03-12 20:57:38 +0000] [43053] [INFO] Worker exiting (pid: 43053)
+[2026-03-12 20:57:38 +0000] [43052] [INFO] Worker exiting (pid: 43052)
+[2026-03-12 20:57:38 +0000] [43046] [INFO] Worker (pid:43052) was sent SIGTERM!
+[2026-03-12 20:57:38 +0000] [43046] [INFO] Worker (pid:43053) was sent SIGTERM!
+[2026-03-12 20:57:38 +0000] [43046] [INFO] Worker (pid:43054) was sent SIGTERM!
+[2026-03-12 20:57:38 +0000] [43046] [INFO] Shutting down: Master
+[2026-03-12 20:57:38 +0000] [43418] [INFO] Starting gunicorn 25.1.0
+[2026-03-12 20:57:38 +0000] [43418] [INFO] Listening at: http://127.0.0.1:5021 (43418)
+[2026-03-12 20:57:38 +0000] [43418] [INFO] Using worker: sync
+[2026-03-12 20:57:38 +0000] [43424] [INFO] Booting worker with pid: 43424
+[2026-03-12 20:57:38 +0000] [43418] [INFO] Control socket listening at /home/gabo/portfolio/projects/21-saacgnet/gunicorn.ctl
+[2026-03-12 20:57:38 +0000] [43425] [INFO] Booting worker with pid: 43425
+[2026-03-12 20:57:38 +0000] [43426] [INFO] Booting worker with pid: 43426
+[2026-03-12 22:04:23 +0000] [43424] [INFO] Worker exiting (pid: 43424)
+[2026-03-12 22:04:23 +0000] [43426] [INFO] Worker exiting (pid: 43426)
+[2026-03-12 22:04:23 +0000] [43418] [INFO] Handling signal: term
+[2026-03-12 22:04:23 +0000] [43425] [INFO] Worker exiting (pid: 43425)
+[2026-03-12 22:04:23 +0000] [43418] [INFO] Worker (pid:43424) was sent SIGTERM!
+[2026-03-12 22:04:23 +0000] [43418] [INFO] Worker (pid:43425) was sent SIGTERM!
+[2026-03-12 22:04:23 +0000] [43418] [INFO] Worker (pid:43426) was sent SIGTERM!
+[2026-03-12 22:04:23 +0000] [43418] [INFO] Shutting down: Master
+[2026-03-12 22:04:24 +0000] [44214] [INFO] Starting gunicorn 25.1.0
+[2026-03-12 22:04:24 +0000] [44214] [INFO] Listening at: http://127.0.0.1:5021 (44214)
+[2026-03-12 22:04:24 +0000] [44214] [INFO] Using worker: sync
+[2026-03-12 22:04:24 +0000] [44220] [INFO] Booting worker with pid: 44220
+[2026-03-12 22:04:24 +0000] [44214] [INFO] Control socket listening at /home/gabo/portfolio/projects/21-saacgnet/gunicorn.ctl
+[2026-03-12 22:04:24 +0000] [44221] [INFO] Booting worker with pid: 44221
+[2026-03-12 22:04:24 +0000] [44222] [INFO] Booting worker with pid: 44222
+[2026-03-12 22:09:59 +0000] [44214] [INFO] Handling signal: term
+[2026-03-12 22:09:59 +0000] [44221] [INFO] Worker exiting (pid: 44221)
+[2026-03-12 22:09:59 +0000] [44220] [INFO] Worker exiting (pid: 44220)
+[2026-03-12 22:09:59 +0000] [44222] [INFO] Worker exiting (pid: 44222)
+[2026-03-12 22:09:59 +0000] [44214] [INFO] Worker (pid:44220) was sent SIGTERM!
+[2026-03-12 22:09:59 +0000] [44214] [INFO] Worker (pid:44221) was sent SIGTERM!
+[2026-03-12 22:09:59 +0000] [44214] [INFO] Shutting down: Master
+[2026-03-12 22:09:59 +0000] [44374] [INFO] Starting gunicorn 25.1.0
+[2026-03-12 22:09:59 +0000] [44374] [INFO] Listening at: http://127.0.0.1:5021 (44374)
+[2026-03-12 22:09:59 +0000] [44374] [INFO] Using worker: sync
+[2026-03-12 22:09:59 +0000] [44380] [INFO] Booting worker with pid: 44380
+[2026-03-12 22:09:59 +0000] [44374] [INFO] Control socket listening at /home/gabo/portfolio/projects/21-saacgnet/gunicorn.ctl
+[2026-03-12 22:10:00 +0000] [44381] [INFO] Booting worker with pid: 44381
+[2026-03-12 22:10:00 +0000] [44382] [INFO] Booting worker with pid: 44382
+[2026-03-20 01:39:32 +0000] [44374] [CRITICAL] WORKER TIMEOUT (pid:44380)
+[2026-03-20 01:40:11 +0000] [44374] [ERROR] Worker (pid:44380) was sent SIGKILL! Perhaps out of memory?
+[2026-03-20 01:40:11 +0000] [174128] [INFO] Booting worker with pid: 174128
+[2026-03-20 22:08:38 +0000] [578] [INFO] Starting gunicorn 25.1.0
+[2026-03-20 22:08:38 +0000] [578] [INFO] Listening at: http://127.0.0.1:5021 (578)
+[2026-03-20 22:08:38 +0000] [578] [INFO] Using worker: sync
+[2026-03-20 22:08:38 +0000] [699] [INFO] Booting worker with pid: 699
+[2026-03-20 22:08:38 +0000] [700] [INFO] Booting worker with pid: 700
+[2026-03-20 22:08:39 +0000] [702] [INFO] Booting worker with pid: 702
+[2026-03-20 22:08:39 +0000] [578] [INFO] Control socket listening at /home/gabo/portfolio/projects/21-saacgnet/gunicorn.ctl
+[2026-03-21 01:14:28 +0000] [699] [INFO] Worker exiting (pid: 699)
+[2026-03-21 01:14:28 +0000] [700] [INFO] Worker exiting (pid: 700)
+[2026-03-21 01:14:28 +0000] [702] [INFO] Worker exiting (pid: 702)
+[2026-03-21 01:14:28 +0000] [578] [INFO] Handling signal: term
+[2026-03-21 01:14:28 +0000] [578] [INFO] Worker (pid:699) was sent SIGTERM!
+[2026-03-21 01:14:28 +0000] [578] [INFO] Worker (pid:700) was sent SIGTERM!
+[2026-03-21 01:14:28 +0000] [578] [INFO] Worker (pid:702) was sent SIGTERM!
+[2026-03-21 01:14:28 +0000] [578] [INFO] Shutting down: Master
+[2026-03-21 01:14:28 +0000] [14019] [INFO] Starting gunicorn 25.1.0
+[2026-03-21 01:14:28 +0000] [14019] [INFO] Listening at: http://127.0.0.1:5021 (14019)
+[2026-03-21 01:14:28 +0000] [14019] [INFO] Using worker: sync
+[2026-03-21 01:14:28 +0000] [14025] [INFO] Booting worker with pid: 14025
+[2026-03-21 01:14:28 +0000] [14019] [INFO] Control socket listening at /home/gabo/portfolio/projects/21-saacgnet/gunicorn.ctl
+[2026-03-21 01:14:28 +0000] [14026] [INFO] Booting worker with pid: 14026
+[2026-03-21 01:14:29 +0000] [14027] [INFO] Booting worker with pid: 14027
+[2026-03-21 01:23:40 +0000] [14019] [INFO] Handling signal: term
+[2026-03-21 01:23:40 +0000] [14027] [INFO] Worker exiting (pid: 14027)
+[2026-03-21 01:23:40 +0000] [14025] [INFO] Worker exiting (pid: 14025)
+[2026-03-21 01:23:40 +0000] [14026] [INFO] Worker exiting (pid: 14026)
+[2026-03-21 01:23:41 +0000] [14019] [INFO] Worker (pid:14025) was sent SIGTERM!
+[2026-03-21 01:23:41 +0000] [14019] [INFO] Worker (pid:14026) was sent SIGTERM!
+[2026-03-21 01:23:41 +0000] [14019] [INFO] Worker (pid:14027) was sent SIGTERM!
+[2026-03-21 01:23:41 +0000] [14019] [INFO] Shutting down: Master
+[2026-03-21 01:23:41 +0000] [14528] [INFO] Starting gunicorn 25.1.0
+[2026-03-21 01:23:41 +0000] [14528] [INFO] Listening at: http://127.0.0.1:5021 (14528)
+[2026-03-21 01:23:41 +0000] [14528] [INFO] Using worker: sync
+[2026-03-21 01:23:41 +0000] [14534] [INFO] Booting worker with pid: 14534
+[2026-03-21 01:23:41 +0000] [14528] [INFO] Control socket listening at /home/gabo/portfolio/projects/21-saacgnet/gunicorn.ctl
+[2026-03-21 01:23:41 +0000] [14535] [INFO] Booting worker with pid: 14535
+[2026-03-21 01:23:41 +0000] [14536] [INFO] Booting worker with pid: 14536
+[2026-03-24 19:21:01 +0000] [569] [INFO] Starting gunicorn 25.1.0
+[2026-03-24 19:21:01 +0000] [569] [INFO] Listening at: http://127.0.0.1:5021 (569)
+[2026-03-24 19:21:01 +0000] [569] [INFO] Using worker: sync
+[2026-03-24 19:21:02 +0000] [569] [INFO] Control socket listening at /home/gabo/portfolio/projects/21-saacgnet/gunicorn.ctl
+[2026-03-24 19:21:02 +0000] [703] [INFO] Booting worker with pid: 703
+[2026-03-24 19:21:02 +0000] [708] [INFO] Booting worker with pid: 708
+[2026-03-24 19:21:02 +0000] [716] [INFO] Booting worker with pid: 716
+[2026-03-24 20:07:42 +0000] [703] [INFO] Worker exiting (pid: 703)
+[2026-03-24 20:07:42 +0000] [716] [INFO] Worker exiting (pid: 716)
+[2026-03-24 20:07:42 +0000] [708] [INFO] Worker exiting (pid: 708)
+[2026-03-24 20:07:42 +0000] [569] [INFO] Handling signal: term
+[2026-03-24 20:07:43 +0000] [569] [INFO] Worker (pid:703) was sent SIGTERM!
+[2026-03-24 20:07:43 +0000] [569] [INFO] Worker (pid:708) was sent SIGTERM!
+[2026-03-24 20:07:43 +0000] [569] [INFO] Worker (pid:716) was sent SIGTERM!
+[2026-03-24 20:07:43 +0000] [569] [INFO] Shutting down: Master
+[2026-03-24 20:07:43 +0000] [18326] [INFO] Starting gunicorn 25.1.0
+[2026-03-24 20:07:43 +0000] [18326] [INFO] Listening at: http://127.0.0.1:5021 (18326)
+[2026-03-24 20:07:43 +0000] [18326] [INFO] Using worker: sync
+[2026-03-24 20:07:43 +0000] [18332] [INFO] Booting worker with pid: 18332
+[2026-03-24 20:07:43 +0000] [18326] [INFO] Control socket listening at /home/gabo/portfolio/projects/21-saacgnet/gunicorn.ctl
+[2026-03-24 20:07:43 +0000] [18333] [INFO] Booting worker with pid: 18333
+[2026-03-24 20:07:43 +0000] [18334] [INFO] Booting worker with pid: 18334
+[2026-03-24 20:11:23 +0000] [18333] [INFO] Worker exiting (pid: 18333)
+[2026-03-24 20:11:23 +0000] [18334] [INFO] Worker exiting (pid: 18334)
+[2026-03-24 20:11:23 +0000] [18332] [INFO] Worker exiting (pid: 18332)
+[2026-03-24 20:11:23 +0000] [18326] [INFO] Handling signal: term
+[2026-03-24 20:11:23 +0000] [18326] [INFO] Worker (pid:18332) was sent SIGTERM!
+[2026-03-24 20:11:23 +0000] [18326] [INFO] Worker (pid:18333) was sent SIGTERM!
+[2026-03-24 20:11:23 +0000] [18326] [INFO] Worker (pid:18334) was sent SIGTERM!
+[2026-03-24 20:11:24 +0000] [18326] [INFO] Shutting down: Master
+[2026-03-24 20:11:24 +0000] [19215] [INFO] Starting gunicorn 25.1.0
+[2026-03-24 20:11:24 +0000] [19215] [INFO] Listening at: http://127.0.0.1:5021 (19215)
+[2026-03-24 20:11:24 +0000] [19215] [INFO] Using worker: sync
+[2026-03-24 20:11:24 +0000] [19215] [INFO] Control socket listening at /home/gabo/portfolio/projects/21-saacgnet/gunicorn.ctl
+[2026-03-24 20:11:24 +0000] [19221] [INFO] Booting worker with pid: 19221
+[2026-03-24 20:11:24 +0000] [19222] [INFO] Booting worker with pid: 19222
+[2026-03-24 20:11:24 +0000] [19223] [INFO] Booting worker with pid: 19223
+[2026-03-24 20:24:08 +0000] [19215] [INFO] Handling signal: term
+[2026-03-24 20:24:08 +0000] [19221] [INFO] Worker exiting (pid: 19221)
+[2026-03-24 20:24:08 +0000] [19222] [INFO] Worker exiting (pid: 19222)
+[2026-03-24 20:24:08 +0000] [19223] [INFO] Worker exiting (pid: 19223)
+[2026-03-24 20:24:08 +0000] [19215] [INFO] Worker (pid:19221) was sent SIGTERM!
+[2026-03-24 20:24:08 +0000] [19215] [INFO] Worker (pid:19222) was sent SIGTERM!
+[2026-03-24 20:24:08 +0000] [19215] [INFO] Worker (pid:19223) was sent SIGTERM!
+[2026-03-24 20:24:08 +0000] [19215] [INFO] Shutting down: Master
+[2026-03-24 20:24:08 +0000] [21340] [INFO] Starting gunicorn 25.1.0
+[2026-03-24 20:24:08 +0000] [21340] [INFO] Listening at: http://127.0.0.1:5021 (21340)
+[2026-03-24 20:24:08 +0000] [21340] [INFO] Using worker: sync
+[2026-03-24 20:24:08 +0000] [21346] [INFO] Booting worker with pid: 21346
+[2026-03-24 20:24:08 +0000] [21340] [INFO] Control socket listening at /home/gabo/portfolio/projects/21-saacgnet/gunicorn.ctl
+[2026-03-24 20:24:08 +0000] [21347] [INFO] Booting worker with pid: 21347
+[2026-03-24 20:24:08 +0000] [21348] [INFO] Booting worker with pid: 21348
+[2026-03-24 20:26:18 +0000] [21346] [INFO] Worker exiting (pid: 21346)
+[2026-03-24 20:26:18 +0000] [21347] [INFO] Worker exiting (pid: 21347)
+[2026-03-24 20:26:18 +0000] [21348] [INFO] Worker exiting (pid: 21348)
+[2026-03-24 20:26:18 +0000] [21340] [INFO] Handling signal: term
+[2026-03-24 20:26:18 +0000] [21340] [INFO] Worker (pid:21346) was sent SIGTERM!
+[2026-03-24 20:26:18 +0000] [21340] [INFO] Worker (pid:21347) was sent SIGTERM!
+[2026-03-24 20:26:18 +0000] [21340] [INFO] Worker (pid:21348) was sent SIGTERM!
+[2026-03-24 20:26:18 +0000] [21340] [INFO] Shutting down: Master
+[2026-03-24 20:26:18 +0000] [21837] [INFO] Starting gunicorn 25.1.0
+[2026-03-24 20:26:18 +0000] [21837] [INFO] Listening at: http://127.0.0.1:5021 (21837)
+[2026-03-24 20:26:18 +0000] [21837] [INFO] Using worker: sync
+[2026-03-24 20:26:18 +0000] [21843] [INFO] Booting worker with pid: 21843
+[2026-03-24 20:26:18 +0000] [21837] [INFO] Control socket listening at /home/gabo/portfolio/projects/21-saacgnet/gunicorn.ctl
+[2026-03-24 20:26:18 +0000] [21844] [INFO] Booting worker with pid: 21844
+[2026-03-24 20:26:19 +0000] [21845] [INFO] Booting worker with pid: 21845
+[2026-03-24 20:30:28 +0000] [21843] [INFO] Worker exiting (pid: 21843)
+[2026-03-24 20:30:28 +0000] [21845] [INFO] Worker exiting (pid: 21845)
+[2026-03-24 20:30:28 +0000] [21844] [INFO] Worker exiting (pid: 21844)
+[2026-03-24 20:30:28 +0000] [21837] [INFO] Handling signal: term
+[2026-03-24 20:30:28 +0000] [21837] [INFO] Worker (pid:21843) was sent SIGTERM!
+[2026-03-24 20:30:28 +0000] [21837] [INFO] Worker (pid:21844) was sent SIGTERM!
+[2026-03-24 20:30:28 +0000] [21837] [INFO] Worker (pid:21845) was sent SIGTERM!
+[2026-03-24 20:30:28 +0000] [21837] [INFO] Shutting down: Master
+[2026-03-24 20:30:29 +0000] [22752] [INFO] Starting gunicorn 25.1.0
+[2026-03-24 20:30:29 +0000] [22752] [INFO] Listening at: http://127.0.0.1:5021 (22752)
+[2026-03-24 20:30:29 +0000] [22752] [INFO] Using worker: sync
+[2026-03-24 20:30:29 +0000] [22758] [INFO] Booting worker with pid: 22758
+[2026-03-24 20:30:29 +0000] [22752] [INFO] Control socket listening at /home/gabo/portfolio/projects/21-saacgnet/gunicorn.ctl
+[2026-03-24 20:30:29 +0000] [22759] [INFO] Booting worker with pid: 22759
+[2026-03-24 20:30:29 +0000] [22760] [INFO] Booting worker with pid: 22760
+[2026-03-24 20:36:06 +0000] [22752] [INFO] Handling signal: hup
+[2026-03-24 20:36:06 +0000] [22752] [INFO] Hang up: Master
+[2026-03-24 20:36:06 +0000] [24006] [INFO] Booting worker with pid: 24006
+[2026-03-24 20:36:06 +0000] [24007] [INFO] Booting worker with pid: 24007
+[2026-03-24 20:36:06 +0000] [22758] [INFO] Worker exiting (pid: 22758)
+[2026-03-24 20:36:06 +0000] [22759] [INFO] Worker exiting (pid: 22759)
+[2026-03-24 20:36:06 +0000] [22760] [INFO] Worker exiting (pid: 22760)
+[2026-03-24 20:36:06 +0000] [24008] [INFO] Booting worker with pid: 24008
+[2026-03-24 20:38:50 +0000] [22752] [INFO] Handling signal: term
+[2026-03-24 20:38:50 +0000] [24008] [INFO] Worker exiting (pid: 24008)
+[2026-03-24 20:38:50 +0000] [24006] [INFO] Worker exiting (pid: 24006)
+[2026-03-24 20:38:50 +0000] [24007] [INFO] Worker exiting (pid: 24007)
+[2026-03-24 20:38:50 +0000] [22752] [INFO] Worker (pid:24006) was sent SIGTERM!
+[2026-03-24 20:38:50 +0000] [22752] [INFO] Worker (pid:24007) was sent SIGTERM!
+[2026-03-24 20:38:50 +0000] [22752] [INFO] Worker (pid:24008) was sent SIGTERM!
+[2026-03-24 20:38:50 +0000] [22752] [INFO] Shutting down: Master
+[2026-03-24 20:38:50 +0000] [24500] [INFO] Starting gunicorn 25.1.0
+[2026-03-24 20:38:50 +0000] [24500] [INFO] Listening at: http://127.0.0.1:5021 (24500)
+[2026-03-24 20:38:50 +0000] [24500] [INFO] Using worker: sync
+[2026-03-24 20:38:50 +0000] [24500] [INFO] Control socket listening at /home/gabo/portfolio/projects/21-saacgnet/gunicorn.ctl
+[2026-03-24 20:38:50 +0000] [24506] [INFO] Booting worker with pid: 24506
+[2026-03-24 20:38:50 +0000] [24507] [INFO] Booting worker with pid: 24507
+[2026-03-24 20:38:50 +0000] [24508] [INFO] Booting worker with pid: 24508
+[2026-03-24 20:43:07 +0000] [24500] [INFO] Handling signal: term
+[2026-03-24 20:43:07 +0000] [24506] [INFO] Worker exiting (pid: 24506)
+[2026-03-24 20:43:07 +0000] [24507] [INFO] Worker exiting (pid: 24507)
+[2026-03-24 20:43:07 +0000] [24508] [INFO] Worker exiting (pid: 24508)
+[2026-03-24 20:43:07 +0000] [24500] [INFO] Worker (pid:24506) was sent SIGTERM!
+[2026-03-24 20:43:07 +0000] [24500] [INFO] Worker (pid:24507) was sent SIGTERM!
+[2026-03-24 20:43:07 +0000] [24500] [INFO] Worker (pid:24508) was sent SIGTERM!
+[2026-03-24 20:43:07 +0000] [24500] [INFO] Shutting down: Master
+[2026-03-24 20:43:07 +0000] [25567] [INFO] Starting gunicorn 25.1.0
+[2026-03-24 20:43:07 +0000] [25567] [INFO] Listening at: http://127.0.0.1:5021 (25567)
+[2026-03-24 20:43:07 +0000] [25567] [INFO] Using worker: sync
+[2026-03-24 20:43:07 +0000] [25573] [INFO] Booting worker with pid: 25573
+[2026-03-24 20:43:07 +0000] [25567] [INFO] Control socket listening at /home/gabo/portfolio/projects/21-saacgnet/gunicorn.ctl
+[2026-03-24 20:43:07 +0000] [25574] [INFO] Booting worker with pid: 25574
+[2026-03-24 20:43:07 +0000] [25575] [INFO] Booting worker with pid: 25575
+[2026-03-24 20:45:25 +0000] [25567] [INFO] Handling signal: term
+[2026-03-24 20:45:25 +0000] [25574] [INFO] Worker exiting (pid: 25574)
+[2026-03-24 20:45:25 +0000] [25575] [INFO] Worker exiting (pid: 25575)
+[2026-03-24 20:45:25 +0000] [25573] [INFO] Worker exiting (pid: 25573)
+[2026-03-24 20:45:25 +0000] [25567] [INFO] Worker (pid:25573) was sent SIGTERM!
+[2026-03-24 20:45:25 +0000] [25567] [INFO] Worker (pid:25574) was sent SIGTERM!
+[2026-03-24 20:45:25 +0000] [25567] [INFO] Worker (pid:25575) was sent SIGTERM!
+[2026-03-24 20:45:25 +0000] [25567] [INFO] Shutting down: Master
+[2026-03-24 20:45:26 +0000] [26015] [INFO] Starting gunicorn 25.1.0
+[2026-03-24 20:45:26 +0000] [26015] [INFO] Listening at: http://127.0.0.1:5021 (26015)
+[2026-03-24 20:45:26 +0000] [26015] [INFO] Using worker: sync
+[2026-03-24 20:45:26 +0000] [26021] [INFO] Booting worker with pid: 26021
+[2026-03-24 20:45:26 +0000] [26015] [INFO] Control socket listening at /home/gabo/portfolio/projects/21-saacgnet/gunicorn.ctl
+[2026-03-24 20:45:26 +0000] [26022] [INFO] Booting worker with pid: 26022
+[2026-03-24 20:45:26 +0000] [26023] [INFO] Booting worker with pid: 26023
+[2026-03-24 20:48:08 +0000] [26023] [INFO] Worker exiting (pid: 26023)
+[2026-03-24 20:48:08 +0000] [26022] [INFO] Worker exiting (pid: 26022)
+[2026-03-24 20:48:08 +0000] [26015] [INFO] Handling signal: term
+[2026-03-24 20:48:08 +0000] [26021] [INFO] Worker exiting (pid: 26021)
+[2026-03-24 20:48:08 +0000] [26015] [INFO] Worker (pid:26021) was sent SIGTERM!
+[2026-03-24 20:48:08 +0000] [26015] [INFO] Worker (pid:26022) was sent SIGTERM!
+[2026-03-24 20:48:08 +0000] [26015] [INFO] Worker (pid:26023) was sent SIGTERM!
+[2026-03-24 20:48:09 +0000] [26015] [INFO] Shutting down: Master
+[2026-03-24 20:48:09 +0000] [26539] [INFO] Starting gunicorn 25.1.0
+[2026-03-24 20:48:09 +0000] [26539] [INFO] Listening at: http://127.0.0.1:5021 (26539)
+[2026-03-24 20:48:09 +0000] [26539] [INFO] Using worker: sync
+[2026-03-24 20:48:09 +0000] [26539] [INFO] Control socket listening at /home/gabo/portfolio/projects/21-saacgnet/gunicorn.ctl
+[2026-03-24 20:48:09 +0000] [26545] [INFO] Booting worker with pid: 26545
+[2026-03-24 20:48:09 +0000] [26546] [INFO] Booting worker with pid: 26546
+[2026-03-24 20:48:09 +0000] [26547] [INFO] Booting worker with pid: 26547
+[2026-03-24 20:48:23 +0000] [26545] [INFO] Worker exiting (pid: 26545)
+[2026-03-24 20:48:23 +0000] [26546] [INFO] Worker exiting (pid: 26546)
+[2026-03-24 20:48:23 +0000] [26547] [INFO] Worker exiting (pid: 26547)
+[2026-03-24 20:48:23 +0000] [26539] [INFO] Handling signal: term
+[2026-03-24 20:48:23 +0000] [26539] [INFO] Worker (pid:26545) was sent SIGTERM!
+[2026-03-24 20:48:23 +0000] [26539] [INFO] Worker (pid:26546) was sent SIGTERM!
+[2026-03-24 20:48:23 +0000] [26539] [INFO] Worker (pid:26547) was sent SIGTERM!
+[2026-03-24 20:48:23 +0000] [26539] [INFO] Shutting down: Master
+[2026-03-24 20:48:24 +0000] [26596] [INFO] Starting gunicorn 25.1.0
+[2026-03-24 20:48:24 +0000] [26596] [INFO] Listening at: http://127.0.0.1:5021 (26596)
+[2026-03-24 20:48:24 +0000] [26596] [INFO] Using worker: sync
+[2026-03-24 20:48:24 +0000] [26602] [INFO] Booting worker with pid: 26602
+[2026-03-24 20:48:24 +0000] [26596] [INFO] Control socket listening at /home/gabo/portfolio/projects/21-saacgnet/gunicorn.ctl
+[2026-03-24 20:48:24 +0000] [26603] [INFO] Booting worker with pid: 26603
+[2026-03-24 20:48:24 +0000] [26604] [INFO] Booting worker with pid: 26604
+[2026-03-24 20:50:10 +0000] [26596] [INFO] Handling signal: term
+[2026-03-24 20:50:10 +0000] [26602] [INFO] Worker exiting (pid: 26602)
+[2026-03-24 20:50:10 +0000] [26603] [INFO] Worker exiting (pid: 26603)
+[2026-03-24 20:50:10 +0000] [26604] [INFO] Worker exiting (pid: 26604)
+[2026-03-24 20:50:10 +0000] [26596] [INFO] Worker (pid:26602) was sent SIGTERM!
+[2026-03-24 20:50:10 +0000] [26596] [INFO] Worker (pid:26603) was sent SIGTERM!
+[2026-03-24 20:50:10 +0000] [26596] [INFO] Worker (pid:26604) was sent SIGTERM!
+[2026-03-24 20:50:10 +0000] [26596] [INFO] Shutting down: Master
+[2026-03-24 20:50:10 +0000] [26940] [INFO] Starting gunicorn 25.1.0
+[2026-03-24 20:50:10 +0000] [26940] [INFO] Listening at: http://127.0.0.1:5021 (26940)
+[2026-03-24 20:50:10 +0000] [26940] [INFO] Using worker: sync
+[2026-03-24 20:50:10 +0000] [26946] [INFO] Booting worker with pid: 26946
+[2026-03-24 20:50:10 +0000] [26940] [INFO] Control socket listening at /home/gabo/portfolio/projects/21-saacgnet/gunicorn.ctl
+[2026-03-24 20:50:10 +0000] [26947] [INFO] Booting worker with pid: 26947
+[2026-03-24 20:50:10 +0000] [26948] [INFO] Booting worker with pid: 26948
+[2026-03-26 00:49:28 +0000] [26946] [INFO] Worker exiting (pid: 26946)
+[2026-03-26 00:49:28 +0000] [26948] [INFO] Worker exiting (pid: 26948)
+[2026-03-26 00:49:28 +0000] [26947] [INFO] Worker exiting (pid: 26947)
+[2026-03-26 00:49:28 +0000] [26940] [INFO] Handling signal: term
+[2026-03-26 00:49:28 +0000] [26940] [INFO] Worker (pid:26948) was sent SIGTERM!
+[2026-03-26 00:49:28 +0000] [26940] [INFO] Worker (pid:26946) was sent SIGTERM!
+[2026-03-26 00:49:28 +0000] [26940] [INFO] Worker (pid:26947) was sent SIGTERM!
+[2026-03-26 00:49:28 +0000] [26940] [INFO] Shutting down: Master
+[2026-03-26 00:49:29 +0000] [296858] [INFO] Starting gunicorn 25.1.0
+[2026-03-26 00:49:29 +0000] [296858] [INFO] Listening at: http://127.0.0.1:5021 (296858)
+[2026-03-26 00:49:29 +0000] [296858] [INFO] Using worker: sync
+[2026-03-26 00:49:29 +0000] [296864] [INFO] Booting worker with pid: 296864
+[2026-03-26 00:49:29 +0000] [296858] [INFO] Control socket listening at /home/gabo/portfolio/projects/21-saacgnet/gunicorn.ctl
+[2026-03-26 00:49:29 +0000] [296866] [INFO] Booting worker with pid: 296866
+[2026-03-26 05:28:27 +0000] [296866] [INFO] Worker exiting (pid: 296866)
+[2026-03-26 05:28:27 +0000] [296864] [INFO] Worker exiting (pid: 296864)
+[2026-03-26 05:28:27 +0000] [296858] [INFO] Handling signal: term
+[2026-03-26 05:28:28 +0000] [296858] [INFO] Worker (pid:296864) was sent SIGTERM!
+[2026-03-26 05:28:28 +0000] [296858] [INFO] Worker (pid:296866) was sent SIGTERM!
+[2026-03-26 05:28:57 +0000] [296858] [INFO] Shutting down: Master
+[2026-03-26 05:28:58 +0000] [344076] [INFO] Starting gunicorn 25.1.0
+[2026-03-26 05:28:58 +0000] [344076] [INFO] Listening at: http://127.0.0.1:5021 (344076)
+[2026-03-26 05:28:58 +0000] [344076] [INFO] Using worker: sync
+[2026-03-26 05:28:58 +0000] [344076] [INFO] Control socket listening at /home/gabo/portfolio/projects/21-saacgnet/gunicorn.ctl
+[2026-03-26 05:28:58 +0000] [344078] [INFO] Booting worker with pid: 344078
+[2026-03-26 05:28:58 +0000] [344079] [INFO] Booting worker with pid: 344079
+[2026-03-26 05:28:58 +0000] [344080] [INFO] Booting worker with pid: 344080
+[2026-03-26 23:32:03 +0000] [344079] [INFO] Worker exiting (pid: 344079)
+[2026-03-26 23:32:03 +0000] [344080] [INFO] Worker exiting (pid: 344080)
+[2026-03-26 23:32:03 +0000] [344078] [INFO] Worker exiting (pid: 344078)
+[2026-03-26 23:32:03 +0000] [344076] [INFO] Handling signal: term
+[2026-03-26 23:32:04 +0000] [344076] [INFO] Worker (pid:344078) was sent SIGTERM!
+[2026-03-26 23:32:04 +0000] [344076] [INFO] Worker (pid:344079) was sent SIGTERM!
+[2026-03-26 23:32:04 +0000] [344076] [INFO] Worker (pid:344080) was sent SIGTERM!
+[2026-03-26 23:32:04 +0000] [344076] [INFO] Shutting down: Master
+[2026-03-26 23:32:04 +0000] [531166] [INFO] Starting gunicorn 25.1.0
+[2026-03-26 23:32:04 +0000] [531166] [INFO] Listening at: http://127.0.0.1:5021 (531166)
+[2026-03-26 23:32:04 +0000] [531166] [INFO] Using worker: sync
+[2026-03-26 23:32:05 +0000] [531172] [INFO] Booting worker with pid: 531172
+[2026-03-26 23:32:05 +0000] [531173] [INFO] Booting worker with pid: 531173
+[2026-03-26 23:32:05 +0000] [531166] [INFO] Control socket listening at /home/gabo/portfolio/projects/21-saacgnet/gunicorn.ctl
+[2026-03-26 23:32:05 +0000] [531174] [INFO] Booting worker with pid: 531174
+[2026-03-27 00:07:53 +0000] [531174] [INFO] Worker exiting (pid: 531174)
+[2026-03-27 00:07:53 +0000] [531166] [INFO] Handling signal: term
+[2026-03-27 00:07:53 +0000] [531172] [INFO] Worker exiting (pid: 531172)
+[2026-03-27 00:07:53 +0000] [531173] [INFO] Worker exiting (pid: 531173)
+[2026-03-27 00:07:53 +0000] [531166] [INFO] Worker (pid:531172) was sent SIGTERM!
+[2026-03-27 00:07:53 +0000] [531166] [INFO] Worker (pid:531173) was sent SIGTERM!
+[2026-03-27 00:07:53 +0000] [531166] [INFO] Worker (pid:531174) was sent SIGTERM!
+[2026-03-27 00:07:53 +0000] [531166] [INFO] Shutting down: Master
+[2026-03-27 00:07:53 +0000] [538168] [INFO] Starting gunicorn 25.1.0
+[2026-03-27 00:07:53 +0000] [538168] [INFO] Listening at: http://127.0.0.1:5021 (538168)
+[2026-03-27 00:07:53 +0000] [538168] [INFO] Using worker: sync
+[2026-03-27 00:07:53 +0000] [538174] [INFO] Booting worker with pid: 538174
+[2026-03-27 00:07:53 +0000] [538168] [INFO] Control socket listening at /home/gabo/portfolio/projects/21-saacgnet/gunicorn.ctl
+[2026-03-27 00:07:53 +0000] [538175] [INFO] Booting worker with pid: 538175
+[2026-03-27 00:07:53 +0000] [538176] [INFO] Booting worker with pid: 538176
+[2026-03-27 00:15:49 +0000] [538175] [INFO] Worker exiting (pid: 538175)
+[2026-03-27 00:15:49 +0000] [538174] [INFO] Worker exiting (pid: 538174)
+[2026-03-27 00:15:49 +0000] [538176] [INFO] Worker exiting (pid: 538176)
+[2026-03-27 00:15:49 +0000] [538168] [INFO] Handling signal: term
+[2026-03-27 00:15:49 +0000] [538168] [INFO] Worker (pid:538174) was sent SIGTERM!
+[2026-03-27 00:15:49 +0000] [538168] [INFO] Worker (pid:538175) was sent SIGTERM!
+[2026-03-27 00:15:49 +0000] [538168] [INFO] Worker (pid:538176) was sent SIGTERM!
+[2026-03-27 00:15:49 +0000] [538168] [INFO] Shutting down: Master
+[2026-03-27 00:15:49 +0000] [539869] [INFO] Starting gunicorn 25.1.0
+[2026-03-27 00:15:49 +0000] [539869] [INFO] Listening at: http://127.0.0.1:5021 (539869)
+[2026-03-27 00:15:49 +0000] [539869] [INFO] Using worker: sync
+[2026-03-27 00:15:50 +0000] [539869] [INFO] Control socket listening at /home/gabo/portfolio/projects/21-saacgnet/gunicorn.ctl
+[2026-03-27 00:15:50 +0000] [539875] [INFO] Booting worker with pid: 539875
+[2026-03-27 00:15:50 +0000] [539876] [INFO] Booting worker with pid: 539876
+[2026-03-27 00:15:50 +0000] [539877] [INFO] Booting worker with pid: 539877
+[2026-03-27 00:18:41 +0000] [539869] [INFO] Handling signal: term
+[2026-03-27 00:18:41 +0000] [539875] [INFO] Worker exiting (pid: 539875)
+[2026-03-27 00:18:41 +0000] [539876] [INFO] Worker exiting (pid: 539876)
+[2026-03-27 00:18:41 +0000] [539877] [INFO] Worker exiting (pid: 539877)
+[2026-03-27 00:18:41 +0000] [539869] [INFO] Worker (pid:539875) was sent SIGTERM!
+[2026-03-27 00:18:41 +0000] [539869] [INFO] Worker (pid:539876) was sent SIGTERM!
+[2026-03-27 00:18:41 +0000] [539869] [INFO] Worker (pid:539877) was sent SIGTERM!
+[2026-03-27 00:18:41 +0000] [539869] [INFO] Shutting down: Master
+[2026-03-27 00:18:42 +0000] [540459] [INFO] Starting gunicorn 25.1.0
+[2026-03-27 00:18:42 +0000] [540459] [INFO] Listening at: http://127.0.0.1:5021 (540459)
+[2026-03-27 00:18:42 +0000] [540459] [INFO] Using worker: sync
+[2026-03-27 00:18:42 +0000] [540459] [INFO] Control socket listening at /home/gabo/portfolio/projects/21-saacgnet/gunicorn.ctl
+[2026-03-27 00:18:42 +0000] [540465] [INFO] Booting worker with pid: 540465
+[2026-03-27 00:18:42 +0000] [540466] [INFO] Booting worker with pid: 540466
+[2026-03-27 00:18:42 +0000] [540467] [INFO] Booting worker with pid: 540467
+[2026-03-27 00:24:54 +0000] [540465] [INFO] Worker exiting (pid: 540465)
+[2026-03-27 00:24:54 +0000] [540466] [INFO] Worker exiting (pid: 540466)
+[2026-03-27 00:24:54 +0000] [540459] [INFO] Handling signal: term
+[2026-03-27 00:24:54 +0000] [540467] [INFO] Worker exiting (pid: 540467)
+[2026-03-27 00:24:55 +0000] [540459] [INFO] Worker (pid:540465) was sent SIGTERM!
+[2026-03-27 00:24:55 +0000] [540459] [INFO] Worker (pid:540466) was sent SIGTERM!
+[2026-03-27 00:24:55 +0000] [540459] [INFO] Worker (pid:540467) was sent SIGTERM!
+[2026-03-27 00:24:55 +0000] [540459] [INFO] Shutting down: Master
+[2026-03-27 00:24:55 +0000] [541824] [INFO] Starting gunicorn 25.1.0
+[2026-03-27 00:24:55 +0000] [541824] [INFO] Listening at: http://127.0.0.1:5021 (541824)
+[2026-03-27 00:24:55 +0000] [541824] [INFO] Using worker: sync
+[2026-03-27 00:24:55 +0000] [541830] [INFO] Booting worker with pid: 541830
+[2026-03-27 00:24:55 +0000] [541824] [INFO] Control socket listening at /home/gabo/portfolio/projects/21-saacgnet/gunicorn.ctl
+[2026-03-27 00:24:55 +0000] [541831] [INFO] Booting worker with pid: 541831
+[2026-03-27 00:24:55 +0000] [541832] [INFO] Booting worker with pid: 541832
+[2026-03-27 00:31:13 +0000] [541824] [INFO] Handling signal: term
+[2026-03-27 00:31:13 +0000] [541832] [INFO] Worker exiting (pid: 541832)
+[2026-03-27 00:31:13 +0000] [541831] [INFO] Worker exiting (pid: 541831)
+[2026-03-27 00:31:13 +0000] [541830] [INFO] Worker exiting (pid: 541830)
+[2026-03-27 00:31:14 +0000] [541824] [INFO] Shutting down: Master
+[2026-03-27 00:31:14 +0000] [542913] [INFO] Starting gunicorn 25.1.0
+[2026-03-27 00:31:14 +0000] [542913] [INFO] Listening at: http://127.0.0.1:5021 (542913)
+[2026-03-27 00:31:14 +0000] [542913] [INFO] Using worker: sync
+[2026-03-27 00:31:14 +0000] [542919] [INFO] Booting worker with pid: 542919
+[2026-03-27 00:31:14 +0000] [542913] [INFO] Control socket listening at /home/gabo/portfolio/projects/21-saacgnet/gunicorn.ctl
+[2026-03-27 00:31:14 +0000] [542920] [INFO] Booting worker with pid: 542920
+[2026-03-27 00:31:14 +0000] [542921] [INFO] Booting worker with pid: 542921
+[2026-03-27 00:37:15 +0000] [542920] [INFO] Worker exiting (pid: 542920)
+[2026-03-27 00:37:15 +0000] [542919] [INFO] Worker exiting (pid: 542919)
+[2026-03-27 00:37:15 +0000] [542921] [INFO] Worker exiting (pid: 542921)
+[2026-03-27 00:37:15 +0000] [542913] [INFO] Handling signal: term
+[2026-03-27 00:37:15 +0000] [542913] [INFO] Worker (pid:542919) was sent SIGTERM!
+[2026-03-27 00:37:15 +0000] [542913] [INFO] Worker (pid:542920) was sent SIGTERM!
+[2026-03-27 00:37:15 +0000] [542913] [INFO] Worker (pid:542921) was sent SIGTERM!
+[2026-03-27 00:37:15 +0000] [542913] [INFO] Shutting down: Master
+[2026-03-27 00:37:15 +0000] [544038] [INFO] Starting gunicorn 25.1.0
+[2026-03-27 00:37:15 +0000] [544038] [INFO] Listening at: http://127.0.0.1:5021 (544038)
+[2026-03-27 00:37:15 +0000] [544038] [INFO] Using worker: sync
+[2026-03-27 00:37:15 +0000] [544044] [INFO] Booting worker with pid: 544044
+[2026-03-27 00:37:15 +0000] [544038] [INFO] Control socket listening at /home/gabo/portfolio/projects/21-saacgnet/gunicorn.ctl
+[2026-03-27 00:37:15 +0000] [544045] [INFO] Booting worker with pid: 544045
+[2026-03-27 00:37:15 +0000] [544046] [INFO] Booting worker with pid: 544046
+[2026-03-27 00:39:23 +0000] [544045] [INFO] Worker exiting (pid: 544045)
+[2026-03-27 00:39:23 +0000] [544046] [INFO] Worker exiting (pid: 544046)
+[2026-03-27 00:39:23 +0000] [544038] [INFO] Handling signal: term
+[2026-03-27 00:39:23 +0000] [544044] [INFO] Worker exiting (pid: 544044)
+[2026-03-27 00:39:24 +0000] [544038] [INFO] Worker (pid:544044) was sent SIGTERM!
+[2026-03-27 00:39:24 +0000] [544038] [INFO] Worker (pid:544045) was sent SIGTERM!
+[2026-03-27 00:39:24 +0000] [544038] [INFO] Worker (pid:544046) was sent SIGTERM!
+[2026-03-27 00:39:24 +0000] [544038] [INFO] Shutting down: Master
+[2026-03-27 00:39:24 +0000] [544600] [INFO] Starting gunicorn 25.1.0
+[2026-03-27 00:39:24 +0000] [544600] [INFO] Listening at: http://127.0.0.1:5021 (544600)
+[2026-03-27 00:39:24 +0000] [544600] [INFO] Using worker: sync
+[2026-03-27 00:39:24 +0000] [544600] [INFO] Control socket listening at /home/gabo/portfolio/projects/21-saacgnet/gunicorn.ctl
+[2026-03-27 00:39:24 +0000] [544606] [INFO] Booting worker with pid: 544606
+[2026-03-27 00:39:24 +0000] [544607] [INFO] Booting worker with pid: 544607
+[2026-03-27 00:39:24 +0000] [544608] [INFO] Booting worker with pid: 544608
+[2026-03-27 01:10:55 +0000] [544600] [INFO] Handling signal: term
+[2026-03-27 01:10:55 +0000] [544606] [INFO] Worker exiting (pid: 544606)
+[2026-03-27 01:10:55 +0000] [544607] [INFO] Worker exiting (pid: 544607)
+[2026-03-27 01:10:55 +0000] [544608] [INFO] Worker exiting (pid: 544608)
+[2026-03-27 01:10:55 +0000] [544600] [INFO] Worker (pid:544606) was sent SIGTERM!
+[2026-03-27 01:10:55 +0000] [544600] [INFO] Worker (pid:544607) was sent SIGTERM!
+[2026-03-27 01:10:55 +0000] [544600] [INFO] Worker (pid:544608) was sent SIGTERM!
+[2026-03-27 01:10:55 +0000] [544600] [INFO] Shutting down: Master
+[2026-03-27 01:10:55 +0000] [551438] [INFO] Starting gunicorn 25.1.0
+[2026-03-27 01:10:55 +0000] [551438] [INFO] Listening at: http://127.0.0.1:5021 (551438)
+[2026-03-27 01:10:55 +0000] [551438] [INFO] Using worker: sync
+[2026-03-27 01:10:55 +0000] [551444] [INFO] Booting worker with pid: 551444
+[2026-03-27 01:10:55 +0000] [551438] [INFO] Control socket listening at /home/gabo/portfolio/projects/21-saacgnet/gunicorn.ctl
+[2026-03-27 01:10:55 +0000] [551445] [INFO] Booting worker with pid: 551445
+[2026-03-27 01:10:56 +0000] [551446] [INFO] Booting worker with pid: 551446
+[2026-03-27 16:06:42 +0000] [572] [INFO] Starting gunicorn 25.1.0
+[2026-03-27 16:06:42 +0000] [572] [INFO] Listening at: http://127.0.0.1:5021 (572)
+[2026-03-27 16:06:42 +0000] [572] [INFO] Using worker: sync
+[2026-03-27 16:06:43 +0000] [717] [INFO] Booting worker with pid: 717
+[2026-03-27 16:06:43 +0000] [719] [INFO] Booting worker with pid: 719
+[2026-03-27 16:06:43 +0000] [572] [INFO] Control socket listening at /home/gabo/portfolio/projects/21-saacgnet/gunicorn.ctl
+[2026-03-27 16:06:44 +0000] [728] [INFO] Booting worker with pid: 728
+[2026-03-27 16:58:55 +0000] [593] [INFO] Starting gunicorn 25.1.0
+[2026-03-27 16:58:55 +0000] [593] [INFO] Listening at: http://127.0.0.1:5021 (593)
+[2026-03-27 16:58:55 +0000] [593] [INFO] Using worker: sync
+[2026-03-27 16:58:56 +0000] [710] [INFO] Booting worker with pid: 710
+[2026-03-27 16:58:56 +0000] [593] [INFO] Control socket listening at /home/gabo/portfolio/projects/21-saacgnet/gunicorn.ctl
+[2026-03-27 16:58:56 +0000] [716] [INFO] Booting worker with pid: 716
+[2026-03-27 18:10:33 +0000] [572] [INFO] Starting gunicorn 25.1.0
+[2026-03-27 18:10:33 +0000] [572] [INFO] Listening at: http://127.0.0.1:5021 (572)
+[2026-03-27 18:10:33 +0000] [572] [INFO] Using worker: sync
+[2026-03-27 18:10:33 +0000] [698] [INFO] Booting worker with pid: 698
+[2026-03-27 18:10:33 +0000] [572] [INFO] Control socket listening at /home/gabo/portfolio/projects/21-saacgnet/gunicorn.ctl
+[2026-03-27 18:10:33 +0000] [705] [INFO] Booting worker with pid: 705
+[2026-03-27 18:10:33 +0000] [707] [INFO] Booting worker with pid: 707
+[2026-03-27 20:10:26 +0000] [705] [INFO] Worker exiting (pid: 705)
+[2026-03-27 20:10:26 +0000] [698] [INFO] Worker exiting (pid: 698)
+[2026-03-27 20:10:26 +0000] [707] [INFO] Worker exiting (pid: 707)
+[2026-03-27 20:10:26 +0000] [572] [INFO] Handling signal: term
+[2026-03-27 20:10:26 +0000] [572] [INFO] Worker (pid:698) was sent SIGTERM!
+[2026-03-27 20:10:26 +0000] [572] [INFO] Worker (pid:705) was sent SIGTERM!
+[2026-03-27 20:10:26 +0000] [572] [INFO] Worker (pid:707) was sent SIGTERM!
+[2026-03-27 20:10:26 +0000] [572] [INFO] Shutting down: Master
+[2026-03-27 20:10:27 +0000] [24463] [INFO] Starting gunicorn 25.1.0
+[2026-03-27 20:10:27 +0000] [24463] [INFO] Listening at: http://127.0.0.1:5021 (24463)
+[2026-03-27 20:10:27 +0000] [24463] [INFO] Using worker: sync
+[2026-03-27 20:10:27 +0000] [24463] [INFO] Control socket listening at /home/gabo/portfolio/projects/21-saacgnet/gunicorn.ctl
+[2026-03-27 20:10:27 +0000] [24470] [INFO] Booting worker with pid: 24470
+[2026-03-27 20:10:27 +0000] [24471] [INFO] Booting worker with pid: 24471

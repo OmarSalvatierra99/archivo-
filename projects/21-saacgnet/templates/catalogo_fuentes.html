@@ -1,0 +1,226 @@
+{% extends "base.html" %}
+
+{% block title %}Catálogo de Fuentes - SAAGNET{% endblock %}
+
+{% block extra_css %}
+<style>
+    .catalogos {
+        max-width: 1400px;
+        margin: 2rem auto;
+        padding: 2rem;
+        background: rgba(255, 255, 255, 0.82);
+        border: 1px solid rgba(0, 40, 85, 0.08);
+        border-radius: 20px;
+        box-shadow: 0 16px 38px rgba(7, 26, 54, 0.08);
+        backdrop-filter: blur(10px);
+    }
+
+    .catalogo-header {
+        display: flex;
+        justify-content: space-between;
+        gap: 1rem;
+        align-items: flex-end;
+        margin-bottom: 1.5rem;
+    }
+
+    .catalogo-header h2 {
+        margin: 0;
+        color: var(--color-primary);
+    }
+
+    .catalogo-header p {
+        margin: 0.35rem 0 0;
+        color: var(--color-muted);
+    }
+
+    .catalogo-stat {
+        min-width: 120px;
+        padding: 0.85rem 1rem;
+        border-radius: 14px;
+        background: #f7fbff;
+        border: 1px solid #d8e5f4;
+        text-align: center;
+    }
+
+    .catalogo-stat strong {
+        display: block;
+        font-size: 1.2rem;
+        color: var(--color-primary);
+    }
+
+    .catalogo-stat span {
+        display: block;
+        margin-top: 0.25rem;
+        color: var(--color-muted);
+        font-size: 0.82rem;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+    }
+
+    .catalogo-toolbar {
+        margin-bottom: 1.5rem;
+    }
+
+    .catalog-search {
+        width: 100%;
+        padding: 0.9rem 1rem;
+        border-radius: 14px;
+        border: 1px solid #cfdbe8;
+        background: white;
+        font-size: 0.95rem;
+    }
+
+    .tabla-wrapper {
+        overflow-x: auto;
+        border: 1px solid #d7e0ea;
+        border-radius: 14px;
+        background: white;
+    }
+
+    .tabla-resultados {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .tabla-resultados th,
+    .tabla-resultados td {
+        padding: 0.8rem 0.9rem;
+        border-bottom: 1px solid #e7eef6;
+        text-align: left;
+        font-size: 0.92rem;
+    }
+
+    .tabla-resultados th {
+        background: linear-gradient(180deg, #f7fbff 0%, #edf3fb 100%);
+        color: #334155;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        font-size: 0.78rem;
+    }
+
+    .tabla-resultados tbody tr:nth-child(even) td {
+        background: #fbfdff;
+    }
+
+    .msg-vacio {
+        margin: 0;
+        padding: 1.5rem;
+        color: var(--color-muted);
+        text-align: center;
+    }
+
+    [hidden] {
+        display: none !important;
+    }
+
+    @media (max-width: 768px) {
+        .catalogos {
+            padding: 1rem;
+            margin: 1rem auto;
+        }
+
+        .catalogo-header {
+            flex-direction: column;
+            align-items: stretch;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="catalogos">
+    <div class="catalogo-header">
+        <div>
+            <h2>Catálogo de Fuentes de Financiamiento</h2>
+            <p>Consulta directa de claves, identificadores y descripciones disponibles para el análisis.</p>
+        </div>
+        <div class="catalogo-stat">
+            <strong id="fuentesVisibleCount">{{ fuentes|length }}</strong>
+            <span>Fuentes visibles</span>
+        </div>
+    </div>
+
+    <div class="catalogo-toolbar">
+        <input
+            type="search"
+            id="fuentesSearch"
+            class="catalog-search"
+            placeholder="Buscar por FF, fuente, ID, alfa, descripción, ramo o fondo..."
+            autocomplete="off"
+        >
+    </div>
+
+    {% if fuentes %}
+    <div class="tabla-wrapper">
+        <table class="tabla-resultados" id="fuentesTable">
+            <thead>
+                <tr>
+                    <th>FF</th>
+                    <th>Fuente de Financiamiento</th>
+                    <th>ID</th>
+                    <th>Alfa</th>
+                    <th>Descripción</th>
+                    <th>Ramo Federal</th>
+                    <th>Fondo de Ingreso</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for fuente in fuentes %}
+                <tr data-search="{{ (fuente.ff or '') ~ ' ' ~ (fuente.fuente or '') ~ ' ' ~ (fuente.id_fuente or '') ~ ' ' ~ (fuente.alfa or '') ~ ' ' ~ (fuente.descripcion or '') ~ ' ' ~ (fuente.ramo_federal or '') ~ ' ' ~ (fuente.fondo_ingreso or '') }}">
+                    <td>{{ fuente.ff or '-' }}</td>
+                    <td>{{ fuente.fuente or '-' }}</td>
+                    <td>{{ fuente.id_fuente or '-' }}</td>
+                    <td>{{ fuente.alfa or '-' }}</td>
+                    <td>{{ fuente.descripcion or '-' }}</td>
+                    <td>{{ fuente.ramo_federal or '-' }}</td>
+                    <td>{{ fuente.fondo_ingreso or '-' }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <p class="msg-vacio" id="fuentesEmpty" hidden>No hay coincidencias en el catálogo de fuentes.</p>
+    {% else %}
+    <p class="msg-vacio">No hay registros en el catálogo de fuentes.</p>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+const fuentesSearch = document.getElementById('fuentesSearch');
+const fuentesTable = document.getElementById('fuentesTable');
+const fuentesEmpty = document.getElementById('fuentesEmpty');
+const fuentesVisibleCount = document.getElementById('fuentesVisibleCount');
+
+function applyFuentesSearch() {
+    if (!fuentesTable) {
+        return;
+    }
+
+    const query = (fuentesSearch?.value || '').trim().toLowerCase();
+    let visibleRows = 0;
+
+    fuentesTable.querySelectorAll('tbody tr').forEach((row) => {
+        const haystack = (row.dataset.search || row.textContent || '').toLowerCase();
+        const visible = !query || haystack.includes(query);
+        row.hidden = !visible;
+        if (visible) {
+            visibleRows += 1;
+        }
+    });
+
+    if (fuentesVisibleCount) {
+        fuentesVisibleCount.textContent = visibleRows.toLocaleString('es-MX');
+    }
+
+    if (fuentesEmpty) {
+        fuentesEmpty.hidden = visibleRows !== 0;
+    }
+}
+
+if (fuentesSearch) {
+    fuentesSearch.addEventListener('input', applyFuentesSearch);
+}
+</script>
+{% endblock %}

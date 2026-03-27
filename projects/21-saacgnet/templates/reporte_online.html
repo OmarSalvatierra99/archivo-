@@ -1,0 +1,3115 @@
+{% extends "base.html" %}
+
+{% block title %}Consultar Transacciones - SAAGNET{% endblock %}
+
+{% block extra_css %}
+<style>
+    .consulta-container {
+        max-width: 100%;
+        width: 100%;
+        margin: 0 auto;
+        padding: 1.75rem 1rem 2rem;
+        position: relative;
+    }
+
+    .consulta-container::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background:
+            radial-gradient(circle at 10% 10%, rgba(31, 59, 44, 0.08), transparent 40%),
+            radial-gradient(circle at 95% 0%, rgba(31, 90, 57, 0.08), transparent 42%);
+        pointer-events: none;
+        z-index: 0;
+    }
+
+    .consulta-container > * {
+        position: relative;
+        z-index: 1;
+    }
+
+    body.filters-drawer-open {
+        overflow: hidden;
+    }
+
+    .consulta-layout,
+    .results-section {
+        display: flex;
+        flex-direction: column;
+        gap: 1.1rem;
+    }
+
+    .page-hero,
+    .selection-card,
+    .overview-section,
+    .filters-launcher,
+    .active-filters-bar,
+    .table-wrapper,
+    .filters-static,
+    .stats-bar {
+        border-radius: 20px;
+        background: rgba(255, 255, 255, 0.94);
+        border: 1px solid rgba(31, 59, 44, 0.12);
+        box-shadow: var(--shadow-sm);
+    }
+
+    .page-hero {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 1rem;
+        padding: 1.2rem 1.35rem;
+        margin-bottom: 1rem;
+        overflow: hidden;
+    }
+
+    .hero-copy {
+        display: flex;
+        flex-direction: column;
+        gap: 0.35rem;
+    }
+
+    .hero-kicker,
+    .section-eyebrow {
+        display: inline-flex;
+        align-items: center;
+        width: fit-content;
+        padding: 0.35rem 0.7rem;
+        border-radius: 999px;
+        background: rgba(31, 59, 44, 0.08);
+        color: var(--color-primary);
+        font-size: 0.74rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+    }
+
+    .page-hero h2 {
+        color: var(--color-primary);
+        font-size: clamp(1.9rem, 3vw, 2.6rem);
+        font-weight: 700;
+        margin: 0;
+        line-height: 1.08;
+        letter-spacing: -0.02em;
+    }
+
+    .page-hero .subtitle {
+        max-width: 760px;
+        color: var(--color-muted);
+        font-size: 0.92rem;
+        line-height: 1.55;
+    }
+
+    .hero-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        justify-content: flex-end;
+    }
+
+    .hero-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        background: #ffffff;
+        border: 1px solid rgba(31, 59, 44, 0.12);
+        color: var(--color-primary);
+        font-weight: 600;
+        font-size: 0.8rem;
+        padding: 0.45rem 0.75rem;
+        border-radius: 999px;
+        white-space: nowrap;
+    }
+
+    .hero-chip strong {
+        font-size: 0.92rem;
+        font-weight: 700;
+    }
+
+    .selection-card {
+        padding: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .selection-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        margin-bottom: 0.8rem;
+    }
+
+    .selection-title {
+        color: var(--color-primary);
+        font-size: 1rem;
+        font-weight: 700;
+    }
+
+    .ente-select-wrap {
+        position: relative;
+    }
+
+    .ente-select {
+        width: 100%;
+        padding: 0.95rem 3rem 0.95rem 1rem;
+        border-radius: 14px;
+        border: 1px solid rgba(31, 59, 44, 0.15);
+        background: rgba(255, 255, 255, 0.98);
+        color: var(--color-text);
+        font-size: 0.96rem;
+        font-weight: 600;
+        appearance: none;
+        transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .ente-select:focus {
+        outline: none;
+        border-color: rgba(31, 59, 44, 0.30);
+        box-shadow: 0 0 0 4px rgba(31, 59, 44, 0.08);
+    }
+
+    .ente-select-icon {
+        position: absolute;
+        top: 50%;
+        right: 1rem;
+        transform: translateY(-50%);
+        color: var(--color-primary);
+        font-size: 0.95rem;
+        font-weight: 700;
+        pointer-events: none;
+    }
+
+    .ente-meta {
+        display: flex;
+        gap: 0.55rem;
+        flex-wrap: wrap;
+        align-items: center;
+        min-height: 1.85rem;
+        margin-top: 0.7rem;
+    }
+
+    .ente-meta.is-empty {
+        color: var(--color-muted);
+        font-size: 0.84rem;
+    }
+
+    .ente-badge {
+        display: inline-flex;
+        align-items: center;
+        padding: 0.42rem 0.72rem;
+        border: 1px solid rgba(31, 59, 44, 0.10);
+        border-radius: 999px;
+        background: #f7faf8;
+        color: var(--color-text);
+        font-size: 0.78rem;
+        font-weight: 700;
+        max-width: 100%;
+        white-space: nowrap;
+    }
+
+    .ente-badge-name {
+        background: rgba(31, 59, 44, 0.08);
+        color: var(--color-primary);
+        border-color: rgba(31, 59, 44, 0.14);
+        max-width: 420px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .overview-section {
+        display: flex;
+        flex-direction: column;
+        gap: 0.7rem;
+        margin-bottom: 1rem;
+        padding: 1rem 1.05rem;
+    }
+
+    .overview-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        width: 100%;
+        padding: 0;
+        border: none;
+        background: transparent;
+        text-align: left;
+        cursor: pointer;
+    }
+
+    .overview-toggle-copy {
+        display: flex;
+        flex-direction: column;
+        gap: 0.15rem;
+    }
+
+    .overview-toggle-meta {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.65rem;
+    }
+
+    .overview-toggle-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 2rem;
+        height: 2rem;
+        border-radius: 999px;
+        border: 1px solid rgba(31, 59, 44, 0.12);
+        background: rgba(31, 59, 44, 0.04);
+        color: var(--color-primary);
+        font-size: 0.9rem;
+        transition: transform 0.2s ease, background 0.2s ease;
+    }
+
+    .overview-toggle[aria-expanded="true"] .overview-toggle-icon {
+        transform: rotate(180deg);
+        background: rgba(31, 59, 44, 0.08);
+    }
+
+    .overview-body[hidden] {
+        display: none;
+    }
+
+    .overview-toggle h3 {
+        color: var(--color-primary);
+        font-size: 1.02rem;
+        font-weight: 700;
+        margin: 0.2rem 0 0;
+    }
+
+    .filters-launcher {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        margin-bottom: 1rem;
+        padding: 1rem 1.1rem;
+    }
+
+    .filters-launcher-copy {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+        min-width: 0;
+    }
+
+    .filters-launcher-title {
+        margin: 0;
+        color: var(--color-primary);
+        font-size: 1rem;
+        font-weight: 700;
+    }
+
+    .filters-launcher-meta {
+        margin: 0;
+        color: var(--color-muted);
+        font-size: 0.82rem;
+        line-height: 1.45;
+    }
+
+    .filters-launcher-actions {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.75rem;
+        flex-shrink: 0;
+    }
+
+    .filters-static-count {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 2.25rem;
+        height: 2.25rem;
+        padding: 0 0.75rem;
+        border-radius: 999px;
+        background: rgba(31, 59, 44, 0.08);
+        color: var(--color-primary);
+        font-size: 0.86rem;
+        font-weight: 700;
+    }
+
+    .filters-drawer-toggle,
+    .filters-drawer-close,
+    .btn-clear-filters,
+    .btn-apply-filters {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.55rem;
+        border-radius: 12px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: var(--transition);
+    }
+
+    .filters-drawer-toggle {
+        min-width: 156px;
+        padding: 0.78rem 1rem;
+        border: 1px solid rgba(31, 59, 44, 0.14);
+        background: #ffffff;
+        color: var(--color-primary);
+        font-size: 0.86rem;
+    }
+
+    .filters-drawer-toggle:hover {
+        background: rgba(31, 59, 44, 0.05);
+    }
+
+    .kbd-hint {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.22rem 0.46rem;
+        border-radius: 999px;
+        background: rgba(31, 59, 44, 0.06);
+        color: var(--color-muted);
+        font-size: 0.72rem;
+        font-weight: 600;
+        line-height: 1;
+    }
+
+    .filters-drawer-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(15, 23, 42, 0.34);
+        backdrop-filter: blur(5px);
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transition: opacity 0.2s ease, visibility 0.2s ease;
+        z-index: 1190;
+    }
+
+    .filters-drawer-overlay.is-visible {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+    }
+
+    .filters-drawer {
+        position: fixed;
+        top: 1rem;
+        right: 1rem;
+        width: min(720px, calc(100vw - 2rem));
+        height: calc(100dvh - 2rem);
+        max-height: calc(100dvh - 2rem);
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transform: translateX(20px);
+        transition: transform 0.22s ease, opacity 0.22s ease, visibility 0.22s ease;
+        z-index: 1200;
+    }
+
+    .filters-drawer.is-open {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+        transform: translateX(0);
+    }
+
+    .filters-static {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        overflow: hidden;
+    }
+
+    .filters-static-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        padding: 0.95rem 1.1rem;
+        background: rgba(255, 255, 255, 0.88);
+        border-bottom: 1px solid rgba(31, 59, 44, 0.08);
+    }
+
+    .filters-static-title {
+        color: var(--color-primary);
+        font-size: 1rem;
+        font-weight: 700;
+    }
+
+    .filters-static-meta {
+        color: var(--color-muted);
+        font-size: 0.82rem;
+        margin-top: 0.18rem;
+    }
+
+    .filters-static-header-actions {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.65rem;
+        flex-shrink: 0;
+    }
+
+    .filters-drawer-close {
+        width: 2.3rem;
+        height: 2.3rem;
+        border: 1px solid rgba(31, 59, 44, 0.14);
+        background: #ffffff;
+        color: var(--color-primary);
+        font-size: 1rem;
+    }
+
+    .filters-static-body {
+        flex: 1;
+        overflow-y: auto;
+        padding: 1rem 1.1rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .filters-static-footer {
+        display: flex;
+        justify-content: flex-end;
+        gap: 0.75rem;
+        padding: 1rem 1.1rem 1.1rem;
+        border-top: 1px solid rgba(31, 59, 44, 0.08);
+        background: rgba(255, 255, 255, 0.96);
+    }
+
+    .btn-clear-filters {
+        padding: 0.72rem 1rem;
+        border: 1px solid rgba(31, 59, 44, 0.14);
+        background: #ffffff;
+        color: var(--color-primary);
+    }
+
+    .btn-apply-filters {
+        padding: 0.72rem 1rem;
+        border: 1px solid rgba(31, 59, 44, 0.14);
+        background: var(--color-primary);
+        color: #ffffff;
+    }
+
+    .summary-balance-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        padding: 0.5rem 0.9rem;
+        border-radius: 999px;
+        font-size: 0.82rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        border: 1px solid rgba(31, 59, 44, 0.12);
+    }
+
+    .summary-balance-pill--ok {
+        color: #065f46;
+        background: rgba(16, 185, 129, 0.16);
+        border-color: rgba(16, 185, 129, 0.32);
+    }
+
+    .summary-balance-pill--warn {
+        color: #92400e;
+        background: rgba(251, 191, 36, 0.18);
+        border-color: rgba(251, 191, 36, 0.34);
+    }
+
+    .stats-bar {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 0.8rem;
+        padding: 1rem;
+    }
+
+    .stat-item {
+        display: flex;
+        flex-direction: column;
+        gap: 0.35rem;
+        padding: 1rem;
+        border-radius: 16px;
+        border: 1px solid rgba(31, 59, 44, 0.08);
+        background: #f7faf8;
+    }
+
+    .stat-label {
+        color: var(--color-muted);
+        font-size: 0.74rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        font-weight: 700;
+    }
+
+    .stat-value {
+        color: var(--color-primary);
+        font-size: 1.45rem;
+        font-weight: 700;
+        line-height: 1.05;
+    }
+
+    .stat-note {
+        color: var(--color-muted);
+        font-size: 0.8rem;
+        line-height: 1.4;
+    }
+
+    .filters-panel-section {
+        display: flex;
+        flex-direction: column;
+        gap: 0.8rem;
+    }
+
+    .filters-panel-section h4 {
+        color: var(--color-primary);
+        font-size: 0.95rem;
+        font-weight: 700;
+        margin: 0;
+    }
+
+    .filters-panel-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.85rem;
+    }
+
+    .filter-field {
+        display: flex;
+        flex-direction: column;
+        gap: 0.4rem;
+    }
+
+    .filter-field--wide {
+        grid-column: span 2;
+    }
+
+    .filter-field-label {
+        color: var(--color-muted);
+        font-size: 0.72rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+    }
+
+    .table-filter-control,
+    .table-filter-date {
+        display: flex;
+        flex-direction: column;
+        gap: 0.35rem;
+    }
+
+    .table-filter-date input,
+    .filter-combobox input {
+        width: 100%;
+        min-height: 40px;
+        padding: 0.65rem 0.8rem;
+        border-radius: 12px;
+        border: 1px solid rgba(31, 59, 44, 0.12);
+        background: #fcfdfc;
+        color: var(--color-text);
+        font-size: 0.84rem;
+        transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    }
+
+    .table-filter-date input:focus,
+    .filter-combobox input:focus {
+        outline: none;
+        border-color: rgba(31, 59, 44, 0.34);
+        box-shadow: 0 0 0 4px rgba(31, 59, 44, 0.08);
+        background: #ffffff;
+    }
+
+    .filter-combobox {
+        position: relative;
+    }
+
+    .filter-combobox input {
+        padding-right: 4.15rem;
+    }
+
+    .combo-selected {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.35rem;
+        padding-top: 0.5rem;
+    }
+
+    .combo-selected[hidden] {
+        display: none;
+    }
+
+    .combo-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        padding: 0.26rem 0.52rem;
+        border-radius: 999px;
+        border: 1px solid rgba(31, 59, 44, 0.12);
+        background: rgba(31, 59, 44, 0.06);
+        color: var(--color-primary);
+        font-size: 0.72rem;
+        font-weight: 700;
+        cursor: pointer;
+    }
+
+    .combo-chip-remove {
+        font-size: 0.9rem;
+        line-height: 1;
+    }
+
+    .filter-combobox.has-selection input,
+    .filter-combobox.has-value input,
+    .filter-combobox.is-open input {
+        border-color: rgba(31, 59, 44, 0.34);
+        box-shadow: 0 0 0 4px rgba(31, 59, 44, 0.08);
+        background: #ffffff;
+    }
+
+    .combo-toggle,
+    .combo-clear {
+        position: absolute;
+        top: 0.42rem;
+        width: 1.8rem;
+        height: 1.8rem;
+        border: none;
+        background: transparent;
+        color: var(--color-muted);
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background 0.2s ease, color 0.2s ease;
+    }
+
+    .combo-toggle:hover,
+    .combo-clear:hover {
+        background: rgba(31, 59, 44, 0.06);
+        color: var(--color-primary);
+    }
+
+    .combo-clear {
+        right: 2.3rem;
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    .filter-combobox.has-selection .combo-clear,
+    .filter-combobox.has-value .combo-clear {
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    .combo-toggle {
+        right: 0.45rem;
+    }
+
+    .combo-menu {
+        position: fixed;
+        top: var(--combo-menu-top, 0);
+        left: var(--combo-menu-left, 0);
+        width: min(var(--combo-menu-width, 320px), calc(100vw - 1rem));
+        max-width: calc(100vw - 1rem);
+        background: #ffffff;
+        border: 1px solid rgba(31, 59, 44, 0.16);
+        border-radius: 16px;
+        box-shadow: 0 18px 36px rgba(31, 59, 44, 0.14);
+        overflow: hidden;
+        z-index: 1250;
+    }
+
+    .combo-status {
+        padding: 0.7rem 0.85rem;
+        color: var(--color-muted);
+        font-size: 0.76rem;
+        border-bottom: 1px solid rgba(31, 59, 44, 0.08);
+        background: #f8faf8;
+    }
+
+    .combo-options {
+        max-height: min(50vh, 280px);
+        overflow-y: auto;
+    }
+
+    .combo-option {
+        width: 100%;
+        display: grid;
+        grid-template-columns: 1.2rem minmax(0, 1fr) auto;
+        align-items: center;
+        gap: 0.7rem;
+        padding: 0.72rem 0.85rem;
+        border: none;
+        background: #ffffff;
+        cursor: pointer;
+        text-align: left;
+    }
+
+    .combo-option:hover,
+    .combo-option.is-active {
+        background: rgba(31, 59, 44, 0.06);
+    }
+
+    .combo-option-check {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 1rem;
+        height: 1rem;
+        border-radius: 999px;
+        border: 1px solid rgba(31, 59, 44, 0.14);
+        color: transparent;
+        font-size: 0.72rem;
+        font-weight: 700;
+    }
+
+    .combo-option.is-active .combo-option-check {
+        color: var(--color-primary);
+        background: rgba(31, 59, 44, 0.12);
+    }
+
+    .combo-option-main strong {
+        display: block;
+        color: var(--color-text);
+        font-size: 0.82rem;
+    }
+
+    .combo-option-meta {
+        color: var(--color-muted);
+        font-size: 0.7rem;
+        white-space: nowrap;
+    }
+
+    .filter-help {
+        min-height: 1rem;
+        color: var(--color-muted);
+        font-size: 0.72rem;
+        line-height: 1.35;
+    }
+
+    .filter-help.is-empty {
+        color: var(--color-warning);
+    }
+
+    .active-filters-bar {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        padding: 0.9rem 1rem;
+    }
+
+    .active-filters-copy {
+        display: flex;
+        flex-direction: column;
+        gap: 0.15rem;
+    }
+
+    .active-filters-copy strong {
+        color: var(--color-primary);
+        font-size: 0.88rem;
+    }
+
+    .active-filters-copy span {
+        color: var(--color-muted);
+        font-size: 0.78rem;
+    }
+
+    .active-filters-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.45rem;
+    }
+
+    .active-filter-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        padding: 0.38rem 0.62rem;
+        border-radius: 999px;
+        border: 1px solid rgba(31, 59, 44, 0.12);
+        background: rgba(31, 59, 44, 0.05);
+        color: var(--color-primary);
+        font-size: 0.76rem;
+        cursor: pointer;
+    }
+
+    .active-filter-label {
+        font-weight: 700;
+    }
+
+    .active-filter-remove {
+        font-size: 0.9rem;
+        line-height: 1;
+    }
+
+    .results-toolbar,
+    .table-footer,
+    .pagination,
+    .page-jump,
+    .toolbar-actions,
+    .density-toggle {
+        display: flex;
+        align-items: center;
+    }
+
+    .results-toolbar {
+        justify-content: space-between;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+
+    .table-title h3 {
+        color: var(--color-primary);
+        font-size: 1rem;
+        margin: 0;
+    }
+
+    .table-title p {
+        color: var(--color-muted);
+        font-size: 0.84rem;
+        margin: 0.2rem 0 0;
+    }
+
+    .toolbar-actions {
+        gap: 0.8rem;
+        flex-wrap: wrap;
+    }
+
+    .density-toggle {
+        gap: 0.3rem;
+        padding: 0.25rem;
+        border-radius: 999px;
+        border: 1px solid rgba(31, 59, 44, 0.12);
+        background: #ffffff;
+    }
+
+    .density-toggle button {
+        border: none;
+        background: transparent;
+        color: var(--color-muted);
+        padding: 0.45rem 0.8rem;
+        border-radius: 999px;
+        cursor: pointer;
+        font-weight: 700;
+        font-size: 0.78rem;
+    }
+
+    .density-toggle button.is-active {
+        background: rgba(31, 59, 44, 0.10);
+        color: var(--color-primary);
+    }
+
+    .table-wrapper {
+        display: flex;
+        flex-direction: column;
+        min-height: 0;
+        overflow: hidden;
+    }
+
+    .table-scroll {
+        overflow: auto;
+    }
+
+    .tabla-resultados {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+        min-width: 1500px;
+    }
+
+    .tabla-resultados thead {
+        background: #f2f6f3;
+    }
+
+    .tabla-resultados th {
+        position: sticky;
+        top: 0;
+        z-index: 11;
+        background: #f2f6f3;
+        color: var(--color-primary);
+        padding: 0.75rem 0.8rem;
+        text-align: left;
+        font-size: 0.78rem;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        border-bottom: 1px solid rgba(31, 59, 44, 0.12);
+        white-space: nowrap;
+    }
+
+    .tabla-resultados td {
+        padding: 0.65rem 0.8rem;
+        border-bottom: 1px solid rgba(31, 59, 44, 0.08);
+        font-size: 0.84rem;
+        vertical-align: top;
+        background: #ffffff;
+    }
+
+    .tabla-resultados tr:nth-child(even) td {
+        background: #fbfdfb;
+    }
+
+    .tabla-resultados.compact td {
+        padding: 0.46rem 0.68rem;
+        font-size: 0.8rem;
+    }
+
+    .sticky-col,
+    .sticky-right {
+        position: sticky;
+        z-index: 10;
+        background: inherit;
+    }
+
+    .sticky-col {
+        left: 0;
+    }
+
+    .sticky-right {
+        right: 0;
+        box-shadow: -8px 0 18px rgba(15, 23, 42, 0.06);
+    }
+
+    .col-cuenta {
+        min-width: 180px;
+    }
+
+    .col-fecha {
+        min-width: 120px;
+    }
+
+    .money,
+    .money-col {
+        text-align: right;
+        font-variant-numeric: tabular-nums;
+    }
+
+    .positive {
+        color: #0f766e;
+    }
+
+    .negative {
+        color: #92400e;
+    }
+
+    .cell-account strong,
+    .cell-policy strong,
+    .cell-date strong {
+        color: var(--color-primary);
+    }
+
+    .cell-description,
+    .cell-beneficiary {
+        max-width: 260px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .loading,
+    .no-results {
+        text-align: center;
+        padding: 2.5rem 2rem;
+        color: var(--color-muted);
+    }
+
+    .spinner {
+        width: 34px;
+        height: 34px;
+        border-radius: 999px;
+        border: 3px solid rgba(31, 59, 44, 0.12);
+        border-top-color: var(--color-primary);
+        margin: 0 auto 0.9rem;
+        animation: spin 0.85s linear infinite;
+    }
+
+    @keyframes spin {
+        to {
+            transform: rotate(360deg);
+        }
+    }
+
+    .msg-vacio {
+        font-size: 0.92rem;
+    }
+
+    .table-footer {
+        justify-content: space-between;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+
+    .pagination {
+        gap: 0.7rem;
+        flex-wrap: wrap;
+    }
+
+    .pagination button,
+    .page-jump button {
+        border: 1px solid rgba(31, 59, 44, 0.14);
+        background: #ffffff;
+        color: var(--color-primary);
+        padding: 0.6rem 0.85rem;
+        border-radius: 999px;
+        cursor: pointer;
+        font-weight: 700;
+    }
+
+    .pagination button:disabled {
+        opacity: 0.45;
+        cursor: not-allowed;
+    }
+
+    .page-jump {
+        gap: 0.45rem;
+    }
+
+    .page-jump input {
+        width: 84px;
+        min-height: 40px;
+        border-radius: 999px;
+        border: 1px solid rgba(31, 59, 44, 0.14);
+        padding: 0.55rem 0.85rem;
+        text-align: center;
+    }
+
+    .range-info {
+        color: var(--color-muted);
+        font-size: 0.82rem;
+    }
+
+    .consulta-btn-secondary {
+        box-shadow: none;
+    }
+
+    @media (max-width: 960px) {
+        .filters-panel-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .filter-field--wide {
+            grid-column: span 1;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .page-hero,
+        .filters-launcher,
+        .results-toolbar,
+        .table-footer {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .filters-launcher-actions,
+        .toolbar-actions {
+            justify-content: space-between;
+        }
+
+        .filters-static-footer {
+            flex-direction: column;
+        }
+
+        .btn-clear-filters,
+        .btn-apply-filters,
+        .filters-drawer-toggle,
+        .toolbar-actions .btn {
+            width: 100%;
+        }
+
+        .stats-bar {
+            grid-template-columns: 1fr;
+        }
+
+        .filters-drawer {
+            top: 0.75rem;
+            right: 0.75rem;
+            width: calc(100vw - 1.5rem);
+            height: calc(100dvh - 1.5rem);
+            max-height: calc(100dvh - 1.5rem);
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="consulta-container">
+    <div class="page-hero">
+        <div class="hero-copy">
+            <h2>Consultar Transacciones</h2>
+            <p class="subtitle">Consulta, filtra y exporta transacciones desde una sola vista.</p>
+        </div>
+        <div class="hero-meta">
+            <span class="hero-chip">Criterios activos <strong id="heroFiltersCount">0</strong></span>
+            <span class="hero-chip">Registros visibles <strong id="heroResultCount">0</strong></span>
+        </div>
+    </div>
+
+    <section class="selection-card">
+        <div class="selection-top">
+            <div class="selection-title">Selecciona tu ente</div>
+        </div>
+        <div class="ente-select-wrap">
+            <select id="consultaEnteSelect" class="ente-select">
+                <option value="">Todos los entes</option>
+            </select>
+            <div class="ente-select-icon">▾</div>
+        </div>
+        <div class="ente-meta is-empty" id="consultaEntePreview">Sin filtro por ente</div>
+    </section>
+
+    <section class="overview-section" id="resumen-general">
+        <button class="overview-toggle" id="resumenToggle" type="button" aria-expanded="false" aria-controls="resumenGeneralBody">
+            <div class="overview-toggle-copy">
+                <span class="section-eyebrow">Resumen general</span>
+                <h3>Vista global</h3>
+            </div>
+            <div class="overview-toggle-meta">
+                <span class="summary-balance-pill summary-balance-pill--ok" id="resumenEstadoCoincidencia">Coinciden</span>
+                <span class="overview-toggle-icon" aria-hidden="true">▾</span>
+            </div>
+        </button>
+        <div class="overview-body" id="resumenGeneralBody" hidden>
+            <div class="stats-bar">
+                <div class="stat-item">
+                    <span class="stat-label">Registros globales</span>
+                    <span class="stat-value" id="resumenTotalRegistros">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Cargos globales</span>
+                    <span class="stat-value money positive" id="resumenTotalCargos">$0.00</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Abonos globales</span>
+                    <span class="stat-value money negative" id="resumenTotalAbonos">$0.00</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Diferencia global</span>
+                    <span class="stat-value" id="resumenTotalDiferencia">$0.00</span>
+                    <span class="stat-note" id="resumenEstadoBalance">Balance general</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="filters-launcher" aria-label="Panel de filtros">
+        <div class="filters-launcher-copy">
+            <span class="section-eyebrow">Filtros</span>
+            <h3 class="filters-launcher-title">Refina la consulta</h3>
+            <p class="filters-launcher-meta" id="filtersLauncherMeta">Sin filtros activos. Usa Shift + F para abrir el panel.</p>
+        </div>
+        <div class="filters-launcher-actions">
+            <span class="filters-static-count" id="filtersLauncherCount" data-count="0">0</span>
+            <button class="filters-drawer-toggle" id="filtersDrawerToggle" type="button" aria-controls="filtersDrawer" aria-expanded="false">
+                Abrir filtros
+                <span class="kbd-hint">Shift + F</span>
+            </button>
+        </div>
+    </section>
+
+    <div class="filters-drawer-overlay" id="filtersDrawerOverlay"></div>
+
+    <aside class="filters-drawer" id="filtersDrawer" aria-hidden="true" aria-labelledby="filtersDrawerTitle" aria-modal="true" role="dialog">
+        <div class="filters-static">
+            <div class="filters-static-header">
+                <div>
+                    <div class="filters-static-title" id="filtersDrawerTitle">Filtros</div>
+                    <div class="filters-static-meta" id="filtersDrawerMeta">Sin filtros</div>
+                </div>
+                <div class="filters-static-header-actions">
+                    <span class="filters-static-count" id="filtersDrawerCount" data-count="0">0</span>
+                    <button class="filters-drawer-close" id="filtersDrawerClose" type="button" aria-label="Cerrar filtros">×</button>
+                </div>
+            </div>
+            <div class="filters-static-body">
+                <div class="active-filters-bar" id="activeFiltersBar" hidden>
+                    <div class="active-filters-copy">
+                        <strong>Filtros activos</strong>
+                        <span>Revisa o elimina criterios desde aquí.</span>
+                    </div>
+                    <div class="active-filters-list" id="activeFiltersList"></div>
+                </div>
+
+                <section class="filters-panel-section">
+                    <h4>Estructura contable</h4>
+                    <div class="filters-panel-grid">
+                        <div class="filter-field filter-field--wide">
+                            <label class="filter-field-label" for="filtroCuenta">Cuenta Contable</label>
+                            <div class="table-filter-control">
+                                <div class="filter-combobox" data-filter-combobox="cuenta_contable" data-filter-kind="facet">
+                                    <input type="text" id="filtroCuenta" placeholder="Cuenta" autocomplete="off">
+                                    <button type="button" class="combo-clear" data-filter-clear aria-label="Limpiar Cuenta Contable">x</button>
+                                    <button type="button" class="combo-toggle" data-filter-toggle aria-label="Mostrar opciones de Cuenta Contable">v</button>
+                                    <div class="combo-menu" data-filter-menu hidden>
+                                        <div class="combo-status" data-filter-status>Opciones disponibles</div>
+                                        <div class="combo-options" data-filter-options></div>
+                                    </div>
+                                </div>
+                                <span class="filter-help" data-filter-help="cuenta_contable">Sin filtro</span>
+                            </div>
+                        </div>
+                        <div class="filter-field">
+                            <label class="filter-field-label" for="filtroCta">Cta.</label>
+                            <div class="table-filter-control">
+                                <div class="filter-combobox" data-filter-combobox="cta" data-filter-kind="facet">
+                                    <input type="text" id="filtroCta" placeholder="Cta." autocomplete="off">
+                                    <button type="button" class="combo-clear" data-filter-clear aria-label="Limpiar Cta.">x</button>
+                                    <button type="button" class="combo-toggle" data-filter-toggle aria-label="Mostrar opciones de Cta.">v</button>
+                                    <div class="combo-menu" data-filter-menu hidden>
+                                        <div class="combo-status" data-filter-status>Opciones disponibles</div>
+                                        <div class="combo-options" data-filter-options></div>
+                                    </div>
+                                </div>
+                                <span class="filter-help" data-filter-help="cta">Sin filtro</span>
+                            </div>
+                        </div>
+                        <div class="filter-field">
+                            <label class="filter-field-label" for="filtroSubctaCogCri">SubCta/COG/CRI</label>
+                            <div class="table-filter-control">
+                                <div class="filter-combobox" data-filter-combobox="subcta_cog_cri" data-filter-kind="facet">
+                                    <input type="text" id="filtroSubctaCogCri" placeholder="SubCta/COG/CRI" autocomplete="off">
+                                    <button type="button" class="combo-clear" data-filter-clear aria-label="Limpiar SubCta/COG/CRI">x</button>
+                                    <button type="button" class="combo-toggle" data-filter-toggle aria-label="Mostrar opciones de SubCta/COG/CRI">v</button>
+                                    <div class="combo-menu" data-filter-menu hidden>
+                                        <div class="combo-status" data-filter-status>Opciones disponibles</div>
+                                        <div class="combo-options" data-filter-options></div>
+                                    </div>
+                                </div>
+                                <span class="filter-help" data-filter-help="subcta_cog_cri">Sin filtro</span>
+                            </div>
+                        </div>
+                        <div class="filter-field">
+                            <label class="filter-field-label" for="filtroClv1">Clv1</label>
+                            <div class="table-filter-control">
+                                <div class="filter-combobox" data-filter-combobox="clv1" data-filter-kind="facet">
+                                    <input type="text" id="filtroClv1" placeholder="Clv1" autocomplete="off">
+                                    <button type="button" class="combo-clear" data-filter-clear aria-label="Limpiar Clv1">x</button>
+                                    <button type="button" class="combo-toggle" data-filter-toggle aria-label="Mostrar opciones de Clv1">v</button>
+                                    <div class="combo-menu" data-filter-menu hidden>
+                                        <div class="combo-status" data-filter-status>Opciones disponibles</div>
+                                        <div class="combo-options" data-filter-options></div>
+                                    </div>
+                                </div>
+                                <span class="filter-help" data-filter-help="clv1">Sin filtro</span>
+                            </div>
+                        </div>
+                        <div class="filter-field">
+                            <label class="filter-field-label" for="filtroClv2">Clv2</label>
+                            <div class="table-filter-control">
+                                <div class="filter-combobox" data-filter-combobox="clv2" data-filter-kind="facet">
+                                    <input type="text" id="filtroClv2" placeholder="Clv2" autocomplete="off">
+                                    <button type="button" class="combo-clear" data-filter-clear aria-label="Limpiar Clv2">x</button>
+                                    <button type="button" class="combo-toggle" data-filter-toggle aria-label="Mostrar opciones de Clv2">v</button>
+                                    <div class="combo-menu" data-filter-menu hidden>
+                                        <div class="combo-status" data-filter-status>Opciones disponibles</div>
+                                        <div class="combo-options" data-filter-options></div>
+                                    </div>
+                                </div>
+                                <span class="filter-help" data-filter-help="clv2">Sin filtro</span>
+                            </div>
+                        </div>
+                        <div class="filter-field">
+                            <label class="filter-field-label" for="filtroCog">COG</label>
+                            <div class="table-filter-control">
+                                <div class="filter-combobox" data-filter-combobox="cog" data-filter-kind="facet">
+                                    <input type="text" id="filtroCog" placeholder="COG" autocomplete="off">
+                                    <button type="button" class="combo-clear" data-filter-clear aria-label="Limpiar COG">x</button>
+                                    <button type="button" class="combo-toggle" data-filter-toggle aria-label="Mostrar opciones de COG">v</button>
+                                    <div class="combo-menu" data-filter-menu hidden>
+                                        <div class="combo-status" data-filter-status>Opciones disponibles</div>
+                                        <div class="combo-options" data-filter-options></div>
+                                    </div>
+                                </div>
+                                <span class="filter-help" data-filter-help="cog">Sin filtro</span>
+                            </div>
+                        </div>
+                        <div class="filter-field">
+                            <label class="filter-field-label" for="filtroClv3">Clv3</label>
+                            <div class="table-filter-control">
+                                <div class="filter-combobox" data-filter-combobox="clv3" data-filter-kind="facet">
+                                    <input type="text" id="filtroClv3" placeholder="Clv3" autocomplete="off">
+                                    <button type="button" class="combo-clear" data-filter-clear aria-label="Limpiar Clv3">x</button>
+                                    <button type="button" class="combo-toggle" data-filter-toggle aria-label="Mostrar opciones de Clv3">v</button>
+                                    <div class="combo-menu" data-filter-menu hidden>
+                                        <div class="combo-status" data-filter-status>Opciones disponibles</div>
+                                        <div class="combo-options" data-filter-options></div>
+                                    </div>
+                                </div>
+                                <span class="filter-help" data-filter-help="clv3">Sin filtro</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="filters-panel-section">
+                    <h4>Búsqueda libre</h4>
+                    <div class="filters-panel-grid">
+                        <div class="filter-field filter-field--wide">
+                            <label class="filter-field-label" for="filtroNombreCuenta">Nombre de Cuenta</label>
+                            <div class="table-filter-control">
+                                <div class="filter-combobox" data-filter-combobox="nombre_cuenta" data-filter-kind="text">
+                                    <input type="text" id="filtroNombreCuenta" placeholder="Nombre de Cuenta" autocomplete="off">
+                                    <button type="button" class="combo-clear" data-filter-clear aria-label="Limpiar Nombre de Cuenta">x</button>
+                                    <button type="button" class="combo-toggle" data-filter-toggle aria-label="Mostrar sugerencias de Nombre de Cuenta">v</button>
+                                    <div class="combo-menu" data-filter-menu hidden>
+                                        <div class="combo-status" data-filter-status>Sugerencias disponibles</div>
+                                        <div class="combo-options" data-filter-options></div>
+                                    </div>
+                                </div>
+                                <span class="filter-help" data-filter-help="nombre_cuenta">Escribe y presiona Enter</span>
+                            </div>
+                        </div>
+                        <div class="filter-field">
+                            <label class="filter-field-label" for="filtroPoliza">Póliza</label>
+                            <div class="table-filter-control">
+                                <div class="filter-combobox" data-filter-combobox="poliza" data-filter-kind="text">
+                                    <input type="text" id="filtroPoliza" placeholder="Póliza" autocomplete="off">
+                                    <button type="button" class="combo-clear" data-filter-clear aria-label="Limpiar Póliza">x</button>
+                                    <button type="button" class="combo-toggle" data-filter-toggle aria-label="Mostrar sugerencias de Póliza">v</button>
+                                    <div class="combo-menu" data-filter-menu hidden>
+                                        <div class="combo-status" data-filter-status>Sugerencias disponibles</div>
+                                        <div class="combo-options" data-filter-options></div>
+                                    </div>
+                                </div>
+                                <span class="filter-help" data-filter-help="poliza">Escribe y presiona Enter</span>
+                            </div>
+                        </div>
+                        <div class="filter-field">
+                            <label class="filter-field-label" for="filtroBeneficiario">Beneficiario</label>
+                            <div class="table-filter-control">
+                                <div class="filter-combobox" data-filter-combobox="beneficiario" data-filter-kind="text">
+                                    <input type="text" id="filtroBeneficiario" placeholder="Beneficiario" autocomplete="off">
+                                    <button type="button" class="combo-clear" data-filter-clear aria-label="Limpiar Beneficiario">x</button>
+                                    <button type="button" class="combo-toggle" data-filter-toggle aria-label="Mostrar sugerencias de Beneficiario">v</button>
+                                    <div class="combo-menu" data-filter-menu hidden>
+                                        <div class="combo-status" data-filter-status>Sugerencias disponibles</div>
+                                        <div class="combo-options" data-filter-options></div>
+                                    </div>
+                                </div>
+                                <span class="filter-help" data-filter-help="beneficiario">Escribe y presiona Enter</span>
+                            </div>
+                        </div>
+                        <div class="filter-field">
+                            <label class="filter-field-label" for="filtroNoFactura">No. Factura</label>
+                            <div class="table-filter-control">
+                                <div class="filter-combobox" data-filter-combobox="no_factura" data-filter-kind="text">
+                                    <input type="text" id="filtroNoFactura" placeholder="No. Factura" autocomplete="off">
+                                    <button type="button" class="combo-clear" data-filter-clear aria-label="Limpiar No. Factura">x</button>
+                                    <button type="button" class="combo-toggle" data-filter-toggle aria-label="Mostrar sugerencias de No. Factura">v</button>
+                                    <div class="combo-menu" data-filter-menu hidden>
+                                        <div class="combo-status" data-filter-status>Sugerencias disponibles</div>
+                                        <div class="combo-options" data-filter-options></div>
+                                    </div>
+                                </div>
+                                <span class="filter-help" data-filter-help="no_factura">Escribe y presiona Enter</span>
+                            </div>
+                        </div>
+                        <div class="filter-field">
+                            <label class="filter-field-label" for="filtroChequeFolio">Cheque/Folio</label>
+                            <div class="table-filter-control">
+                                <div class="filter-combobox" data-filter-combobox="cheque_folio" data-filter-kind="text">
+                                    <input type="text" id="filtroChequeFolio" placeholder="Cheque/Folio" autocomplete="off">
+                                    <button type="button" class="combo-clear" data-filter-clear aria-label="Limpiar Cheque/Folio">x</button>
+                                    <button type="button" class="combo-toggle" data-filter-toggle aria-label="Mostrar sugerencias de Cheque/Folio">v</button>
+                                    <div class="combo-menu" data-filter-menu hidden>
+                                        <div class="combo-status" data-filter-status>Sugerencias disponibles</div>
+                                        <div class="combo-options" data-filter-options></div>
+                                    </div>
+                                </div>
+                                <span class="filter-help" data-filter-help="cheque_folio">Escribe y presiona Enter</span>
+                            </div>
+                        </div>
+                        <div class="filter-field filter-field--wide">
+                            <label class="filter-field-label" for="filtroConcepto">Concepto</label>
+                            <div class="table-filter-control">
+                                <div class="filter-combobox" data-filter-combobox="descripcion" data-filter-kind="text">
+                                    <input type="text" id="filtroConcepto" placeholder="Concepto" autocomplete="off">
+                                    <button type="button" class="combo-clear" data-filter-clear aria-label="Limpiar Concepto">x</button>
+                                    <button type="button" class="combo-toggle" data-filter-toggle aria-label="Mostrar sugerencias de Concepto">v</button>
+                                    <div class="combo-menu" data-filter-menu hidden>
+                                        <div class="combo-status" data-filter-status>Sugerencias disponibles</div>
+                                        <div class="combo-options" data-filter-options></div>
+                                    </div>
+                                </div>
+                                <span class="filter-help" data-filter-help="descripcion">Escribe y presiona Enter</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="filters-panel-section">
+                    <h4>Periodo</h4>
+                    <div class="filters-panel-grid">
+                        <div class="filter-field">
+                            <label class="filter-field-label" for="filtroFechaInicio">Fecha inicial</label>
+                            <div class="table-filter-date">
+                                <input type="date" id="filtroFechaInicio" aria-label="Fecha inicio">
+                            </div>
+                        </div>
+                        <div class="filter-field">
+                            <label class="filter-field-label" for="filtroFechaFin">Fecha final</label>
+                            <div class="table-filter-date">
+                                <input type="date" id="filtroFechaFin" aria-label="Fecha fin">
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <div class="filters-static-footer">
+                <button class="btn-clear-filters" type="button" onclick="limpiarFiltros()">Limpiar</button>
+                <button class="btn-apply-filters" type="button" onclick="aplicarFiltrosDesdeDrawer()">Aplicar filtros</button>
+            </div>
+        </div>
+    </aside>
+
+    <div class="consulta-layout">
+        <section class="results-section" id="detalle-operativo">
+            <div class="stats-bar">
+                <div class="stat-item">
+                    <span class="stat-label">Registros visibles</span>
+                    <span class="stat-value" id="totalRegistros">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Cargos visibles</span>
+                    <span class="stat-value money positive" id="totalCargos">$0.00</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Abonos visibles</span>
+                    <span class="stat-value money negative" id="totalAbonos">$0.00</span>
+                </div>
+            </div>
+
+            <div class="results-toolbar">
+                <div class="table-title">
+                    <h3>Transacciones</h3>
+                    <p>Consulta y filtra directamente desde la tabla.</p>
+                </div>
+                <div class="toolbar-actions">
+                    <div class="density-toggle" role="group" aria-label="Modo de densidad de la tabla">
+                        <button type="button" id="densityCompact">Compacta</button>
+                        <button type="button" id="densityComfort">Cómoda</button>
+                    </div>
+                    <button class="btn btn-secondary consulta-btn-secondary" type="button" onclick="exportarExcel()">Exportar a Excel</button>
+                </div>
+            </div>
+
+            <div class="table-wrapper">
+                <div id="loading" class="loading">
+                    <div class="spinner"></div>
+                    <p>Cargando transacciones...</p>
+                </div>
+                <div class="table-scroll" id="tableContainer" style="display: none;">
+                    <table class="tabla-resultados">
+                        <thead>
+                            <tr>
+                                <th class="sticky-col col-cuenta">Cuenta Contable</th>
+                                <th>Cta.</th>
+                                <th>SubCta/COG/CRI</th>
+                                <th>Clv1</th>
+                                <th>Clv2</th>
+                                <th>COG</th>
+                                <th>Clv3</th>
+                                <th>Nombre de Cuenta</th>
+                                <th>Poliza</th>
+                                <th class="col-fecha">Fecha</th>
+                                <th>Beneficiario</th>
+                                <th>No. Factura</th>
+                                <th>Cheque/Folio</th>
+                                <th>Concepto</th>
+                                <th class="money-col">Saldo Inicial</th>
+                                <th class="money-col">Cargos</th>
+                                <th class="money-col">Abonos</th>
+                                <th class="money-col sticky-right">Saldos</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tablaBody"></tbody>
+                    </table>
+                </div>
+                <div id="noResults" class="no-results" style="display: none;">
+                    <p class="msg-vacio">No se encontraron transacciones</p>
+                </div>
+            </div>
+
+            <div class="table-footer">
+                <div class="pagination">
+                    <button id="btnPrevPage" onclick="cambiarPagina(-1)">‹ Anterior</button>
+                    <span id="paginaInfo">Página 1</span>
+                    <div class="page-jump">
+                        <input type="number" id="pageInput" min="1" inputmode="numeric" aria-label="Ir a la página">
+                        <button type="button" onclick="irAPaginaIngresada()">Ir</button>
+                    </div>
+                    <button id="btnNextPage" onclick="cambiarPagina(1)">Siguiente ›</button>
+                </div>
+                <span class="range-info" id="rangoInfo">Mostrando 0 - 0</span>
+            </div>
+        </section>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+let paginaActual = 1;
+let registrosPorPagina = 100;
+let totalPaginas = 0;
+let filtrosActuales = {};
+let vistaCompacta = true;
+let totalsKey = null;
+let activeMenuKey = null;
+let facetRefreshSequence = 0;
+let filterOptionsApiEnabled = true;
+let filterOptionsUnavailableMessage = '';
+let baseDataAvailable = null;
+let currentResultTotal = 0;
+
+const FACET_FILTERS = [
+    { key: 'cuenta_contable', inputId: 'filtroCuenta', label: 'Cuenta Contable' },
+    { key: 'cta', inputId: 'filtroCta', label: 'Cta.' },
+    { key: 'subcta_cog_cri', inputId: 'filtroSubctaCogCri', label: 'SubCta/COG/CRI' },
+    { key: 'clv1', inputId: 'filtroClv1', label: 'Clv1' },
+    { key: 'clv2', inputId: 'filtroClv2', label: 'Clv2' },
+    { key: 'cog', inputId: 'filtroCog', label: 'COG' },
+    { key: 'clv3', inputId: 'filtroClv3', label: 'Clv3' }
+];
+
+const TEXT_FILTERS = [
+    { key: 'nombre_cuenta', inputId: 'filtroNombreCuenta', label: 'Nombre de Cuenta' },
+    { key: 'beneficiario', inputId: 'filtroBeneficiario', label: 'Beneficiario' },
+    { key: 'no_factura', inputId: 'filtroNoFactura', label: 'No. Factura' },
+    { key: 'cheque_folio', inputId: 'filtroChequeFolio', label: 'Cheque/Folio' },
+    { key: 'descripcion', inputId: 'filtroConcepto', label: 'Concepto' },
+    { key: 'poliza', inputId: 'filtroPoliza', label: 'Póliza' }
+];
+
+const RANGE_FILTERS = [
+    { key: 'fecha_inicio', inputId: 'filtroFechaInicio' },
+    { key: 'fecha_fin', inputId: 'filtroFechaFin' }
+];
+
+const OPTION_FIELD_KEYS = [...FACET_FILTERS, ...TEXT_FILTERS].map((filter) => filter.key);
+const FILTER_LABELS = {
+    ente_nombre: 'Ente',
+    ...Object.fromEntries(FACET_FILTERS.map((filter) => [filter.key, filter.label])),
+    ...Object.fromEntries(TEXT_FILTERS.map((filter) => [filter.key, filter.label])),
+    fecha_inicio: 'Fecha Inicio',
+    fecha_fin: 'Fecha Fin',
+};
+const COMBOBOX_FILTER_KEYS = new Set(OPTION_FIELD_KEYS);
+const FILTER_OPTIONS_TTL = 30000;
+const filterOptionsCache = new Map();
+const comboboxState = new Map();
+const enteMetaByName = new Map();
+
+function normalizeValue(value) {
+    return String(value || '').trim();
+}
+
+function comparableValue(value) {
+    return normalizeValue(value).toLowerCase();
+}
+
+function normalizeValueList(values) {
+    const candidates = Array.isArray(values)
+        ? values
+        : values === undefined || values === null
+            ? []
+            : [values];
+    const normalized = [];
+    const seen = new Set();
+
+    candidates.forEach((value) => {
+        const current = normalizeValue(value);
+        if (!current) return;
+        const fingerprint = comparableValue(current);
+        if (seen.has(fingerprint)) return;
+        seen.add(fingerprint);
+        normalized.push(current);
+    });
+
+    return normalized;
+}
+
+function sortComparableValues(values) {
+    return [...normalizeValueList(values)].sort((left, right) =>
+        left.localeCompare(right, 'es', { sensitivity: 'base' })
+    );
+}
+
+function areValueListsEqual(left, right) {
+    return JSON.stringify(sortComparableValues(left)) === JSON.stringify(sortComparableValues(right));
+}
+
+function buildComparableEntries(source = {}) {
+    const entries = [];
+
+    Object.entries(source || {}).forEach(([key, value]) => {
+        if (Array.isArray(value)) {
+            const normalized = sortComparableValues(value);
+            if (normalized.length) entries.push([key, normalized]);
+            return;
+        }
+
+        const normalized = normalizeValue(value);
+        if (normalized) {
+            entries.push([key, normalized]);
+        }
+    });
+
+    return entries.sort(([leftKey], [rightKey]) => leftKey.localeCompare(rightKey));
+}
+
+function buildComparableSearchEntries(searchTerms = {}) {
+    return Object.entries(searchTerms || {})
+        .map(([key, value]) => [key, normalizeValue(value)])
+        .filter(([, value]) => Boolean(value))
+        .sort(([leftKey], [rightKey]) => leftKey.localeCompare(rightKey));
+}
+
+function serializeFilters(filters) {
+    return JSON.stringify(buildComparableEntries(filters));
+}
+
+function appendFiltersToParams(params, filters = {}) {
+    Object.entries(filters || {}).forEach(([key, value]) => {
+        if (Array.isArray(value)) {
+            normalizeValueList(value).forEach((item) => {
+                params.append(key, item);
+            });
+            return;
+        }
+
+        const normalized = normalizeValue(value);
+        if (normalized) {
+            params.set(key, normalized);
+        }
+    });
+
+    return params;
+}
+
+function areFiltersEqual(left, right) {
+    return serializeFilters(left) === serializeFilters(right);
+}
+
+function hasActiveFilters() {
+    return buildComparableEntries(filtrosActuales).length > 0;
+}
+
+function hasNoBaseData() {
+    return baseDataAvailable === false;
+}
+
+function hasNoResultsForCurrentFilters() {
+    return hasActiveFilters() && currentResultTotal === 0;
+}
+
+function getNoDataLoadedMessage() {
+    return 'No hay transacciones cargadas. Sube archivos para habilitar los filtros.';
+}
+
+function formatNumber(num) {
+    return (num || 0).toLocaleString('es-MX', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
+
+function formatCurrency(num) {
+    return '$' + (num || 0).toLocaleString('es-MX', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
+
+function truncate(str, maxLen) {
+    if (!str) return '';
+    return str.length > maxLen ? str.substring(0, maxLen) + '...' : str;
+}
+
+function debounce(fn, delay) {
+    let timerId = null;
+    return (...args) => {
+        window.clearTimeout(timerId);
+        timerId = window.setTimeout(() => fn(...args), delay);
+    };
+}
+
+function formatFilterDateValue(value) {
+    const normalized = normalizeValue(value);
+    if (!normalized) return '';
+    const parts = normalized.split('-');
+    if (parts.length === 3) return `${parts[2]}/${parts[1]}/${parts[0]}`;
+    return normalized;
+}
+
+function formatActiveFilterValue(key, value) {
+    if (key === 'fecha_inicio' || key === 'fecha_fin') {
+        return formatFilterDateValue(value);
+    }
+    return normalizeValue(value);
+}
+
+function getActiveFilterEntries(filters = filtrosActuales) {
+    const entries = [];
+
+    Object.entries(filters || {}).forEach(([key, value]) => {
+        if (Array.isArray(value)) {
+            normalizeValueList(value).forEach((item) => {
+                entries.push({
+                    key,
+                    value: item,
+                    label: FILTER_LABELS[key] || key,
+                    displayValue: formatActiveFilterValue(key, item),
+                });
+            });
+            return;
+        }
+
+        const normalized = normalizeValue(value);
+        if (!normalized) return;
+
+        entries.push({
+            key,
+            value: normalized,
+            label: FILTER_LABELS[key] || key,
+            displayValue: formatActiveFilterValue(key, normalized),
+        });
+    });
+
+    return entries;
+}
+
+function countActiveCriteria(filters = filtrosActuales) {
+    return getActiveFilterEntries(filters).length;
+}
+
+function countActiveFields(filters = filtrosActuales) {
+    return Object.entries(filters || {}).reduce((count, [, value]) => {
+        if (Array.isArray(value)) {
+            return count + (normalizeValueList(value).length ? 1 : 0);
+        }
+        return count + (normalizeValue(value) ? 1 : 0);
+    }, 0);
+}
+
+function updateFilterSummaryUI() {
+    const criteriaCount = countActiveCriteria();
+    const fieldCount = countActiveFields();
+    const heroFiltersCount = document.getElementById('heroFiltersCount');
+    const launcherCount = document.getElementById('filtersLauncherCount');
+    const launcherMeta = document.getElementById('filtersLauncherMeta');
+    const drawerCount = document.getElementById('filtersDrawerCount');
+    const drawerMeta = document.getElementById('filtersDrawerMeta');
+
+    if (heroFiltersCount) {
+        heroFiltersCount.textContent = criteriaCount.toLocaleString('es-MX');
+    }
+
+    if (launcherCount) {
+        launcherCount.textContent = criteriaCount.toLocaleString('es-MX');
+    }
+
+    if (drawerCount) {
+        drawerCount.textContent = criteriaCount.toLocaleString('es-MX');
+    }
+
+    if (launcherMeta) {
+        launcherMeta.textContent = criteriaCount
+            ? `${fieldCount.toLocaleString('es-MX')} filtro${fieldCount === 1 ? '' : 's'} en uso. Abre el panel para editar.`
+            : 'Sin filtros activos. Usa Shift + F para abrir el panel.';
+    }
+
+    if (drawerMeta) {
+        drawerMeta.textContent = criteriaCount
+            ? `${criteriaCount.toLocaleString('es-MX')} criterio${criteriaCount === 1 ? '' : 's'} activo${criteriaCount === 1 ? '' : 's'}`
+            : 'Sin filtros';
+    }
+}
+
+function isFiltersDrawerOpen() {
+    const drawer = document.getElementById('filtersDrawer');
+    return Boolean(drawer && drawer.classList.contains('is-open'));
+}
+
+function openFiltersDrawer() {
+    const drawer = document.getElementById('filtersDrawer');
+    const overlay = document.getElementById('filtersDrawerOverlay');
+    const toggle = document.getElementById('filtersDrawerToggle');
+
+    if (!drawer || !overlay || drawer.classList.contains('is-open')) return;
+
+    drawer.classList.add('is-open');
+    overlay.classList.add('is-visible');
+    drawer.setAttribute('aria-hidden', 'false');
+    if (toggle) toggle.setAttribute('aria-expanded', 'true');
+    document.body.classList.add('filters-drawer-open');
+
+    const firstField = drawer.querySelector('input, select, textarea, button');
+    if (firstField instanceof HTMLElement) {
+        window.requestAnimationFrame(() => firstField.focus());
+    }
+}
+
+function closeFiltersDrawer() {
+    const drawer = document.getElementById('filtersDrawer');
+    const overlay = document.getElementById('filtersDrawerOverlay');
+    const toggle = document.getElementById('filtersDrawerToggle');
+
+    if (!drawer || !overlay || !drawer.classList.contains('is-open')) return;
+
+    drawer.classList.remove('is-open');
+    overlay.classList.remove('is-visible');
+    drawer.setAttribute('aria-hidden', 'true');
+    if (toggle) toggle.setAttribute('aria-expanded', 'false');
+    document.body.classList.remove('filters-drawer-open');
+    closeAllComboboxes();
+}
+
+function initFiltersDrawer() {
+    const toggle = document.getElementById('filtersDrawerToggle');
+    const closeButton = document.getElementById('filtersDrawerClose');
+    const overlay = document.getElementById('filtersDrawerOverlay');
+
+    if (toggle) toggle.addEventListener('click', () => openFiltersDrawer());
+    if (closeButton) closeButton.addEventListener('click', () => closeFiltersDrawer());
+    if (overlay) overlay.addEventListener('click', () => closeFiltersDrawer());
+}
+
+function initResumenToggle() {
+    const toggle = document.getElementById('resumenToggle');
+    const body = document.getElementById('resumenGeneralBody');
+
+    if (!toggle || !body) return;
+
+    toggle.addEventListener('click', () => {
+        const isExpanded = toggle.getAttribute('aria-expanded') === 'true';
+        toggle.setAttribute('aria-expanded', String(!isExpanded));
+        body.hidden = isExpanded;
+    });
+}
+
+function openResumenFromLocation() {
+    const params = new URLSearchParams(window.location.search);
+    const wantsResumen = params.get('view') === 'resumen' || window.location.hash === '#resumen-general';
+    const toggle = document.getElementById('resumenToggle');
+    const body = document.getElementById('resumenGeneralBody');
+    if (!wantsResumen || !toggle || !body) return;
+    toggle.setAttribute('aria-expanded', 'true');
+    body.hidden = false;
+    window.requestAnimationFrame(() => {
+        document.getElementById('resumen-general')?.scrollIntoView({ block: 'start' });
+    });
+}
+
+async function cargarResumenGeneral() {
+    try {
+        const params = new URLSearchParams();
+        appendFiltersToParams(params, filtrosActuales);
+
+        const response = await fetch(`/api/transacciones/resumen?${params.toString()}`);
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.error || 'Error al cargar resumen');
+
+        const totalRegistros = Number(data.total_registros || 0);
+        const totalCargos = parseFloat(data.total_cargos || 0);
+        const totalAbonos = parseFloat(data.total_abonos || 0);
+        const diferencia = parseFloat(data.diferencia || 0);
+        const coincide = Boolean(data.coincide);
+
+        document.getElementById('resumenTotalRegistros').textContent = totalRegistros.toLocaleString('es-MX');
+        document.getElementById('resumenTotalCargos').textContent = formatCurrency(totalCargos);
+        document.getElementById('resumenTotalAbonos').textContent = formatCurrency(totalAbonos);
+        document.getElementById('resumenTotalDiferencia').textContent = formatCurrency(diferencia);
+
+        const balanceLabel = document.getElementById('resumenEstadoBalance');
+        const coincideLabel = document.getElementById('resumenEstadoCoincidencia');
+
+        if (balanceLabel) {
+            balanceLabel.textContent = coincide
+                ? 'Balance general equilibrado'
+                : 'Balance general con diferencia';
+        }
+
+        if (coincideLabel) {
+            coincideLabel.textContent = coincide ? 'Coinciden' : 'No coinciden';
+            coincideLabel.classList.toggle('summary-balance-pill--ok', coincide);
+            coincideLabel.classList.toggle('summary-balance-pill--warn', !coincide);
+        }
+    } catch (error) {
+        console.error('Error cargando resumen general:', error);
+        const coincideLabel = document.getElementById('resumenEstadoCoincidencia');
+        if (coincideLabel) {
+            coincideLabel.textContent = 'Sin resumen';
+            coincideLabel.classList.remove('summary-balance-pill--ok');
+            coincideLabel.classList.add('summary-balance-pill--warn');
+        }
+    }
+}
+
+function syncPrimaryEnteSelectFromFilters() {
+    const consultaEnteSelect = document.getElementById('consultaEnteSelect');
+    if (!consultaEnteSelect) return;
+    const selectedValues = getSelectedValues('ente_nombre');
+    consultaEnteSelect.value = selectedValues.length === 1 ? selectedValues[0] : '';
+    updatePrimaryEntePreview();
+}
+
+function updatePrimaryEntePreview() {
+    const consultaEnteSelect = document.getElementById('consultaEnteSelect');
+    const consultaEntePreview = document.getElementById('consultaEntePreview');
+    if (!consultaEnteSelect || !consultaEntePreview) return;
+
+    const selectedValue = normalizeValue(consultaEnteSelect.value);
+    if (!selectedValue) {
+        consultaEntePreview.className = 'ente-meta is-empty';
+        consultaEntePreview.textContent = 'Sin filtro por ente';
+        return;
+    }
+
+    const meta = enteMetaByName.get(comparableValue(selectedValue)) || {};
+    const siglas = normalizeValue(meta.siglas);
+    const ambito = normalizeValue(meta.ambito);
+
+    consultaEntePreview.className = 'ente-meta';
+    consultaEntePreview.innerHTML = `
+        <span class="ente-badge ente-badge-name" title="${selectedValue}">${siglas || selectedValue}</span>
+        ${ambito ? `<span class="ente-badge">${ambito}</span>` : ''}
+    `;
+}
+
+async function loadPrimaryEnteOptions() {
+    const consultaEnteSelect = document.getElementById('consultaEnteSelect');
+    if (!consultaEnteSelect) return;
+
+    try {
+        const response = await fetch('/api/catalogo-general');
+        const data = response.ok ? await response.json() : { opciones: [] };
+        const entes = Array.isArray(data.opciones) ? data.opciones : [];
+        const seen = new Set();
+        enteMetaByName.clear();
+        const selectedValues = getSelectedValues('ente_nombre');
+        const selectedValue = selectedValues.length === 1 ? selectedValues[0] : '';
+        consultaEnteSelect.innerHTML = '<option value="">Todos los entes</option>';
+
+        entes.forEach((ente) => {
+            const name = normalizeValue(ente?.nombre);
+            if (!name) return;
+            const comparable = comparableValue(name);
+            if (seen.has(comparable)) return;
+            seen.add(comparable);
+            enteMetaByName.set(comparable, {
+                siglas: normalizeValue(ente?.siglas),
+                ambito: normalizeValue(ente?.ambito),
+            });
+            const option = document.createElement('option');
+            option.value = name;
+            option.textContent = ente?.label || name;
+            consultaEnteSelect.appendChild(option);
+        });
+
+        consultaEnteSelect.value = selectedValue;
+        updatePrimaryEntePreview();
+    } catch (error) {
+        console.error('Error cargando entes para consulta:', error);
+        consultaEnteSelect.innerHTML = '<option value="">Todos los entes</option>';
+        updatePrimaryEntePreview();
+    }
+}
+
+function removeActiveFilter(key, value) {
+    if (key === 'ente_nombre') {
+        const consultaEnteSelect = document.getElementById('consultaEnteSelect');
+        if (consultaEnteSelect) {
+            consultaEnteSelect.value = '';
+        }
+        delete filtrosActuales.ente_nombre;
+        updatePrimaryEntePreview();
+        refreshCurrentView();
+        return;
+    }
+
+    if (COMBOBOX_FILTER_KEYS.has(key)) {
+        const state = comboboxState.get(key);
+        if (!state) return;
+
+        if (state.selectedValues.length > 1) {
+            removeSelectedValue(key, value);
+            return;
+        }
+
+        clearFilterValue(key, { syncInput: true, refresh: true });
+        return;
+    }
+
+    const rangeFilter = RANGE_FILTERS.find((filter) => filter.key === key);
+    if (!rangeFilter) return;
+
+    const input = document.getElementById(rangeFilter.inputId);
+    if (input) input.value = '';
+    aplicarFiltros();
+}
+
+function renderActiveFilters() {
+    const bar = document.getElementById('activeFiltersBar');
+    const list = document.getElementById('activeFiltersList');
+    const entries = getActiveFilterEntries();
+
+    updateFilterSummaryUI();
+
+    if (!bar || !list) return;
+    list.innerHTML = '';
+
+    if (!entries.length) {
+        bar.hidden = true;
+        return;
+    }
+
+    const fragment = document.createDocumentFragment();
+
+    entries.forEach((entry) => {
+        const chip = document.createElement('button');
+        chip.type = 'button';
+        chip.className = 'active-filter-chip';
+        chip.title = `${entry.label}: ${entry.displayValue}`;
+
+        const labelNode = document.createElement('span');
+        labelNode.className = 'active-filter-label';
+        labelNode.textContent = entry.label;
+
+        const valueNode = document.createElement('span');
+        valueNode.className = 'active-filter-value';
+        valueNode.textContent = truncate(entry.displayValue, 28);
+
+        const removeNode = document.createElement('span');
+        removeNode.className = 'active-filter-remove';
+        removeNode.textContent = '×';
+
+        chip.appendChild(labelNode);
+        chip.appendChild(valueNode);
+        chip.appendChild(removeNode);
+        chip.addEventListener('mousedown', (event) => event.preventDefault());
+        chip.addEventListener('click', () => removeActiveFilter(entry.key, entry.value));
+
+        fragment.appendChild(chip);
+    });
+
+    list.appendChild(fragment);
+    bar.hidden = false;
+}
+
+function positionComboboxMenu(state) {
+    if (!state || state.menu.hidden) return;
+
+    const rect = state.input.getBoundingClientRect();
+    const viewportWidth = window.innerWidth || document.documentElement.clientWidth || 0;
+    const viewportHeight = window.innerHeight || document.documentElement.clientHeight || 0;
+    const width = Math.min(Math.max(Math.round(rect.width), 220), Math.max(220, viewportWidth - 16));
+    const left = Math.max(8, Math.min(Math.round(rect.left), viewportWidth - width - 8));
+    const estimatedHeight = Math.min(320, Math.max(180, state.menu.scrollHeight || 0));
+    const showAbove = (viewportHeight - rect.bottom) < Math.min(estimatedHeight, 250) && rect.top > 220;
+    const top = showAbove
+        ? Math.max(8, Math.round(rect.top - estimatedHeight - 8))
+        : Math.round(rect.bottom + 8);
+
+    state.menu.style.setProperty('--combo-menu-top', `${top}px`);
+    state.menu.style.setProperty('--combo-menu-left', `${left}px`);
+    state.menu.style.setProperty('--combo-menu-width', `${width}px`);
+}
+
+function syncActiveComboboxMenuPosition() {
+    if (!activeMenuKey) return;
+    positionComboboxMenu(comboboxState.get(activeMenuKey));
+}
+
+function updateDensityToggleUI() {
+    const compactButton = document.getElementById('densityCompact');
+    const comfortButton = document.getElementById('densityComfort');
+    const table = document.querySelector('.tabla-resultados');
+
+    if (table) table.classList.toggle('compact', vistaCompacta);
+    if (compactButton) compactButton.classList.toggle('is-active', vistaCompacta);
+    if (comfortButton) comfortButton.classList.toggle('is-active', !vistaCompacta);
+}
+
+function setDensityMode(isCompact) {
+    vistaCompacta = Boolean(isCompact);
+    updateDensityToggleUI();
+}
+
+function initDensityToggle() {
+    const compactButton = document.getElementById('densityCompact');
+    const comfortButton = document.getElementById('densityComfort');
+
+    if (compactButton) compactButton.addEventListener('click', () => setDensityMode(true));
+    if (comfortButton) comfortButton.addEventListener('click', () => setDensityMode(false));
+
+    updateDensityToggleUI();
+}
+
+function setFilterHelp(key, message, isEmpty = false) {
+    const help = document.querySelector(`[data-filter-help="${key}"]`);
+    if (!help) return;
+    help.textContent = message;
+    help.classList.toggle('is-empty', isEmpty);
+}
+
+function refreshComboboxEmptyStates() {
+    comboboxState.forEach((state) => {
+        if (state.options.length === 0) {
+            renderComboboxOptions(state);
+            return;
+        }
+
+        updateFilterHelpFromState(state);
+    });
+}
+
+function buildEmptyOptionsPayload(fields = []) {
+    const options = {};
+    (fields || []).forEach((field) => {
+        options[field] = { items: [], truncated: false };
+    });
+    return { options };
+}
+
+function getComboboxUnavailableMessage() {
+    return filterOptionsUnavailableMessage || 'Opciones dinámicas no disponibles';
+}
+
+function updateComboboxDecorators(state) {
+    if (!state) return;
+    const hasValue = Boolean(normalizeValue(state.input.value));
+    const hasSelection = normalizeValueList(state.selectedValues).length > 0;
+    state.wrapper.classList.toggle('has-value', hasValue);
+    state.wrapper.classList.toggle('has-selection', hasSelection);
+}
+
+function summarizeSelectedValues(values, maxItems = 2) {
+    const normalized = normalizeValueList(values);
+    if (!normalized.length) return '';
+
+    const preview = normalized
+        .slice(0, maxItems)
+        .map((value) => truncate(value, 20))
+        .join(', ');
+    const extra = normalized.length > maxItems ? ` +${normalized.length - maxItems}` : '';
+    return `${preview}${extra}`;
+}
+
+function renderSelectedValues(state) {
+    if (!state?.selectedContainer) return;
+
+    const selectedValues = normalizeValueList(state.selectedValues);
+    state.selectedContainer.innerHTML = '';
+
+    if (!selectedValues.length) {
+        state.selectedContainer.hidden = true;
+        return;
+    }
+
+    const fragment = document.createDocumentFragment();
+
+    selectedValues.forEach((value) => {
+        const chip = document.createElement('button');
+        chip.type = 'button';
+        chip.className = 'combo-chip';
+        chip.title = value;
+
+        const labelNode = document.createElement('span');
+        labelNode.className = 'combo-chip-label';
+        labelNode.textContent = value;
+
+        const removeNode = document.createElement('span');
+        removeNode.className = 'combo-chip-remove';
+        removeNode.textContent = 'x';
+
+        chip.appendChild(labelNode);
+        chip.appendChild(removeNode);
+        chip.addEventListener('mousedown', (event) => {
+            event.preventDefault();
+            event.stopPropagation();
+            state.preventBlur = true;
+        });
+        chip.addEventListener('click', (event) => {
+            event.preventDefault();
+            event.stopPropagation();
+            removeSelectedValue(state.key, value);
+        });
+
+        fragment.appendChild(chip);
+    });
+
+    state.selectedContainer.appendChild(fragment);
+    state.selectedContainer.hidden = false;
+}
+
+function updateFilterHelpFromState(state) {
+    if (!state) return;
+    const selectedValues = normalizeValueList(state.selectedValues);
+
+    if (!filterOptionsApiEnabled) {
+        if (selectedValues.length) {
+            setFilterHelp(state.key, `${selectedValues.length.toLocaleString('es-MX')} seleccionados: ${summarizeSelectedValues(selectedValues)}`);
+        } else {
+            setFilterHelp(state.key, getComboboxUnavailableMessage(), true);
+        }
+        return;
+    }
+
+    if (hasNoBaseData() && !hasActiveFilters()) {
+        setFilterHelp(state.key, 'No hay datos cargados', true);
+        return;
+    }
+
+    if (selectedValues.length) {
+        setFilterHelp(state.key, `${selectedValues.length.toLocaleString('es-MX')} seleccionados: ${summarizeSelectedValues(selectedValues)}`);
+        return;
+    }
+
+    if (state.kind === 'facet') {
+        if (state.options.length === 0) {
+            if (hasNoResultsForCurrentFilters()) {
+                setFilterHelp(state.key, 'Sin opciones con los filtros actuales', true);
+            } else {
+                setFilterHelp(state.key, 'Sin opciones disponibles', true);
+            }
+            return;
+        }
+
+        const suffix = state.truncated ? '+' : '';
+        setFilterHelp(state.key, `${state.options.length.toLocaleString('es-MX')}${suffix} opciones. Puedes marcar varias`);
+        return;
+    }
+
+    if (hasNoResultsForCurrentFilters()) {
+        setFilterHelp(state.key, 'Sin sugerencias con los filtros actuales', true);
+        return;
+    }
+
+    if (normalizeValue(state.lastSearchTerm) && state.options.length === 0) {
+        setFilterHelp(state.key, 'Sin sugerencias para ese texto', true);
+        return;
+    }
+
+    setFilterHelp(state.key, 'Escribe y presiona Enter o marca varias opciones');
+}
+
+function setComboboxLoading(state, message) {
+    if (!state) return;
+    state.status.textContent = message;
+    state.optionsContainer.innerHTML = '';
+}
+
+function renderComboboxOptions(state) {
+    if (!state) return;
+
+    state.optionsContainer.innerHTML = '';
+    const activeValues = new Set(normalizeValueList(state.selectedValues).map((value) => comparableValue(value)));
+
+    if (state.options.length === 0) {
+        if (!filterOptionsApiEnabled) {
+            state.status.textContent = getComboboxUnavailableMessage();
+            updateFilterHelpFromState(state);
+            return;
+        }
+        if (hasNoBaseData() && !hasActiveFilters()) {
+            state.status.textContent = 'No hay datos cargados';
+            updateFilterHelpFromState(state);
+            return;
+        }
+        if (hasNoResultsForCurrentFilters()) {
+            state.status.textContent = 'Sin coincidencias con los filtros actuales';
+            updateFilterHelpFromState(state);
+            return;
+        }
+        if (state.kind === 'text' && !normalizeValue(state.lastSearchTerm)) {
+            state.status.textContent = 'Escribe para buscar y agrega varios valores';
+        } else {
+            state.status.textContent = 'No hay coincidencias disponibles';
+        }
+        updateFilterHelpFromState(state);
+        return;
+    }
+
+    const optionsMessage = state.truncated
+        ? `Mostrando las primeras ${state.options.length.toLocaleString('es-MX')} coincidencias`
+        : `${state.options.length.toLocaleString('es-MX')} coincidencias disponibles`;
+    const selectedCount = normalizeValueList(state.selectedValues).length;
+    state.status.textContent = selectedCount
+        ? `${selectedCount.toLocaleString('es-MX')} seleccionados. ${optionsMessage}`
+        : `${optionsMessage}. Marca para agregar o quitar`;
+
+    const fragment = document.createDocumentFragment();
+
+    state.options.forEach((item) => {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'combo-option';
+        if (activeValues.has(comparableValue(item.value))) {
+            button.classList.add('is-active');
+        }
+
+        const checkNode = document.createElement('span');
+        checkNode.className = 'combo-option-check';
+        checkNode.textContent = 'x';
+
+        const mainNode = document.createElement('span');
+        mainNode.className = 'combo-option-main';
+
+        const valueNode = document.createElement('strong');
+        valueNode.textContent = item.label || item.value;
+
+        const countNode = document.createElement('span');
+        countNode.className = 'combo-option-meta';
+        countNode.textContent = `${(item.count || 0).toLocaleString('es-MX')} registros`;
+
+        mainNode.appendChild(valueNode);
+        button.appendChild(checkNode);
+        button.appendChild(mainNode);
+        button.appendChild(countNode);
+        button.addEventListener('mousedown', (event) => {
+            event.preventDefault();
+            event.stopPropagation();
+            state.preventBlur = true;
+            toggleComboboxOption(state.key, item.value);
+        });
+
+        fragment.appendChild(button);
+    });
+
+    state.optionsContainer.appendChild(fragment);
+    updateFilterHelpFromState(state);
+    if (!state.menu.hidden) {
+        window.requestAnimationFrame(() => positionComboboxMenu(state));
+    }
+}
+
+function applyOptionsPayload(key, payload) {
+    const state = comboboxState.get(key);
+    if (!state) return;
+    state.options = Array.isArray(payload?.items) ? payload.items : [];
+    state.truncated = Boolean(payload?.truncated);
+    renderSelectedValues(state);
+    renderComboboxOptions(state);
+    updateComboboxDecorators(state);
+}
+
+function closeCombobox(key) {
+    const state = comboboxState.get(key);
+    if (!state) return;
+    state.menu.hidden = true;
+    state.wrapper.classList.remove('is-open');
+    if (activeMenuKey === key) {
+        activeMenuKey = null;
+    }
+}
+
+function closeAllComboboxes(exceptKey = '') {
+    comboboxState.forEach((state, key) => {
+        if (key !== exceptKey) closeCombobox(key);
+    });
+}
+
+function pruneFilterOptionsCache() {
+    const now = Date.now();
+    for (const [cacheKey, entry] of filterOptionsCache.entries()) {
+        if ((now - entry.ts) > FILTER_OPTIONS_TTL) {
+            filterOptionsCache.delete(cacheKey);
+        }
+    }
+    while (filterOptionsCache.size > 80) {
+        const firstKey = filterOptionsCache.keys().next().value;
+        filterOptionsCache.delete(firstKey);
+    }
+}
+
+async function fetchFilterOptions(fields, searchTerms = {}) {
+    const orderedFields = [...new Set(fields || [])].filter(Boolean).sort();
+    if (!orderedFields.length) return { options: {} };
+
+    if (!filterOptionsApiEnabled) {
+        return buildEmptyOptionsPayload(orderedFields);
+    }
+
+    pruneFilterOptionsCache();
+
+    const normalizedSearchTerms = {};
+    Object.entries(searchTerms || {}).forEach(([key, value]) => {
+        const normalized = normalizeValue(value);
+        if (normalized) normalizedSearchTerms[key] = normalized;
+    });
+
+    const cacheKey = JSON.stringify({
+        fields: orderedFields,
+        filtros: buildComparableEntries(filtrosActuales),
+        search: buildComparableSearchEntries(normalizedSearchTerms),
+    });
+    const cached = filterOptionsCache.get(cacheKey);
+    if (cached && (Date.now() - cached.ts) < FILTER_OPTIONS_TTL) {
+        return cached.data;
+    }
+
+    const params = new URLSearchParams();
+    params.set('fields', orderedFields.join(','));
+    appendFiltersToParams(params, filtrosActuales);
+    Object.entries(normalizedSearchTerms).forEach(([key, value]) => {
+        params.set(`search_${key}`, value);
+    });
+
+    const response = await fetch(`/api/transacciones/filtros?${params}`);
+    let data = {};
+    try {
+        data = await response.json();
+    } catch (error) {
+        data = {};
+    }
+
+    if (!response.ok) {
+        if (response.status === 404) {
+            filterOptionsApiEnabled = false;
+            filterOptionsUnavailableMessage = 'Reinicia el servidor para activar las opciones dinámicas';
+            return buildEmptyOptionsPayload(orderedFields);
+        }
+        throw new Error(data.error || 'Error al cargar opciones de filtros');
+    }
+
+    filterOptionsCache.set(cacheKey, { ts: Date.now(), data });
+    return data;
+}
+
+async function loadComboboxOptions(key, { searchTerm = '' } = {}) {
+    const state = comboboxState.get(key);
+    if (!state) return;
+
+    const requestId = ++state.requestId;
+    state.lastSearchTerm = normalizeValue(searchTerm);
+    setComboboxLoading(state, state.kind === 'facet' ? 'Cargando opciones disponibles...' : 'Buscando sugerencias...');
+
+    try {
+        const data = await fetchFilterOptions([key], state.lastSearchTerm ? { [key]: state.lastSearchTerm } : {});
+        if (requestId !== state.requestId) return;
+        applyOptionsPayload(key, data.options?.[key] || { items: [], truncated: false });
+    } catch (error) {
+        if (requestId !== state.requestId) return;
+        state.options = [];
+        state.truncated = false;
+        state.status.textContent = error.message;
+        state.optionsContainer.innerHTML = '';
+        updateFilterHelpFromState(state);
+    }
+}
+
+async function refreshFilterOptions() {
+    const sequence = ++facetRefreshSequence;
+    const searchTerms = {};
+
+    if (activeMenuKey) {
+        const activeState = comboboxState.get(activeMenuKey);
+        if (activeState) {
+            const activeSearch = normalizeValue(activeState.input.value);
+            if (activeSearch) searchTerms[activeState.key] = activeSearch;
+        }
+    }
+
+    try {
+        const data = await fetchFilterOptions(OPTION_FIELD_KEYS, searchTerms);
+        if (sequence !== facetRefreshSequence) return;
+
+        OPTION_FIELD_KEYS.forEach((fieldKey) => {
+            applyOptionsPayload(fieldKey, data.options?.[fieldKey] || { items: [], truncated: false });
+        });
+    } catch (error) {
+        OPTION_FIELD_KEYS.forEach((fieldKey) => {
+            const state = comboboxState.get(fieldKey);
+            if (!state) return;
+            state.status.textContent = error.message;
+            state.options = [];
+            state.truncated = false;
+            updateFilterHelpFromState(state);
+        });
+    }
+}
+
+async function refreshCurrentView() {
+    totalsKey = null;
+    paginaActual = 1;
+    await Promise.allSettled([cargarResumenGeneral(), refreshFilterOptions(), cargarTransacciones()]);
+}
+
+function getSelectedValues(key, source = filtrosActuales) {
+    return normalizeValueList(source?.[key]);
+}
+
+function setFilterValues(key, values, { clearInput = false } = {}) {
+    const normalizedValues = normalizeValueList(values);
+    const currentValues = getSelectedValues(key);
+    const state = comboboxState.get(key);
+
+    if (normalizedValues.length) {
+        filtrosActuales[key] = normalizedValues;
+    } else {
+        delete filtrosActuales[key];
+    }
+
+    if (state) {
+        state.selectedValues = [...normalizedValues];
+        if (clearInput) {
+            state.input.value = '';
+            state.lastSearchTerm = '';
+            state.hasPendingInput = false;
+        }
+        renderSelectedValues(state);
+        updateComboboxDecorators(state);
+        renderComboboxOptions(state);
+    }
+
+    if (key === 'ente_nombre') {
+        syncPrimaryEnteSelectFromFilters();
+    }
+
+    renderActiveFilters();
+    return !areValueListsEqual(currentValues, normalizedValues);
+}
+
+function resolveFacetInputValue(state) {
+    const rawValue = normalizeValue(state.input.value);
+    if (!rawValue) return '';
+
+    const exactMatch = state.options.find((item) => comparableValue(item.value) === comparableValue(rawValue));
+    if (exactMatch) return exactMatch.value;
+
+    if (state.options.length === 1) {
+        const [singleOption] = state.options;
+        if (comparableValue(singleOption.value).startsWith(comparableValue(rawValue))) {
+            return singleOption.value;
+        }
+    }
+
+    if (state.key === 'cuenta_contable') {
+        return rawValue;
+    }
+
+    return '';
+}
+
+function commitPendingInputSelection(key, { refresh = true, clearInput = true } = {}) {
+    const state = comboboxState.get(key);
+    if (!state || !state.hasPendingInput) return false;
+
+    const resolvedValue = state.kind === 'text'
+        ? normalizeValue(state.input.value)
+        : resolveFacetInputValue(state);
+    if (!resolvedValue) return false;
+
+    const nextValues = normalizeValueList([...state.selectedValues, resolvedValue]);
+    const changed = setFilterValues(key, nextValues, { clearInput });
+    state.hasPendingInput = false;
+
+    if (changed && refresh) refreshCurrentView();
+    return changed;
+}
+
+function toggleComboboxOption(key, value) {
+    const state = comboboxState.get(key);
+    if (!state) return;
+
+    const normalizedValue = normalizeValue(value);
+    if (!normalizedValue) return;
+
+    state.hasPendingInput = false;
+    const nextValues = state.selectedValues.some(
+        (item) => comparableValue(item) === comparableValue(normalizedValue)
+    )
+        ? state.selectedValues.filter((item) => comparableValue(item) !== comparableValue(normalizedValue))
+        : [...state.selectedValues, normalizedValue];
+    const changed = setFilterValues(key, nextValues);
+
+    if (changed) refreshCurrentView();
+}
+
+function removeSelectedValue(key, value) {
+    const state = comboboxState.get(key);
+    if (!state) return;
+
+    const nextValues = state.selectedValues.filter(
+        (item) => comparableValue(item) !== comparableValue(value)
+    );
+    const changed = setFilterValues(key, nextValues);
+
+    if (changed) refreshCurrentView();
+}
+
+function clearFilterValue(key, { syncInput = true, refresh = true } = {}) {
+    const state = comboboxState.get(key);
+    if (state && syncInput) {
+        state.input.value = '';
+        state.lastSearchTerm = '';
+        state.hasPendingInput = false;
+    }
+
+    const changed = setFilterValues(key, [], { clearInput: syncInput });
+    if (changed && refresh) refreshCurrentView();
+}
+
+function openCombobox(key) {
+    const state = comboboxState.get(key);
+    if (!state) return;
+    closeAllComboboxes(key);
+    state.menu.hidden = false;
+    state.wrapper.classList.add('is-open');
+    activeMenuKey = key;
+    window.requestAnimationFrame(() => positionComboboxMenu(state));
+    loadComboboxOptions(key, { searchTerm: normalizeValue(state.input.value) });
+}
+
+function initComboboxes() {
+    document.querySelectorAll('[data-filter-combobox]').forEach((wrapper) => {
+        const key = wrapper.dataset.filterCombobox;
+        const kind = wrapper.dataset.filterKind;
+        const menu = wrapper.querySelector('[data-filter-menu]');
+        let selectedContainer = wrapper.querySelector('[data-filter-selected]');
+
+        if (!selectedContainer) {
+            selectedContainer = document.createElement('div');
+            selectedContainer.className = 'combo-selected';
+            selectedContainer.dataset.filterSelected = key;
+            selectedContainer.hidden = true;
+            wrapper.insertBefore(selectedContainer, menu);
+        }
+
+        const state = {
+            key,
+            kind,
+            wrapper,
+            input: wrapper.querySelector('input'),
+            menu,
+            status: wrapper.querySelector('[data-filter-status]'),
+            optionsContainer: wrapper.querySelector('[data-filter-options]'),
+            clearButton: wrapper.querySelector('[data-filter-clear]'),
+            toggleButton: wrapper.querySelector('[data-filter-toggle]'),
+            selectedContainer,
+            selectedValues: getSelectedValues(key),
+            lastSearchTerm: '',
+            hasPendingInput: false,
+            options: [],
+            truncated: false,
+            requestId: 0,
+            preventBlur: false,
+            debouncedLookup: null,
+        };
+
+        state.debouncedLookup = debounce((searchTerm) => {
+            loadComboboxOptions(state.key, { searchTerm });
+        }, 280);
+
+        state.input.addEventListener('focus', () => openCombobox(state.key));
+        state.input.addEventListener('click', () => openCombobox(state.key));
+        state.input.addEventListener('input', () => {
+            const rawValue = normalizeValue(state.input.value);
+            state.lastSearchTerm = rawValue;
+            state.hasPendingInput = Boolean(rawValue);
+            updateComboboxDecorators(state);
+            state.debouncedLookup(rawValue);
+        });
+
+        state.input.addEventListener('keydown', (event) => {
+            if (event.key === 'ArrowDown') {
+                event.preventDefault();
+                openCombobox(state.key);
+                return;
+            }
+
+            if (event.key === 'Escape') {
+                closeCombobox(state.key);
+                return;
+            }
+
+            if (event.key === 'Backspace' && !normalizeValue(state.input.value) && state.selectedValues.length > 0) {
+                event.preventDefault();
+                removeSelectedValue(state.key, state.selectedValues[state.selectedValues.length - 1]);
+                return;
+            }
+
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                const changed = commitPendingInputSelection(state.key, {
+                    refresh: false,
+                    clearInput: true,
+                });
+                if (changed) refreshCurrentView();
+            }
+        });
+
+        state.input.addEventListener('blur', () => {
+            window.setTimeout(() => {
+                if (state.preventBlur) {
+                    state.preventBlur = false;
+                    return;
+                }
+                closeCombobox(state.key);
+            }, 120);
+        });
+
+        state.clearButton.addEventListener('mousedown', (event) => {
+            event.stopPropagation();
+            state.preventBlur = true;
+        });
+
+        state.clearButton.addEventListener('click', (event) => {
+            event.preventDefault();
+            event.stopPropagation();
+            clearFilterValue(state.key, { syncInput: true, refresh: true });
+            state.input.focus();
+            openCombobox(state.key);
+        });
+
+        state.toggleButton.addEventListener('mousedown', (event) => {
+            event.stopPropagation();
+            state.preventBlur = true;
+        });
+
+        state.toggleButton.addEventListener('click', (event) => {
+            event.preventDefault();
+            event.stopPropagation();
+            if (state.menu.hidden) {
+                openCombobox(state.key);
+                state.input.focus();
+            } else {
+                closeCombobox(state.key);
+            }
+        });
+
+        comboboxState.set(key, state);
+        renderSelectedValues(state);
+        updateComboboxDecorators(state);
+        renderComboboxOptions(state);
+    });
+}
+
+function buildNextFilters() {
+    const nextFilters = {};
+
+    comboboxState.forEach((state) => {
+        const selectedValues = normalizeValueList(state.selectedValues);
+        if (selectedValues.length) {
+            nextFilters[state.key] = selectedValues;
+        }
+    });
+
+    RANGE_FILTERS.forEach((config) => {
+        const input = document.getElementById(config.inputId);
+        const value = normalizeValue(input?.value);
+        if (value) {
+            nextFilters[config.key] = value;
+        }
+    });
+
+    const consultaEnteSelect = document.getElementById('consultaEnteSelect');
+    const selectedEnte = normalizeValue(consultaEnteSelect?.value);
+    if (selectedEnte) {
+        nextFilters.ente_nombre = [selectedEnte];
+    }
+
+    return nextFilters;
+}
+
+async function aplicarFiltros() {
+    let committedPending = false;
+
+    comboboxState.forEach((state) => {
+        const changed = commitPendingInputSelection(state.key, {
+            refresh: false,
+            clearInput: true,
+        });
+        committedPending = committedPending || changed;
+        closeCombobox(state.key);
+    });
+
+    const nextFilters = buildNextFilters();
+    const filtersChanged = !areFiltersEqual(filtrosActuales, nextFilters);
+    filtrosActuales = nextFilters;
+    renderActiveFilters();
+    totalsKey = null;
+    paginaActual = 1;
+
+    if (!filtersChanged && !committedPending) {
+        await Promise.allSettled([cargarResumenGeneral(), refreshFilterOptions(), cargarTransacciones()]);
+        return;
+    }
+
+    await Promise.allSettled([cargarResumenGeneral(), refreshFilterOptions(), cargarTransacciones()]);
+}
+
+async function aplicarFiltrosDesdeDrawer() {
+    await aplicarFiltros();
+    closeFiltersDrawer();
+}
+
+async function limpiarFiltros() {
+    filtrosActuales = {};
+
+    comboboxState.forEach((state) => {
+        state.selectedValues = [];
+        state.lastSearchTerm = '';
+        state.hasPendingInput = false;
+        state.options = [];
+        state.truncated = false;
+        state.requestId = 0;
+        state.input.value = '';
+        renderSelectedValues(state);
+        updateComboboxDecorators(state);
+        renderComboboxOptions(state);
+        closeCombobox(state.key);
+    });
+
+    RANGE_FILTERS.forEach((config) => {
+        const input = document.getElementById(config.inputId);
+        if (input) input.value = '';
+    });
+
+    const consultaEnteSelect = document.getElementById('consultaEnteSelect');
+    if (consultaEnteSelect) consultaEnteSelect.value = '';
+    updatePrimaryEntePreview();
+
+    renderActiveFilters();
+    totalsKey = null;
+    paginaActual = 1;
+    await Promise.allSettled([cargarResumenGeneral(), refreshFilterOptions(), cargarTransacciones()]);
+}
+
+function updateNoResultsMessage() {
+    const emptyMessage = document.querySelector('#noResults .msg-vacio');
+    if (!emptyMessage) return;
+
+    if (hasNoBaseData() && !hasActiveFilters()) {
+        emptyMessage.textContent = getNoDataLoadedMessage();
+        return;
+    }
+
+    if (hasNoResultsForCurrentFilters()) {
+        emptyMessage.textContent = 'No se encontraron transacciones con los filtros seleccionados';
+        return;
+    }
+
+    emptyMessage.textContent = 'No se encontraron transacciones';
+}
+
+async function cargarTransacciones() {
+    try {
+        const filtrosKey = serializeFilters(filtrosActuales || {});
+        const includeTotals = totalsKey !== filtrosKey;
+
+        const params = new URLSearchParams();
+        params.set('page', paginaActual);
+        params.set('per_page', registrosPorPagina);
+        params.set('include_totals', includeTotals ? 1 : 0);
+        appendFiltersToParams(params, filtrosActuales);
+
+        const response = await fetch(`/api/transacciones?${params}`);
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.error || 'Error al cargar transacciones');
+
+        currentResultTotal = Number(data.total || 0);
+        if (!hasActiveFilters()) {
+            baseDataAvailable = currentResultTotal > 0;
+        }
+
+        totalPaginas = data.pages || 1;
+        renderizarTabla(data.transacciones);
+        actualizarEstadisticas(data);
+        actualizarPaginacion();
+        updateNoResultsMessage();
+        renderActiveFilters();
+        refreshComboboxEmptyStates();
+        if (includeTotals) totalsKey = filtrosKey;
+
+        document.getElementById('loading').style.display = 'none';
+        document.getElementById('tableContainer').style.display = currentResultTotal > 0 ? 'block' : 'none';
+    } catch (error) {
+        console.error('Error:', error);
+        document.getElementById('loading').innerHTML = `
+            <div class="no-results">
+                <p class="msg-vacio">⚠️ Error al cargar transacciones</p>
+            </div>
+        `;
+    }
+}
+
+function renderizarTabla(transacciones) {
+    const tbody = document.getElementById('tablaBody');
+    const noResults = document.getElementById('noResults');
+    const tableContainer = document.getElementById('tableContainer');
+
+    tbody.innerHTML = '';
+    updateNoResultsMessage();
+
+    if (!transacciones || transacciones.length === 0) {
+        tableContainer.style.display = 'none';
+        noResults.style.display = 'block';
+        return;
+    }
+
+    tableContainer.style.display = 'block';
+    noResults.style.display = 'none';
+
+    const fragment = document.createDocumentFragment();
+
+    transacciones.forEach((t) => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td class="sticky-col col-cuenta cell-account" data-label="Cuenta Contable"><strong>${t.cuenta_contable || ''}</strong></td>
+            <td data-label="Cta.">${t.cta || ''}</td>
+            <td data-label="SubCta/COG/CRI">${t.subcta_cog_cri || ''}</td>
+            <td data-label="Clv1">${t.clv1 || ''}</td>
+            <td data-label="Clv2">${t.clv2 || ''}</td>
+            <td data-label="COG">${t.cog || ''}</td>
+            <td data-label="Clv3">${t.clv3 || ''}</td>
+            <td class="cell-description" data-label="Nombre de Cuenta" title="${t.nombre_cuenta || ''}">${truncate(t.nombre_cuenta, 40)}</td>
+            <td class="cell-policy" data-label="Poliza"><strong>${t.poliza || ''}</strong></td>
+            <td class="col-fecha cell-date" data-label="Fecha"><strong>${t.fecha_transaccion || ''}</strong></td>
+            <td class="cell-beneficiary" data-label="Beneficiario" title="${t.beneficiario || ''}">${truncate(t.beneficiario, 25)}</td>
+            <td data-label="No. Factura">${t.no_factura || ''}</td>
+            <td data-label="Cheque/Folio">${t.cheque_folio || ''}</td>
+            <td class="cell-description" data-label="Concepto" title="${t.descripcion || ''}">${truncate(t.descripcion, 36)}</td>
+            <td class="money money-col" data-label="Saldo Inicial">${formatNumber(t.saldo_inicial)}</td>
+            <td class="money positive money-col" data-label="Cargos">${formatNumber(t.cargos)}</td>
+            <td class="money negative money-col" data-label="Abonos">${formatNumber(t.abonos)}</td>
+            <td class="money money-col sticky-right" data-label="Saldos"><strong>${formatNumber(t.saldo_final)}</strong></td>
+        `;
+        fragment.appendChild(row);
+    });
+
+    tbody.appendChild(fragment);
+}
+
+function actualizarEstadisticas(data) {
+    const total = data.total || 0;
+    document.getElementById('totalRegistros').textContent = total.toLocaleString('es-MX');
+
+    const heroResultCount = document.getElementById('heroResultCount');
+    if (heroResultCount) {
+        heroResultCount.textContent = total.toLocaleString('es-MX');
+    }
+
+    if (data.total_cargos !== undefined && data.total_abonos !== undefined) {
+        const totalCargos = parseFloat(data.total_cargos || 0);
+        const totalAbonos = parseFloat(data.total_abonos || 0);
+        document.getElementById('totalCargos').textContent = formatCurrency(totalCargos);
+        document.getElementById('totalAbonos').textContent = formatCurrency(totalAbonos);
+    }
+
+    const inicio = total === 0 ? 0 : (paginaActual - 1) * registrosPorPagina + 1;
+    const fin = Math.min(paginaActual * registrosPorPagina, total);
+    document.getElementById('rangoInfo').textContent = `Mostrando ${inicio.toLocaleString('es-MX')} - ${fin.toLocaleString('es-MX')} de ${total.toLocaleString('es-MX')}`;
+}
+
+function actualizarPaginacion() {
+    document.getElementById('paginaInfo').textContent = `Página ${paginaActual} de ${totalPaginas}`;
+    document.getElementById('btnPrevPage').disabled = paginaActual === 1;
+    document.getElementById('btnNextPage').disabled = paginaActual === totalPaginas;
+    const pageInput = document.getElementById('pageInput');
+    if (pageInput) {
+        pageInput.max = totalPaginas;
+        pageInput.value = paginaActual;
+        pageInput.disabled = totalPaginas <= 1;
+    }
+}
+
+function cambiarPagina(delta) {
+    const nuevaPagina = paginaActual + delta;
+    if (nuevaPagina >= 1 && nuevaPagina <= totalPaginas) {
+        paginaActual = nuevaPagina;
+        cargarTransacciones();
+    }
+}
+
+function irAPaginaIngresada() {
+    const pageInput = document.getElementById('pageInput');
+    if (!pageInput) return;
+    const pageValue = parseInt(pageInput.value, 10);
+    if (Number.isNaN(pageValue)) {
+        pageInput.value = paginaActual;
+        return;
+    }
+    const target = Math.min(Math.max(pageValue, 1), totalPaginas);
+    if (target !== paginaActual) {
+        paginaActual = target;
+        cargarTransacciones();
+    } else {
+        pageInput.value = paginaActual;
+    }
+}
+
+async function exportarExcel() {
+    try {
+        const response = await fetch('/api/reportes/generar', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(filtrosActuales),
+        });
+
+        if (!response.ok) throw new Error('Error al generar reporte');
+
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `reporte_saagnet_${new Date().toISOString().split('T')[0]}.xlsx`;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        window.URL.revokeObjectURL(url);
+    } catch (error) {
+        alert('Error al exportar: ' + error.message);
+    }
+}
+
+window.addEventListener('DOMContentLoaded', async () => {
+    initResumenToggle();
+    initDensityToggle();
+    initFiltersDrawer();
+    initComboboxes();
+    renderActiveFilters();
+    openResumenFromLocation();
+
+    await loadPrimaryEnteOptions();
+
+    window.addEventListener('resize', syncActiveComboboxMenuPosition);
+    document.addEventListener('scroll', syncActiveComboboxMenuPosition, true);
+
+    const consultaEnteSelect = document.getElementById('consultaEnteSelect');
+    if (consultaEnteSelect) {
+        consultaEnteSelect.addEventListener('change', async () => {
+            setFilterValues('ente_nombre', consultaEnteSelect.value ? [consultaEnteSelect.value] : []);
+            await refreshCurrentView();
+        });
+    }
+
+    const pageInput = document.getElementById('pageInput');
+    if (pageInput) {
+        pageInput.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter') {
+                irAPaginaIngresada();
+            }
+        });
+    }
+
+    RANGE_FILTERS.forEach((config) => {
+        const input = document.getElementById(config.inputId);
+        if (!input) return;
+        input.addEventListener('change', () => aplicarFiltros());
+    });
+
+    document.addEventListener('mousedown', (event) => {
+        const clickedInsideCombobox = event.target.closest('[data-filter-combobox]');
+        if (!clickedInsideCombobox) {
+            closeAllComboboxes();
+        }
+    });
+
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && isFiltersDrawerOpen()) {
+            event.preventDefault();
+            closeFiltersDrawer();
+            return;
+        }
+
+        if (event.target.tagName === 'INPUT' || event.target.tagName === 'TEXTAREA' || event.target.tagName === 'SELECT' || event.target.isContentEditable) {
+            return;
+        }
+
+        if (event.shiftKey && (event.key === 'f' || event.key === 'F')) {
+            event.preventDefault();
+            openFiltersDrawer();
+        }
+    });
+
+    await Promise.allSettled([cargarResumenGeneral(), refreshFilterOptions(), cargarTransacciones()]);
+});
+</script>
+{% endblock %}

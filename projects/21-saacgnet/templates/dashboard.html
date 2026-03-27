@@ -1,0 +1,258 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block header_title %}SAAGNET - Dashboard{% endblock %}
+
+{% block nav_links %}
+<a href="/" style="color: white; margin-right: 1rem;">Cargar Archivos</a>
+<a href="/reportes" style="color: white; margin-right: 1rem;">Reportes</a>
+<a href="/reporte-online" style="color: white;">Reporte Online</a>
+{% endblock %}
+
+{% block extra_css %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+{% endblock %}
+
+{% block content %}
+<main class="dashboard-container">
+    <!-- Estadísticas principales -->
+    <div class="stats-grid" id="statsGrid">
+        <div class="stat-card">
+            <h3>Total Transacciones</h3>
+            <div class="value" id="totalTransacciones">-</div>
+            <div class="change">Cargadas en el sistema</div>
+        </div>
+        <div class="stat-card">
+            <h3>Cuentas Contables</h3>
+            <div class="value" id="totalCuentas">-</div>
+            <div class="change">Cuentas únicas</div>
+        </div>
+        <div class="stat-card">
+            <h3>Total Cargos</h3>
+            <div class="value" id="sumaCargos">$-</div>
+            <div class="change">Suma acumulada</div>
+        </div>
+        <div class="stat-card">
+            <h3>Total Abonos</h3>
+            <div class="value" id="sumaAbonos">$-</div>
+            <div class="change">Suma acumulada</div>
+        </div>
+    </div>
+
+    <!-- Filtros -->
+    <div class="filters-section">
+        <h2 style="margin: 0 0 1rem 0;">Filtros de Búsqueda</h2>
+        <div class="filters-grid">
+            <div class="filter-group">
+                <label>Cuenta Contable</label>
+                <input type="text" id="filtroCuenta" placeholder="Ej: 11101">
+            </div>
+            <div class="filter-group">
+                <label>Ente</label>
+                <select id="filtroDependencia">
+                    <option value="">Todos</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label>Fecha Inicio</label>
+                <input type="date" id="filtroFechaInicio">
+            </div>
+            <div class="filter-group">
+                <label>Fecha Fin</label>
+                <input type="date" id="filtroFechaFin">
+            </div>
+            <div class="filter-group">
+                <label>Póliza</label>
+                <input type="text" id="filtroPoliza" placeholder="Número de póliza">
+            </div>
+            <div class="filter-group">
+                <label>Beneficiario</label>
+                <input type="text" id="filtroBeneficiario" placeholder="Nombre">
+            </div>
+        </div>
+        <button class="btn-primary" onclick="aplicarFiltros()">🔍 Buscar</button>
+        <button class="btn-primary" onclick="limpiarFiltros()" style="background: #6c757d; margin-left: 0.5rem;">🔄 Limpiar</button>
+    </div>
+
+    <!-- Gráficos -->
+    <div class="charts-grid">
+        <div class="chart-card">
+            <h3>Transacciones por Mes</h3>
+            <canvas id="chartMeses"></canvas>
+        </div>
+        <div class="chart-card">
+            <h3>Top 10 Entes</h3>
+            <canvas id="chartDependencias"></canvas>
+        </div>
+    </div>
+</main>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+let chartMeses, chartDependencias;
+let currentPage = 1;
+let filtrosActuales = {};
+
+// Cargar estadísticas al inicio
+async function cargarEstadisticas() {
+    try {
+        const response = await fetch('/api/dashboard/stats');
+        const data = await response.json();
+
+        document.getElementById('totalTransacciones').textContent =
+            data.total_transacciones.toLocaleString();
+        document.getElementById('totalCuentas').textContent =
+            data.total_cuentas.toLocaleString();
+        document.getElementById('sumaCargos').textContent =
+            '$' + data.suma_cargos.toLocaleString('es-MX', {minimumFractionDigits: 2});
+        document.getElementById('sumaAbonos').textContent =
+            '$' + data.suma_abonos.toLocaleString('es-MX', {minimumFractionDigits: 2});
+
+        // Gráfico de meses
+        if (chartMeses) chartMeses.destroy();
+        const ctxMeses = document.getElementById('chartMeses').getContext('2d');
+        chartMeses = new Chart(ctxMeses, {
+            type: 'line',
+            data: {
+                labels: data.transacciones_mes.map(d => new Date(d.mes).toLocaleDateString('es-MX', {month: 'short', year: 'numeric'})),
+                datasets: [{
+                    label: 'Transacciones',
+                    data: data.transacciones_mes.map(d => d.total),
+                    borderColor: '#4472C4',
+                    backgroundColor: 'rgba(68, 114, 196, 0.1)',
+                    tension: 0.3
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    legend: { display: false }
+                }
+            }
+        });
+
+    } catch (error) {
+        console.error('Error cargando estadísticas:', error);
+    }
+}
+
+// Cargar lista de entes detectados
+async function cargarDependencias() {
+    try {
+        const response = await fetch('/api/entes/lista');
+        const data = await response.json();
+
+        const select = document.getElementById('filtroDependencia');
+        (data.entes || []).forEach(dep => {
+            const option = document.createElement('option');
+            option.value = dep;
+            option.textContent = dep;
+            select.appendChild(option);
+        });
+    } catch (error) {
+        console.error('Error cargando entes:', error);
+    }
+}
+
+// Cargar transacciones
+async function cargarTransacciones(page = 1) {
+    try {
+        document.getElementById('loadingTransacciones').style.display = 'block';
+        document.getElementById('tablaContainer').style.display = 'none';
+
+        const params = new URLSearchParams({
+            page: page,
+            per_page: 50,
+            include_totals: 0,
+            ...filtrosActuales
+        });
+
+        const response = await fetch(`/api/transacciones?${params}`);
+        const data = await response.json();
+
+        const tbody = document.getElementById('tablaBody');
+        tbody.innerHTML = '';
+
+        data.transacciones.forEach(t => {
+            const row = tbody.insertRow();
+            row.innerHTML = `
+                <td>${t.fecha_transaccion}</td>
+                <td>${t.cuenta_contable}</td>
+                <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis;">${t.nombre_cuenta || ''}</td>
+                <td>${t.poliza}</td>
+                <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis;">${t.beneficiario || ''}</td>
+                <td class="money">${t.cargos.toLocaleString('es-MX', {minimumFractionDigits: 2})}</td>
+                <td class="money">${t.abonos.toLocaleString('es-MX', {minimumFractionDigits: 2})}</td>
+                <td class="money">${t.saldo_final.toLocaleString('es-MX', {minimumFractionDigits: 2})}</td>
+            `;
+        });
+
+        // Paginación
+        const paginacion = document.getElementById('paginacion');
+        paginacion.innerHTML = '';
+
+        if (data.pages > 1) {
+            for (let i = 1; i <= Math.min(data.pages, 10); i++) {
+                const btn = document.createElement('button');
+                btn.textContent = i;
+                btn.className = i === page ? 'active' : '';
+                btn.onclick = () => cargarTransacciones(i);
+                paginacion.appendChild(btn);
+            }
+        }
+
+        document.getElementById('loadingTransacciones').style.display = 'none';
+        document.getElementById('tablaContainer').style.display = 'block';
+
+    } catch (error) {
+        console.error('Error cargando transacciones:', error);
+        document.getElementById('loadingTransacciones').textContent = 'Error al cargar datos';
+    }
+}
+
+function aplicarFiltros() {
+    filtrosActuales = {};
+
+    const cuenta = document.getElementById('filtroCuenta').value;
+    if (cuenta) filtrosActuales.cuenta_contable = cuenta;
+
+    const dependencia = document.getElementById('filtroDependencia').value;
+    if (dependencia) filtrosActuales.ente_nombre = dependencia;
+
+    const fechaInicio = document.getElementById('filtroFechaInicio').value;
+    if (fechaInicio) filtrosActuales.fecha_inicio = fechaInicio;
+
+    const fechaFin = document.getElementById('filtroFechaFin').value;
+    if (fechaFin) filtrosActuales.fecha_fin = fechaFin;
+
+    const poliza = document.getElementById('filtroPoliza').value;
+    if (poliza) filtrosActuales.poliza = poliza;
+
+    const beneficiario = document.getElementById('filtroBeneficiario').value;
+    if (beneficiario) filtrosActuales.beneficiario = beneficiario;
+
+    cargarTransacciones(1);
+}
+
+function limpiarFiltros() {
+    document.getElementById('filtroCuenta').value = '';
+    document.getElementById('filtroDependencia').value = '';
+    document.getElementById('filtroFechaInicio').value = '';
+    document.getElementById('filtroFechaFin').value = '';
+    document.getElementById('filtroPoliza').value = '';
+    document.getElementById('filtroBeneficiario').value = '';
+    filtrosActuales = {};
+    cargarTransacciones(1);
+}
+
+// Cargar todo al inicio
+window.addEventListener('DOMContentLoaded', () => {
+    cargarEstadisticas();
+    cargarDependencias();
+    cargarTransacciones();
+});
+</script>
+{% endblock %}

@@ -7,7 +7,7 @@ from logging.handlers import RotatingFileHandler
 from werkzeug.security import check_password_hash, generate_password_hash
 from config import config
 from scripts.utils import db, Transaccion, LoteCarga, Usuario, ReporteGenerado, Ente, CargaJob
-from scripts.utils import process_files_to_database
+from scripts.utils import process_files_to_database, validate_excel_file_balance
 from scripts.utils import (
     _build_entes_lookup,
     _extract_ente_header,
@@ -192,7 +192,37 @@ def create_app(config_name="default"):
     # ==================== CATÁLOGO DE CONSULTA ====================
 
     def _get_catalogo_consulta_payload():
-        items = _flatten_catalogo_general()
+        entes_estatales = (
+            Ente.query
+            .filter(
+                Ente.activo.is_(True),
+                func.upper(func.coalesce(Ente.ambito, "")) == "ESTATAL",
+            )
+            .order_by(Ente.codigo.asc(), Ente.nombre.asc(), Ente.id.asc())
+            .all()
+        )
+        entes_municipales = (
+            Ente.query
+            .filter(
+                Ente.activo.is_(True),
+                func.upper(func.coalesce(Ente.ambito, "")) == "MUNICIPAL",
+            )
+            .order_by(Ente.codigo.asc(), Ente.nombre.asc(), Ente.id.asc())
+            .all()
+        )
+
+        def _serialize_consulta_ente(ente):
+            return {
+                "num": str(getattr(ente, "codigo", "") or "").strip(),
+                "nombre": str(getattr(ente, "nombre", "") or "").strip(),
+                "siglas": str(getattr(ente, "siglas", "") or "").strip(),
+                "clasificacion": str(getattr(ente, "tipo", "") or "").strip(),
+                "ente_clave": str(getattr(ente, "clave", "") or "").strip(),
+                "dd": str(
+                    getattr(ente, "dd_match", "") or getattr(ente, "dd", "") or ""
+                ).strip(),
+            }
+
         fuentes = []
         try:
             fuentes = _load_fuentes_catalogo_records()
@@ -200,12 +230,12 @@ def create_app(config_name="default"):
             pass
         return {
             "entes": {
-                "items": [item for item in items if item["grupo"] == "entes"],
-                "total": sum(1 for item in items if item["grupo"] == "entes"),
+                "items": [_serialize_consulta_ente(ente) for ente in entes_estatales],
+                "total": len(entes_estatales),
             },
             "municipios": {
-                "items": [item for item in items if item["grupo"] == "municipios"],
-                "total": sum(1 for item in items if item["grupo"] == "municipios"),
+                "items": [_serialize_consulta_ente(ente) for ente in entes_municipales],
+                "total": len(entes_municipales),
             },
             "fuentes": {
                 "items": fuentes,
@@ -1300,8 +1330,19 @@ def create_app(config_name="default"):
         session.clear()
         return redirect(url_for("login"))
 
+    def _get_example_input_dir():
+        candidates = [
+            Path(app.root_path) / "examples_SAAGNET" / "input",
+            Path(app.root_path) / "example" / "input",
+            Path(app.root_path) / "example",
+        ]
+        for candidate in candidates:
+            if candidate.exists() and candidate.is_dir():
+                return candidate
+        return candidates[0]
+
     def _get_example_files():
-        example_dir = Path("example")
+        example_dir = _get_example_input_dir()
         if not example_dir.exists():
             return []
         files = []
@@ -1481,6 +1522,17 @@ def create_app(config_name="default"):
                     })
                     continue
 
+                try:
+                    validate_excel_file_balance((filename, io.BytesIO(content_bytes)))
+                except ValueError as exc:
+                    validation_errors.append({
+                        "filename": filename,
+                        "detected_ente": detected_ente,
+                        "selected_ente": resolved_ente.nombre if resolved_ente else "",
+                        "error": str(exc),
+                    })
+                    continue
+
                 prepared_files.append({
                     "filename": filename,
                     "content_bytes": content_bytes,
@@ -1636,7 +1688,7 @@ def create_app(config_name="default"):
 
             example_files = _get_example_files()
             if not example_files:
-                return jsonify({"error": "No hay archivos en example/"}), 400
+                return jsonify({"error": "No hay archivos de ejemplo disponibles"}), 400
 
             loaded = _get_loaded_archivos()
             files_to_process = [
@@ -1652,6 +1704,7 @@ def create_app(config_name="default"):
             for path in files_to_process:
                 with path.open("rb") as handle:
                     content_bytes = handle.read()
+                    validate_excel_file_balance((path.name, io.BytesIO(content_bytes)))
                     files_in_memory.append((path.name, io.BytesIO(content_bytes)))
                     detected_ente = _extract_ente_header((path.name, io.BytesIO(content_bytes)))
                     if detected_ente:
@@ -1711,6 +1764,8 @@ def create_app(config_name="default"):
                 "archivos": [p.name for p in files_to_process],
             })
 
+        except ValueError as e:
+            return jsonify({"error": str(e)}), 400
         except Exception as e:
             return jsonify({"error": str(e)}), 500
 
@@ -1976,7 +2031,7 @@ def create_app(config_name="default"):
             if not archivos_sin_ente:
                 return jsonify({"message": "No hay transacciones sin ente asignado", "fixed": 0})
 
-            example_dir = Path(app.root_path) / "example"
+            example_dir = _get_example_input_dir()
             fixed_total = 0
             details = []
 

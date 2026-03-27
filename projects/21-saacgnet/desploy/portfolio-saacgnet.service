@@ -1,0 +1,33 @@
+[Unit]
+Description=Portfolio SAACGNET Flask (Gunicorn)
+After=network.target
+
+[Service]
+Type=simple
+User=gabo
+Group=gabo
+WorkingDirectory=/home/gabo/portfolio/projects/21-saacgnet
+EnvironmentFile=-/home/gabo/portfolio/projects/21-saacgnet/.env
+Environment="PATH=/home/gabo/portfolio/projects/21-saacgnet/venv/bin:/usr/local/bin:/usr/bin:/bin"
+Environment="PYTHONUNBUFFERED=1"
+ExecStartPre=/usr/bin/mkdir -p /home/gabo/portfolio/projects/21-saacgnet/log
+ExecStart=/home/gabo/portfolio/projects/21-saacgnet/venv/bin/gunicorn \
+  --workers 3 \
+  --timeout 120 \
+  --bind 127.0.0.1:5021 \
+  --access-logfile /home/gabo/portfolio/projects/21-saacgnet/log/gunicorn-access.log \
+  --error-logfile /home/gabo/portfolio/projects/21-saacgnet/log/gunicorn-error.log \
+  --log-level info \
+  'app:create_app("production")'
+
+Restart=on-failure
+RestartSec=5
+
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=portfolio-saacgnet
+NoNewPrivileges=true
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target
