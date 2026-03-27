@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Catalogo - SCG4{% endblock %}
+{% block title %}Catálogo - SCG4{% endblock %}
 
 {% block extra_css %}
 <style>
@@ -37,68 +37,6 @@
         font-size: 0.95rem;
     }
 
-    .catalogo-hub {
-        border: 1px solid rgba(31, 59, 44, 0.15);
-        background: linear-gradient(180deg, rgba(31, 59, 44, 0.08), rgba(255, 255, 255, 0.9));
-        border-radius: var(--radius);
-        box-shadow: var(--shadow-sm);
-        padding-bottom: 1rem;
-    }
-
-    .hub-intro {
-        color: var(--color-muted);
-        font-size: 0.95rem;
-        margin-bottom: 1.5rem;
-        max-width: 720px;
-    }
-
-    .hub-grid {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 1.25rem;
-    }
-
-    .hub-card {
-        flex: 1;
-        min-width: 280px;
-        background: rgba(255, 255, 255, 0.85);
-        border-radius: 16px;
-        border: 1px solid var(--color-border);
-        padding: 1.5rem;
-        box-shadow: var(--shadow-sm);
-        display: flex;
-        flex-direction: column;
-        gap: 0.75rem;
-        text-decoration: none;
-        color: inherit;
-        transition: var(--transition);
-    }
-
-    .hub-card:hover {
-        transform: translateY(-2px);
-        box-shadow: var(--shadow-md);
-        border-color: var(--color-primary);
-    }
-
-    .hub-card-title {
-        font-size: 1.1rem;
-        font-weight: 700;
-        color: var(--color-primary);
-    }
-
-    .hub-card-desc {
-        color: var(--color-muted);
-        font-size: 0.9rem;
-        line-height: 1.5;
-    }
-
-    .hub-card-action {
-        margin-top: auto;
-        font-size: 0.85rem;
-        font-weight: 600;
-        color: var(--color-primary);
-    }
-
     .search-section {
         background: #f8fafc;
         border: 1px solid var(--color-border);
@@ -107,9 +45,34 @@
         margin-bottom: 2rem;
     }
 
-    .search-box {
-        position: relative;
+    .filter-chips {
+        display: flex;
+        gap: 0.75rem;
+        margin-bottom: 1rem;
+        flex-wrap: wrap;
     }
+
+    .chip {
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        border: 2px solid transparent;
+        cursor: pointer;
+        transition: var(--transition);
+        background: #f1f5f9;
+        color: #64748b;
+    }
+
+    .chip:hover { background: #e2e8f0; }
+
+    .chip.active {
+        background: var(--color-primary);
+        color: white;
+        border-color: var(--color-primary);
+    }
+
+    .search-box { position: relative; }
 
     .search-input {
         width: 100%;
@@ -124,7 +87,7 @@
     .search-input:focus {
         outline: none;
         border-color: var(--color-accent);
-        box-shadow: 0 0 0 3px rgba(31, 59, 44, 0.14);
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
     }
 
     .search-icon {
@@ -148,187 +111,117 @@
         flex-wrap: wrap;
     }
 
-    .stat-item {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
+    .stat-item { display: flex; flex-direction: column; align-items: center; }
+    .stat-label { font-size: 0.75rem; color: var(--color-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.25rem; }
+    .stat-value { font-size: 1.5rem; font-weight: 700; color: var(--color-primary); }
 
-    .stat-label {
-        font-size: 0.75rem;
-        color: var(--color-muted);
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-        margin-bottom: 0.25rem;
-    }
+    .table-wrapper { border-radius: var(--radius); overflow: hidden; border: 1px solid var(--color-border); }
+    .table-scroll { overflow-x: auto; }
 
-    .stat-value {
-        font-size: 1.5rem;
-        font-weight: 700;
-        color: var(--color-primary);
-    }
+    .tabla-resultados { width: 100%; border-collapse: collapse; }
+    .tabla-resultados thead { background: var(--color-primary); }
+    .tabla-resultados th { background: var(--color-primary); color: #fff; padding: 0.7rem 1rem; text-align: left; font-weight: 600; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.5px; white-space: nowrap; }
+    .tabla-resultados td { border-bottom: 1px solid var(--color-border); padding: 0.6rem 1rem; font-size: 0.9rem; }
+    .tabla-resultados tr:nth-child(even) td { background: #f9fafc; }
+    .tabla-resultados tr:hover td { background: #f3f4f6; }
 
-    .table-wrapper {
-        border-radius: var(--radius);
-        overflow: hidden;
-        border: 1px solid var(--color-border);
-    }
+    .badge { display: inline-block; padding: 0.35rem 0.75rem; border-radius: 6px; font-size: 0.8rem; font-weight: 600; white-space: nowrap; }
+    .badge-estatal { background: #dbeafe; color: #1e40af; }
+    .badge-municipal { background: #fef3c7; color: #92400e; }
+    .badge-poder { background: #dbeafe; color: #1e40af; }
+    .badge-dependencia { background: #fef3c7; color: #92400e; }
+    .badge-desconcentrado { background: #e0e7ff; color: #3730a3; }
+    .badge-descentralizado { background: #d1fae5; color: #065f46; }
+    .badge-autonomo { background: #fce7f3; color: #9f1239; }
+    .badge-patronato { background: #f3e8ff; color: #6b21a8; }
 
-    .table-scroll {
-        overflow-x: auto;
-    }
+    .section-loading, .no-results { text-align: center; padding: 3rem 2rem; color: var(--color-muted); }
+    .msg-vacio { text-align: center; color: var(--color-muted); margin-top: 2rem; font-size: 0.95rem; }
 
-    .tabla-resultados {
-        width: 100%;
-        border-collapse: collapse;
-    }
-
-    .tabla-resultados thead {
-        background: var(--color-primary);
-    }
-
-    .tabla-resultados th {
-        background: var(--color-primary);
-        color: #fff;
-        padding: 0.7rem 1rem;
-        text-align: left;
-        font-weight: 600;
-        font-size: 0.85rem;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-        white-space: nowrap;
-    }
-
-    .tabla-resultados td {
-        border-bottom: 1px solid var(--color-border);
-        padding: 0.6rem 1rem;
-        font-size: 0.9rem;
-    }
-
-    .tabla-resultados tr:nth-child(even) td {
-        background: #f9fafc;
-    }
-
-    .tabla-resultados tr:hover td {
-        background: #f3f4f6;
-    }
-
-    .badge {
-        display: inline-block;
-        padding: 0.35rem 0.75rem;
-        border-radius: 6px;
-        font-size: 0.8rem;
-        font-weight: 600;
-        white-space: nowrap;
-    }
-
-    .badge-estatal {
-        background: #dbeafe;
-        color: #1e40af;
-    }
-
-    .section-loading,
-    .no-results {
-        text-align: center;
-        padding: 3rem 2rem;
-        color: var(--color-muted);
-    }
-
-    .msg-vacio {
-        text-align: center;
-        color: var(--color-muted);
-        margin-top: 2rem;
-        font-size: 0.95rem;
-    }
+    .catalogo-general { border: 1px solid rgba(37, 99, 235, 0.15); background: linear-gradient(180deg, rgba(37, 99, 235, 0.08), rgba(255, 255, 255, 0.9)); border-radius: var(--radius); box-shadow: var(--shadow-sm); padding-bottom: 1rem; }
+    .general-intro { color: var(--color-muted); font-size: 0.95rem; margin-bottom: 1rem; max-width: 720px; }
+    .general-grid { display: flex; flex-wrap: wrap; gap: 1.25rem; }
+    .general-card { flex: 1; min-width: 280px; background: rgba(255, 255, 255, 0.85); border-radius: 16px; border: 1px solid var(--color-border); padding: 1rem; box-shadow: var(--shadow-sm); display: flex; flex-direction: column; gap: 0.5rem; }
+    .general-card-title { font-size: 1rem; font-weight: 700; color: var(--color-primary); }
+    .general-table-wrapper { border: 1px solid var(--color-border); border-radius: 12px; overflow: auto; max-height: 360px; }
+    .general-table { width: 100%; border-collapse: collapse; min-width: 320px; }
+    .general-table th, .general-table td { padding: 0.45rem 0.65rem; font-size: 0.85rem; text-align: left; }
+    .general-table th { background: var(--color-primary); color: #fff; position: sticky; top: 0; }
 
     @media (max-width: 768px) {
-        .catalogo-section {
-            padding: 1.25rem;
-        }
-
-        .tabla-resultados th,
-        .tabla-resultados td {
-            font-size: 0.8rem;
-            padding: 0.5rem;
-        }
+        .catalogo-section { padding: 1.25rem; }
+        .tabla-resultados th, .tabla-resultados td { font-size: 0.8rem; padding: 0.5rem; }
     }
 </style>
 {% endblock %}
 
 {% block content %}
 <div class="catalogo-page">
-    <!-- Hub section with navigation cards -->
-    <section class="catalogo-section catalogo-hub">
-        <div class="header-flex">
-            <h2>Catalogo</h2>
-            <span class="subtitle">Consulta los catalogos de entes y fuentes de financiamiento del sistema SCG4.</span>
-        </div>
-        <p class="hub-intro">
-            Selecciona el catalogo que deseas consultar. Cada seccion cuenta con busqueda y filtros propios.
-        </p>
-        <div class="hub-grid">
-            <a href="/catalogo-entes" class="hub-card">
-                <div class="hub-card-title">Catalogo de Entes</div>
-                <div class="hub-card-desc">Consulta los entes publicos estatales de Tlaxcala registrados en el sistema. Incluye clave, nombre, siglas y ambito.</div>
-                <div class="hub-card-action">Ver catalogo de entes &rarr;</div>
-            </a>
-            <a href="/catalogo-fuentes" class="hub-card">
-                <div class="hub-card-title">Catalogo de Fuentes de Financiamiento</div>
-                <div class="hub-card-desc">Explora las fuentes de financiamiento con sus claves, descripciones, ramos federales y fondos de ingreso asociados.</div>
-                <div class="hub-card-action">Ver catalogo de fuentes &rarr;</div>
-            </a>
-        </div>
-    </section>
-
-    <!-- Inline entes catalog -->
     <section class="catalogo-section" id="catalogo-entes">
         <div class="header-flex">
             <h2>Catalogo de Entes</h2>
-            <span class="subtitle">Entes publicos estatales de Tlaxcala</span>
+            <span class="subtitle">Consulta de Entes Estatales y Municipales de Tlaxcala</span>
         </div>
         <div class="search-section">
+            <div class="filter-chips">
+                <button class="chip chip-ente active" type="button" data-ambito="TODOS" onclick="filtrarPorAmbitoEntes('TODOS')">Todos</button>
+                <button class="chip chip-ente" type="button" data-ambito="ESTATAL" onclick="filtrarPorAmbitoEntes('ESTATAL')">Estatales</button>
+                <button class="chip chip-ente" type="button" data-ambito="MUNICIPAL" onclick="filtrarPorAmbitoEntes('MUNICIPAL')">Municipales</button>
+            </div>
             <div class="search-box">
-                <span class="search-icon">&#x2315;</span>
-                <input
-                    type="text"
-                    class="search-input"
-                    id="searchInputEntes"
-                    placeholder="Buscar por nombre, clave o siglas..."
-                    autocomplete="off"
-                >
+                <span class="search-icon">&#128269;</span>
+                <input type="text" class="search-input" id="searchInputEntes" placeholder="Buscar por nombre, clave, siglas..." autocomplete="off">
             </div>
         </div>
         <div class="stats-bar">
-            <div class="stat-item">
-                <span class="stat-label">Total de Entes</span>
-                <span class="stat-value" id="totalEntes">0</span>
-            </div>
-            <div class="stat-item">
-                <span class="stat-label">Mostrando</span>
-                <span class="stat-value" id="mostrandoEntes">0</span>
-            </div>
+            <div class="stat-item"><span class="stat-label">Total de Entes</span><span class="stat-value" id="totalEntes">0</span></div>
+            <div class="stat-item"><span class="stat-label">Estatales</span><span class="stat-value" id="totalEstatales">0</span></div>
+            <div class="stat-item"><span class="stat-label">Municipales</span><span class="stat-value" id="totalMunicipales">0</span></div>
+            <div class="stat-item"><span class="stat-label">Mostrando</span><span class="stat-value" id="mostrandoEntes">0</span></div>
         </div>
         <div class="table-wrapper">
-            <div class="section-loading" id="entesLoading">
-                <div class="spinner"></div>
-                <p>Cargando catalogo...</p>
-            </div>
+            <div class="section-loading" id="entesLoading"><p>Cargando catalogo...</p></div>
             <div class="table-scroll" id="entesTableContainer" style="display: none;">
                 <table class="tabla-resultados">
-                    <thead>
-                        <tr>
-                            <th>Clave</th>
-                            <th>Nombre</th>
-                            <th>Siglas</th>
-                            <th>Ambito</th>
-                        </tr>
-                    </thead>
+                    <thead><tr><th>Clave</th><th>DD</th><th>Nombre</th><th>Siglas</th><th>Ambito</th><th>Clasificacion</th></tr></thead>
                     <tbody id="tablaBodyEntes"></tbody>
                 </table>
             </div>
-            <div id="entesNoResults" class="no-results" style="display: none;">
-                <p class="msg-vacio">No se encontraron registros en el catalogo de entes.</p>
+            <div id="entesNoResults" class="no-results" style="display: none;"><p class="msg-vacio">No se encontraron registros.</p></div>
+        </div>
+    </section>
+
+    <section class="catalogo-section" id="catalogo-fuentes">
+        <div class="header-flex">
+            <h2>Catalogo de Fuentes</h2>
+            <span class="subtitle">Fuentes de financiamiento con y sin ramo federal</span>
+        </div>
+        <div class="search-section">
+            <div class="filter-chips">
+                <button class="chip chip-fuente active" type="button" data-ramo="TODOS" onclick="filtrarPorRamoFuentes('TODOS')">Todas</button>
+                <button class="chip chip-fuente" type="button" data-ramo="CON_RAMO" onclick="filtrarPorRamoFuentes('CON_RAMO')">Con ramo federal</button>
+                <button class="chip chip-fuente" type="button" data-ramo="SIN_RAMO" onclick="filtrarPorRamoFuentes('SIN_RAMO')">Sin ramo federal</button>
             </div>
+            <div class="search-box">
+                <span class="search-icon">&#128269;</span>
+                <input type="text" class="search-input" id="searchInputFuentes" placeholder="Buscar por fuente, descripcion o ID..." autocomplete="off">
+            </div>
+        </div>
+        <div class="stats-bar">
+            <div class="stat-item"><span class="stat-label">Total de Fuentes</span><span class="stat-value" id="totalFuentes">0</span></div>
+            <div class="stat-item"><span class="stat-label">Con Ramo</span><span class="stat-value" id="totalConRamo">0</span></div>
+            <div class="stat-item"><span class="stat-label">Sin Ramo</span><span class="stat-value" id="totalSinRamo">0</span></div>
+            <div class="stat-item"><span class="stat-label">Mostrando</span><span class="stat-value" id="mostrandoFuentes">0</span></div>
+        </div>
+        <div class="table-wrapper">
+            <div class="section-loading" id="fuentesLoading"><p>Cargando catalogo...</p></div>
+            <div class="table-scroll" id="fuentesTableContainer" style="display: none;">
+                <table class="tabla-resultados">
+                    <thead><tr><th>FF</th><th>Fuente de Financiamiento</th><th>ID</th><th>Alfa</th><th>Descripcion</th><th>Ramo Federal</th><th>Fondo de Ingreso</th></tr></thead>
+                    <tbody id="tablaBodyFuentes"></tbody>
+                </table>
+            </div>
+            <div id="fuentesNoResults" class="no-results" style="display: none;"><p class="msg-vacio">No se encontraron registros.</p></div>
         </div>
     </section>
 </div>
@@ -336,114 +229,145 @@
 
 {% block extra_js %}
 <script>
-const debounce = (func, wait) => {
-    let timeout;
-    return function executedFunction(...args) {
-        const later = () => {
-            clearTimeout(timeout);
-            func(...args);
-        };
-        clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
-    };
-};
+    const debounce = (func, wait) => { let timeout; return (...args) => { clearTimeout(timeout); timeout = setTimeout(() => func(...args), wait); }; };
 
-let todosLosEntes = [];
-let entesFiltrados = [];
+    let todosLosEntes = [], entesFiltrados = [], ambitoActualEntes = 'TODOS';
 
-async function cargarEntes() {
-    try {
-        const response = await fetch('/api/entes');
-        const data = await response.json();
-
-        todosLosEntes = data.entes || [];
-        entesFiltrados = [...todosLosEntes];
-
-        actualizarEstadisticasEntes();
-        renderizarTablaEntes();
-
-        const loading = document.getElementById('entesLoading');
-        const container = document.getElementById('entesTableContainer');
-        if (loading) loading.style.display = 'none';
-        if (container) container.style.display = 'block';
-    } catch (error) {
-        console.error('Error al cargar entes:', error);
-        const loading = document.getElementById('entesLoading');
-        if (loading) {
-            loading.innerHTML = '<div class="no-results"><p class="msg-vacio">Error al cargar el catalogo</p></div>';
+    async function cargarEntes() {
+        try {
+            const res = await fetch('/api/entes');
+            const data = await res.json();
+            todosLosEntes = data.entes || [];
+            entesFiltrados = [...todosLosEntes];
+            actualizarEstadisticasEntes();
+            renderizarTablaEntes();
+            document.getElementById('entesLoading').style.display = 'none';
+            document.getElementById('entesTableContainer').style.display = 'block';
+        } catch (e) {
+            document.getElementById('entesLoading').innerHTML = '<p class="msg-vacio">Error al cargar el catalogo</p>';
         }
     }
-}
 
-function renderizarTablaEntes() {
-    const tbody = document.getElementById('tablaBodyEntes');
-    const noResults = document.getElementById('entesNoResults');
-    const tableContainer = document.getElementById('entesTableContainer');
-
-    if (!tbody || !noResults || !tableContainer) return;
-
-    tbody.innerHTML = '';
-
-    if (entesFiltrados.length === 0) {
-        tableContainer.style.display = 'none';
-        noResults.style.display = 'block';
-        return;
-    }
-
-    const fragment = document.createDocumentFragment();
-
-    entesFiltrados.forEach((ente) => {
-        const row = document.createElement('tr');
-        row.innerHTML = `
-            <td><strong>${ente.codigo || '-'}</strong></td>
-            <td>${ente.nombre || '-'}</td>
-            <td><strong>${ente.siglas || '-'}</strong></td>
-            <td><span class="badge badge-estatal">${ente.ambito || '-'}</span></td>
-        `;
-        fragment.appendChild(row);
-    });
-
-    tbody.appendChild(fragment);
-    tableContainer.style.display = 'block';
-    noResults.style.display = 'none';
-    actualizarEstadisticasEntes();
-}
-
-function aplicarFiltrosEntes() {
-    const searchInput = document.getElementById('searchInputEntes');
-    const busqueda = searchInput ? searchInput.value.toLowerCase().trim() : '';
-
-    let resultado = todosLosEntes;
-
-    if (busqueda) {
-        resultado = resultado.filter((ente) => {
-            return (
-                (ente.nombre || '').toLowerCase().includes(busqueda) ||
-                (ente.codigo || '').toLowerCase().includes(busqueda) ||
-                (ente.siglas || '').toLowerCase().includes(busqueda)
-            );
+    function renderizarTablaEntes() {
+        const tbody = document.getElementById('tablaBodyEntes');
+        const noRes = document.getElementById('entesNoResults');
+        const tbl = document.getElementById('entesTableContainer');
+        tbody.innerHTML = '';
+        if (!entesFiltrados.length) { tbl.style.display = 'none'; noRes.style.display = 'block'; return; }
+        const frag = document.createDocumentFragment();
+        entesFiltrados.forEach(e => {
+            const row = document.createElement('tr');
+            const tipoBadge = getBadgeClass(e.tipo);
+            const ambitoBadge = e.ambito === 'ESTATAL' ? 'badge-estatal' : e.ambito === 'MUNICIPAL' ? 'badge-municipal' : '';
+            row.innerHTML = `<td><strong>${e.codigo||'-'}</strong></td><td><strong>${e.dd||'-'}</strong></td><td>${e.nombre||'-'}</td><td><strong>${e.siglas||'-'}</strong></td><td><span class="badge ${ambitoBadge}">${e.ambito||'-'}</span></td><td><span class="badge ${tipoBadge}">${e.tipo||'-'}</span></td>`;
+            frag.appendChild(row);
         });
+        tbody.appendChild(frag);
+        tbl.style.display = 'block'; noRes.style.display = 'none';
+        actualizarEstadisticasEntes();
     }
 
-    entesFiltrados = resultado;
-    renderizarTablaEntes();
-}
-
-function actualizarEstadisticasEntes() {
-    const totalElement = document.getElementById('totalEntes');
-    const mostrandoElement = document.getElementById('mostrandoEntes');
-
-    if (totalElement) totalElement.textContent = todosLosEntes.length;
-    if (mostrandoElement) mostrandoElement.textContent = entesFiltrados.length;
-}
-
-window.addEventListener('DOMContentLoaded', () => {
-    cargarEntes();
-
-    const searchEntes = document.getElementById('searchInputEntes');
-    if (searchEntes) {
-        searchEntes.addEventListener('input', debounce(() => aplicarFiltrosEntes(), 300));
+    function getBadgeClass(tipo) {
+        if (!tipo) return '';
+        const t = tipo.toLowerCase();
+        if (t.includes('poder')) return 'badge-poder';
+        if (t.includes('dependencia')) return 'badge-dependencia';
+        if (t.includes('desconcentrado')) return 'badge-desconcentrado';
+        if (t.includes('descentralizado') || t.includes('paraestatal')) return 'badge-descentralizado';
+        if (t.includes('autonomo') || t.includes('autónomo')) return 'badge-autonomo';
+        if (t.includes('patronato')) return 'badge-patronato';
+        if (t.includes('municipio')) return 'badge-municipal';
+        return '';
     }
-});
+
+    function filtrarPorAmbitoEntes(ambito) {
+        ambitoActualEntes = ambito;
+        document.querySelectorAll('.chip-ente').forEach(c => c.classList.toggle('active', c.dataset.ambito === ambito));
+        aplicarFiltrosEntes();
+    }
+
+    function aplicarFiltrosEntes() {
+        const q = (document.getElementById('searchInputEntes').value || '').toLowerCase().trim();
+        let r = todosLosEntes;
+        if (ambitoActualEntes !== 'TODOS') r = r.filter(e => e.ambito === ambitoActualEntes);
+        if (q) r = r.filter(e => (e.nombre||'').toLowerCase().includes(q) || (e.codigo||'').toLowerCase().includes(q) || (e.dd||'').toLowerCase().includes(q) || (e.siglas||'').toLowerCase().includes(q) || (e.tipo||'').toLowerCase().includes(q));
+        entesFiltrados = r;
+        renderizarTablaEntes();
+    }
+
+    function actualizarEstadisticasEntes() {
+        document.getElementById('totalEntes').textContent = todosLosEntes.length;
+        document.getElementById('totalEstatales').textContent = todosLosEntes.filter(e => e.ambito === 'ESTATAL').length;
+        document.getElementById('totalMunicipales').textContent = todosLosEntes.filter(e => e.ambito === 'MUNICIPAL').length;
+        document.getElementById('mostrandoEntes').textContent = entesFiltrados.length;
+    }
+
+    let todasLasFuentes = [], fuentesFiltradas = [], ramoActualFuentes = 'TODOS';
+
+    async function cargarFuentes() {
+        try {
+            const res = await fetch('/api/fuentes');
+            const data = await res.json();
+            todasLasFuentes = data.fuentes || [];
+            fuentesFiltradas = [...todasLasFuentes];
+            actualizarEstadisticasFuentes();
+            renderizarTablaFuentes();
+            document.getElementById('fuentesLoading').style.display = 'none';
+            document.getElementById('fuentesTableContainer').style.display = 'block';
+        } catch (e) {
+            document.getElementById('fuentesLoading').innerHTML = '<p class="msg-vacio">Error al cargar fuentes</p>';
+        }
+    }
+
+    function tieneRamo(v) { return v !== null && v !== undefined && v !== '' && String(v).trim() !== '' && String(v).trim() !== '0'; }
+    function fmtVal(v) { return (v === null || v === undefined || v === '') ? '-' : v; }
+
+    function renderizarTablaFuentes() {
+        const tbody = document.getElementById('tablaBodyFuentes');
+        const noRes = document.getElementById('fuentesNoResults');
+        const tbl = document.getElementById('fuentesTableContainer');
+        tbody.innerHTML = '';
+        if (!fuentesFiltradas.length) { tbl.style.display = 'none'; noRes.style.display = 'block'; return; }
+        const frag = document.createDocumentFragment();
+        fuentesFiltradas.forEach(f => {
+            const row = document.createElement('tr');
+            row.innerHTML = `<td><strong>${fmtVal(f.ff)}</strong></td><td>${fmtVal(f.fuente)}</td><td>${fmtVal(f.id_fuente)}</td><td>${fmtVal(f.alfa)}</td><td>${fmtVal(f.descripcion)}</td><td>${fmtVal(f.ramo_federal)}</td><td>${fmtVal(f.fondo_ingreso)}</td>`;
+            frag.appendChild(row);
+        });
+        tbody.appendChild(frag);
+        tbl.style.display = 'block'; noRes.style.display = 'none';
+        actualizarEstadisticasFuentes();
+    }
+
+    function filtrarPorRamoFuentes(ramo) {
+        ramoActualFuentes = ramo;
+        document.querySelectorAll('.chip-fuente').forEach(c => c.classList.toggle('active', c.dataset.ramo === ramo));
+        aplicarFiltrosFuentes();
+    }
+
+    function aplicarFiltrosFuentes() {
+        const q = (document.getElementById('searchInputFuentes').value || '').toLowerCase().trim();
+        let r = todasLasFuentes;
+        if (ramoActualFuentes === 'CON_RAMO') r = r.filter(f => tieneRamo(f.ramo_federal));
+        else if (ramoActualFuentes === 'SIN_RAMO') r = r.filter(f => !tieneRamo(f.ramo_federal));
+        if (q) r = r.filter(f => String(f.ff||'').toLowerCase().includes(q) || String(f.fuente||'').toLowerCase().includes(q) || String(f.descripcion||'').toLowerCase().includes(q) || String(f.alfa||'').toLowerCase().includes(q));
+        fuentesFiltradas = r;
+        renderizarTablaFuentes();
+    }
+
+    function actualizarEstadisticasFuentes() {
+        const conRamo = todasLasFuentes.filter(f => tieneRamo(f.ramo_federal)).length;
+        document.getElementById('totalFuentes').textContent = todasLasFuentes.length;
+        document.getElementById('totalConRamo').textContent = conRamo;
+        document.getElementById('totalSinRamo').textContent = todasLasFuentes.length - conRamo;
+        document.getElementById('mostrandoFuentes').textContent = fuentesFiltradas.length;
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+        cargarEntes();
+        cargarFuentes();
+        document.getElementById('searchInputEntes').addEventListener('input', debounce(() => aplicarFiltrosEntes(), 300));
+        document.getElementById('searchInputFuentes').addEventListener('input', debounce(() => aplicarFiltrosFuentes(), 300));
+    });
 </script>
 {% endblock %}
