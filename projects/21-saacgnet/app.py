@@ -39,11 +39,22 @@ def create_app(config_name="default"):
     def _is_authenticated():
         return _get_active_user(session.get("auth_user")) is not None
 
+    def _get_session_user():
+        return _get_active_user(session.get("auth_user"))
+
     def _safe_next_url(raw_url):
         url = (raw_url or "").strip()
         if not url.startswith("/") or url.startswith("//"):
             return ""
         return url
+
+    @app.context_processor
+    def inject_current_user():
+        user = _get_session_user()
+        return {
+            "current_user": user,
+            "current_user_display_name": (user.nombre_completo or user.username or "").strip() if user else "",
+        }
 
     @app.before_request
     def require_login():
@@ -61,6 +72,146 @@ def create_app(config_name="default"):
             return jsonify({"error": "Sesión requerida"}), 401
         next_url = request.full_path.rstrip("?")
         return redirect(url_for("login", next=next_url))
+
+    # ==================== CATÁLOGO GENERAL ====================
+
+    def _normalize_text(value):
+        s = str(value or "").strip().lower()
+        rep = {"á": "a", "é": "e", "í": "i", "ó": "o", "ú": "u", "ü": "u", "ñ": "n"}
+        for k, v in rep.items():
+            s = s.replace(k, v)
+        return re.sub(r"\s+", " ", s)
+
+    def _normalize_dd(value):
+        raw = str(value or "").strip().upper()
+        raw = re.sub(r"[^0-9A-Z]", "", raw)
+        if len(raw) == 1 and raw.isdigit():
+            return raw.zfill(2)
+        return raw
+
+    def _normalize_catalog_sigla(value):
+        return re.sub(r"[^a-z0-9_]", "", _normalize_text(value))
+
+    def _load_catalogo_general():
+        try:
+            catalog_path = Path(app.root_path) / "catalogos" / "catalogo_general.json"
+            if catalog_path.exists():
+                return json.loads(catalog_path.read_text(encoding='utf-8'))
+        except Exception as exc:
+            app.logger.error("[catalogo_general] No se pudo leer el catálogo general: %s", exc)
+        return {"entes": [], "municipios": []}
+
+    def _build_ente_lookup():
+        by_siglas = {}
+        by_nombre = {}
+        entes = Ente.query.filter(Ente.activo.is_(True)).all()
+        for ente in entes:
+            ambito = _normalize_text(ente.ambito)
+            siglas = _normalize_text(ente.siglas)
+            nombre = _normalize_text(ente.nombre)
+            if siglas:
+                by_siglas[(ambito, siglas)] = ente
+            if nombre:
+                by_nombre[(ambito, nombre)] = ente
+        return by_siglas, by_nombre
+
+    def _flatten_catalogo_general():
+        catalogo_general = _load_catalogo_general()
+        by_siglas, by_nombre = _build_ente_lookup()
+        items = []
+        ordered_groups = [
+            ("entes", "ESTATAL", "Entes estatales"),
+            ("municipios", "MUNICIPAL", "Municipios y paramunicipales"),
+        ]
+
+        order = 0
+        for group_key, ambito, group_label in ordered_groups:
+            for raw_item in catalogo_general.get(group_key, []):
+                order += 1
+                siglas = str(raw_item.get("siglas") or "").strip()
+                nombre = str(raw_item.get("nombre") or "").strip()
+                clasificacion = str(raw_item.get("clasificacion") or "").strip()
+                num = str(raw_item.get("num") or "").strip()
+                ambito_key = _normalize_text(ambito)
+                resolved = None
+
+                if siglas:
+                    resolved = by_siglas.get((ambito_key, _normalize_text(siglas)))
+                if resolved is None and nombre:
+                    resolved = by_nombre.get((ambito_key, _normalize_text(nombre)))
+
+                item = {
+                    "id": f"{group_key}:{num}",
+                    "num": num,
+                    "nombre": nombre,
+                    "siglas": siglas,
+                    "clasificacion": clasificacion,
+                    "ambito": ambito,
+                    "grupo": group_key,
+                    "grupo_label": group_label,
+                    "orden": order,
+                    "ente_clave": resolved.clave if resolved else "",
+                    "dd": _normalize_dd(
+                        resolved.dd if resolved and resolved.dd else (
+                            "0A" if ambito == "MUNICIPAL" else ""
+                        )
+                    ),
+                    "dd_match": _normalize_dd(
+                        getattr(resolved, "dd_match", "") or ""
+                    ) if resolved else "",
+                }
+                prefix_parts = [part for part in (item["num"], item["siglas"]) if part]
+                item["label"] = " · ".join(prefix_parts + [item["nombre"]]) if item["nombre"] else " · ".join(prefix_parts)
+                items.append(item)
+
+        return items
+
+    def _filter_catalogo_general_items(username=None):
+        return _flatten_catalogo_general()
+
+    def _get_catalogo_general_selection_payload(username=None):
+        items = _filter_catalogo_general_items(username=username)
+        return {
+            "opciones": items,
+            "total": len(items),
+            "stats": {
+                "entes": sum(1 for item in items if item["grupo"] == "entes"),
+                "municipios": sum(1 for item in items if item["grupo"] == "municipios"),
+            },
+        }
+
+    def _find_allowed_catalog_item(raw_value, username=None):
+        candidate = str(raw_value or "").strip()
+        if not candidate:
+            return None
+        for item in _filter_catalogo_general_items(username=username):
+            if candidate in {item["id"], item["ente_clave"], item["siglas"]}:
+                return item
+        return None
+
+    # ==================== CATÁLOGO DE CONSULTA ====================
+
+    def _get_catalogo_consulta_payload():
+        items = _flatten_catalogo_general()
+        fuentes = []
+        try:
+            fuentes = _load_fuentes_catalogo_records()
+        except Exception:
+            pass
+        return {
+            "entes": {
+                "items": [item for item in items if item["grupo"] == "entes"],
+                "total": sum(1 for item in items if item["grupo"] == "entes"),
+            },
+            "municipios": {
+                "items": [item for item in items if item["grupo"] == "municipios"],
+                "total": sum(1 for item in items if item["grupo"] == "municipios"),
+            },
+            "fuentes": {
+                "items": fuentes,
+                "total": len(fuentes),
+            },
+        }
 
     # Configurar logging
     log_dir = Path('log')
@@ -597,6 +748,16 @@ def create_app(config_name="default"):
                     activo=True,
                 )
                 db.session.add(default_user)
+                db.session.commit()
+
+            luis_display_name = "C.P. Luis Felipe Camilo Fuentes"
+            luis_user = (
+                Usuario.query
+                .filter(func.lower(Usuario.username) == "luis")
+                .first()
+            )
+            if luis_user and (luis_user.nombre_completo or "").strip() != luis_display_name:
+                luis_user.nombre_completo = luis_display_name
                 db.session.commit()
 
             _ensure_entes_dd_column()
@@ -1222,7 +1383,7 @@ def create_app(config_name="default"):
 
     @app.route("/reporte-resumen")
     def reporte_resumen():
-        return render_template("reporte_resumen.html")
+        return redirect(url_for("reporte_online", view="resumen") + "#resumen-general")
 
     @app.route("/catalogo")
     def catalogo():
@@ -1236,14 +1397,19 @@ def create_app(config_name="default"):
     def catalogo_fuentes():
         return redirect(url_for("catalogo_entes"))
 
+    @app.route("/catalogo-consulta")
+    def catalogo_consulta():
+        return render_template("catalogo_consulta.html")
+
     # ==================== API DE CARGA ====================
 
     @app.route("/api/process", methods=["POST"])
     def process():
         try:
             files = request.files.getlist("archivo")
-            usuario = request.form.get("usuario", "sistema")
+            usuario = request.form.get("usuario") or session.get("auth_user") or "sistema"
             ente_clave = request.form.get("ente_clave", "").strip()
+            catalog_item_id = request.form.get("catalogo_item_id", "").strip()
             allow_duplicates = request.form.get("allow_duplicates", "false").lower() in (
                 "1",
                 "true",
@@ -1266,8 +1432,16 @@ def create_app(config_name="default"):
             if not valid_files:
                 return jsonify({"error": "No hay archivos válidos"}), 400
 
+            # Resolver ente desde catálogo general o por clave directa
             selected_ente = None
-            if ente_clave:
+            selected_catalog_item = None
+            if catalog_item_id:
+                selected_catalog_item = _find_allowed_catalog_item(catalog_item_id)
+                if selected_catalog_item and selected_catalog_item.get("ente_clave"):
+                    selected_ente = Ente.query.filter_by(
+                        clave=selected_catalog_item["ente_clave"], activo=True
+                    ).first()
+            if not selected_ente and ente_clave:
                 selected_ente = Ente.query.filter_by(clave=ente_clave, activo=True).first()
                 if not selected_ente:
                     return jsonify({"error": "El ente seleccionado no es válido"}), 400
@@ -1752,8 +1926,11 @@ def create_app(config_name="default"):
     @app.route("/api/transacciones/resumen")
     def get_transacciones_resumen():
         try:
+            filtros = _sanitize_transaccion_filters(request.args)
+
             def compute_resumen():
-                totales = db.session.query(
+                query = _apply_transaccion_filters(Transaccion.query, filtros)
+                totales = query.with_entities(
                     func.count(Transaccion.id),
                     func.coalesce(func.sum(Transaccion.cargos), 0),
                     func.coalesce(func.sum(Transaccion.abonos), 0),
@@ -1773,7 +1950,8 @@ def create_app(config_name="default"):
                     "coincide": coincide,
                 }
 
-            payload = _get_cached_stats("resumen", 30, compute_resumen)
+            filtros_cache_key = json.dumps(filtros, sort_keys=True, ensure_ascii=False)
+            payload = _get_cached_stats(f"resumen_{filtros_cache_key}", 30, compute_resumen)
             return jsonify(payload)
         except Exception as e:
             return jsonify({"error": str(e)}), 500
@@ -1967,6 +2145,22 @@ def create_app(config_name="default"):
                 500,
             )
 
+    # ==================== API CATÁLOGO GENERAL ====================
+
+    @app.route("/api/catalogo-general")
+    def get_catalogo_general():
+        try:
+            return jsonify(_get_catalogo_general_selection_payload())
+        except Exception as e:
+            return jsonify({"error": str(e)}), 500
+
+    @app.route("/api/catalogo-consulta")
+    def get_catalogo_consulta():
+        try:
+            return jsonify(_get_catalogo_consulta_payload())
+        except Exception as e:
+            return jsonify({"error": str(e)}), 500
+
     # ==================== API CATÁLOGO DE ENTES ====================
 
     @app.route("/api/entes")
@@ -2128,7 +2322,7 @@ if __name__ == "__main__":
     app = create_app("development")
 
     print("\n" + "=" * 50)
-    print("SAACG.NET - Sistema de Procesamiento de Auxiliares Contables")
+    print("SAAGNET - Sistema de Procesamiento de Auxiliares Contables")
     print("=" * 50)
     print(f"✓ Servidor iniciado en puerto {config['development'].PORT}")
     print("\nPáginas disponibles:")
