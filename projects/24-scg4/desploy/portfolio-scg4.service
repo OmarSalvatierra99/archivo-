@@ -1,0 +1,33 @@
+[Unit]
+Description=Portfolio SCG4 Flask (Gunicorn)
+After=network.target
+
+[Service]
+Type=simple
+User=gabo
+Group=gabo
+WorkingDirectory=/home/gabo/portfolio/projects/24-scg4
+EnvironmentFile=-/home/gabo/portfolio/projects/24-scg4/.env
+Environment="PATH=/home/gabo/portfolio/projects/24-scg4/venv/bin:/usr/local/bin:/usr/bin:/bin"
+Environment="PYTHONUNBUFFERED=1"
+ExecStartPre=/usr/bin/mkdir -p /home/gabo/portfolio/projects/24-scg4/log
+ExecStart=/home/gabo/portfolio/projects/24-scg4/venv/bin/gunicorn \
+  --workers 3 \
+  --timeout 120 \
+  --bind 127.0.0.1:5022 \
+  --access-logfile /home/gabo/portfolio/projects/24-scg4/log/gunicorn-access.log \
+  --error-logfile /home/gabo/portfolio/projects/24-scg4/log/gunicorn-error.log \
+  --log-level info \
+  run:app
+
+Restart=on-failure
+RestartSec=5
+
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=portfolio-scg4
+NoNewPrivileges=true
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

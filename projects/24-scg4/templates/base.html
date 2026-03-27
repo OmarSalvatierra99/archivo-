@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="SCG4 · Plataforma de consulta y carga de auxiliares contables">
+    <meta name="description" content="Sistema de Procesamiento de Auxiliares Contables">
     <title>{% block title %}SCG4{% endblock %}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link rel="icon" href="{{ url_for('static', filename='img/ofs_logo.png') }}">
@@ -21,9 +21,9 @@
             </div>
             <nav class="nav-links">
                 <a href="/" class="nav-link{% if request.path == '/' %} active{% endif %}">Carga de Datos</a>
-                <a href="/reporte-online" class="nav-link{% if request.path == '/reporte-online' %} active{% endif %}">Consultar Transacciones</a>
-                <a href="/reporte-resumen" class="nav-link{% if request.path == '/reporte-resumen' %} active{% endif %}">Resumen General</a>
-                <a href="/catalogo" class="nav-link{% if request.path.startswith('/catalogo') %} active{% endif %}">Catálogo</a>
+                {% set auditoria_active = request.path in ['/reporte-online', '/reporte-resumen'] %}
+                <a href="/reporte-online" class="nav-link{% if auditoria_active %} active{% endif %}">Consultar Transacciones</a>
+                <a href="/catalogo" class="nav-link" target="_blank" rel="noopener">Catálogo</a>
                 {% if session.get('auth_user') %}
                 <a href="{{ url_for('logout') }}" class="nav-link nav-link-logout">Cerrar sesión</a>
                 {% endif %}

@@ -1,0 +1,165 @@
+[2026-03-25 00:05:20,686] INFO: Base de datos lista
+[2026-03-25 00:06:22,132] INFO: Base de datos lista
+[2026-03-25 00:07:41,226] INFO: Base de datos lista
+[2026-03-25 00:08:06,023] INFO: Base de datos lista
+[2026-03-25 00:08:06,659] INFO: Base de datos lista
+[2026-03-25 00:11:10,888] INFO: Base de datos lista
+[2026-03-25 00:11:11,488] INFO: Base de datos lista
+[2026-03-25 16:34:25,488] INFO: Base de datos lista
+[2026-03-25 16:34:25,490] INFO: Base de datos lista
+[2026-03-25 16:34:25,492] INFO: Base de datos lista
+[2026-03-25 16:34:55,993] INFO: Base de datos lista
+[2026-03-25 16:34:56,027] INFO: Base de datos lista
+[2026-03-25 16:34:56,076] INFO: Base de datos lista
+[2026-03-25 16:36:53,279] INFO: Base de datos lista
+[2026-03-25 16:36:53,276] INFO: Base de datos lista
+[2026-03-25 16:36:53,277] INFO: Base de datos lista
+[2026-03-25 16:38:02,556] INFO: Base de datos lista
+[2026-03-25 16:38:02,555] INFO: Base de datos lista
+[2026-03-25 16:38:02,559] INFO: Base de datos lista
+[2026-03-25 16:41:26,948] INFO: Base de datos lista
+[2026-03-25 16:41:26,950] INFO: Base de datos lista
+[2026-03-25 16:41:26,948] INFO: Base de datos lista
+[2026-03-25 21:03:25,020] INFO: Base de datos lista
+[2026-03-25 21:03:25,021] INFO: Base de datos lista
+[2026-03-25 21:03:25,018] INFO: Base de datos lista
+[2026-03-25 22:28:51,646] INFO: Base de datos lista
+[2026-03-25 22:28:51,645] INFO: Base de datos lista
+[2026-03-25 22:28:51,649] INFO: Base de datos lista
+[2026-03-25 22:30:16,871] INFO: Base de datos lista
+[2026-03-25 22:30:17,025] INFO: Base de datos lista
+[2026-03-25 22:30:17,174] INFO: Base de datos lista
+[2026-03-26 00:49:45,593] INFO: Base de datos lista
+[2026-03-26 00:49:45,591] INFO: Base de datos lista
+[2026-03-26 00:49:45,590] INFO: Base de datos lista
+[2026-03-26 00:50:10,647] ERROR: Error en /api/archivos-procesados: type object 'LoteCarga' has no attribute 'fecha'
+[2026-03-26 00:50:15,751] ERROR: Error en /api/archivos-procesados: type object 'LoteCarga' has no attribute 'fecha'
+[2026-03-26 00:58:12,943] ERROR: Error en /api/archivos-procesados: type object 'LoteCarga' has no attribute 'fecha'
+[2026-03-26 00:59:46,752] ERROR: Error en /api/archivos-procesados: type object 'LoteCarga' has no attribute 'fecha'
+[2026-03-26 01:10:51,762] ERROR: Error en /api/archivos-procesados: type object 'LoteCarga' has no attribute 'fecha'
+[2026-03-26 01:17:04,699] ERROR: Error en /api/archivos-procesados: type object 'LoteCarga' has no attribute 'fecha'
+[2026-03-26 03:21:02,817] ERROR: Error en /api/archivos-procesados: type object 'LoteCarga' has no attribute 'fecha'
+[2026-03-26 05:24:14,051] ERROR: Error en /api/archivos-procesados: type object 'LoteCarga' has no attribute 'fecha'
+[2026-03-26 05:28:42,191] INFO: Base de datos lista
+[2026-03-26 05:28:42,212] ERROR: Error init DB: (sqlite3.OperationalError) table entes already exists
+[SQL: 
+CREATE TABLE entes (
+	id INTEGER NOT NULL, 
+	clave VARCHAR(20) NOT NULL, 
+	codigo VARCHAR(50) NOT NULL, 
+	dd VARCHAR(10), 
+	dd_match VARCHAR(10), 
+	nombre VARCHAR(255) NOT NULL, 
+	siglas VARCHAR(50), 
+	tipo VARCHAR(100), 
+	ambito VARCHAR(50), 
+	activo BOOLEAN, 
+	fecha_registro DATETIME, 
+	PRIMARY KEY (id)
+)
+
+]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+[2026-03-26 05:28:42,219] ERROR: Error init DB: (sqlite3.OperationalError) table entes already exists
+[SQL: 
+CREATE TABLE entes (
+	id INTEGER NOT NULL, 
+	clave VARCHAR(20) NOT NULL, 
+	codigo VARCHAR(50) NOT NULL, 
+	dd VARCHAR(10), 
+	dd_match VARCHAR(10), 
+	nombre VARCHAR(255) NOT NULL, 
+	siglas VARCHAR(50), 
+	tipo VARCHAR(100), 
+	ambito VARCHAR(50), 
+	activo BOOLEAN, 
+	fecha_registro DATETIME, 
+	PRIMARY KEY (id)
+)
+
+]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+[2026-03-26 05:28:50,957] INFO: Base de datos lista
+[2026-03-26 05:28:51,249] INFO: Base de datos lista
+[2026-03-26 05:28:51,397] INFO: Base de datos lista
+[2026-03-26 15:35:16,937] ERROR: Error en /api/archivos-procesados: type object 'LoteCarga' has no attribute 'fecha'
+[2026-03-26 15:35:21,556] ERROR: Error en /api/transacciones: (sqlite3.OperationalError) no such column: transacciones.genero
+[SQL: SELECT count(*) AS count_1 
+FROM (SELECT transacciones.id AS transacciones_id, transacciones.lote_id AS transacciones_lote_id, transacciones.archivo_origen AS transacciones_archivo_origen, transacciones.fecha_carga AS transacciones_fecha_carga, transacciones.usuario_carga AS transacciones_usuario_carga, transacciones.cuenta_contable AS transacciones_cuenta_contable, transacciones.nombre_cuenta AS transacciones_nombre_cuenta, transacciones.seg1 AS transacciones_seg1, transacciones.seg2 AS transacciones_seg2, transacciones.seg3 AS transacciones_seg3, transacciones.seg4 AS transacciones_seg4, transacciones.seg5 AS transacciones_seg5, transacciones.seg6 AS transacciones_seg6, transacciones.genero AS transacciones_genero, transacciones.grupo AS transacciones_grupo, transacciones.rubro AS transacciones_rubro, transacciones.cuenta_nivel AS transacciones_cuenta_nivel, transacciones.subcuenta AS transacciones_subcuenta, transacciones.dependencia AS transacciones_dependencia, transacciones.unidad_responsable AS transacciones_unidad_responsable, transacciones.centro_costo AS transacciones_centro_costo, transacciones.proyecto_presupuestario AS transacciones_proyecto_presupuestario, transacciones.fuente AS transacciones_fuente, transacciones.subfuente AS transacciones_subfuente, transacciones.tipo_recurso AS transacciones_tipo_recurso, transacciones.partida_presupuestal AS transacciones_partida_presupuestal, transacciones.ente_codigo AS transacciones_ente_codigo, transacciones.ente_nombre AS transacciones_ente_nombre, transacciones.ente_siglas AS transacciones_ente_siglas, transacciones.fecha_transaccion AS transacciones_fecha_transaccion, transacciones.poliza AS transacciones_poliza, transacciones.beneficiario AS transacciones_beneficiario, transacciones.cheque_folio AS transacciones_cheque_folio, transacciones.descripcion AS transacciones_descripcion, transacciones.cargos AS transacciones_cargos, transacciones.abonos AS transacciones_abonos, transacciones.saldo_final AS transacciones_saldo_final, transacciones.hash_registro AS transacciones_hash_registro 
+FROM transacciones ORDER BY transacciones.fecha_transaccion DESC, transacciones.id DESC) AS anon_1]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+[2026-03-26 15:36:53,328] ERROR: Error en /api/transacciones: (sqlite3.OperationalError) no such column: transacciones.genero
+[SQL: SELECT count(*) AS count_1 
+FROM (SELECT transacciones.id AS transacciones_id, transacciones.lote_id AS transacciones_lote_id, transacciones.archivo_origen AS transacciones_archivo_origen, transacciones.fecha_carga AS transacciones_fecha_carga, transacciones.usuario_carga AS transacciones_usuario_carga, transacciones.cuenta_contable AS transacciones_cuenta_contable, transacciones.nombre_cuenta AS transacciones_nombre_cuenta, transacciones.seg1 AS transacciones_seg1, transacciones.seg2 AS transacciones_seg2, transacciones.seg3 AS transacciones_seg3, transacciones.seg4 AS transacciones_seg4, transacciones.seg5 AS transacciones_seg5, transacciones.seg6 AS transacciones_seg6, transacciones.genero AS transacciones_genero, transacciones.grupo AS transacciones_grupo, transacciones.rubro AS transacciones_rubro, transacciones.cuenta_nivel AS transacciones_cuenta_nivel, transacciones.subcuenta AS transacciones_subcuenta, transacciones.dependencia AS transacciones_dependencia, transacciones.unidad_responsable AS transacciones_unidad_responsable, transacciones.centro_costo AS transacciones_centro_costo, transacciones.proyecto_presupuestario AS transacciones_proyecto_presupuestario, transacciones.fuente AS transacciones_fuente, transacciones.subfuente AS transacciones_subfuente, transacciones.tipo_recurso AS transacciones_tipo_recurso, transacciones.partida_presupuestal AS transacciones_partida_presupuestal, transacciones.ente_codigo AS transacciones_ente_codigo, transacciones.ente_nombre AS transacciones_ente_nombre, transacciones.ente_siglas AS transacciones_ente_siglas, transacciones.fecha_transaccion AS transacciones_fecha_transaccion, transacciones.poliza AS transacciones_poliza, transacciones.beneficiario AS transacciones_beneficiario, transacciones.cheque_folio AS transacciones_cheque_folio, transacciones.descripcion AS transacciones_descripcion, transacciones.cargos AS transacciones_cargos, transacciones.abonos AS transacciones_abonos, transacciones.saldo_final AS transacciones_saldo_final, transacciones.hash_registro AS transacciones_hash_registro 
+FROM transacciones ORDER BY transacciones.fecha_transaccion DESC, transacciones.id DESC) AS anon_1]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+[2026-03-26 15:36:54,308] ERROR: Error en /api/archivos-procesados: type object 'LoteCarga' has no attribute 'fecha'
+[2026-03-26 15:50:43,530] ERROR: Error en /api/archivos-procesados: type object 'LoteCarga' has no attribute 'fecha'
+[2026-03-26 15:50:45,262] ERROR: Error en /api/transacciones: (sqlite3.OperationalError) no such column: transacciones.genero
+[SQL: SELECT count(*) AS count_1 
+FROM (SELECT transacciones.id AS transacciones_id, transacciones.lote_id AS transacciones_lote_id, transacciones.archivo_origen AS transacciones_archivo_origen, transacciones.fecha_carga AS transacciones_fecha_carga, transacciones.usuario_carga AS transacciones_usuario_carga, transacciones.cuenta_contable AS transacciones_cuenta_contable, transacciones.nombre_cuenta AS transacciones_nombre_cuenta, transacciones.seg1 AS transacciones_seg1, transacciones.seg2 AS transacciones_seg2, transacciones.seg3 AS transacciones_seg3, transacciones.seg4 AS transacciones_seg4, transacciones.seg5 AS transacciones_seg5, transacciones.seg6 AS transacciones_seg6, transacciones.genero AS transacciones_genero, transacciones.grupo AS transacciones_grupo, transacciones.rubro AS transacciones_rubro, transacciones.cuenta_nivel AS transacciones_cuenta_nivel, transacciones.subcuenta AS transacciones_subcuenta, transacciones.dependencia AS transacciones_dependencia, transacciones.unidad_responsable AS transacciones_unidad_responsable, transacciones.centro_costo AS transacciones_centro_costo, transacciones.proyecto_presupuestario AS transacciones_proyecto_presupuestario, transacciones.fuente AS transacciones_fuente, transacciones.subfuente AS transacciones_subfuente, transacciones.tipo_recurso AS transacciones_tipo_recurso, transacciones.partida_presupuestal AS transacciones_partida_presupuestal, transacciones.ente_codigo AS transacciones_ente_codigo, transacciones.ente_nombre AS transacciones_ente_nombre, transacciones.ente_siglas AS transacciones_ente_siglas, transacciones.fecha_transaccion AS transacciones_fecha_transaccion, transacciones.poliza AS transacciones_poliza, transacciones.beneficiario AS transacciones_beneficiario, transacciones.cheque_folio AS transacciones_cheque_folio, transacciones.descripcion AS transacciones_descripcion, transacciones.cargos AS transacciones_cargos, transacciones.abonos AS transacciones_abonos, transacciones.saldo_final AS transacciones_saldo_final, transacciones.hash_registro AS transacciones_hash_registro 
+FROM transacciones ORDER BY transacciones.fecha_transaccion DESC, transacciones.id DESC) AS anon_1]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+[2026-03-26 15:50:46,450] ERROR: Error en /api/archivos-procesados: type object 'LoteCarga' has no attribute 'fecha'
+[2026-03-26 15:57:35,789] ERROR: Error en /api/archivos-procesados: type object 'LoteCarga' has no attribute 'fecha'
+[2026-03-26 15:57:37,378] ERROR: Error en /api/transacciones: (sqlite3.OperationalError) no such column: transacciones.genero
+[SQL: SELECT count(*) AS count_1 
+FROM (SELECT transacciones.id AS transacciones_id, transacciones.lote_id AS transacciones_lote_id, transacciones.archivo_origen AS transacciones_archivo_origen, transacciones.fecha_carga AS transacciones_fecha_carga, transacciones.usuario_carga AS transacciones_usuario_carga, transacciones.cuenta_contable AS transacciones_cuenta_contable, transacciones.nombre_cuenta AS transacciones_nombre_cuenta, transacciones.seg1 AS transacciones_seg1, transacciones.seg2 AS transacciones_seg2, transacciones.seg3 AS transacciones_seg3, transacciones.seg4 AS transacciones_seg4, transacciones.seg5 AS transacciones_seg5, transacciones.seg6 AS transacciones_seg6, transacciones.genero AS transacciones_genero, transacciones.grupo AS transacciones_grupo, transacciones.rubro AS transacciones_rubro, transacciones.cuenta_nivel AS transacciones_cuenta_nivel, transacciones.subcuenta AS transacciones_subcuenta, transacciones.dependencia AS transacciones_dependencia, transacciones.unidad_responsable AS transacciones_unidad_responsable, transacciones.centro_costo AS transacciones_centro_costo, transacciones.proyecto_presupuestario AS transacciones_proyecto_presupuestario, transacciones.fuente AS transacciones_fuente, transacciones.subfuente AS transacciones_subfuente, transacciones.tipo_recurso AS transacciones_tipo_recurso, transacciones.partida_presupuestal AS transacciones_partida_presupuestal, transacciones.ente_codigo AS transacciones_ente_codigo, transacciones.ente_nombre AS transacciones_ente_nombre, transacciones.ente_siglas AS transacciones_ente_siglas, transacciones.fecha_transaccion AS transacciones_fecha_transaccion, transacciones.poliza AS transacciones_poliza, transacciones.beneficiario AS transacciones_beneficiario, transacciones.cheque_folio AS transacciones_cheque_folio, transacciones.descripcion AS transacciones_descripcion, transacciones.cargos AS transacciones_cargos, transacciones.abonos AS transacciones_abonos, transacciones.saldo_final AS transacciones_saldo_final, transacciones.hash_registro AS transacciones_hash_registro 
+FROM transacciones ORDER BY transacciones.fecha_transaccion DESC, transacciones.id DESC) AS anon_1]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+[2026-03-26 15:57:38,316] ERROR: Error en /api/archivos-procesados: type object 'LoteCarga' has no attribute 'fecha'
+[2026-03-26 15:57:41,457] ERROR: Error en /api/transacciones: (sqlite3.OperationalError) no such column: transacciones.genero
+[SQL: SELECT count(*) AS count_1 
+FROM (SELECT transacciones.id AS transacciones_id, transacciones.lote_id AS transacciones_lote_id, transacciones.archivo_origen AS transacciones_archivo_origen, transacciones.fecha_carga AS transacciones_fecha_carga, transacciones.usuario_carga AS transacciones_usuario_carga, transacciones.cuenta_contable AS transacciones_cuenta_contable, transacciones.nombre_cuenta AS transacciones_nombre_cuenta, transacciones.seg1 AS transacciones_seg1, transacciones.seg2 AS transacciones_seg2, transacciones.seg3 AS transacciones_seg3, transacciones.seg4 AS transacciones_seg4, transacciones.seg5 AS transacciones_seg5, transacciones.seg6 AS transacciones_seg6, transacciones.genero AS transacciones_genero, transacciones.grupo AS transacciones_grupo, transacciones.rubro AS transacciones_rubro, transacciones.cuenta_nivel AS transacciones_cuenta_nivel, transacciones.subcuenta AS transacciones_subcuenta, transacciones.dependencia AS transacciones_dependencia, transacciones.unidad_responsable AS transacciones_unidad_responsable, transacciones.centro_costo AS transacciones_centro_costo, transacciones.proyecto_presupuestario AS transacciones_proyecto_presupuestario, transacciones.fuente AS transacciones_fuente, transacciones.subfuente AS transacciones_subfuente, transacciones.tipo_recurso AS transacciones_tipo_recurso, transacciones.partida_presupuestal AS transacciones_partida_presupuestal, transacciones.ente_codigo AS transacciones_ente_codigo, transacciones.ente_nombre AS transacciones_ente_nombre, transacciones.ente_siglas AS transacciones_ente_siglas, transacciones.fecha_transaccion AS transacciones_fecha_transaccion, transacciones.poliza AS transacciones_poliza, transacciones.beneficiario AS transacciones_beneficiario, transacciones.cheque_folio AS transacciones_cheque_folio, transacciones.descripcion AS transacciones_descripcion, transacciones.cargos AS transacciones_cargos, transacciones.abonos AS transacciones_abonos, transacciones.saldo_final AS transacciones_saldo_final, transacciones.hash_registro AS transacciones_hash_registro 
+FROM transacciones ORDER BY transacciones.fecha_transaccion DESC, transacciones.id DESC) AS anon_1]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+[2026-03-26 15:57:44,070] ERROR: Error en /api/transacciones: (sqlite3.OperationalError) no such column: transacciones.genero
+[SQL: SELECT count(*) AS count_1 
+FROM (SELECT transacciones.id AS transacciones_id, transacciones.lote_id AS transacciones_lote_id, transacciones.archivo_origen AS transacciones_archivo_origen, transacciones.fecha_carga AS transacciones_fecha_carga, transacciones.usuario_carga AS transacciones_usuario_carga, transacciones.cuenta_contable AS transacciones_cuenta_contable, transacciones.nombre_cuenta AS transacciones_nombre_cuenta, transacciones.seg1 AS transacciones_seg1, transacciones.seg2 AS transacciones_seg2, transacciones.seg3 AS transacciones_seg3, transacciones.seg4 AS transacciones_seg4, transacciones.seg5 AS transacciones_seg5, transacciones.seg6 AS transacciones_seg6, transacciones.genero AS transacciones_genero, transacciones.grupo AS transacciones_grupo, transacciones.rubro AS transacciones_rubro, transacciones.cuenta_nivel AS transacciones_cuenta_nivel, transacciones.subcuenta AS transacciones_subcuenta, transacciones.dependencia AS transacciones_dependencia, transacciones.unidad_responsable AS transacciones_unidad_responsable, transacciones.centro_costo AS transacciones_centro_costo, transacciones.proyecto_presupuestario AS transacciones_proyecto_presupuestario, transacciones.fuente AS transacciones_fuente, transacciones.subfuente AS transacciones_subfuente, transacciones.tipo_recurso AS transacciones_tipo_recurso, transacciones.partida_presupuestal AS transacciones_partida_presupuestal, transacciones.ente_codigo AS transacciones_ente_codigo, transacciones.ente_nombre AS transacciones_ente_nombre, transacciones.ente_siglas AS transacciones_ente_siglas, transacciones.fecha_transaccion AS transacciones_fecha_transaccion, transacciones.poliza AS transacciones_poliza, transacciones.beneficiario AS transacciones_beneficiario, transacciones.cheque_folio AS transacciones_cheque_folio, transacciones.descripcion AS transacciones_descripcion, transacciones.cargos AS transacciones_cargos, transacciones.abonos AS transacciones_abonos, transacciones.saldo_final AS transacciones_saldo_final, transacciones.hash_registro AS transacciones_hash_registro 
+FROM transacciones ORDER BY transacciones.fecha_transaccion DESC, transacciones.id DESC) AS anon_1]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+[2026-03-26 15:57:44,896] ERROR: Error en /api/archivos-procesados: type object 'LoteCarga' has no attribute 'fecha'
+[2026-03-26 16:01:24,053] ERROR: Error en /api/archivos-procesados: type object 'LoteCarga' has no attribute 'fecha'
+[2026-03-26 16:16:35,944] ERROR: Error en /api/archivos-procesados: type object 'LoteCarga' has no attribute 'fecha'
+[2026-03-26 19:36:22,499] ERROR: Error en /api/archivos-procesados: type object 'LoteCarga' has no attribute 'fecha'
+[2026-03-26 19:36:24,200] ERROR: Error en /api/transacciones: (sqlite3.OperationalError) no such column: transacciones.genero
+[SQL: SELECT count(*) AS count_1 
+FROM (SELECT transacciones.id AS transacciones_id, transacciones.lote_id AS transacciones_lote_id, transacciones.archivo_origen AS transacciones_archivo_origen, transacciones.fecha_carga AS transacciones_fecha_carga, transacciones.usuario_carga AS transacciones_usuario_carga, transacciones.cuenta_contable AS transacciones_cuenta_contable, transacciones.nombre_cuenta AS transacciones_nombre_cuenta, transacciones.seg1 AS transacciones_seg1, transacciones.seg2 AS transacciones_seg2, transacciones.seg3 AS transacciones_seg3, transacciones.seg4 AS transacciones_seg4, transacciones.seg5 AS transacciones_seg5, transacciones.seg6 AS transacciones_seg6, transacciones.genero AS transacciones_genero, transacciones.grupo AS transacciones_grupo, transacciones.rubro AS transacciones_rubro, transacciones.cuenta_nivel AS transacciones_cuenta_nivel, transacciones.subcuenta AS transacciones_subcuenta, transacciones.dependencia AS transacciones_dependencia, transacciones.unidad_responsable AS transacciones_unidad_responsable, transacciones.centro_costo AS transacciones_centro_costo, transacciones.proyecto_presupuestario AS transacciones_proyecto_presupuestario, transacciones.fuente AS transacciones_fuente, transacciones.subfuente AS transacciones_subfuente, transacciones.tipo_recurso AS transacciones_tipo_recurso, transacciones.partida_presupuestal AS transacciones_partida_presupuestal, transacciones.ente_codigo AS transacciones_ente_codigo, transacciones.ente_nombre AS transacciones_ente_nombre, transacciones.ente_siglas AS transacciones_ente_siglas, transacciones.fecha_transaccion AS transacciones_fecha_transaccion, transacciones.poliza AS transacciones_poliza, transacciones.beneficiario AS transacciones_beneficiario, transacciones.cheque_folio AS transacciones_cheque_folio, transacciones.descripcion AS transacciones_descripcion, transacciones.cargos AS transacciones_cargos, transacciones.abonos AS transacciones_abonos, transacciones.saldo_final AS transacciones_saldo_final, transacciones.hash_registro AS transacciones_hash_registro 
+FROM transacciones ORDER BY transacciones.fecha_transaccion DESC, transacciones.id DESC) AS anon_1]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+[2026-03-27 15:30:31,586] ERROR: Error en /api/archivos-procesados: type object 'LoteCarga' has no attribute 'fecha'
+[2026-03-27 16:07:07,278] INFO: Base de datos lista
+[2026-03-27 16:07:07,284] INFO: Base de datos lista
+[2026-03-27 16:07:07,283] INFO: Base de datos lista
+[2026-03-27 16:59:18,957] INFO: Base de datos lista
+[2026-03-27 16:59:18,959] INFO: Base de datos lista
+[2026-03-27 16:59:18,959] INFO: Base de datos lista
+[2026-03-27 18:10:44,263] INFO: Base de datos lista
+[2026-03-27 18:10:44,293] INFO: Base de datos lista
+[2026-03-27 18:10:44,363] INFO: Base de datos lista
+[2026-03-27 19:02:08,251] ERROR: Error en /api/archivos-procesados: type object 'LoteCarga' has no attribute 'fecha'
+[2026-03-27 19:05:05,074] ERROR: Error en /api/transacciones: (sqlite3.OperationalError) no such column: transacciones.genero
+[SQL: SELECT count(*) AS count_1 
+FROM (SELECT transacciones.id AS transacciones_id, transacciones.lote_id AS transacciones_lote_id, transacciones.archivo_origen AS transacciones_archivo_origen, transacciones.fecha_carga AS transacciones_fecha_carga, transacciones.usuario_carga AS transacciones_usuario_carga, transacciones.cuenta_contable AS transacciones_cuenta_contable, transacciones.nombre_cuenta AS transacciones_nombre_cuenta, transacciones.seg1 AS transacciones_seg1, transacciones.seg2 AS transacciones_seg2, transacciones.seg3 AS transacciones_seg3, transacciones.seg4 AS transacciones_seg4, transacciones.seg5 AS transacciones_seg5, transacciones.seg6 AS transacciones_seg6, transacciones.genero AS transacciones_genero, transacciones.grupo AS transacciones_grupo, transacciones.rubro AS transacciones_rubro, transacciones.cuenta_nivel AS transacciones_cuenta_nivel, transacciones.subcuenta AS transacciones_subcuenta, transacciones.dependencia AS transacciones_dependencia, transacciones.unidad_responsable AS transacciones_unidad_responsable, transacciones.centro_costo AS transacciones_centro_costo, transacciones.proyecto_presupuestario AS transacciones_proyecto_presupuestario, transacciones.fuente AS transacciones_fuente, transacciones.subfuente AS transacciones_subfuente, transacciones.tipo_recurso AS transacciones_tipo_recurso, transacciones.partida_presupuestal AS transacciones_partida_presupuestal, transacciones.ente_codigo AS transacciones_ente_codigo, transacciones.ente_nombre AS transacciones_ente_nombre, transacciones.ente_siglas AS transacciones_ente_siglas, transacciones.fecha_transaccion AS transacciones_fecha_transaccion, transacciones.poliza AS transacciones_poliza, transacciones.beneficiario AS transacciones_beneficiario, transacciones.cheque_folio AS transacciones_cheque_folio, transacciones.descripcion AS transacciones_descripcion, transacciones.cargos AS transacciones_cargos, transacciones.abonos AS transacciones_abonos, transacciones.saldo_final AS transacciones_saldo_final, transacciones.hash_registro AS transacciones_hash_registro 
+FROM transacciones ORDER BY transacciones.fecha_transaccion DESC, transacciones.id DESC) AS anon_1]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+[2026-03-27 20:04:00,951] INFO: Base de datos lista
+[2026-03-27 20:05:35,217] INFO: Base de datos lista
+[2026-03-27 20:08:41,410] ERROR: Error en /api/transacciones: (sqlite3.OperationalError) no such column: transacciones.genero
+[SQL: SELECT count(*) AS count_1 
+FROM (SELECT transacciones.id AS transacciones_id, transacciones.lote_id AS transacciones_lote_id, transacciones.archivo_origen AS transacciones_archivo_origen, transacciones.fecha_carga AS transacciones_fecha_carga, transacciones.usuario_carga AS transacciones_usuario_carga, transacciones.cuenta_contable AS transacciones_cuenta_contable, transacciones.nombre_cuenta AS transacciones_nombre_cuenta, transacciones.seg1 AS transacciones_seg1, transacciones.seg2 AS transacciones_seg2, transacciones.seg3 AS transacciones_seg3, transacciones.seg4 AS transacciones_seg4, transacciones.seg5 AS transacciones_seg5, transacciones.seg6 AS transacciones_seg6, transacciones.genero AS transacciones_genero, transacciones.grupo AS transacciones_grupo, transacciones.rubro AS transacciones_rubro, transacciones.cuenta_nivel AS transacciones_cuenta_nivel, transacciones.subcuenta AS transacciones_subcuenta, transacciones.dependencia AS transacciones_dependencia, transacciones.unidad_responsable AS transacciones_unidad_responsable, transacciones.centro_costo AS transacciones_centro_costo, transacciones.proyecto_presupuestario AS transacciones_proyecto_presupuestario, transacciones.fuente AS transacciones_fuente, transacciones.subfuente AS transacciones_subfuente, transacciones.tipo_recurso AS transacciones_tipo_recurso, transacciones.partida_presupuestal AS transacciones_partida_presupuestal, transacciones.ente_codigo AS transacciones_ente_codigo, transacciones.ente_nombre AS transacciones_ente_nombre, transacciones.ente_siglas AS transacciones_ente_siglas, transacciones.fecha_transaccion AS transacciones_fecha_transaccion, transacciones.poliza AS transacciones_poliza, transacciones.beneficiario AS transacciones_beneficiario, transacciones.cheque_folio AS transacciones_cheque_folio, transacciones.descripcion AS transacciones_descripcion, transacciones.cargos AS transacciones_cargos, transacciones.abonos AS transacciones_abonos, transacciones.saldo_final AS transacciones_saldo_final, transacciones.hash_registro AS transacciones_hash_registro 
+FROM transacciones ORDER BY transacciones.fecha_transaccion DESC, transacciones.id DESC) AS anon_1]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+[2026-03-27 20:10:35,282] INFO: Base de datos lista
+[2026-03-27 20:10:35,435] INFO: Base de datos lista
+[2026-03-27 20:10:35,497] INFO: Base de datos lista
+[2026-03-27 20:11:25,049] ERROR: Error en /api/transacciones: (sqlite3.OperationalError) no such column: transacciones.genero
+[SQL: SELECT count(*) AS count_1 
+FROM (SELECT transacciones.id AS transacciones_id, transacciones.lote_id AS transacciones_lote_id, transacciones.archivo_origen AS transacciones_archivo_origen, transacciones.fecha_carga AS transacciones_fecha_carga, transacciones.usuario_carga AS transacciones_usuario_carga, transacciones.cuenta_contable AS transacciones_cuenta_contable, transacciones.nombre_cuenta AS transacciones_nombre_cuenta, transacciones.seg1 AS transacciones_seg1, transacciones.seg2 AS transacciones_seg2, transacciones.seg3 AS transacciones_seg3, transacciones.seg4 AS transacciones_seg4, transacciones.seg5 AS transacciones_seg5, transacciones.seg6 AS transacciones_seg6, transacciones.genero AS transacciones_genero, transacciones.grupo AS transacciones_grupo, transacciones.rubro AS transacciones_rubro, transacciones.cuenta_nivel AS transacciones_cuenta_nivel, transacciones.subcuenta AS transacciones_subcuenta, transacciones.dependencia AS transacciones_dependencia, transacciones.unidad_responsable AS transacciones_unidad_responsable, transacciones.centro_costo AS transacciones_centro_costo, transacciones.proyecto_presupuestario AS transacciones_proyecto_presupuestario, transacciones.fuente AS transacciones_fuente, transacciones.subfuente AS transacciones_subfuente, transacciones.tipo_recurso AS transacciones_tipo_recurso, transacciones.partida_presupuestal AS transacciones_partida_presupuestal, transacciones.ente_codigo AS transacciones_ente_codigo, transacciones.ente_nombre AS transacciones_ente_nombre, transacciones.ente_siglas AS transacciones_ente_siglas, transacciones.fecha_transaccion AS transacciones_fecha_transaccion, transacciones.poliza AS transacciones_poliza, transacciones.beneficiario AS transacciones_beneficiario, transacciones.cheque_folio AS transacciones_cheque_folio, transacciones.descripcion AS transacciones_descripcion, transacciones.cargos AS transacciones_cargos, transacciones.abonos AS transacciones_abonos, transacciones.saldo_final AS transacciones_saldo_final, transacciones.hash_registro AS transacciones_hash_registro 
+FROM transacciones ORDER BY transacciones.fecha_transaccion DESC, transacciones.id DESC) AS anon_1]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+[2026-03-27 20:12:13,916] ERROR: Error en /api/transacciones: (sqlite3.OperationalError) no such column: transacciones.genero
+[SQL: SELECT count(*) AS count_1 
+FROM (SELECT transacciones.id AS transacciones_id, transacciones.lote_id AS transacciones_lote_id, transacciones.archivo_origen AS transacciones_archivo_origen, transacciones.fecha_carga AS transacciones_fecha_carga, transacciones.usuario_carga AS transacciones_usuario_carga, transacciones.cuenta_contable AS transacciones_cuenta_contable, transacciones.nombre_cuenta AS transacciones_nombre_cuenta, transacciones.seg1 AS transacciones_seg1, transacciones.seg2 AS transacciones_seg2, transacciones.seg3 AS transacciones_seg3, transacciones.seg4 AS transacciones_seg4, transacciones.seg5 AS transacciones_seg5, transacciones.seg6 AS transacciones_seg6, transacciones.genero AS transacciones_genero, transacciones.grupo AS transacciones_grupo, transacciones.rubro AS transacciones_rubro, transacciones.cuenta_nivel AS transacciones_cuenta_nivel, transacciones.subcuenta AS transacciones_subcuenta, transacciones.dependencia AS transacciones_dependencia, transacciones.unidad_responsable AS transacciones_unidad_responsable, transacciones.centro_costo AS transacciones_centro_costo, transacciones.proyecto_presupuestario AS transacciones_proyecto_presupuestario, transacciones.fuente AS transacciones_fuente, transacciones.subfuente AS transacciones_subfuente, transacciones.tipo_recurso AS transacciones_tipo_recurso, transacciones.partida_presupuestal AS transacciones_partida_presupuestal, transacciones.ente_codigo AS transacciones_ente_codigo, transacciones.ente_nombre AS transacciones_ente_nombre, transacciones.ente_siglas AS transacciones_ente_siglas, transacciones.fecha_transaccion AS transacciones_fecha_transaccion, transacciones.poliza AS transacciones_poliza, transacciones.beneficiario AS transacciones_beneficiario, transacciones.cheque_folio AS transacciones_cheque_folio, transacciones.descripcion AS transacciones_descripcion, transacciones.cargos AS transacciones_cargos, transacciones.abonos AS transacciones_abonos, transacciones.saldo_final AS transacciones_saldo_final, transacciones.hash_registro AS transacciones_hash_registro 
+FROM transacciones ORDER BY transacciones.fecha_transaccion DESC, transacciones.id DESC) AS anon_1]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)

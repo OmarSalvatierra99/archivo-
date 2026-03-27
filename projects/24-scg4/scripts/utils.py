@@ -15,6 +15,7 @@ from sqlalchemy import Index
 db = SQLAlchemy()
 
 logger = logging.getLogger(__name__)
+BALANCE_TOLERANCE = 0.005
 
 # ==================== CATÁLOGO DE ENTES (hardcoded) ====================
 
@@ -524,6 +525,8 @@ def _split_cuenta_contable_vertical(cuenta_str):
 
 def _hash_transaccion(row):
     parts = [
+        _norm(row.get("archivo_origen")),
+        _norm(row.get("_source_row_number")),
         _norm(row.get("cuenta_contable")),
         _norm(row.get("nombre_cuenta")),
         _norm(row.get("poliza")),
@@ -543,6 +546,41 @@ def _hash_transaccion(row):
     else:
         parts.append("")
     return hashlib.sha256("|".join(parts).encode("utf-8")).hexdigest()
+
+
+def _build_balance_summary(df, filename):
+    if df is None or df.empty:
+        raise ValueError(f"El archivo {filename} no contiene transacciones válidas.")
+
+    total_cargos = float(pd.to_numeric(df["cargos"], errors="coerce").fillna(0.0).sum())
+    total_abonos = float(pd.to_numeric(df["abonos"], errors="coerce").fillna(0.0).sum())
+    diferencia = total_cargos - total_abonos
+
+    return {
+        "filename": filename,
+        "total_registros": int(len(df)),
+        "total_cargos": total_cargos,
+        "total_abonos": total_abonos,
+        "diferencia": diferencia,
+        "coincide": abs(diferencia) < BALANCE_TOLERANCE,
+    }
+
+
+def _ensure_balanced_file(df, filename):
+    summary = _build_balance_summary(df, filename)
+    if not summary["coincide"]:
+        raise ValueError(
+            "Cargo y Abono no coinciden en "
+            f"{filename}: cargos={summary['total_cargos']:.2f}, "
+            f"abonos={summary['total_abonos']:.2f}, "
+            f"diferencia={summary['diferencia']:.2f}"
+        )
+    return summary
+
+
+def validate_txt_file_balance(file_data, periodo_mes=1, periodo_ano=None):
+    df, filename = _read_one_txt(file_data, periodo_mes, periodo_ano)
+    return _ensure_balanced_file(df, filename)
 
 
 # ==================== PARSER TXT ====================
@@ -666,6 +704,7 @@ def _read_one_txt(file_data, periodo_mes=1, periodo_ano=None):
             "ente_codigo": ente_codigo or "",
             "ente_nombre": ente_info.get("nombre", ""),
             "ente_siglas": ente_info.get("siglas", ""),
+            "_source_row_number": line_idx + 1,
         }
         records.append(record)
 
@@ -726,6 +765,7 @@ def process_files_to_database(
                 try:
                     df, fname = fut.result()
                     if not df.empty:
+                        _ensure_balanced_file(df, fname)
                         df["archivo_origen"] = fname
                         frames.append(df)
                         archivos_procesados.append(fname)
@@ -784,6 +824,25 @@ def process_files_to_database(
         existing_hashes = {
             h for (h,) in db.session.query(Transaccion.hash_registro).all()
         }
+        duplicate_mask = base["hash_registro"].isin(existing_hashes)
+        if duplicate_mask.any():
+            duplicate_rows = base.loc[duplicate_mask, ["archivo_origen", "hash_registro"]]
+            duplicate_counts = (
+                duplicate_rows.groupby("archivo_origen")["hash_registro"]
+                .count()
+                .to_dict()
+            )
+            file_counts = base.groupby("archivo_origen")["hash_registro"].count().to_dict()
+            partial_files = sorted(
+                filename
+                for filename, count in duplicate_counts.items()
+                if count < file_counts.get(filename, 0)
+            )
+            if partial_files:
+                raise ValueError(
+                    "Se detectaron registros previamente cargados en "
+                    f"{', '.join(partial_files)}. Se rechaza la carga para evitar resultados parciales."
+                )
         base = base[~base["hash_registro"].isin(existing_hashes)]
 
         if base.empty:

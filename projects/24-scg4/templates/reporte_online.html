@@ -336,8 +336,7 @@
         <div class="hero-copy">
             <span class="hero-kicker">Consulta operativa</span>
             <h2>Consultar Transacciones</h2>
-            <p class="subtitle">Replicamos las dimensiones, las barras de filtros y la presentación de
-                <strong>../08-siif</strong>, pero con la estructura de salida definida en <code>example/output.xlsx</code>.</p>
+            <p class="subtitle">Consulta transacciones procesadas con el mismo lenguaje visual del flujo principal y con filtros operativos por cuenta, ente, fecha y póliza.</p>
         </div>
         <div class="hero-panel">
             <div class="hero-stats">
@@ -351,7 +350,7 @@
                 </div>
             </div>
             <div class="hero-meta">
-                <span class="hero-chip">Estructura: example/output.xlsx</span>
+                <span class="hero-chip">Consulta operativa</span>
             </div>
         </div>
     </div>
@@ -632,16 +631,22 @@ function toggleCompact() {
 }
 
 function loadEntes() {
-    fetch('/api/entes/lista')
+    fetch('/api/catalogo-general')
         .then((res) => res.json())
         .then((data) => {
             const sel = document.getElementById('fEnte');
             const current = sel.value;
             sel.innerHTML = '<option value=\"\">Todos</option>';
-            (data.entes || []).forEach((nombre) => {
+            const seen = new Set();
+            (data.opciones || []).forEach((item) => {
+                const nombre = (item.nombre || '').trim();
+                if (!nombre) return;
+                const comparable = nombre.toLowerCase();
+                if (seen.has(comparable)) return;
+                seen.add(comparable);
                 const opt = document.createElement('option');
                 opt.value = nombre;
-                opt.textContent = nombre;
+                opt.textContent = item.label || nombre;
                 if (nombre === current) opt.selected = true;
                 sel.appendChild(opt);
             });

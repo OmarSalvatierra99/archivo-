@@ -1,0 +1,894 @@
+[2026-03-25 16:29:47 +0000] [214683] [INFO] Starting gunicorn 25.2.0
+[2026-03-25 16:29:47 +0000] [214683] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:29:47 +0000] [214683] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:29:48 +0000] [214683] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:29:48 +0000] [214683] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:29:49 +0000] [214683] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:29:49 +0000] [214683] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:29:50 +0000] [214683] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:29:50 +0000] [214683] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:29:51 +0000] [214683] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:29:51 +0000] [214683] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:29:52 +0000] [214683] [ERROR] Can't connect to ('127.0.0.1', 5011)
+[2026-03-25 16:29:59 +0000] [214750] [INFO] Starting gunicorn 25.2.0
+[2026-03-25 16:29:59 +0000] [214750] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:29:59 +0000] [214750] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:30:00 +0000] [214750] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:30:00 +0000] [214750] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:30:01 +0000] [214750] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:30:01 +0000] [214750] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:30:02 +0000] [214750] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:30:02 +0000] [214750] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:30:03 +0000] [214750] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:30:03 +0000] [214750] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:30:04 +0000] [214750] [ERROR] Can't connect to ('127.0.0.1', 5011)
+[2026-03-25 16:30:09 +0000] [214787] [INFO] Starting gunicorn 25.2.0
+[2026-03-25 16:30:09 +0000] [214787] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:30:09 +0000] [214787] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:30:10 +0000] [214787] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:30:10 +0000] [214787] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:30:11 +0000] [214787] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:30:11 +0000] [214787] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:30:12 +0000] [214787] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:30:12 +0000] [214787] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:30:13 +0000] [214787] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:30:13 +0000] [214787] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:30:14 +0000] [214787] [ERROR] Can't connect to ('127.0.0.1', 5011)
+[2026-03-25 16:30:20 +0000] [214823] [INFO] Starting gunicorn 25.2.0
+[2026-03-25 16:30:20 +0000] [214823] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:30:20 +0000] [214823] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:30:21 +0000] [214823] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:30:21 +0000] [214823] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:30:22 +0000] [214823] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:30:22 +0000] [214823] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:30:23 +0000] [214823] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:30:23 +0000] [214823] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:30:24 +0000] [214823] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:30:24 +0000] [214823] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:30:25 +0000] [214823] [ERROR] Can't connect to ('127.0.0.1', 5011)
+[2026-03-25 16:30:30 +0000] [214855] [INFO] Starting gunicorn 25.2.0
+[2026-03-25 16:30:30 +0000] [214855] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:30:30 +0000] [214855] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:30:31 +0000] [214855] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:30:31 +0000] [214855] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:30:32 +0000] [214855] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:30:32 +0000] [214855] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:30:33 +0000] [214855] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:30:33 +0000] [214855] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:30:34 +0000] [214855] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:30:34 +0000] [214855] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:30:35 +0000] [214855] [ERROR] Can't connect to ('127.0.0.1', 5011)
+[2026-03-25 16:30:39 +0000] [215050] [INFO] Starting gunicorn 25.2.0
+[2026-03-25 16:30:39 +0000] [215050] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:30:39 +0000] [215050] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:30:40 +0000] [215050] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:30:40 +0000] [215050] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:30:41 +0000] [215050] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:30:41 +0000] [215050] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:30:42 +0000] [215050] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:30:42 +0000] [215050] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:30:43 +0000] [215050] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:30:43 +0000] [215050] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:30:44 +0000] [215050] [ERROR] Can't connect to ('127.0.0.1', 5011)
+[2026-03-25 16:30:50 +0000] [215114] [INFO] Starting gunicorn 25.2.0
+[2026-03-25 16:30:50 +0000] [215114] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:30:50 +0000] [215114] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:30:51 +0000] [215114] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:30:51 +0000] [215114] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:30:52 +0000] [215114] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:30:52 +0000] [215114] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:30:53 +0000] [215114] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:30:53 +0000] [215114] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:30:54 +0000] [215114] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:30:54 +0000] [215114] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:30:55 +0000] [215114] [ERROR] Can't connect to ('127.0.0.1', 5011)
+[2026-03-25 16:31:00 +0000] [215147] [INFO] Starting gunicorn 25.2.0
+[2026-03-25 16:31:00 +0000] [215147] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:31:00 +0000] [215147] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:31:01 +0000] [215147] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:31:01 +0000] [215147] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:31:02 +0000] [215147] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:31:02 +0000] [215147] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:31:03 +0000] [215147] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:31:03 +0000] [215147] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:31:04 +0000] [215147] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:31:04 +0000] [215147] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:31:05 +0000] [215147] [ERROR] Can't connect to ('127.0.0.1', 5011)
+[2026-03-25 16:31:10 +0000] [215181] [INFO] Starting gunicorn 25.2.0
+[2026-03-25 16:31:10 +0000] [215181] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:31:10 +0000] [215181] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:31:11 +0000] [215181] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:31:11 +0000] [215181] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:31:12 +0000] [215181] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:31:12 +0000] [215181] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:31:13 +0000] [215181] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:31:13 +0000] [215181] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:31:14 +0000] [215181] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:31:14 +0000] [215181] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:31:15 +0000] [215181] [ERROR] Can't connect to ('127.0.0.1', 5011)
+[2026-03-25 16:31:21 +0000] [215202] [INFO] Starting gunicorn 25.2.0
+[2026-03-25 16:31:21 +0000] [215202] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:31:21 +0000] [215202] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:31:22 +0000] [215202] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:31:22 +0000] [215202] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:31:23 +0000] [215202] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:31:23 +0000] [215202] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:31:24 +0000] [215202] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:31:24 +0000] [215202] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:31:25 +0000] [215202] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:31:25 +0000] [215202] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:31:26 +0000] [215202] [ERROR] Can't connect to ('127.0.0.1', 5011)
+[2026-03-25 16:31:31 +0000] [215237] [INFO] Starting gunicorn 25.2.0
+[2026-03-25 16:31:31 +0000] [215237] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:31:31 +0000] [215237] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:31:32 +0000] [215237] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:31:32 +0000] [215237] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:31:33 +0000] [215237] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:31:33 +0000] [215237] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:31:34 +0000] [215237] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:31:34 +0000] [215237] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:31:35 +0000] [215237] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:31:35 +0000] [215237] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:31:36 +0000] [215237] [ERROR] Can't connect to ('127.0.0.1', 5011)
+[2026-03-25 16:31:40 +0000] [215278] [INFO] Starting gunicorn 25.2.0
+[2026-03-25 16:31:40 +0000] [215278] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:31:40 +0000] [215278] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:31:41 +0000] [215278] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:31:41 +0000] [215278] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:31:42 +0000] [215278] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:31:42 +0000] [215278] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:31:43 +0000] [215278] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:31:43 +0000] [215278] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:31:44 +0000] [215278] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:31:44 +0000] [215278] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:31:45 +0000] [215278] [ERROR] Can't connect to ('127.0.0.1', 5011)
+[2026-03-25 16:31:50 +0000] [215315] [INFO] Starting gunicorn 25.2.0
+[2026-03-25 16:31:50 +0000] [215315] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:31:50 +0000] [215315] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:31:51 +0000] [215315] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:31:51 +0000] [215315] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:31:52 +0000] [215315] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:31:52 +0000] [215315] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:31:53 +0000] [215315] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:31:53 +0000] [215315] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:31:54 +0000] [215315] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:31:54 +0000] [215315] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:31:55 +0000] [215315] [ERROR] Can't connect to ('127.0.0.1', 5011)
+[2026-03-25 16:32:00 +0000] [215347] [INFO] Starting gunicorn 25.2.0
+[2026-03-25 16:32:00 +0000] [215347] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:32:00 +0000] [215347] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:32:01 +0000] [215347] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:32:01 +0000] [215347] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:32:02 +0000] [215347] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:32:02 +0000] [215347] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:32:03 +0000] [215347] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:32:03 +0000] [215347] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:32:04 +0000] [215347] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:32:04 +0000] [215347] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:32:05 +0000] [215347] [ERROR] Can't connect to ('127.0.0.1', 5011)
+[2026-03-25 16:32:11 +0000] [215379] [INFO] Starting gunicorn 25.2.0
+[2026-03-25 16:32:11 +0000] [215379] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:32:11 +0000] [215379] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:32:12 +0000] [215379] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:32:12 +0000] [215379] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:32:13 +0000] [215379] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:32:13 +0000] [215379] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:32:14 +0000] [215379] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:32:14 +0000] [215379] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:32:15 +0000] [215379] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:32:15 +0000] [215379] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:32:16 +0000] [215379] [ERROR] Can't connect to ('127.0.0.1', 5011)
+[2026-03-25 16:32:21 +0000] [215413] [INFO] Starting gunicorn 25.2.0
+[2026-03-25 16:32:21 +0000] [215413] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:32:21 +0000] [215413] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:32:22 +0000] [215413] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:32:22 +0000] [215413] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:32:23 +0000] [215413] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:32:23 +0000] [215413] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:32:24 +0000] [215413] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:32:24 +0000] [215413] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:32:25 +0000] [215413] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:32:25 +0000] [215413] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:32:26 +0000] [215413] [ERROR] Can't connect to ('127.0.0.1', 5011)
+[2026-03-25 16:32:31 +0000] [215496] [INFO] Starting gunicorn 25.2.0
+[2026-03-25 16:32:31 +0000] [215496] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:32:31 +0000] [215496] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:32:32 +0000] [215496] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:32:32 +0000] [215496] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:32:33 +0000] [215496] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:32:33 +0000] [215496] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:32:34 +0000] [215496] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:32:34 +0000] [215496] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:32:35 +0000] [215496] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:32:35 +0000] [215496] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:32:36 +0000] [215496] [ERROR] Can't connect to ('127.0.0.1', 5011)
+[2026-03-25 16:32:41 +0000] [215547] [INFO] Starting gunicorn 25.2.0
+[2026-03-25 16:32:41 +0000] [215547] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:32:41 +0000] [215547] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:32:42 +0000] [215547] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:32:42 +0000] [215547] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:32:43 +0000] [215547] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:32:43 +0000] [215547] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:32:44 +0000] [215547] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:32:44 +0000] [215547] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:32:45 +0000] [215547] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:32:45 +0000] [215547] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:32:46 +0000] [215547] [ERROR] Can't connect to ('127.0.0.1', 5011)
+[2026-03-25 16:32:52 +0000] [215580] [INFO] Starting gunicorn 25.2.0
+[2026-03-25 16:32:52 +0000] [215580] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:32:52 +0000] [215580] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:32:53 +0000] [215580] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:32:53 +0000] [215580] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:32:54 +0000] [215580] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:32:54 +0000] [215580] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:32:55 +0000] [215580] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:32:55 +0000] [215580] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:32:56 +0000] [215580] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:32:56 +0000] [215580] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:32:57 +0000] [215580] [ERROR] Can't connect to ('127.0.0.1', 5011)
+[2026-03-25 16:33:02 +0000] [215630] [INFO] Starting gunicorn 25.2.0
+[2026-03-25 16:33:02 +0000] [215630] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:33:02 +0000] [215630] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:33:03 +0000] [215630] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:33:03 +0000] [215630] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:33:04 +0000] [215630] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:33:04 +0000] [215630] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:33:05 +0000] [215630] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:33:05 +0000] [215630] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:33:06 +0000] [215630] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:33:06 +0000] [215630] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:33:07 +0000] [215630] [ERROR] Can't connect to ('127.0.0.1', 5011)
+[2026-03-25 16:33:12 +0000] [215680] [INFO] Starting gunicorn 25.2.0
+[2026-03-25 16:33:12 +0000] [215680] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:33:12 +0000] [215680] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:33:13 +0000] [215680] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:33:13 +0000] [215680] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:33:14 +0000] [215680] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:33:14 +0000] [215680] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:33:15 +0000] [215680] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:33:15 +0000] [215680] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:33:16 +0000] [215680] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:33:16 +0000] [215680] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:33:17 +0000] [215680] [ERROR] Can't connect to ('127.0.0.1', 5011)
+[2026-03-25 16:33:23 +0000] [215721] [INFO] Starting gunicorn 25.2.0
+[2026-03-25 16:33:23 +0000] [215721] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:33:23 +0000] [215721] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:33:24 +0000] [215721] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:33:24 +0000] [215721] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:33:25 +0000] [215721] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:33:25 +0000] [215721] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:33:26 +0000] [215721] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:33:26 +0000] [215721] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:33:27 +0000] [215721] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:33:27 +0000] [215721] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:33:28 +0000] [215721] [ERROR] Can't connect to ('127.0.0.1', 5011)
+[2026-03-25 16:33:33 +0000] [215752] [INFO] Starting gunicorn 25.2.0
+[2026-03-25 16:33:33 +0000] [215752] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:33:33 +0000] [215752] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:33:34 +0000] [215752] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:33:34 +0000] [215752] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:33:35 +0000] [215752] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:33:35 +0000] [215752] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:33:36 +0000] [215752] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:33:36 +0000] [215752] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:33:37 +0000] [215752] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:33:37 +0000] [215752] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:33:38 +0000] [215752] [ERROR] Can't connect to ('127.0.0.1', 5011)
+[2026-03-25 16:33:43 +0000] [215789] [INFO] Starting gunicorn 25.2.0
+[2026-03-25 16:33:43 +0000] [215789] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:33:43 +0000] [215789] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:33:44 +0000] [215789] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:33:44 +0000] [215789] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:33:45 +0000] [215789] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:33:45 +0000] [215789] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:33:46 +0000] [215789] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:33:46 +0000] [215789] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:33:47 +0000] [215789] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:33:47 +0000] [215789] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:33:48 +0000] [215789] [ERROR] Can't connect to ('127.0.0.1', 5011)
+[2026-03-25 16:33:53 +0000] [215829] [INFO] Starting gunicorn 25.2.0
+[2026-03-25 16:33:53 +0000] [215829] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:33:53 +0000] [215829] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:33:54 +0000] [215829] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:33:54 +0000] [215829] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:33:55 +0000] [215829] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:33:55 +0000] [215829] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:33:56 +0000] [215829] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:33:56 +0000] [215829] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:33:57 +0000] [215829] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:33:57 +0000] [215829] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:33:58 +0000] [215829] [ERROR] Can't connect to ('127.0.0.1', 5011)
+[2026-03-25 16:34:04 +0000] [215887] [INFO] Starting gunicorn 25.2.0
+[2026-03-25 16:34:04 +0000] [215887] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:34:04 +0000] [215887] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:34:05 +0000] [215887] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:34:05 +0000] [215887] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:34:06 +0000] [215887] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:34:06 +0000] [215887] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:34:07 +0000] [215887] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:34:07 +0000] [215887] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:34:08 +0000] [215887] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:34:08 +0000] [215887] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:34:09 +0000] [215887] [ERROR] Can't connect to ('127.0.0.1', 5011)
+[2026-03-25 16:34:14 +0000] [215934] [INFO] Starting gunicorn 25.2.0
+[2026-03-25 16:34:14 +0000] [215934] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:34:14 +0000] [215934] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:34:15 +0000] [215934] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:34:15 +0000] [215934] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:34:16 +0000] [215934] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:34:16 +0000] [215934] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:34:17 +0000] [215934] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:34:17 +0000] [215934] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:34:18 +0000] [215934] [ERROR] Connection in use: ('127.0.0.1', 5011)
+[2026-03-25 16:34:18 +0000] [215934] [ERROR] connection to ('127.0.0.1', 5011) failed: [Errno 98] Address already in use
+[2026-03-25 16:34:19 +0000] [215934] [ERROR] Can't connect to ('127.0.0.1', 5011)
+[2026-03-25 16:34:19 +0000] [216137] [INFO] Starting gunicorn 25.2.0
+[2026-03-25 16:34:19 +0000] [216137] [INFO] Listening at: http://127.0.0.1:5022 (216137)
+[2026-03-25 16:34:19 +0000] [216137] [INFO] Using worker: sync
+[2026-03-25 16:34:19 +0000] [216165] [INFO] Booting worker with pid: 216165
+[2026-03-25 16:34:19 +0000] [216170] [INFO] Booting worker with pid: 216170
+[2026-03-25 16:34:19 +0000] [216172] [INFO] Booting worker with pid: 216172
+[2026-03-25 16:34:20 +0000] [216137] [INFO] Control socket listening at /home/gabo/.gunicorn/gunicorn.ctl
+[2026-03-25 16:34:53 +0000] [216165] [INFO] Worker exiting (pid: 216165)
+[2026-03-25 16:34:53 +0000] [216170] [INFO] Worker exiting (pid: 216170)
+[2026-03-25 16:34:53 +0000] [216172] [INFO] Worker exiting (pid: 216172)
+[2026-03-25 16:34:53 +0000] [216137] [INFO] Handling signal: term
+[2026-03-25 16:34:53 +0000] [216137] [INFO] Worker (pid:216165) was sent SIGTERM!
+[2026-03-25 16:34:53 +0000] [216137] [INFO] Worker (pid:216170) was sent SIGTERM!
+[2026-03-25 16:34:53 +0000] [216137] [INFO] Worker (pid:216172) was sent SIGTERM!
+[2026-03-25 16:34:53 +0000] [216137] [INFO] Shutting down: Master
+[2026-03-25 16:34:54 +0000] [216282] [INFO] Starting gunicorn 25.2.0
+[2026-03-25 16:34:54 +0000] [216282] [INFO] Listening at: http://127.0.0.1:5022 (216282)
+[2026-03-25 16:34:54 +0000] [216282] [INFO] Using worker: sync
+[2026-03-25 16:34:54 +0000] [216287] [INFO] Booting worker with pid: 216287
+[2026-03-25 16:34:54 +0000] [216288] [INFO] Booting worker with pid: 216288
+[2026-03-25 16:34:54 +0000] [216289] [INFO] Booting worker with pid: 216289
+[2026-03-25 16:34:54 +0000] [216282] [INFO] Control socket listening at /home/gabo/.gunicorn/gunicorn.ctl
+[2026-03-25 16:36:45 +0000] [216282] [INFO] Handling signal: term
+[2026-03-25 16:36:45 +0000] [216288] [INFO] Worker exiting (pid: 216288)
+[2026-03-25 16:36:45 +0000] [216289] [INFO] Worker exiting (pid: 216289)
+[2026-03-25 16:36:45 +0000] [216287] [INFO] Worker exiting (pid: 216287)
+[2026-03-25 16:36:45 +0000] [216282] [INFO] Worker (pid:216288) was sent SIGTERM!
+[2026-03-25 16:36:45 +0000] [216282] [INFO] Worker (pid:216289) was sent SIGTERM!
+[2026-03-25 16:36:46 +0000] [216282] [INFO] Shutting down: Master
+[2026-03-25 16:36:46 +0000] [216729] [INFO] Starting gunicorn 25.2.0
+[2026-03-25 16:36:46 +0000] [216729] [INFO] Listening at: http://127.0.0.1:5022 (216729)
+[2026-03-25 16:36:46 +0000] [216729] [INFO] Using worker: sync
+[2026-03-25 16:36:46 +0000] [216761] [INFO] Booting worker with pid: 216761
+[2026-03-25 16:36:46 +0000] [216762] [INFO] Booting worker with pid: 216762
+[2026-03-25 16:36:46 +0000] [216763] [INFO] Booting worker with pid: 216763
+[2026-03-25 16:36:47 +0000] [216729] [INFO] Control socket listening at /home/gabo/.gunicorn/gunicorn.ctl
+[2026-03-25 16:37:55 +0000] [216763] [INFO] Worker exiting (pid: 216763)
+[2026-03-25 16:37:55 +0000] [216762] [INFO] Worker exiting (pid: 216762)
+[2026-03-25 16:37:55 +0000] [216729] [INFO] Handling signal: term
+[2026-03-25 16:37:55 +0000] [216761] [INFO] Worker exiting (pid: 216761)
+[2026-03-25 16:37:55 +0000] [216729] [INFO] Worker (pid:216762) was sent SIGTERM!
+[2026-03-25 16:37:55 +0000] [216729] [INFO] Worker (pid:216763) was sent SIGTERM!
+[2026-03-25 16:37:56 +0000] [216729] [INFO] Shutting down: Master
+[2026-03-25 16:37:56 +0000] [217071] [INFO] Starting gunicorn 25.2.0
+[2026-03-25 16:37:56 +0000] [217071] [INFO] Listening at: http://127.0.0.1:5022 (217071)
+[2026-03-25 16:37:56 +0000] [217071] [INFO] Using worker: sync
+[2026-03-25 16:37:56 +0000] [217103] [INFO] Booting worker with pid: 217103
+[2026-03-25 16:37:56 +0000] [217104] [INFO] Booting worker with pid: 217104
+[2026-03-25 16:37:56 +0000] [217105] [INFO] Booting worker with pid: 217105
+[2026-03-25 16:37:57 +0000] [217071] [INFO] Control socket listening at /home/gabo/.gunicorn/gunicorn.ctl
+[2026-03-25 16:41:24 +0000] [217071] [INFO] Handling signal: term
+[2026-03-25 16:41:24 +0000] [217103] [INFO] Worker exiting (pid: 217103)
+[2026-03-25 16:41:24 +0000] [217104] [INFO] Worker exiting (pid: 217104)
+[2026-03-25 16:41:24 +0000] [217105] [INFO] Worker exiting (pid: 217105)
+[2026-03-25 16:41:24 +0000] [217071] [INFO] Worker (pid:217103) was sent SIGTERM!
+[2026-03-25 16:41:24 +0000] [217071] [INFO] Worker (pid:217104) was sent SIGTERM!
+[2026-03-25 16:41:24 +0000] [217071] [INFO] Worker (pid:217105) was sent SIGTERM!
+[2026-03-25 16:41:24 +0000] [217071] [INFO] Shutting down: Master
+[2026-03-25 16:41:25 +0000] [217833] [INFO] Starting gunicorn 25.2.0
+[2026-03-25 16:41:25 +0000] [217833] [INFO] Listening at: http://127.0.0.1:5022 (217833)
+[2026-03-25 16:41:25 +0000] [217833] [INFO] Using worker: sync
+[2026-03-25 16:41:25 +0000] [217838] [INFO] Booting worker with pid: 217838
+[2026-03-25 16:41:25 +0000] [217839] [INFO] Booting worker with pid: 217839
+[2026-03-25 16:41:25 +0000] [217840] [INFO] Booting worker with pid: 217840
+[2026-03-25 16:41:25 +0000] [217833] [INFO] Control socket listening at /home/gabo/.gunicorn/gunicorn.ctl
+[2026-03-25 21:03:19 +0000] [217840] [INFO] Worker exiting (pid: 217840)
+[2026-03-25 21:03:19 +0000] [217838] [INFO] Worker exiting (pid: 217838)
+[2026-03-25 21:03:19 +0000] [217839] [INFO] Worker exiting (pid: 217839)
+[2026-03-25 21:03:19 +0000] [217833] [INFO] Handling signal: term
+[2026-03-25 21:03:19 +0000] [217833] [INFO] Worker (pid:217838) was sent SIGTERM!
+[2026-03-25 21:03:19 +0000] [217833] [INFO] Worker (pid:217839) was sent SIGTERM!
+[2026-03-25 21:03:19 +0000] [217833] [INFO] Worker (pid:217840) was sent SIGTERM!
+[2026-03-25 21:03:20 +0000] [217833] [INFO] Shutting down: Master
+[2026-03-25 21:03:20 +0000] [259365] [INFO] Starting gunicorn 25.2.0
+[2026-03-25 21:03:20 +0000] [259365] [INFO] Listening at: http://127.0.0.1:5022 (259365)
+[2026-03-25 21:03:20 +0000] [259365] [INFO] Using worker: sync
+[2026-03-25 21:03:20 +0000] [259370] [INFO] Booting worker with pid: 259370
+[2026-03-25 21:03:20 +0000] [259371] [INFO] Booting worker with pid: 259371
+[2026-03-25 21:03:20 +0000] [259372] [INFO] Booting worker with pid: 259372
+[2026-03-25 21:03:21 +0000] [259365] [INFO] Control socket listening at /home/gabo/.gunicorn/gunicorn.ctl
+[2026-03-25 22:28:48 +0000] [259370] [INFO] Worker exiting (pid: 259370)
+[2026-03-25 22:28:48 +0000] [259371] [INFO] Worker exiting (pid: 259371)
+[2026-03-25 22:28:48 +0000] [259372] [INFO] Worker exiting (pid: 259372)
+[2026-03-25 22:28:48 +0000] [259365] [INFO] Handling signal: term
+[2026-03-25 22:28:48 +0000] [259365] [INFO] Worker (pid:259370) was sent SIGTERM!
+[2026-03-25 22:28:48 +0000] [259365] [INFO] Worker (pid:259371) was sent SIGTERM!
+[2026-03-25 22:28:48 +0000] [259365] [INFO] Worker (pid:259372) was sent SIGTERM!
+[2026-03-25 22:28:48 +0000] [259365] [INFO] Shutting down: Master
+[2026-03-25 22:28:49 +0000] [273084] [INFO] Starting gunicorn 25.2.0
+[2026-03-25 22:28:49 +0000] [273084] [INFO] Listening at: http://127.0.0.1:5022 (273084)
+[2026-03-25 22:28:49 +0000] [273084] [INFO] Using worker: sync
+[2026-03-25 22:28:49 +0000] [273089] [INFO] Booting worker with pid: 273089
+[2026-03-25 22:28:49 +0000] [273090] [INFO] Booting worker with pid: 273090
+[2026-03-25 22:28:49 +0000] [273091] [INFO] Booting worker with pid: 273091
+[2026-03-25 22:28:49 +0000] [273084] [INFO] Control socket listening at /home/gabo/.gunicorn/gunicorn.ctl
+[2026-03-25 22:30:14 +0000] [273084] [INFO] Handling signal: term
+[2026-03-25 22:30:14 +0000] [273091] [INFO] Worker exiting (pid: 273091)
+[2026-03-25 22:30:14 +0000] [273089] [INFO] Worker exiting (pid: 273089)
+[2026-03-25 22:30:14 +0000] [273090] [INFO] Worker exiting (pid: 273090)
+[2026-03-25 22:30:14 +0000] [273084] [INFO] Worker (pid:273089) was sent SIGTERM!
+[2026-03-25 22:30:14 +0000] [273084] [INFO] Worker (pid:273090) was sent SIGTERM!
+[2026-03-25 22:30:14 +0000] [273084] [INFO] Worker (pid:273091) was sent SIGTERM!
+[2026-03-25 22:30:14 +0000] [273084] [INFO] Shutting down: Master
+[2026-03-25 22:30:15 +0000] [273418] [INFO] Starting gunicorn 25.2.0
+[2026-03-25 22:30:15 +0000] [273418] [INFO] Listening at: http://127.0.0.1:5022 (273418)
+[2026-03-25 22:30:15 +0000] [273418] [INFO] Using worker: sync
+[2026-03-25 22:30:15 +0000] [273423] [INFO] Booting worker with pid: 273423
+[2026-03-25 22:30:15 +0000] [273424] [INFO] Booting worker with pid: 273424
+[2026-03-25 22:30:15 +0000] [273425] [INFO] Booting worker with pid: 273425
+[2026-03-25 22:30:15 +0000] [273418] [INFO] Control socket listening at /home/gabo/.gunicorn/gunicorn.ctl
+[2026-03-26 00:49:34 +0000] [273418] [INFO] Handling signal: term
+[2026-03-26 00:49:34 +0000] [273424] [INFO] Worker exiting (pid: 273424)
+[2026-03-26 00:49:34 +0000] [273425] [INFO] Worker exiting (pid: 273425)
+[2026-03-26 00:49:34 +0000] [273423] [INFO] Worker exiting (pid: 273423)
+[2026-03-26 00:49:34 +0000] [273418] [INFO] Worker (pid:273423) was sent SIGTERM!
+[2026-03-26 00:49:34 +0000] [273418] [INFO] Worker (pid:273424) was sent SIGTERM!
+[2026-03-26 00:49:38 +0000] [273418] [INFO] Shutting down: Master
+[2026-03-26 00:49:38 +0000] [296894] [INFO] Starting gunicorn 25.2.0
+[2026-03-26 00:49:38 +0000] [296894] [INFO] Listening at: http://127.0.0.1:5022 (296894)
+[2026-03-26 00:49:38 +0000] [296894] [INFO] Using worker: sync
+[2026-03-26 00:49:38 +0000] [296899] [INFO] Booting worker with pid: 296899
+[2026-03-26 00:49:38 +0000] [296900] [INFO] Booting worker with pid: 296900
+[2026-03-26 00:49:38 +0000] [296901] [INFO] Booting worker with pid: 296901
+[2026-03-26 00:49:39 +0000] [296894] [INFO] Control socket listening at /home/gabo/.gunicorn/gunicorn.ctl
+[2026-03-26 00:50:10,647] ERROR in app: Error en /api/archivos-procesados: type object 'LoteCarga' has no attribute 'fecha'
+[2026-03-26 00:50:15,751] ERROR in app: Error en /api/archivos-procesados: type object 'LoteCarga' has no attribute 'fecha'
+[2026-03-26 00:58:12,943] ERROR in app: Error en /api/archivos-procesados: type object 'LoteCarga' has no attribute 'fecha'
+[2026-03-26 00:59:46,752] ERROR in app: Error en /api/archivos-procesados: type object 'LoteCarga' has no attribute 'fecha'
+[2026-03-26 01:10:51,762] ERROR in app: Error en /api/archivos-procesados: type object 'LoteCarga' has no attribute 'fecha'
+[2026-03-26 01:17:04,699] ERROR in app: Error en /api/archivos-procesados: type object 'LoteCarga' has no attribute 'fecha'
+[2026-03-26 03:21:02,817] ERROR in app: Error en /api/archivos-procesados: type object 'LoteCarga' has no attribute 'fecha'
+[2026-03-26 05:24:14,051] ERROR in app: Error en /api/archivos-procesados: type object 'LoteCarga' has no attribute 'fecha'
+[2026-03-26 05:28:27 +0000] [296901] [INFO] Worker exiting (pid: 296901)
+[2026-03-26 05:28:27 +0000] [296899] [INFO] Worker exiting (pid: 296899)
+[2026-03-26 05:28:27 +0000] [296900] [INFO] Worker exiting (pid: 296900)
+[2026-03-26 05:28:27 +0000] [296894] [INFO] Handling signal: term
+[2026-03-26 05:28:28 +0000] [296894] [INFO] Worker (pid:296899) was sent SIGTERM!
+[2026-03-26 05:28:28 +0000] [296894] [INFO] Worker (pid:296900) was sent SIGTERM!
+[2026-03-26 05:28:28 +0000] [296894] [INFO] Worker (pid:296901) was sent SIGTERM!
+[2026-03-26 05:28:28 +0000] [296894] [INFO] Shutting down: Master
+[2026-03-26 05:28:29 +0000] [343976] [INFO] Starting gunicorn 25.2.0
+[2026-03-26 05:28:29 +0000] [343976] [INFO] Listening at: http://127.0.0.1:5022 (343976)
+[2026-03-26 05:28:29 +0000] [343976] [INFO] Using worker: sync
+[2026-03-26 05:28:29 +0000] [343991] [INFO] Booting worker with pid: 343991
+[2026-03-26 05:28:29 +0000] [343992] [INFO] Booting worker with pid: 343992
+[2026-03-26 05:28:29 +0000] [343993] [INFO] Booting worker with pid: 343993
+[2026-03-26 05:28:30 +0000] [343976] [INFO] Control socket listening at /home/gabo/.gunicorn/gunicorn.ctl
+[2026-03-26 05:28:42 +0000] [343991] [ERROR] Exception in worker process
+Traceback (most recent call last):
+  File "/home/gabo/portfolio/projects/24-scg4/venv/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/gabo/portfolio/projects/24-scg4/venv/lib/python3.14/site-packages/sqlalchemy/engine/default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: table entes already exists
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/gabo/portfolio/projects/24-scg4/venv/lib/python3.14/site-packages/gunicorn/arbiter.py", line 713, in spawn_worker
+    worker.init_process()
+    ~~~~~~~~~~~~~~~~~~~^^
+  File "/home/gabo/portfolio/projects/24-scg4/venv/lib/python3.14/site-packages/gunicorn/workers/base.py", line 136, in init_process
+    self.load_wsgi()
+    ~~~~~~~~~~~~~~^^
+  File "/home/gabo/portfolio/projects/24-scg4/venv/lib/python3.14/site-packages/gunicorn/workers/base.py", line 148, in load_wsgi
+    self.wsgi = self.app.wsgi()
+                ~~~~~~~~~~~~~^^
+  File "/home/gabo/portfolio/projects/24-scg4/venv/lib/python3.14/site-packages/gunicorn/app/base.py", line 66, in wsgi
+    self.callable = self.load()
+                    ~~~~~~~~~^^
+  File "/home/gabo/portfolio/projects/24-scg4/venv/lib/python3.14/site-packages/gunicorn/app/wsgiapp.py", line 57, in load
+    return self.load_wsgiapp()
+           ~~~~~~~~~~~~~~~~~^^
+  File "/home/gabo/portfolio/projects/24-scg4/venv/lib/python3.14/site-packages/gunicorn/app/wsgiapp.py", line 47, in load_wsgiapp
+    return util.import_app(self.app_uri)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/home/gabo/portfolio/projects/24-scg4/venv/lib/python3.14/site-packages/gunicorn/util.py", line 377, in import_app
+    mod = importlib.import_module(module)
+  File "/usr/lib/python3.14/importlib/__init__.py", line 88, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1398, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1371, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1342, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 938, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 759, in exec_module
+  File "<frozen importlib._bootstrap>", line 491, in _call_with_frames_removed
+  File "/home/gabo/portfolio/projects/24-scg4/run.py", line 7, in <module>
+    app = create_app(os.environ.get("FLASK_ENV", "default"))
+  File "/home/gabo/portfolio/projects/24-scg4/app.py", line 36, in create_app
+    db.create_all()
+    ~~~~~~~~~~~~~^^
+  File "/home/gabo/portfolio/projects/24-scg4/venv/lib/python3.14/site-packages/flask_sqlalchemy/extension.py", line 900, in create_all
+    self._call_for_binds(bind_key, "create_all")
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/gabo/portfolio/projects/24-scg4/venv/lib/python3.14/site-packages/flask_sqlalchemy/extension.py", line 881, in _call_for_binds
+    getattr(metadata, op_name)(bind=engine)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/home/gabo/portfolio/projects/24-scg4/venv/lib/python3.14/site-packages/sqlalchemy/sql/schema.py", line 5928, in create_all
+    bind._run_ddl_visitor(
+    ~~~~~~~~~~~~~~~~~~~~~^
+        ddl.SchemaGenerator, self, checkfirst=checkfirst, tables=tables
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/gabo/portfolio/projects/24-scg4/venv/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 3268, in _run_ddl_visitor
+    conn._run_ddl_visitor(visitorcallable, element, **kwargs)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/gabo/portfolio/projects/24-scg4/venv/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 2467, in _run_ddl_visitor
+    ).traverse_single(element)
+      ~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/home/gabo/portfolio/projects/24-scg4/venv/lib/python3.14/site-packages/sqlalchemy/sql/visitors.py", line 661, in traverse_single
+    return meth(obj, **kw)
+  File "/home/gabo/portfolio/projects/24-scg4/venv/lib/python3.14/site-packages/sqlalchemy/sql/ddl.py", line 984, in visit_metadata
+    self.traverse_single(
+    ~~~~~~~~~~~~~~~~~~~~^
+        table,
+        ^^^^^^
+    ...<2 lines>...
+        _is_metadata_operation=True,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/gabo/portfolio/projects/24-scg4/venv/lib/python3.14/site-packages/sqlalchemy/sql/visitors.py", line 661, in traverse_single
+    return meth(obj, **kw)
+  File "/home/gabo/portfolio/projects/24-scg4/venv/lib/python3.14/site-packages/sqlalchemy/sql/ddl.py", line 1022, in visit_table
+    )._invoke_with(self.connection)
+      ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/gabo/portfolio/projects/24-scg4/venv/lib/python3.14/site-packages/sqlalchemy/sql/ddl.py", line 321, in _invoke_with
+    return bind.execute(self)
+           ~~~~~~~~~~~~^^^^^^
+  File "/home/gabo/portfolio/projects/24-scg4/venv/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 1419, in execute
+    return meth(
+        self,
+        distilled_parameters,
+        execution_options or NO_OPTIONS,
+    )
+  File "/home/gabo/portfolio/projects/24-scg4/venv/lib/python3.14/site-packages/sqlalchemy/sql/ddl.py", line 187, in _execute_on_connection
+    return connection._execute_ddl(
+           ~~~~~~~~~~~~~~~~~~~~~~~^
+        self, distilled_params, execution_options
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/gabo/portfolio/projects/24-scg4/venv/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 1530, in _execute_ddl
+    ret = self._execute_context(
+        dialect,
+    ...<4 lines>...
+        compiled,
+    )
+  File "/home/gabo/portfolio/projects/24-scg4/venv/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 1846, in _execute_context
+    return self._exec_single_context(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^
+        dialect, context, statement, parameters
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/gabo/portfolio/projects/24-scg4/venv/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 1986, in _exec_single_context
+    self._handle_dbapi_exception(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        e, str_statement, effective_parameters, cursor, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/gabo/portfolio/projects/24-scg4/venv/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 2363, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "/home/gabo/portfolio/projects/24-scg4/venv/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/gabo/portfolio/projects/24-scg4/venv/lib/python3.14/site-packages/sqlalchemy/engine/default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+sqlalchemy.exc.OperationalError: (sqlite3.OperationalError) table entes already exists
+[SQL: 
+CREATE TABLE entes (
+	id INTEGER NOT NULL, 
+	clave VARCHAR(20) NOT NULL, 
+	codigo VARCHAR(50) NOT NULL, 
+	dd VARCHAR(10), 
+	dd_match VARCHAR(10), 
+	nombre VARCHAR(255) NOT NULL, 
+	siglas VARCHAR(50), 
+	tipo VARCHAR(100), 
+	ambito VARCHAR(50), 
+	activo BOOLEAN, 
+	fecha_registro DATETIME, 
+	PRIMARY KEY (id)
+)
+
+]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+[2026-03-26 05:28:42 +0000] [343993] [ERROR] Exception in worker process
+Traceback (most recent call last):
+  File "/home/gabo/portfolio/projects/24-scg4/venv/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/gabo/portfolio/projects/24-scg4/venv/lib/python3.14/site-packages/sqlalchemy/engine/default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: table entes already exists
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/gabo/portfolio/projects/24-scg4/venv/lib/python3.14/site-packages/gunicorn/arbiter.py", line 713, in spawn_worker
+    worker.init_process()
+    ~~~~~~~~~~~~~~~~~~~^^
+  File "/home/gabo/portfolio/projects/24-scg4/venv/lib/python3.14/site-packages/gunicorn/workers/base.py", line 136, in init_process
+    self.load_wsgi()
+    ~~~~~~~~~~~~~~^^
+  File "/home/gabo/portfolio/projects/24-scg4/venv/lib/python3.14/site-packages/gunicorn/workers/base.py", line 148, in load_wsgi
+    self.wsgi = self.app.wsgi()
+                ~~~~~~~~~~~~~^^
+  File "/home/gabo/portfolio/projects/24-scg4/venv/lib/python3.14/site-packages/gunicorn/app/base.py", line 66, in wsgi
+    self.callable = self.load()
+                    ~~~~~~~~~^^
+  File "/home/gabo/portfolio/projects/24-scg4/venv/lib/python3.14/site-packages/gunicorn/app/wsgiapp.py", line 57, in load
+    return self.load_wsgiapp()
+           ~~~~~~~~~~~~~~~~~^^
+  File "/home/gabo/portfolio/projects/24-scg4/venv/lib/python3.14/site-packages/gunicorn/app/wsgiapp.py", line 47, in load_wsgiapp
+    return util.import_app(self.app_uri)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/home/gabo/portfolio/projects/24-scg4/venv/lib/python3.14/site-packages/gunicorn/util.py", line 377, in import_app
+    mod = importlib.import_module(module)
+  File "/usr/lib/python3.14/importlib/__init__.py", line 88, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1398, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1371, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1342, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 938, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 759, in exec_module
+  File "<frozen importlib._bootstrap>", line 491, in _call_with_frames_removed
+  File "/home/gabo/portfolio/projects/24-scg4/run.py", line 7, in <module>
+    app = create_app(os.environ.get("FLASK_ENV", "default"))
+  File "/home/gabo/portfolio/projects/24-scg4/app.py", line 36, in create_app
+    db.create_all()
+    ~~~~~~~~~~~~~^^
+  File "/home/gabo/portfolio/projects/24-scg4/venv/lib/python3.14/site-packages/flask_sqlalchemy/extension.py", line 900, in create_all
+    self._call_for_binds(bind_key, "create_all")
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/gabo/portfolio/projects/24-scg4/venv/lib/python3.14/site-packages/flask_sqlalchemy/extension.py", line 881, in _call_for_binds
+    getattr(metadata, op_name)(bind=engine)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/home/gabo/portfolio/projects/24-scg4/venv/lib/python3.14/site-packages/sqlalchemy/sql/schema.py", line 5928, in create_all
+    bind._run_ddl_visitor(
+    ~~~~~~~~~~~~~~~~~~~~~^
+        ddl.SchemaGenerator, self, checkfirst=checkfirst, tables=tables
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/gabo/portfolio/projects/24-scg4/venv/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 3268, in _run_ddl_visitor
+    conn._run_ddl_visitor(visitorcallable, element, **kwargs)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/gabo/portfolio/projects/24-scg4/venv/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 2467, in _run_ddl_visitor
+    ).traverse_single(element)
+      ~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/home/gabo/portfolio/projects/24-scg4/venv/lib/python3.14/site-packages/sqlalchemy/sql/visitors.py", line 661, in traverse_single
+    return meth(obj, **kw)
+  File "/home/gabo/portfolio/projects/24-scg4/venv/lib/python3.14/site-packages/sqlalchemy/sql/ddl.py", line 984, in visit_metadata
+    self.traverse_single(
+    ~~~~~~~~~~~~~~~~~~~~^
+        table,
+        ^^^^^^
+    ...<2 lines>...
+        _is_metadata_operation=True,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/gabo/portfolio/projects/24-scg4/venv/lib/python3.14/site-packages/sqlalchemy/sql/visitors.py", line 661, in traverse_single
+    return meth(obj, **kw)
+  File "/home/gabo/portfolio/projects/24-scg4/venv/lib/python3.14/site-packages/sqlalchemy/sql/ddl.py", line 1022, in visit_table
+    )._invoke_with(self.connection)
+      ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/gabo/portfolio/projects/24-scg4/venv/lib/python3.14/site-packages/sqlalchemy/sql/ddl.py", line 321, in _invoke_with
+    return bind.execute(self)
+           ~~~~~~~~~~~~^^^^^^
+  File "/home/gabo/portfolio/projects/24-scg4/venv/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 1419, in execute
+    return meth(
+        self,
+        distilled_parameters,
+        execution_options or NO_OPTIONS,
+    )
+  File "/home/gabo/portfolio/projects/24-scg4/venv/lib/python3.14/site-packages/sqlalchemy/sql/ddl.py", line 187, in _execute_on_connection
+    return connection._execute_ddl(
+           ~~~~~~~~~~~~~~~~~~~~~~~^
+        self, distilled_params, execution_options
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/gabo/portfolio/projects/24-scg4/venv/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 1530, in _execute_ddl
+    ret = self._execute_context(
+        dialect,
+    ...<4 lines>...
+        compiled,
+    )
+  File "/home/gabo/portfolio/projects/24-scg4/venv/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 1846, in _execute_context
+    return self._exec_single_context(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^
+        dialect, context, statement, parameters
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/gabo/portfolio/projects/24-scg4/venv/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 1986, in _exec_single_context
+    self._handle_dbapi_exception(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        e, str_statement, effective_parameters, cursor, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/gabo/portfolio/projects/24-scg4/venv/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 2363, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "/home/gabo/portfolio/projects/24-scg4/venv/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/gabo/portfolio/projects/24-scg4/venv/lib/python3.14/site-packages/sqlalchemy/engine/default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+sqlalchemy.exc.OperationalError: (sqlite3.OperationalError) table entes already exists
+[SQL: 
+CREATE TABLE entes (
+	id INTEGER NOT NULL, 
+	clave VARCHAR(20) NOT NULL, 
+	codigo VARCHAR(50) NOT NULL, 
+	dd VARCHAR(10), 
+	dd_match VARCHAR(10), 
+	nombre VARCHAR(255) NOT NULL, 
+	siglas VARCHAR(50), 
+	tipo VARCHAR(100), 
+	ambito VARCHAR(50), 
+	activo BOOLEAN, 
+	fecha_registro DATETIME, 
+	PRIMARY KEY (id)
+)
+
+]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+[2026-03-26 05:28:42 +0000] [343991] [INFO] Worker exiting (pid: 343991)
+[2026-03-26 05:28:42 +0000] [343993] [INFO] Worker exiting (pid: 343993)
+[2026-03-26 05:28:43 +0000] [343976] [ERROR] Worker (pid:343993) exited with code 3.
+[2026-03-26 05:28:43 +0000] [343976] [ERROR] Worker (pid:343991) exited with code 3.
+[2026-03-26 05:28:43 +0000] [343992] [INFO] Worker exiting (pid: 343992)
+[2026-03-26 05:28:48 +0000] [344040] [INFO] Starting gunicorn 25.2.0
+[2026-03-26 05:28:48 +0000] [344040] [INFO] Listening at: http://127.0.0.1:5022 (344040)
+[2026-03-26 05:28:48 +0000] [344040] [INFO] Using worker: sync
+[2026-03-26 05:28:48 +0000] [344041] [INFO] Booting worker with pid: 344041
+[2026-03-26 05:28:48 +0000] [344042] [INFO] Booting worker with pid: 344042
+[2026-03-26 05:28:49 +0000] [344043] [INFO] Booting worker with pid: 344043
+[2026-03-26 05:28:49 +0000] [344040] [INFO] Control socket listening at /home/gabo/.gunicorn/gunicorn.ctl
+[2026-03-26 15:35:16,937] ERROR in app: Error en /api/archivos-procesados: type object 'LoteCarga' has no attribute 'fecha'
+[2026-03-26 15:35:21,556] ERROR in app: Error en /api/transacciones: (sqlite3.OperationalError) no such column: transacciones.genero
+[SQL: SELECT count(*) AS count_1 
+FROM (SELECT transacciones.id AS transacciones_id, transacciones.lote_id AS transacciones_lote_id, transacciones.archivo_origen AS transacciones_archivo_origen, transacciones.fecha_carga AS transacciones_fecha_carga, transacciones.usuario_carga AS transacciones_usuario_carga, transacciones.cuenta_contable AS transacciones_cuenta_contable, transacciones.nombre_cuenta AS transacciones_nombre_cuenta, transacciones.seg1 AS transacciones_seg1, transacciones.seg2 AS transacciones_seg2, transacciones.seg3 AS transacciones_seg3, transacciones.seg4 AS transacciones_seg4, transacciones.seg5 AS transacciones_seg5, transacciones.seg6 AS transacciones_seg6, transacciones.genero AS transacciones_genero, transacciones.grupo AS transacciones_grupo, transacciones.rubro AS transacciones_rubro, transacciones.cuenta_nivel AS transacciones_cuenta_nivel, transacciones.subcuenta AS transacciones_subcuenta, transacciones.dependencia AS transacciones_dependencia, transacciones.unidad_responsable AS transacciones_unidad_responsable, transacciones.centro_costo AS transacciones_centro_costo, transacciones.proyecto_presupuestario AS transacciones_proyecto_presupuestario, transacciones.fuente AS transacciones_fuente, transacciones.subfuente AS transacciones_subfuente, transacciones.tipo_recurso AS transacciones_tipo_recurso, transacciones.partida_presupuestal AS transacciones_partida_presupuestal, transacciones.ente_codigo AS transacciones_ente_codigo, transacciones.ente_nombre AS transacciones_ente_nombre, transacciones.ente_siglas AS transacciones_ente_siglas, transacciones.fecha_transaccion AS transacciones_fecha_transaccion, transacciones.poliza AS transacciones_poliza, transacciones.beneficiario AS transacciones_beneficiario, transacciones.cheque_folio AS transacciones_cheque_folio, transacciones.descripcion AS transacciones_descripcion, transacciones.cargos AS transacciones_cargos, transacciones.abonos AS transacciones_abonos, transacciones.saldo_final AS transacciones_saldo_final, transacciones.hash_registro AS transacciones_hash_registro 
+FROM transacciones ORDER BY transacciones.fecha_transaccion DESC, transacciones.id DESC) AS anon_1]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+[2026-03-26 15:36:53,328] ERROR in app: Error en /api/transacciones: (sqlite3.OperationalError) no such column: transacciones.genero
+[SQL: SELECT count(*) AS count_1 
+FROM (SELECT transacciones.id AS transacciones_id, transacciones.lote_id AS transacciones_lote_id, transacciones.archivo_origen AS transacciones_archivo_origen, transacciones.fecha_carga AS transacciones_fecha_carga, transacciones.usuario_carga AS transacciones_usuario_carga, transacciones.cuenta_contable AS transacciones_cuenta_contable, transacciones.nombre_cuenta AS transacciones_nombre_cuenta, transacciones.seg1 AS transacciones_seg1, transacciones.seg2 AS transacciones_seg2, transacciones.seg3 AS transacciones_seg3, transacciones.seg4 AS transacciones_seg4, transacciones.seg5 AS transacciones_seg5, transacciones.seg6 AS transacciones_seg6, transacciones.genero AS transacciones_genero, transacciones.grupo AS transacciones_grupo, transacciones.rubro AS transacciones_rubro, transacciones.cuenta_nivel AS transacciones_cuenta_nivel, transacciones.subcuenta AS transacciones_subcuenta, transacciones.dependencia AS transacciones_dependencia, transacciones.unidad_responsable AS transacciones_unidad_responsable, transacciones.centro_costo AS transacciones_centro_costo, transacciones.proyecto_presupuestario AS transacciones_proyecto_presupuestario, transacciones.fuente AS transacciones_fuente, transacciones.subfuente AS transacciones_subfuente, transacciones.tipo_recurso AS transacciones_tipo_recurso, transacciones.partida_presupuestal AS transacciones_partida_presupuestal, transacciones.ente_codigo AS transacciones_ente_codigo, transacciones.ente_nombre AS transacciones_ente_nombre, transacciones.ente_siglas AS transacciones_ente_siglas, transacciones.fecha_transaccion AS transacciones_fecha_transaccion, transacciones.poliza AS transacciones_poliza, transacciones.beneficiario AS transacciones_beneficiario, transacciones.cheque_folio AS transacciones_cheque_folio, transacciones.descripcion AS transacciones_descripcion, transacciones.cargos AS transacciones_cargos, transacciones.abonos AS transacciones_abonos, transacciones.saldo_final AS transacciones_saldo_final, transacciones.hash_registro AS transacciones_hash_registro 
+FROM transacciones ORDER BY transacciones.fecha_transaccion DESC, transacciones.id DESC) AS anon_1]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+[2026-03-26 15:36:54,308] ERROR in app: Error en /api/archivos-procesados: type object 'LoteCarga' has no attribute 'fecha'
+[2026-03-26 15:50:43,530] ERROR in app: Error en /api/archivos-procesados: type object 'LoteCarga' has no attribute 'fecha'
+[2026-03-26 15:50:45,262] ERROR in app: Error en /api/transacciones: (sqlite3.OperationalError) no such column: transacciones.genero
+[SQL: SELECT count(*) AS count_1 
+FROM (SELECT transacciones.id AS transacciones_id, transacciones.lote_id AS transacciones_lote_id, transacciones.archivo_origen AS transacciones_archivo_origen, transacciones.fecha_carga AS transacciones_fecha_carga, transacciones.usuario_carga AS transacciones_usuario_carga, transacciones.cuenta_contable AS transacciones_cuenta_contable, transacciones.nombre_cuenta AS transacciones_nombre_cuenta, transacciones.seg1 AS transacciones_seg1, transacciones.seg2 AS transacciones_seg2, transacciones.seg3 AS transacciones_seg3, transacciones.seg4 AS transacciones_seg4, transacciones.seg5 AS transacciones_seg5, transacciones.seg6 AS transacciones_seg6, transacciones.genero AS transacciones_genero, transacciones.grupo AS transacciones_grupo, transacciones.rubro AS transacciones_rubro, transacciones.cuenta_nivel AS transacciones_cuenta_nivel, transacciones.subcuenta AS transacciones_subcuenta, transacciones.dependencia AS transacciones_dependencia, transacciones.unidad_responsable AS transacciones_unidad_responsable, transacciones.centro_costo AS transacciones_centro_costo, transacciones.proyecto_presupuestario AS transacciones_proyecto_presupuestario, transacciones.fuente AS transacciones_fuente, transacciones.subfuente AS transacciones_subfuente, transacciones.tipo_recurso AS transacciones_tipo_recurso, transacciones.partida_presupuestal AS transacciones_partida_presupuestal, transacciones.ente_codigo AS transacciones_ente_codigo, transacciones.ente_nombre AS transacciones_ente_nombre, transacciones.ente_siglas AS transacciones_ente_siglas, transacciones.fecha_transaccion AS transacciones_fecha_transaccion, transacciones.poliza AS transacciones_poliza, transacciones.beneficiario AS transacciones_beneficiario, transacciones.cheque_folio AS transacciones_cheque_folio, transacciones.descripcion AS transacciones_descripcion, transacciones.cargos AS transacciones_cargos, transacciones.abonos AS transacciones_abonos, transacciones.saldo_final AS transacciones_saldo_final, transacciones.hash_registro AS transacciones_hash_registro 
+FROM transacciones ORDER BY transacciones.fecha_transaccion DESC, transacciones.id DESC) AS anon_1]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+[2026-03-26 15:50:46,450] ERROR in app: Error en /api/archivos-procesados: type object 'LoteCarga' has no attribute 'fecha'
+[2026-03-26 15:57:35,789] ERROR in app: Error en /api/archivos-procesados: type object 'LoteCarga' has no attribute 'fecha'
+[2026-03-26 15:57:37,378] ERROR in app: Error en /api/transacciones: (sqlite3.OperationalError) no such column: transacciones.genero
+[SQL: SELECT count(*) AS count_1 
+FROM (SELECT transacciones.id AS transacciones_id, transacciones.lote_id AS transacciones_lote_id, transacciones.archivo_origen AS transacciones_archivo_origen, transacciones.fecha_carga AS transacciones_fecha_carga, transacciones.usuario_carga AS transacciones_usuario_carga, transacciones.cuenta_contable AS transacciones_cuenta_contable, transacciones.nombre_cuenta AS transacciones_nombre_cuenta, transacciones.seg1 AS transacciones_seg1, transacciones.seg2 AS transacciones_seg2, transacciones.seg3 AS transacciones_seg3, transacciones.seg4 AS transacciones_seg4, transacciones.seg5 AS transacciones_seg5, transacciones.seg6 AS transacciones_seg6, transacciones.genero AS transacciones_genero, transacciones.grupo AS transacciones_grupo, transacciones.rubro AS transacciones_rubro, transacciones.cuenta_nivel AS transacciones_cuenta_nivel, transacciones.subcuenta AS transacciones_subcuenta, transacciones.dependencia AS transacciones_dependencia, transacciones.unidad_responsable AS transacciones_unidad_responsable, transacciones.centro_costo AS transacciones_centro_costo, transacciones.proyecto_presupuestario AS transacciones_proyecto_presupuestario, transacciones.fuente AS transacciones_fuente, transacciones.subfuente AS transacciones_subfuente, transacciones.tipo_recurso AS transacciones_tipo_recurso, transacciones.partida_presupuestal AS transacciones_partida_presupuestal, transacciones.ente_codigo AS transacciones_ente_codigo, transacciones.ente_nombre AS transacciones_ente_nombre, transacciones.ente_siglas AS transacciones_ente_siglas, transacciones.fecha_transaccion AS transacciones_fecha_transaccion, transacciones.poliza AS transacciones_poliza, transacciones.beneficiario AS transacciones_beneficiario, transacciones.cheque_folio AS transacciones_cheque_folio, transacciones.descripcion AS transacciones_descripcion, transacciones.cargos AS transacciones_cargos, transacciones.abonos AS transacciones_abonos, transacciones.saldo_final AS transacciones_saldo_final, transacciones.hash_registro AS transacciones_hash_registro 
+FROM transacciones ORDER BY transacciones.fecha_transaccion DESC, transacciones.id DESC) AS anon_1]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+[2026-03-26 15:57:38,316] ERROR in app: Error en /api/archivos-procesados: type object 'LoteCarga' has no attribute 'fecha'
+[2026-03-26 15:57:41,457] ERROR in app: Error en /api/transacciones: (sqlite3.OperationalError) no such column: transacciones.genero
+[SQL: SELECT count(*) AS count_1 
+FROM (SELECT transacciones.id AS transacciones_id, transacciones.lote_id AS transacciones_lote_id, transacciones.archivo_origen AS transacciones_archivo_origen, transacciones.fecha_carga AS transacciones_fecha_carga, transacciones.usuario_carga AS transacciones_usuario_carga, transacciones.cuenta_contable AS transacciones_cuenta_contable, transacciones.nombre_cuenta AS transacciones_nombre_cuenta, transacciones.seg1 AS transacciones_seg1, transacciones.seg2 AS transacciones_seg2, transacciones.seg3 AS transacciones_seg3, transacciones.seg4 AS transacciones_seg4, transacciones.seg5 AS transacciones_seg5, transacciones.seg6 AS transacciones_seg6, transacciones.genero AS transacciones_genero, transacciones.grupo AS transacciones_grupo, transacciones.rubro AS transacciones_rubro, transacciones.cuenta_nivel AS transacciones_cuenta_nivel, transacciones.subcuenta AS transacciones_subcuenta, transacciones.dependencia AS transacciones_dependencia, transacciones.unidad_responsable AS transacciones_unidad_responsable, transacciones.centro_costo AS transacciones_centro_costo, transacciones.proyecto_presupuestario AS transacciones_proyecto_presupuestario, transacciones.fuente AS transacciones_fuente, transacciones.subfuente AS transacciones_subfuente, transacciones.tipo_recurso AS transacciones_tipo_recurso, transacciones.partida_presupuestal AS transacciones_partida_presupuestal, transacciones.ente_codigo AS transacciones_ente_codigo, transacciones.ente_nombre AS transacciones_ente_nombre, transacciones.ente_siglas AS transacciones_ente_siglas, transacciones.fecha_transaccion AS transacciones_fecha_transaccion, transacciones.poliza AS transacciones_poliza, transacciones.beneficiario AS transacciones_beneficiario, transacciones.cheque_folio AS transacciones_cheque_folio, transacciones.descripcion AS transacciones_descripcion, transacciones.cargos AS transacciones_cargos, transacciones.abonos AS transacciones_abonos, transacciones.saldo_final AS transacciones_saldo_final, transacciones.hash_registro AS transacciones_hash_registro 
+FROM transacciones ORDER BY transacciones.fecha_transaccion DESC, transacciones.id DESC) AS anon_1]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+[2026-03-26 15:57:44,070] ERROR in app: Error en /api/transacciones: (sqlite3.OperationalError) no such column: transacciones.genero
+[SQL: SELECT count(*) AS count_1 
+FROM (SELECT transacciones.id AS transacciones_id, transacciones.lote_id AS transacciones_lote_id, transacciones.archivo_origen AS transacciones_archivo_origen, transacciones.fecha_carga AS transacciones_fecha_carga, transacciones.usuario_carga AS transacciones_usuario_carga, transacciones.cuenta_contable AS transacciones_cuenta_contable, transacciones.nombre_cuenta AS transacciones_nombre_cuenta, transacciones.seg1 AS transacciones_seg1, transacciones.seg2 AS transacciones_seg2, transacciones.seg3 AS transacciones_seg3, transacciones.seg4 AS transacciones_seg4, transacciones.seg5 AS transacciones_seg5, transacciones.seg6 AS transacciones_seg6, transacciones.genero AS transacciones_genero, transacciones.grupo AS transacciones_grupo, transacciones.rubro AS transacciones_rubro, transacciones.cuenta_nivel AS transacciones_cuenta_nivel, transacciones.subcuenta AS transacciones_subcuenta, transacciones.dependencia AS transacciones_dependencia, transacciones.unidad_responsable AS transacciones_unidad_responsable, transacciones.centro_costo AS transacciones_centro_costo, transacciones.proyecto_presupuestario AS transacciones_proyecto_presupuestario, transacciones.fuente AS transacciones_fuente, transacciones.subfuente AS transacciones_subfuente, transacciones.tipo_recurso AS transacciones_tipo_recurso, transacciones.partida_presupuestal AS transacciones_partida_presupuestal, transacciones.ente_codigo AS transacciones_ente_codigo, transacciones.ente_nombre AS transacciones_ente_nombre, transacciones.ente_siglas AS transacciones_ente_siglas, transacciones.fecha_transaccion AS transacciones_fecha_transaccion, transacciones.poliza AS transacciones_poliza, transacciones.beneficiario AS transacciones_beneficiario, transacciones.cheque_folio AS transacciones_cheque_folio, transacciones.descripcion AS transacciones_descripcion, transacciones.cargos AS transacciones_cargos, transacciones.abonos AS transacciones_abonos, transacciones.saldo_final AS transacciones_saldo_final, transacciones.hash_registro AS transacciones_hash_registro 
+FROM transacciones ORDER BY transacciones.fecha_transaccion DESC, transacciones.id DESC) AS anon_1]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+[2026-03-26 15:57:44,896] ERROR in app: Error en /api/archivos-procesados: type object 'LoteCarga' has no attribute 'fecha'
+[2026-03-26 16:01:24,053] ERROR in app: Error en /api/archivos-procesados: type object 'LoteCarga' has no attribute 'fecha'
+[2026-03-26 16:16:35,944] ERROR in app: Error en /api/archivos-procesados: type object 'LoteCarga' has no attribute 'fecha'
+[2026-03-26 19:36:22,499] ERROR in app: Error en /api/archivos-procesados: type object 'LoteCarga' has no attribute 'fecha'
+[2026-03-26 19:36:24,200] ERROR in app: Error en /api/transacciones: (sqlite3.OperationalError) no such column: transacciones.genero
+[SQL: SELECT count(*) AS count_1 
+FROM (SELECT transacciones.id AS transacciones_id, transacciones.lote_id AS transacciones_lote_id, transacciones.archivo_origen AS transacciones_archivo_origen, transacciones.fecha_carga AS transacciones_fecha_carga, transacciones.usuario_carga AS transacciones_usuario_carga, transacciones.cuenta_contable AS transacciones_cuenta_contable, transacciones.nombre_cuenta AS transacciones_nombre_cuenta, transacciones.seg1 AS transacciones_seg1, transacciones.seg2 AS transacciones_seg2, transacciones.seg3 AS transacciones_seg3, transacciones.seg4 AS transacciones_seg4, transacciones.seg5 AS transacciones_seg5, transacciones.seg6 AS transacciones_seg6, transacciones.genero AS transacciones_genero, transacciones.grupo AS transacciones_grupo, transacciones.rubro AS transacciones_rubro, transacciones.cuenta_nivel AS transacciones_cuenta_nivel, transacciones.subcuenta AS transacciones_subcuenta, transacciones.dependencia AS transacciones_dependencia, transacciones.unidad_responsable AS transacciones_unidad_responsable, transacciones.centro_costo AS transacciones_centro_costo, transacciones.proyecto_presupuestario AS transacciones_proyecto_presupuestario, transacciones.fuente AS transacciones_fuente, transacciones.subfuente AS transacciones_subfuente, transacciones.tipo_recurso AS transacciones_tipo_recurso, transacciones.partida_presupuestal AS transacciones_partida_presupuestal, transacciones.ente_codigo AS transacciones_ente_codigo, transacciones.ente_nombre AS transacciones_ente_nombre, transacciones.ente_siglas AS transacciones_ente_siglas, transacciones.fecha_transaccion AS transacciones_fecha_transaccion, transacciones.poliza AS transacciones_poliza, transacciones.beneficiario AS transacciones_beneficiario, transacciones.cheque_folio AS transacciones_cheque_folio, transacciones.descripcion AS transacciones_descripcion, transacciones.cargos AS transacciones_cargos, transacciones.abonos AS transacciones_abonos, transacciones.saldo_final AS transacciones_saldo_final, transacciones.hash_registro AS transacciones_hash_registro 
+FROM transacciones ORDER BY transacciones.fecha_transaccion DESC, transacciones.id DESC) AS anon_1]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+[2026-03-27 15:30:31,586] ERROR in app: Error en /api/archivos-procesados: type object 'LoteCarga' has no attribute 'fecha'
+[2026-03-27 16:06:43 +0000] [575] [INFO] Starting gunicorn 25.2.0
+[2026-03-27 16:06:43 +0000] [575] [INFO] Listening at: http://127.0.0.1:5022 (575)
+[2026-03-27 16:06:43 +0000] [575] [INFO] Using worker: sync
+[2026-03-27 16:06:43 +0000] [698] [INFO] Booting worker with pid: 698
+[2026-03-27 16:06:43 +0000] [704] [INFO] Booting worker with pid: 704
+[2026-03-27 16:06:43 +0000] [718] [INFO] Booting worker with pid: 718
+[2026-03-27 16:06:47 +0000] [575] [INFO] Control socket listening at /home/gabo/.gunicorn/gunicorn.ctl
+[2026-03-27 16:58:55 +0000] [570] [INFO] Starting gunicorn 25.2.0
+[2026-03-27 16:58:55 +0000] [570] [INFO] Listening at: http://127.0.0.1:5022 (570)
+[2026-03-27 16:58:55 +0000] [570] [INFO] Using worker: sync
+[2026-03-27 16:58:55 +0000] [691] [INFO] Booting worker with pid: 691
+[2026-03-27 16:58:56 +0000] [694] [INFO] Booting worker with pid: 694
+[2026-03-27 16:58:56 +0000] [706] [INFO] Booting worker with pid: 706
+[2026-03-27 16:58:59 +0000] [570] [INFO] Control socket listening at /home/gabo/.gunicorn/gunicorn.ctl
+[2026-03-27 18:10:32 +0000] [558] [INFO] Starting gunicorn 25.2.0
+[2026-03-27 18:10:32 +0000] [558] [INFO] Listening at: http://127.0.0.1:5022 (558)
+[2026-03-27 18:10:32 +0000] [558] [INFO] Using worker: sync
+[2026-03-27 18:10:32 +0000] [659] [INFO] Booting worker with pid: 659
+[2026-03-27 18:10:32 +0000] [665] [INFO] Booting worker with pid: 665
+[2026-03-27 18:10:33 +0000] [676] [INFO] Booting worker with pid: 676
+[2026-03-27 18:10:34 +0000] [558] [INFO] Control socket listening at /home/gabo/.gunicorn/gunicorn.ctl
+[2026-03-27 19:02:08,251] ERROR in app: Error en /api/archivos-procesados: type object 'LoteCarga' has no attribute 'fecha'
+[2026-03-27 19:05:05,074] ERROR in app: Error en /api/transacciones: (sqlite3.OperationalError) no such column: transacciones.genero
+[SQL: SELECT count(*) AS count_1 
+FROM (SELECT transacciones.id AS transacciones_id, transacciones.lote_id AS transacciones_lote_id, transacciones.archivo_origen AS transacciones_archivo_origen, transacciones.fecha_carga AS transacciones_fecha_carga, transacciones.usuario_carga AS transacciones_usuario_carga, transacciones.cuenta_contable AS transacciones_cuenta_contable, transacciones.nombre_cuenta AS transacciones_nombre_cuenta, transacciones.seg1 AS transacciones_seg1, transacciones.seg2 AS transacciones_seg2, transacciones.seg3 AS transacciones_seg3, transacciones.seg4 AS transacciones_seg4, transacciones.seg5 AS transacciones_seg5, transacciones.seg6 AS transacciones_seg6, transacciones.genero AS transacciones_genero, transacciones.grupo AS transacciones_grupo, transacciones.rubro AS transacciones_rubro, transacciones.cuenta_nivel AS transacciones_cuenta_nivel, transacciones.subcuenta AS transacciones_subcuenta, transacciones.dependencia AS transacciones_dependencia, transacciones.unidad_responsable AS transacciones_unidad_responsable, transacciones.centro_costo AS transacciones_centro_costo, transacciones.proyecto_presupuestario AS transacciones_proyecto_presupuestario, transacciones.fuente AS transacciones_fuente, transacciones.subfuente AS transacciones_subfuente, transacciones.tipo_recurso AS transacciones_tipo_recurso, transacciones.partida_presupuestal AS transacciones_partida_presupuestal, transacciones.ente_codigo AS transacciones_ente_codigo, transacciones.ente_nombre AS transacciones_ente_nombre, transacciones.ente_siglas AS transacciones_ente_siglas, transacciones.fecha_transaccion AS transacciones_fecha_transaccion, transacciones.poliza AS transacciones_poliza, transacciones.beneficiario AS transacciones_beneficiario, transacciones.cheque_folio AS transacciones_cheque_folio, transacciones.descripcion AS transacciones_descripcion, transacciones.cargos AS transacciones_cargos, transacciones.abonos AS transacciones_abonos, transacciones.saldo_final AS transacciones_saldo_final, transacciones.hash_registro AS transacciones_hash_registro 
+FROM transacciones ORDER BY transacciones.fecha_transaccion DESC, transacciones.id DESC) AS anon_1]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+[2026-03-27 20:08:41,410] ERROR in app: Error en /api/transacciones: (sqlite3.OperationalError) no such column: transacciones.genero
+[SQL: SELECT count(*) AS count_1 
+FROM (SELECT transacciones.id AS transacciones_id, transacciones.lote_id AS transacciones_lote_id, transacciones.archivo_origen AS transacciones_archivo_origen, transacciones.fecha_carga AS transacciones_fecha_carga, transacciones.usuario_carga AS transacciones_usuario_carga, transacciones.cuenta_contable AS transacciones_cuenta_contable, transacciones.nombre_cuenta AS transacciones_nombre_cuenta, transacciones.seg1 AS transacciones_seg1, transacciones.seg2 AS transacciones_seg2, transacciones.seg3 AS transacciones_seg3, transacciones.seg4 AS transacciones_seg4, transacciones.seg5 AS transacciones_seg5, transacciones.seg6 AS transacciones_seg6, transacciones.genero AS transacciones_genero, transacciones.grupo AS transacciones_grupo, transacciones.rubro AS transacciones_rubro, transacciones.cuenta_nivel AS transacciones_cuenta_nivel, transacciones.subcuenta AS transacciones_subcuenta, transacciones.dependencia AS transacciones_dependencia, transacciones.unidad_responsable AS transacciones_unidad_responsable, transacciones.centro_costo AS transacciones_centro_costo, transacciones.proyecto_presupuestario AS transacciones_proyecto_presupuestario, transacciones.fuente AS transacciones_fuente, transacciones.subfuente AS transacciones_subfuente, transacciones.tipo_recurso AS transacciones_tipo_recurso, transacciones.partida_presupuestal AS transacciones_partida_presupuestal, transacciones.ente_codigo AS transacciones_ente_codigo, transacciones.ente_nombre AS transacciones_ente_nombre, transacciones.ente_siglas AS transacciones_ente_siglas, transacciones.fecha_transaccion AS transacciones_fecha_transaccion, transacciones.poliza AS transacciones_poliza, transacciones.beneficiario AS transacciones_beneficiario, transacciones.cheque_folio AS transacciones_cheque_folio, transacciones.descripcion AS transacciones_descripcion, transacciones.cargos AS transacciones_cargos, transacciones.abonos AS transacciones_abonos, transacciones.saldo_final AS transacciones_saldo_final, transacciones.hash_registro AS transacciones_hash_registro 
+FROM transacciones ORDER BY transacciones.fecha_transaccion DESC, transacciones.id DESC) AS anon_1]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+[2026-03-27 20:10:32 +0000] [659] [INFO] Worker exiting (pid: 659)
+[2026-03-27 20:10:32 +0000] [676] [INFO] Worker exiting (pid: 676)
+[2026-03-27 20:10:32 +0000] [665] [INFO] Worker exiting (pid: 665)
+[2026-03-27 20:10:32 +0000] [558] [INFO] Handling signal: term
+[2026-03-27 20:10:32 +0000] [558] [INFO] Worker (pid:659) was sent SIGTERM!
+[2026-03-27 20:10:32 +0000] [558] [INFO] Worker (pid:665) was sent SIGTERM!
+[2026-03-27 20:10:32 +0000] [558] [INFO] Worker (pid:676) was sent SIGTERM!
+[2026-03-27 20:10:32 +0000] [558] [INFO] Shutting down: Master
+[2026-03-27 20:10:33 +0000] [24501] [INFO] Starting gunicorn 25.2.0
+[2026-03-27 20:10:33 +0000] [24501] [INFO] Listening at: http://127.0.0.1:5022 (24501)
+[2026-03-27 20:10:33 +0000] [24501] [INFO] Using worker: sync
+[2026-03-27 20:10:33 +0000] [24506] [INFO] Booting worker with pid: 24506
+[2026-03-27 20:10:33 +0000] [24507] [INFO] Booting worker with pid: 24507
+[2026-03-27 20:10:33 +0000] [24508] [INFO] Booting worker with pid: 24508
+[2026-03-27 20:10:33 +0000] [24501] [INFO] Control socket listening at /home/gabo/.gunicorn/gunicorn.ctl
+[2026-03-27 20:11:25,049] ERROR in app: Error en /api/transacciones: (sqlite3.OperationalError) no such column: transacciones.genero
+[SQL: SELECT count(*) AS count_1 
+FROM (SELECT transacciones.id AS transacciones_id, transacciones.lote_id AS transacciones_lote_id, transacciones.archivo_origen AS transacciones_archivo_origen, transacciones.fecha_carga AS transacciones_fecha_carga, transacciones.usuario_carga AS transacciones_usuario_carga, transacciones.cuenta_contable AS transacciones_cuenta_contable, transacciones.nombre_cuenta AS transacciones_nombre_cuenta, transacciones.seg1 AS transacciones_seg1, transacciones.seg2 AS transacciones_seg2, transacciones.seg3 AS transacciones_seg3, transacciones.seg4 AS transacciones_seg4, transacciones.seg5 AS transacciones_seg5, transacciones.seg6 AS transacciones_seg6, transacciones.genero AS transacciones_genero, transacciones.grupo AS transacciones_grupo, transacciones.rubro AS transacciones_rubro, transacciones.cuenta_nivel AS transacciones_cuenta_nivel, transacciones.subcuenta AS transacciones_subcuenta, transacciones.dependencia AS transacciones_dependencia, transacciones.unidad_responsable AS transacciones_unidad_responsable, transacciones.centro_costo AS transacciones_centro_costo, transacciones.proyecto_presupuestario AS transacciones_proyecto_presupuestario, transacciones.fuente AS transacciones_fuente, transacciones.subfuente AS transacciones_subfuente, transacciones.tipo_recurso AS transacciones_tipo_recurso, transacciones.partida_presupuestal AS transacciones_partida_presupuestal, transacciones.ente_codigo AS transacciones_ente_codigo, transacciones.ente_nombre AS transacciones_ente_nombre, transacciones.ente_siglas AS transacciones_ente_siglas, transacciones.fecha_transaccion AS transacciones_fecha_transaccion, transacciones.poliza AS transacciones_poliza, transacciones.beneficiario AS transacciones_beneficiario, transacciones.cheque_folio AS transacciones_cheque_folio, transacciones.descripcion AS transacciones_descripcion, transacciones.cargos AS transacciones_cargos, transacciones.abonos AS transacciones_abonos, transacciones.saldo_final AS transacciones_saldo_final, transacciones.hash_registro AS transacciones_hash_registro 
+FROM transacciones ORDER BY transacciones.fecha_transaccion DESC, transacciones.id DESC) AS anon_1]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+[2026-03-27 20:12:13,916] ERROR in app: Error en /api/transacciones: (sqlite3.OperationalError) no such column: transacciones.genero
+[SQL: SELECT count(*) AS count_1 
+FROM (SELECT transacciones.id AS transacciones_id, transacciones.lote_id AS transacciones_lote_id, transacciones.archivo_origen AS transacciones_archivo_origen, transacciones.fecha_carga AS transacciones_fecha_carga, transacciones.usuario_carga AS transacciones_usuario_carga, transacciones.cuenta_contable AS transacciones_cuenta_contable, transacciones.nombre_cuenta AS transacciones_nombre_cuenta, transacciones.seg1 AS transacciones_seg1, transacciones.seg2 AS transacciones_seg2, transacciones.seg3 AS transacciones_seg3, transacciones.seg4 AS transacciones_seg4, transacciones.seg5 AS transacciones_seg5, transacciones.seg6 AS transacciones_seg6, transacciones.genero AS transacciones_genero, transacciones.grupo AS transacciones_grupo, transacciones.rubro AS transacciones_rubro, transacciones.cuenta_nivel AS transacciones_cuenta_nivel, transacciones.subcuenta AS transacciones_subcuenta, transacciones.dependencia AS transacciones_dependencia, transacciones.unidad_responsable AS transacciones_unidad_responsable, transacciones.centro_costo AS transacciones_centro_costo, transacciones.proyecto_presupuestario AS transacciones_proyecto_presupuestario, transacciones.fuente AS transacciones_fuente, transacciones.subfuente AS transacciones_subfuente, transacciones.tipo_recurso AS transacciones_tipo_recurso, transacciones.partida_presupuestal AS transacciones_partida_presupuestal, transacciones.ente_codigo AS transacciones_ente_codigo, transacciones.ente_nombre AS transacciones_ente_nombre, transacciones.ente_siglas AS transacciones_ente_siglas, transacciones.fecha_transaccion AS transacciones_fecha_transaccion, transacciones.poliza AS transacciones_poliza, transacciones.beneficiario AS transacciones_beneficiario, transacciones.cheque_folio AS transacciones_cheque_folio, transacciones.descripcion AS transacciones_descripcion, transacciones.cargos AS transacciones_cargos, transacciones.abonos AS transacciones_abonos, transacciones.saldo_final AS transacciones_saldo_final, transacciones.hash_registro AS transacciones_hash_registro 
+FROM transacciones ORDER BY transacciones.fecha_transaccion DESC, transacciones.id DESC) AS anon_1]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)

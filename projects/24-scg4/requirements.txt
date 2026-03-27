@@ -1,0 +1,8 @@
+Flask
+flask-cors
+flask-sqlalchemy
+SQLAlchemy
+pandas
+gunicorn
+python-dotenv
+werkzeug

@@ -12,7 +12,7 @@ from config import config
 from scripts.utils import (
     db, Transaccion, LoteCarga, CargaJob, Usuario, Ente, ReporteGenerado,
     ENTES_CATALOG, ENTES_BY_CODIGO,
-    process_files_to_database, seed_entes_from_catalog,
+    process_files_to_database, seed_entes_from_catalog, validate_txt_file_balance,
 )
 from sqlalchemy import func
 
@@ -54,6 +54,15 @@ def create_app(config_name="default"):
 
             _seed_default_user()
             seed_entes_from_catalog()
+
+            changed = False
+            for ente in Ente.query.all():
+                expected_clave = f"SCG4-{str(ente.codigo or '').strip()}"
+                if expected_clave and ente.clave != expected_clave:
+                    ente.clave = expected_clave
+                    changed = True
+            if changed:
+                db.session.commit()
         except Exception as e:
             app.logger.error(f"Error init DB: {e}")
             raise
@@ -129,6 +138,56 @@ def create_app(config_name="default"):
             return d
         with jobs_lock:
             return dict(jobs.get(job_id, {}))
+
+    def _get_example_input_dir():
+        candidates = [
+            Path(app.root_path) / "example_SCG4" / "input",
+            Path(app.root_path) / "example" / "input",
+            Path(app.root_path) / "example",
+        ]
+        for candidate in candidates:
+            if candidate.exists() and candidate.is_dir():
+                return candidate
+        return candidates[0]
+
+    def _get_catalogo_general_selection_payload():
+        visible_by_codigo = {
+            str(ente.codigo or "").strip(): ente
+            for ente in Ente.query.filter_by(activo=True).all()
+        }
+        items = []
+        for order, raw in enumerate(ENTES_CATALOG, start=1):
+            codigo = str(raw.get("codigo", "") or "").strip()
+            nombre = str(raw.get("nombre", "") or "").strip()
+            siglas = str(raw.get("siglas", "") or "").strip()
+            ambito = str(raw.get("ambito", "ESTATAL") or "ESTATAL").strip().upper()
+            grupo = "entes" if ambito == "ESTATAL" else "municipios"
+            resolved = visible_by_codigo.get(codigo)
+            label_parts = [part for part in (codigo, siglas, nombre) if part]
+            items.append({
+                "id": f"{grupo}:{codigo}",
+                "num": codigo,
+                "nombre": nombre,
+                "siglas": siglas,
+                "clasificacion": str(raw.get("tipo", "") or "").strip(),
+                "ambito": ambito,
+                "grupo": grupo,
+                "grupo_label": "Entes estatales" if grupo == "entes" else "Municipios y paramunicipales",
+                "orden": order,
+                "ente_clave": str(getattr(resolved, "clave", "") or "").strip(),
+                "dd": str(
+                    getattr(resolved, "dd_match", "") or getattr(resolved, "dd", "") or ""
+                ).strip(),
+                "label": " · ".join(label_parts),
+            })
+        return {
+            "opciones": items,
+            "total": len(items),
+            "stats": {
+                "entes": sum(1 for item in items if item["grupo"] == "entes"),
+                "municipios": sum(1 for item in items if item["grupo"] == "municipios"),
+            },
+        }
 
     FILTER_FIELDS = {
         "cuenta_contable": {"column": Transaccion.cuenta_contable, "match": "prefix"},
@@ -255,16 +314,12 @@ def create_app(config_name="default"):
 
     @app.get("/api/entes")
     def api_entes():
-        db_entes = Ente.query.filter_by(activo=True).order_by(Ente.nombre).all()
-        if db_entes:
-            entes = [e.to_dict() for e in db_entes]
-        else:
-            entes = [
-                {"codigo": e["codigo"], "nombre": e["nombre"], "siglas": e["siglas"],
-                 "tipo": e.get("tipo", ""), "ambito": e.get("ambito", "ESTATAL")}
-                for e in ENTES_CATALOG
-            ]
+        entes = [e.to_dict() for e in Ente.query.filter_by(activo=True).order_by(Ente.nombre).all()]
         return jsonify({"entes": entes, "total": len(entes)})
+
+    @app.get("/api/catalogo-general")
+    def api_catalogo_general():
+        return jsonify(_get_catalogo_general_selection_payload())
 
     @app.get("/api/fuentes")
     def api_fuentes():
@@ -310,15 +365,26 @@ def create_app(config_name="default"):
             valid_files = []
             for f in files:
                 if f.filename:
-                    ext = os.path.splitext(f.filename)[1].lower()
+                    filename = Path(f.filename).name
+                    ext = os.path.splitext(filename)[1].lower()
                     if ext != ".txt":
-                        return jsonify({"error": f"Extensión inválida: {f.filename}. Solo se aceptan .TXT"}), 400
-                    m = re.search(r"_(\d+)\.txt$", f.filename, re.IGNORECASE)
+                        return jsonify({"error": f"Extensión inválida: {filename}. Solo se aceptan .TXT"}), 400
+                    m = re.search(r"_(\d+)\.txt$", filename, re.IGNORECASE)
                     if not m:
-                        return jsonify({"error": f"Nombre inválido: {f.filename}. Formato: R1-L1-M12_101.TXT"}), 400
+                        return jsonify({"error": f"Nombre inválido: {filename}. Formato: R1-L1-M12_101.TXT"}), 400
                     if m.group(1) not in ENTES_BY_CODIGO:
                         return jsonify({"error": f"Código de ente {m.group(1)} no está en el catálogo"}), 400
-                    valid_files.append(f)
+                    f.seek(0)
+                    content_bytes = f.read()
+                    validate_txt_file_balance(
+                        (filename, io.BytesIO(content_bytes)),
+                        periodo_ano=periodo_ano,
+                    )
+                    valid_files.append({
+                        "filename": filename,
+                        "content_bytes": content_bytes,
+                        "ente_codigo": m.group(1),
+                    })
 
             if not valid_files:
                 return jsonify({"error": "No hay archivos válidos"}), 400
@@ -327,8 +393,8 @@ def create_app(config_name="default"):
             files_to_process = []
             duplicates = []
             for f in valid_files:
-                if Path(f.filename).name in loaded:
-                    duplicates.append(f.filename)
+                if f["filename"] in loaded:
+                    duplicates.append(f["filename"])
                 else:
                     files_to_process.append(f)
 
@@ -339,12 +405,10 @@ def create_app(config_name="default"):
 
             entes_detectados = []
             for f in files_to_process:
-                m = re.search(r"_(\d+)\.txt$", f.filename, re.IGNORECASE)
-                if m:
-                    info = ENTES_BY_CODIGO.get(m.group(1), {})
-                    nombre = info.get("nombre", "")
-                    if nombre and nombre not in entes_detectados:
-                        entes_detectados.append(nombre)
+                info = ENTES_BY_CODIGO.get(f["ente_codigo"], {})
+                nombre = info.get("nombre", "")
+                if nombre and nombre not in entes_detectados:
+                    entes_detectados.append(nombre)
 
             job_ente_name = entes_detectados[0] if len(entes_detectados) == 1 else "Varios entes"
             job_id = str(uuid.uuid4())
@@ -352,15 +416,14 @@ def create_app(config_name="default"):
             _update_job(
                 job_id,
                 usuario=usuario, ente_nombre=job_ente_name,
-                archivos=[f.filename for f in files_to_process],
+                archivos=[f["filename"] for f in files_to_process],
                 progress=0, message="Iniciando...", done=False,
                 error=None, current_file=None, lote_id=None, total_registros=0,
             )
 
             files_in_memory = []
             for f in files_to_process:
-                f.seek(0)
-                files_in_memory.append((f.filename, io.BytesIO(f.read())))
+                files_in_memory.append((f["filename"], io.BytesIO(f["content_bytes"])))
 
             def progress_cb(pct, msg, current_file=None):
                 _update_job(job_id, progress=pct, message=msg, current_file=current_file)
@@ -387,6 +450,8 @@ def create_app(config_name="default"):
                 resp["duplicate_files"] = duplicates
             return jsonify(resp), 202
 
+        except ValueError as e:
+            return jsonify({"error": str(e)}), 400
         except Exception as e:
             app.logger.error(f"Error en /api/process: {e}")
             return jsonify({"error": str(e)}), 500
@@ -413,6 +478,21 @@ def create_app(config_name="default"):
                 time.sleep(0.8)
         return Response(stream(), mimetype="text/event-stream",
                         headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"})
+
+    @app.get("/api/progress/<job_id>/status")
+    def api_progress_status(job_id):
+        job = _get_job(job_id)
+        if not job:
+            return jsonify({"error": "Job no encontrado"}), 404
+        return jsonify({
+            "progress": job.get("progress", 0),
+            "message": job.get("message", ""),
+            "done": job.get("done", False),
+            "error": job.get("error"),
+            "current_file": job.get("current_file"),
+            "lote_id": job.get("lote_id"),
+            "total_registros": job.get("total_registros", 0),
+        })
 
     @app.get("/api/transacciones")
     def api_transacciones():
@@ -503,7 +583,7 @@ def create_app(config_name="default"):
 
     @app.get("/api/example-files")
     def api_example_files():
-        example_dir = Path("example")
+        example_dir = _get_example_input_dir()
         files = []
         if example_dir.exists():
             for ext in ("*.TXT", "*.txt"):
@@ -514,15 +594,41 @@ def create_app(config_name="default"):
     @app.get("/api/archivos-procesados")
     def api_archivos_procesados():
         try:
-            lotes = LoteCarga.query.order_by(LoteCarga.fecha.desc()).all()
+            lotes = LoteCarga.query.order_by(LoteCarga.fecha_carga.desc()).all()
             archivos = []
+            archivos_map = {}
             for lote in lotes:
                 if lote.archivos:
                     for a in lote.archivos:
-                        archivos.append({
-                            "nombre": Path(a).name if a else "",
-                            "fecha": lote.fecha.strftime("%Y-%m-%d %H:%M") if lote.fecha else "",
-                        })
+                        nombre = Path(a).name if a else ""
+                        if not nombre or nombre in archivos_map:
+                            continue
+                        payload = {
+                            "archivo": nombre,
+                            "tipo_archivo": "auxiliar",
+                            "fecha_carga": lote.fecha_carga.isoformat() if lote.fecha_carga else None,
+                            "lote_id": lote.lote_id,
+                        }
+                        archivos_map[nombre] = payload
+                        archivos.append(payload)
+
+            for (archivo_origen,) in (
+                db.session.query(Transaccion.archivo_origen)
+                .distinct()
+                .order_by(Transaccion.archivo_origen.asc())
+                .all()
+            ):
+                if not archivo_origen:
+                    continue
+                nombre = Path(archivo_origen).name
+                if nombre in archivos_map:
+                    continue
+                archivos.append({
+                    "archivo": nombre,
+                    "tipo_archivo": "auxiliar",
+                    "fecha_carga": None,
+                    "lote_id": None,
+                })
             return jsonify({"archivos": archivos})
         except Exception as e:
             app.logger.error(f"Error en /api/archivos-procesados: {e}")
@@ -537,13 +643,18 @@ def create_app(config_name="default"):
             periodo_ano = int(str(body.get("periodo_ano", datetime.now().year)))
             if not filenames:
                 return jsonify({"error": "No se especificaron archivos"}), 400
-            example_dir = Path("example")
+            example_dir = _get_example_input_dir()
             files_in_memory = []
             for fname in filenames:
                 path = example_dir / fname
                 if path.exists():
                     with open(path, "rb") as fh:
-                        files_in_memory.append((fname, io.BytesIO(fh.read())))
+                        content_bytes = fh.read()
+                        validate_txt_file_balance(
+                            (fname, io.BytesIO(content_bytes)),
+                            periodo_ano=periodo_ano,
+                        )
+                        files_in_memory.append((fname, io.BytesIO(content_bytes)))
             if not files_in_memory:
                 return jsonify({"error": "No se encontraron los archivos"}), 404
             job_id = str(uuid.uuid4())
@@ -568,6 +679,8 @@ def create_app(config_name="default"):
 
             threading.Thread(target=run_process, daemon=True).start()
             return jsonify({"job_id": job_id}), 202
+        except ValueError as e:
+            return jsonify({"error": str(e)}), 400
         except Exception as e:
             return jsonify({"error": str(e)}), 500
 
