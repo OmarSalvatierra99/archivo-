@@ -11,7 +11,10 @@
       "Bash(venv/bin/pip install:*)",
       "Bash(FLASK_ENV=development venv/bin/python3 -c \"\nfrom app import create_app\napp = create_app\\('development'\\)\nprint\\('App creada OK'\\)\nwith app.app_context\\(\\):\n    from scripts.utils import Transaccion, db\n    total = db.session.query\\(db.func.count\\(Transaccion.id\\)\\).scalar\\(\\)\n    print\\(f'DB OK - transacciones: {total}'\\)\n\")",
       "Bash(FLASK_ENV=development venv/bin/python3 -c \"\nfrom scripts.utils import _read_one_txt\nfrom io import BytesIO\n\nwith open\\('example/R1-L1-M12_101.TXT', 'rb'\\) as f:\n    content = f.read\\(\\)\n\ndf, fname = _read_one_txt\\(\\('R1-L1-M12_101.TXT', BytesIO\\(content\\)\\), periodo_mes=12, periodo_ano=2024\\)\nprint\\(f'Registros: {len\\(df\\)}'\\)\nif not df.empty:\n    print\\(df[['cuenta_contable','nombre_cuenta','fecha','poliza','cargos','abonos']].head\\(5\\).to_string\\(\\)\\)\n\")",
-      "Bash(FLASK_ENV=development venv/bin/python3 -c \"\nfrom app import create_app\nfrom scripts.utils import process_files_to_database, db\nfrom io import BytesIO\n\napp = create_app\\('development'\\)\nwith app.app_context\\(\\):\n    with open\\('example/R1-L1-M12_101.TXT', 'rb'\\) as f:\n        content = f.read\\(\\)\n    lote_id, total = process_files_to_database\\(\n        [\\('R1-L1-M12_101.TXT', BytesIO\\(content\\)\\)],\n        'test',\n        periodo_ano=2024,\n    \\)\n    print\\(f'Lote: {lote_id}'\\)\n    print\\(f'Registros insertados: {total}'\\)\n\")"
+      "Bash(FLASK_ENV=development venv/bin/python3 -c \"\nfrom app import create_app\nfrom scripts.utils import process_files_to_database, db\nfrom io import BytesIO\n\napp = create_app\\('development'\\)\nwith app.app_context\\(\\):\n    with open\\('example/R1-L1-M12_101.TXT', 'rb'\\) as f:\n        content = f.read\\(\\)\n    lote_id, total = process_files_to_database\\(\n        [\\('R1-L1-M12_101.TXT', BytesIO\\(content\\)\\)],\n        'test',\n        periodo_ano=2024,\n    \\)\n    print\\(f'Lote: {lote_id}'\\)\n    print\\(f'Registros insertados: {total}'\\)\n\")",
+      "Bash(source venv/bin/activate)",
+      "Bash(git checkout:*)",
+      "Bash(sqlite3:*)"
     ]
   }
 }

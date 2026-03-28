@@ -11,8 +11,9 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from config import config
 from scripts.utils import (
     db, Transaccion, LoteCarga, CargaJob, Usuario, Ente, ReporteGenerado,
-    ENTES_CATALOG, ENTES_BY_CODIGO,
-    process_files_to_database, seed_entes_from_catalog, validate_txt_file_balance,
+    ENTES_CATALOG, ENTES_BY_CODIGO, ensure_transacciones_schema,
+    build_example_output_workbook, process_files_to_database,
+    seed_entes_from_catalog, validate_txt_file_balance,
 )
 from sqlalchemy import func
 
@@ -34,6 +35,7 @@ def create_app(config_name="default"):
     with app.app_context():
         try:
             db.create_all()
+            ensure_transacciones_schema()
             app.logger.info("Base de datos lista")
 
             def _seed_default_user():
@@ -158,6 +160,12 @@ def create_app(config_name="default"):
         items = []
         for order, raw in enumerate(ENTES_CATALOG, start=1):
             codigo = str(raw.get("codigo", "") or "").strip()
+            try:
+                codigo_int = int(codigo)
+            except (ValueError, TypeError):
+                continue
+            if not (101 <= codigo_int <= 157):
+                continue
             nombre = str(raw.get("nombre", "") or "").strip()
             siglas = str(raw.get("siglas", "") or "").strip()
             ambito = str(raw.get("ambito", "ESTATAL") or "ESTATAL").strip().upper()
@@ -180,6 +188,7 @@ def create_app(config_name="default"):
                 ).strip(),
                 "label": " · ".join(label_parts),
             })
+        items.sort(key=lambda x: (0 if x["grupo"] == "entes" else 1, x["orden"]))
         return {
             "opciones": items,
             "total": len(items),
@@ -314,7 +323,10 @@ def create_app(config_name="default"):
 
     @app.get("/api/entes")
     def api_entes():
-        entes = [e.to_dict() for e in Ente.query.filter_by(activo=True).order_by(Ente.nombre).all()]
+        entes = [
+            e.to_dict() for e in Ente.query.filter_by(activo=True).order_by(Ente.nombre).all()
+            if e.codigo and e.codigo.isdigit() and 101 <= int(e.codigo) <= 157
+        ]
         return jsonify({"entes": entes, "total": len(entes)})
 
     @app.get("/api/catalogo-general")
@@ -332,11 +344,25 @@ def create_app(config_name="default"):
             for row in db.session.query(Transaccion.ente_nombre)
             .filter(Transaccion.ente_nombre.isnot(None))
             .filter(func.length(func.trim(Transaccion.ente_nombre)) > 0)
+            .filter(func.cast(Transaccion.ente_codigo, db.Integer).between(101, 157))
             .distinct()
             .order_by(Transaccion.ente_nombre.asc())
             .all()
         ]
         return jsonify({"entes": nombres})
+
+    @app.get("/api/seg1/lista")
+    def api_seg1_lista():
+        valores = [
+            row[0]
+            for row in db.session.query(Transaccion.seg1)
+            .filter(Transaccion.seg1.isnot(None))
+            .filter(func.length(func.trim(Transaccion.seg1)) > 0)
+            .distinct()
+            .order_by(Transaccion.seg1.asc())
+            .all()
+        ]
+        return jsonify({"valores": valores})
 
     def _get_loaded_filenames():
         loaded = set()
@@ -506,10 +532,18 @@ def create_app(config_name="default"):
             total = query.count()
             pages = max(1, -(-total // per_page))
             items = query.offset((page - 1) * per_page).limit(per_page).all()
-            return jsonify({
+            result = {
                 "transacciones": [t.to_dict() for t in items],
                 "total": total, "page": page, "pages": pages, "per_page": per_page,
-            })
+            }
+            if request.args.get("include_totals") == "1":
+                sums = _apply_filters(Transaccion.query, filters).with_entities(
+                    func.coalesce(func.sum(Transaccion.cargos), 0),
+                    func.coalesce(func.sum(Transaccion.abonos), 0),
+                ).first()
+                result["total_cargos"] = float(sums[0] or 0)
+                result["total_abonos"] = float(sums[1] or 0)
+            return jsonify(result)
         except Exception as e:
             app.logger.error(f"Error en /api/transacciones: {e}")
             return jsonify({"error": str(e)}), 500
@@ -682,6 +716,28 @@ def create_app(config_name="default"):
         except ValueError as e:
             return jsonify({"error": str(e)}), 400
         except Exception as e:
+            return jsonify({"error": str(e)}), 500
+
+    @app.post("/api/example/export")
+    def api_example_export():
+        try:
+            body = request.get_json(silent=True) or {}
+            periodo_ano_raw = str(body.get("periodo_ano", datetime.now().year)).strip()
+            periodo_ano = int(periodo_ano_raw) if periodo_ano_raw.isdigit() else datetime.now().year
+
+            result = build_example_output_workbook(
+                input_dir=Path(app.root_path) / "example_SCG4" / "input",
+                output_path=Path(app.root_path) / "example_SCG4" / "output" / "output.xlsx",
+                periodo_ano=periodo_ano,
+            )
+            return jsonify({
+                "message": "Salida de ejemplo generada correctamente",
+                **result,
+            })
+        except ValueError as e:
+            return jsonify({"error": str(e)}), 400
+        except Exception as e:
+            app.logger.error(f"Error en /api/example/export: {e}")
             return jsonify({"error": str(e)}), 500
 
     return app

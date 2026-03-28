@@ -2,6 +2,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, date
 from io import BytesIO
 import hashlib
+from pathlib import Path
 from typing import Callable, List, Optional, Tuple
 import logging
 import re
@@ -10,7 +11,8 @@ import uuid
 
 import pandas as pd
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import Index
+from openpyxl import load_workbook
+from sqlalchemy import Index, inspect, text
 
 db = SQLAlchemy()
 
@@ -226,17 +228,88 @@ class Transaccion(db.Model):
     ente_nombre = db.Column(db.String(255), index=True)
     ente_siglas = db.Column(db.String(50))
 
+    # Descripciones expandidas (líneas de descripción del TXT)
+    descripcion_1 = db.Column(db.Text)
+    descripcion_2 = db.Column(db.Text)
+    descripcion_3 = db.Column(db.Text)
+
     # Transacción
     fecha_transaccion = db.Column(db.Date, nullable=False, index=True)
     poliza = db.Column(db.String(50), index=True)
-    beneficiario = db.Column(db.Text)
+    primer_concepto = db.Column(db.Text)
+    segundo_concepto = db.Column(db.Text)
+    tercer_concepto = db.Column(db.Text)
+    concepto_especifico = db.Column(db.Text)
+    concepto = db.Column(db.Text)
+    requisicion = db.Column(db.String(100))
     cheque_folio = db.Column(db.String(100))
+    beneficiario_codigo = db.Column(db.String(20))
+    beneficiario = db.Column(db.Text)
     descripcion = db.Column(db.Text)
+
+    # Obra
+    obra_accion = db.Column(db.String(100))
+    nombre_obra = db.Column(db.Text)
+
+    # Concepto presupuestal
+    concept_codigo = db.Column(db.String(20))
+    nombre_concepto = db.Column(db.Text)
+
+    # Fuente de financiamiento
+    ff = db.Column(db.String(10))
+    rem = db.Column(db.String(10))
+    nombre_fuente_financiamiento = db.Column(db.Text)
+
+    # Unidad administrativa
+    unidad_codigo = db.Column(db.String(10))
+    nombre_unidad_administrativa = db.Column(db.Text)
+
+    # Programa
+    programa = db.Column(db.String(50))
+    nombre_programa = db.Column(db.Text)
+
+    # Componente
+    componente = db.Column(db.String(10))
+    nombre_componente = db.Column(db.Text)
+
+    # Actividad
+    actividad = db.Column(db.String(10))
+    nombre_actividad = db.Column(db.Text)
+
+    # Función
+    funcion = db.Column(db.String(10))
+    nombre_funcion = db.Column(db.Text)
+
+    # Otros
+    contrato = db.Column(db.String(100))
+    ficha = db.Column(db.String(100))
+    referencia = db.Column(db.Text)
+    persona = db.Column(db.Text)
+    rfc = db.Column(db.String(50))
+    nombre_persona = db.Column(db.Text)
+    numero_bien = db.Column(db.String(100))
+    nombre_bien = db.Column(db.Text)
+    unidades = db.Column(db.String(50))
+
+    # Partida presupuestal (texto completo del TXT)
+    partida_presupuestal_txt = db.Column(db.String(100))
+    nombre_partida_presupuestal = db.Column(db.Text)
+
+    # Región y Municipio
+    region = db.Column(db.String(10))
+    nombre_region = db.Column(db.Text)
+    municipio = db.Column(db.String(10))
+    nombre_municipio = db.Column(db.Text)
 
     # Montos
     cargos = db.Column(db.Numeric(15, 2), default=0)
     abonos = db.Column(db.Numeric(15, 2), default=0)
     saldo_final = db.Column(db.Numeric(15, 2), default=0)
+
+    # Montos finales (últimas 3 columnas del TXT)
+    cargos_f = db.Column(db.Numeric(15, 2), default=0)
+    abonos_f = db.Column(db.Numeric(15, 2), default=0)
+    saldo_f = db.Column(db.Numeric(15, 2), default=0)
 
     hash_registro = db.Column(db.String(64), unique=True, index=True)
 
@@ -254,6 +327,9 @@ class Transaccion(db.Model):
             "fecha_carga": self.fecha_carga.isoformat() if self.fecha_carga else None,
             "cuenta_contable": self.cuenta_contable,
             "nombre_cuenta": self.nombre_cuenta,
+            "descripcion_1": self.descripcion_1 or "",
+            "descripcion_2": self.descripcion_2 or "",
+            "descripcion_3": self.descripcion_3 or "",
             "seg1": self.seg1,
             "seg2": self.seg2,
             "seg3": self.seg3,
@@ -278,12 +354,54 @@ class Transaccion(db.Model):
             "ente_siglas": self.ente_siglas,
             "fecha_transaccion": self.fecha_transaccion.strftime("%d/%m/%Y") if self.fecha_transaccion else None,
             "poliza": self.poliza,
-            "beneficiario": self.beneficiario,
+            "primer_concepto": self.primer_concepto or "",
+            "segundo_concepto": self.segundo_concepto or "",
+            "tercer_concepto": self.tercer_concepto or "",
+            "concepto_especifico": self.concepto_especifico or "",
+            "concepto": self.concepto or "",
+            "requisicion": self.requisicion or "",
             "cheque_folio": self.cheque_folio,
+            "beneficiario_codigo": self.beneficiario_codigo or "",
+            "beneficiario": self.beneficiario,
             "descripcion": self.descripcion,
+            "obra_accion": self.obra_accion or "",
+            "nombre_obra": self.nombre_obra or "",
+            "concept_codigo": self.concept_codigo or "",
+            "nombre_concepto": self.nombre_concepto or "",
+            "ff": self.ff or "",
+            "rem": self.rem or "",
+            "nombre_fuente_financiamiento": self.nombre_fuente_financiamiento or "",
+            "unidad_codigo": self.unidad_codigo or "",
+            "nombre_unidad_administrativa": self.nombre_unidad_administrativa or "",
+            "programa": self.programa or "",
+            "nombre_programa": self.nombre_programa or "",
+            "componente": self.componente or "",
+            "nombre_componente": self.nombre_componente or "",
+            "actividad": self.actividad or "",
+            "nombre_actividad": self.nombre_actividad or "",
+            "funcion": self.funcion or "",
+            "nombre_funcion": self.nombre_funcion or "",
+            "contrato": self.contrato or "",
+            "ficha": self.ficha or "",
+            "referencia": self.referencia or "",
+            "persona": self.persona or "",
+            "rfc": self.rfc or "",
+            "nombre_persona": self.nombre_persona or "",
+            "numero_bien": self.numero_bien or "",
+            "nombre_bien": self.nombre_bien or "",
+            "unidades": self.unidades or "",
+            "partida_presupuestal_txt": self.partida_presupuestal_txt or "",
+            "nombre_partida_presupuestal": self.nombre_partida_presupuestal or "",
+            "region": self.region or "",
+            "nombre_region": self.nombre_region or "",
+            "municipio": self.municipio or "",
+            "nombre_municipio": self.nombre_municipio or "",
             "cargos": float(self.cargos) if self.cargos else 0,
             "abonos": float(self.abonos) if self.abonos else 0,
             "saldo_final": float(self.saldo_final) if self.saldo_final else 0,
+            "cargos_f": float(self.cargos_f) if self.cargos_f else 0,
+            "abonos_f": float(self.abonos_f) if self.abonos_f else 0,
+            "saldo_f": float(self.saldo_f) if self.saldo_f else 0,
         }
 
 
@@ -634,8 +752,8 @@ def _read_one_txt(file_data, periodo_mes=1, periodo_ano=None):
         cols = line.split("\t")
         cols = [c.strip() for c in cols]
 
-        # Asegurar mínimo de columnas
-        while len(cols) < 16:
+        # Asegurar mínimo de columnas (TXT tiene ~51 columnas)
+        while len(cols) < 51:
             cols.append("")
 
         col0 = cols[0]   # Cuenta
@@ -646,8 +764,49 @@ def _read_one_txt(file_data, periodo_mes=1, periodo_ano=None):
         col5 = cols[5]   # Fecha
         col6 = cols[6]   # Póliza
         col7 = cols[7]   # Primer concepto
-        col13 = cols[13] if len(cols) > 13 else ""  # Cheque/clave
-        col15 = cols[15] if len(cols) > 15 else ""  # Nombre beneficiario
+        col8 = cols[8]   # Segundo concepto
+        col9 = cols[9]   # Tercer concepto
+        col10 = cols[10]  # Concepto específico
+        col11 = cols[11]  # Concepto
+        col12 = cols[12]  # Requisición
+        col13 = cols[13]  # Cheque/clave
+        col14 = cols[14]  # Benef. (código)
+        col15 = cols[15]  # Nombre del beneficiario
+        col16 = cols[16]  # Obra/acción
+        col17 = cols[17]  # Nombre de la obra
+        col18 = cols[18]  # Concept (código)
+        col19 = cols[19]  # Nombre del concepto
+        col20 = cols[20]  # F.F.
+        col21 = cols[21]  # Rem.
+        col22 = cols[22]  # Nombre de la fuente de financiamiento
+        col23 = cols[23]  # Unid
+        col24 = cols[24]  # Nombre de la unidad administrativa
+        col25 = cols[25]  # Programa
+        col26 = cols[26]  # Nombre del programa
+        col27 = cols[27]  # Co
+        col28 = cols[28]  # Nombre del componente
+        col29 = cols[29]  # Ac
+        col30 = cols[30]  # Nombre de la actividad
+        col31 = cols[31]  # Func
+        col32 = cols[32]  # Nombre de la función
+        col33 = cols[33]  # Contrato
+        col34 = cols[34]  # Ficha
+        col35 = cols[35]  # Referencia
+        col36 = cols[36]  # Persona
+        col37 = cols[37]  # RFC
+        col38 = cols[38]  # Nombre
+        col39 = cols[39]  # Número de bien
+        col40 = cols[40]  # Nombre del bien
+        col41 = cols[41]  # Unidades
+        col42 = cols[42]  # Partida presupuestal
+        col43 = cols[43]  # Nombre de la partida presupuestal
+        col44 = cols[44]  # Rg
+        col45 = cols[45]  # Nombre de la región
+        col46 = cols[46]  # Mun
+        col47 = cols[47]  # Nombre del municipio
+        col48 = cols[48]  # Cargos f
+        col49 = cols[49]  # Abonos f
+        col50 = cols[50]  # Saldo F
 
         # Detectar encabezado de cuenta contable (col0 tiene el código)
         if col0 and re.match(r"^\d+\.\d+", col0):
@@ -685,7 +844,9 @@ def _read_one_txt(file_data, periodo_mes=1, periodo_ano=None):
         if not fecha:
             continue
 
-        nombre_cuenta = " / ".join(p for p in current_nombre_parts if p)
+        # Expandir descripciones (hasta 3 líneas adicionales)
+        descs = (current_nombre_parts + [""] * 4)[:4]
+        nombre_cuenta = descs[0]
 
         # Preferir col7 (primer concepto) como descripción; si está vacío, usar col1
         descripcion = col7 or col1
@@ -693,14 +854,59 @@ def _read_one_txt(file_data, periodo_mes=1, periodo_ano=None):
         record = {
             "cuenta_contable": current_cuenta,
             "nombre_cuenta": nombre_cuenta,
+            "descripcion_1": descs[1],
+            "descripcion_2": descs[2],
+            "descripcion_3": descs[3],
             "fecha": fecha.strftime("%Y-%m-%d"),
             "poliza": col6,
-            "beneficiario": col15,
+            "primer_concepto": col7,
+            "segundo_concepto": col8,
+            "tercer_concepto": col9,
+            "concepto_especifico": col10,
+            "concepto": col11,
+            "requisicion": col12,
             "cheque_folio": col13,
+            "beneficiario_codigo": col14,
+            "beneficiario": col15,
             "descripcion": descripcion,
+            "obra_accion": col16,
+            "nombre_obra": col17,
+            "concept_codigo": col18,
+            "nombre_concepto": col19,
+            "ff": col20,
+            "rem": col21,
+            "nombre_fuente_financiamiento": col22,
+            "unidad_codigo": col23,
+            "nombre_unidad_administrativa": col24,
+            "programa": col25,
+            "nombre_programa": col26,
+            "componente": col27,
+            "nombre_componente": col28,
+            "actividad": col29,
+            "nombre_actividad": col30,
+            "funcion": col31,
+            "nombre_funcion": col32,
+            "contrato": col33,
+            "ficha": col34,
+            "referencia": col35,
+            "persona": col36,
+            "rfc": col37,
+            "nombre_persona": col38,
+            "numero_bien": col39,
+            "nombre_bien": col40,
+            "unidades": col41,
+            "partida_presupuestal_txt": col42,
+            "nombre_partida_presupuestal": col43,
+            "region": col44,
+            "nombre_region": col45,
+            "municipio": col46,
+            "nombre_municipio": col47,
             "cargos": _parse_amount(col2),
             "abonos": _parse_amount(col3),
             "saldo_final": _parse_amount(col4),
+            "cargos_f": _parse_amount(col48),
+            "abonos_f": _parse_amount(col49),
+            "saldo_f": _parse_amount(col50),
             "ente_codigo": ente_codigo or "",
             "ente_nombre": ente_info.get("nombre", ""),
             "ente_siglas": ente_info.get("siglas", ""),
@@ -790,8 +996,24 @@ def process_files_to_database(
         base = pd.concat(frames, ignore_index=True)
 
         # Limpiar campos de texto
-        for col in ("poliza", "beneficiario", "cheque_folio", "descripcion"):
-            base[col] = base[col].fillna("").astype(str).str.strip()
+        text_cols = [
+            "poliza", "beneficiario", "cheque_folio", "descripcion",
+            "descripcion_1", "descripcion_2", "descripcion_3",
+            "primer_concepto", "segundo_concepto", "tercer_concepto",
+            "concepto_especifico", "concepto", "requisicion",
+            "beneficiario_codigo", "obra_accion", "nombre_obra",
+            "concept_codigo", "nombre_concepto", "ff", "rem",
+            "nombre_fuente_financiamiento", "unidad_codigo",
+            "nombre_unidad_administrativa", "programa", "nombre_programa",
+            "componente", "nombre_componente", "actividad", "nombre_actividad",
+            "funcion", "nombre_funcion", "contrato", "ficha", "referencia",
+            "persona", "rfc", "nombre_persona", "numero_bien", "nombre_bien",
+            "unidades", "partida_presupuestal_txt", "nombre_partida_presupuestal",
+            "region", "nombre_region", "municipio", "nombre_municipio",
+        ]
+        for col in text_cols:
+            if col in base.columns:
+                base[col] = base[col].fillna("").astype(str).str.strip()
 
         # Dividir cuenta en segmentos
         report(40, "Procesando cuentas contables...")
@@ -809,7 +1031,7 @@ def process_files_to_database(
 
         # Convertir montos
         report(50, "Procesando montos...")
-        for col in ("cargos", "abonos", "saldo_final"):
+        for col in ("cargos", "abonos", "saldo_final", "cargos_f", "abonos_f", "saldo_f"):
             base[col] = pd.to_numeric(base[col], errors="coerce").fillna(0.0)
 
         # Hash para deduplicación
@@ -872,44 +1094,99 @@ def process_files_to_database(
                 else:
                     continue
 
+                def _s(key, default=""):
+                    v = row.get(key, default)
+                    return str(v) if v is not None and str(v) != "nan" else default
+
+                def _f(key):
+                    try:
+                        v = row.get(key, 0)
+                        return float(v) if v is not None and str(v) != "nan" else 0.0
+                    except (ValueError, TypeError):
+                        return 0.0
+
                 t = Transaccion(
                     lote_id=lote_id,
-                    archivo_origen=str(row.get("archivo_origen", "")),
+                    archivo_origen=_s("archivo_origen"),
                     usuario_carga=usuario,
-                    cuenta_contable=str(row.get("cuenta_contable", "")),
-                    nombre_cuenta=str(row.get("nombre_cuenta", "")),
-                    seg1=str(row.get("seg1", "")),
-                    seg2=str(row.get("seg2", "")),
-                    seg3=str(row.get("seg3", "")),
-                    seg4=str(row.get("seg4", "")),
-                    seg5=str(row.get("seg5", "")),
-                    seg6=str(row.get("seg6", "")),
-                    # Vertical components (SIIF format)
-                    genero=str(row.get("genero", "")),
-                    grupo=str(row.get("grupo", "")),
-                    rubro=str(row.get("rubro", "")),
-                    cuenta_nivel=str(row.get("cuenta_nivel", "")),
-                    subcuenta=str(row.get("subcuenta", "")),
-                    dependencia=str(row.get("dependencia", "")),
-                    unidad_responsable=str(row.get("unidad_responsable", "")),
-                    centro_costo=str(row.get("centro_costo", "")),
-                    proyecto_presupuestario=str(row.get("proyecto_presupuestario", "")),
-                    fuente=str(row.get("fuente", "")),
-                    subfuente=str(row.get("subfuente", "")),
-                    tipo_recurso=str(row.get("tipo_recurso", "")),
-                    partida_presupuestal=str(row.get("partida_presupuestal", "")),
-                    ente_codigo=str(row.get("ente_codigo", "")),
-                    ente_nombre=str(row.get("ente_nombre", "")),
-                    ente_siglas=str(row.get("ente_siglas", "")),
+                    cuenta_contable=_s("cuenta_contable"),
+                    nombre_cuenta=_s("nombre_cuenta"),
+                    descripcion_1=_s("descripcion_1"),
+                    descripcion_2=_s("descripcion_2"),
+                    descripcion_3=_s("descripcion_3"),
+                    seg1=_s("seg1"),
+                    seg2=_s("seg2"),
+                    seg3=_s("seg3"),
+                    seg4=_s("seg4"),
+                    seg5=_s("seg5"),
+                    seg6=_s("seg6"),
+                    genero=_s("genero"),
+                    grupo=_s("grupo"),
+                    rubro=_s("rubro"),
+                    cuenta_nivel=_s("cuenta_nivel"),
+                    subcuenta=_s("subcuenta"),
+                    dependencia=_s("dependencia"),
+                    unidad_responsable=_s("unidad_responsable"),
+                    centro_costo=_s("centro_costo"),
+                    proyecto_presupuestario=_s("proyecto_presupuestario"),
+                    fuente=_s("fuente"),
+                    subfuente=_s("subfuente"),
+                    tipo_recurso=_s("tipo_recurso"),
+                    partida_presupuestal=_s("partida_presupuestal"),
+                    ente_codigo=_s("ente_codigo"),
+                    ente_nombre=_s("ente_nombre"),
+                    ente_siglas=_s("ente_siglas"),
                     fecha_transaccion=fecha_obj,
-                    poliza=str(row.get("poliza", "")),
-                    beneficiario=str(row.get("beneficiario", "")),
-                    cheque_folio=str(row.get("cheque_folio", "")),
-                    descripcion=str(row.get("descripcion", "")),
-                    cargos=float(row.get("cargos", 0)),
-                    abonos=float(row.get("abonos", 0)),
-                    saldo_final=float(row.get("saldo_final", 0)),
-                    hash_registro=str(row.get("hash_registro", "")),
+                    poliza=_s("poliza"),
+                    primer_concepto=_s("primer_concepto"),
+                    segundo_concepto=_s("segundo_concepto"),
+                    tercer_concepto=_s("tercer_concepto"),
+                    concepto_especifico=_s("concepto_especifico"),
+                    concepto=_s("concepto"),
+                    requisicion=_s("requisicion"),
+                    cheque_folio=_s("cheque_folio"),
+                    beneficiario_codigo=_s("beneficiario_codigo"),
+                    beneficiario=_s("beneficiario"),
+                    descripcion=_s("descripcion"),
+                    obra_accion=_s("obra_accion"),
+                    nombre_obra=_s("nombre_obra"),
+                    concept_codigo=_s("concept_codigo"),
+                    nombre_concepto=_s("nombre_concepto"),
+                    ff=_s("ff"),
+                    rem=_s("rem"),
+                    nombre_fuente_financiamiento=_s("nombre_fuente_financiamiento"),
+                    unidad_codigo=_s("unidad_codigo"),
+                    nombre_unidad_administrativa=_s("nombre_unidad_administrativa"),
+                    programa=_s("programa"),
+                    nombre_programa=_s("nombre_programa"),
+                    componente=_s("componente"),
+                    nombre_componente=_s("nombre_componente"),
+                    actividad=_s("actividad"),
+                    nombre_actividad=_s("nombre_actividad"),
+                    funcion=_s("funcion"),
+                    nombre_funcion=_s("nombre_funcion"),
+                    contrato=_s("contrato"),
+                    ficha=_s("ficha"),
+                    referencia=_s("referencia"),
+                    persona=_s("persona"),
+                    rfc=_s("rfc"),
+                    nombre_persona=_s("nombre_persona"),
+                    numero_bien=_s("numero_bien"),
+                    nombre_bien=_s("nombre_bien"),
+                    unidades=_s("unidades"),
+                    partida_presupuestal_txt=_s("partida_presupuestal_txt"),
+                    nombre_partida_presupuestal=_s("nombre_partida_presupuestal"),
+                    region=_s("region"),
+                    nombre_region=_s("nombre_region"),
+                    municipio=_s("municipio"),
+                    nombre_municipio=_s("nombre_municipio"),
+                    cargos=_f("cargos"),
+                    abonos=_f("abonos"),
+                    saldo_final=_f("saldo_final"),
+                    cargos_f=_f("cargos_f"),
+                    abonos_f=_f("abonos_f"),
+                    saldo_f=_f("saldo_f"),
+                    hash_registro=_s("hash_registro"),
                 )
                 db.session.add(t)
 
@@ -937,3 +1214,227 @@ def process_files_to_database(
             db.session.rollback()
         logger.error(f"Error en process_files_to_database: {e}\n{traceback.format_exc()}")
         raise
+
+
+def _decode_txt_bytes(raw_bytes):
+    try:
+        return raw_bytes.decode("latin-1")
+    except Exception:
+        return raw_bytes.decode("utf-8", errors="replace")
+
+
+def _coerce_example_numeric(value):
+    if value is None:
+        return ""
+    if isinstance(value, (int, float)):
+        return value
+
+    text = str(value).replace(",", "").strip()
+    if not text or set(text) == {"-"}:
+        return value
+
+    try:
+        number = float(text)
+    except ValueError:
+        return value
+
+    return int(number) if number.is_integer() else number
+
+
+def _parse_txt_for_example_export(file_data):
+    filename, file_content = file_data
+    file_content.seek(0)
+    raw_bytes = file_content.read()
+    content = _decode_txt_bytes(raw_bytes)
+    lines = content.splitlines()
+
+    if len(lines) < 2:
+        raise ValueError(f"El archivo {filename} no contiene encabezados suficientes")
+
+    source_headers = [str(value or "").strip() for value in lines[0].split("\t")]
+    separator_values = [str(value or "").strip() for value in lines[1].split("\t")]
+
+    while len(separator_values) < len(source_headers):
+        separator_values.append("")
+
+    expanded_headers = (
+        source_headers[:2]
+        + ["Descripción 1", "Descripción 2", "Descripción 3"]
+        + source_headers[2:]
+    )
+
+    description_limit = 4
+    current_cuenta = ""
+    current_descriptions = []
+    records = []
+
+    for raw_line in lines[2:]:
+        cols = [str(value or "").strip() for value in raw_line.split("\t")]
+        while len(cols) < len(source_headers):
+            cols.append("")
+        cols = cols[:len(source_headers)]
+
+        if not any(cols):
+            continue
+
+        cuenta = cols[0]
+        descripcion = cols[1]
+
+        if cuenta and re.match(r"^\d+(?:\.\d+)+$", cuenta):
+            current_cuenta = cuenta
+            current_descriptions = [descripcion] if descripcion else []
+            continue
+
+        if not current_cuenta:
+            continue
+
+        descripcion_normalizada = descripcion.rstrip(".").strip().lower()
+        if (
+            descripcion_normalizada.startswith("saldo inicial")
+            or descripcion_normalizada.startswith("suma periodo")
+            or descripcion_normalizada.startswith("saldo final")
+        ):
+            continue
+
+        has_transaction_payload = any(
+            cols[index]
+            for index in (2, 3, 4, 5, 6)
+            if index < len(cols)
+        )
+
+        if not cuenta and descripcion and not has_transaction_payload:
+            if descripcion not in current_descriptions and len(current_descriptions) < description_limit:
+                current_descriptions.append(descripcion)
+            continue
+
+        if not has_transaction_payload:
+            continue
+
+        descriptions = (current_descriptions + [""] * description_limit)[:description_limit]
+        row = {
+            source_headers[0]: current_cuenta,
+            source_headers[1]: descriptions[0],
+            "Descripción 1": descriptions[1],
+            "Descripción 2": descriptions[2],
+            "Descripción 3": descriptions[3],
+        }
+
+        for header, value in zip(source_headers[2:], cols[2:]):
+            row[header] = value
+
+        records.append(row)
+
+    separator_row = {header: "" for header in expanded_headers}
+    separator_row[source_headers[0]] = separator_values[0] if separator_values else ""
+    if len(separator_values) > 1:
+        separator_row[source_headers[1]] = separator_values[1]
+    for header, value in zip(source_headers[2:], separator_values[2:]):
+        separator_row[header] = value
+
+    return expanded_headers, separator_row, records
+
+
+def build_example_output_workbook(input_dir=None, output_path=None, periodo_ano=None):
+    input_dir = Path(input_dir or Path.cwd() / "example_SCG4" / "input")
+    output_path = Path(output_path or Path.cwd() / "example_SCG4" / "output" / "output.xlsx")
+
+    txt_files = sorted(
+        list(input_dir.glob("*.TXT")) + list(input_dir.glob("*.txt"))
+    )
+    if not txt_files:
+        raise FileNotFoundError(f"No se encontraron archivos TXT en {input_dir}")
+
+    all_rows = []
+    headers = None
+    separator_row = None
+
+    for path in txt_files:
+        raw_bytes = path.read_bytes()
+        validate_txt_file_balance(
+            (path.name, BytesIO(raw_bytes)),
+            periodo_ano=periodo_ano,
+        )
+        file_headers, file_separator, file_rows = _parse_txt_for_example_export(
+            (path.name, BytesIO(raw_bytes))
+        )
+
+        if headers is None:
+            headers = file_headers
+            separator_row = file_separator
+
+        all_rows.extend(file_rows)
+
+    if headers is None:
+        raise ValueError("No se pudieron construir encabezados para la exportación")
+
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+
+    rows_to_export = [separator_row] + all_rows
+    df = pd.DataFrame(rows_to_export, columns=headers)
+
+    for column in ("Cargos", "Abonos", "Saldo", "Cargos f", "Abonos f", "Saldo F"):
+        if column in df.columns:
+            df[column] = df[column].apply(_coerce_example_numeric)
+
+    with pd.ExcelWriter(output_path, engine="openpyxl") as writer:
+        df.to_excel(writer, index=False, sheet_name="Procesado")
+
+    workbook = load_workbook(output_path)
+    sheet = workbook["Procesado"]
+    for column in ("Cargos", "Abonos", "Saldo", "Cargos f", "Abonos f", "Saldo F"):
+        if column not in headers:
+            continue
+        column_index = headers.index(column) + 1
+        for row_index in range(3, sheet.max_row + 1):
+            cell = sheet.cell(row=row_index, column=column_index)
+            cell.value = _coerce_example_numeric(cell.value)
+    workbook.save(output_path)
+
+    return {
+        "output_path": str(output_path),
+        "files_processed": [path.name for path in txt_files],
+        "total_rows": int(len(df)),
+    }
+
+
+def ensure_transacciones_schema():
+    inspector = inspect(db.engine)
+    if "transacciones" not in inspector.get_table_names():
+        return
+
+    existing_columns = {
+        column["name"]
+        for column in inspector.get_columns("transacciones")
+    }
+    expected_columns = {
+        "genero": "VARCHAR(1)",
+        "grupo": "VARCHAR(1)",
+        "rubro": "VARCHAR(1)",
+        "cuenta_nivel": "VARCHAR(1)",
+        "subcuenta": "VARCHAR(1)",
+        "dependencia": "VARCHAR(2)",
+        "unidad_responsable": "VARCHAR(2)",
+        "centro_costo": "VARCHAR(2)",
+        "proyecto_presupuestario": "VARCHAR(2)",
+        "fuente": "VARCHAR(1)",
+        "subfuente": "VARCHAR(2)",
+        "tipo_recurso": "VARCHAR(1)",
+        "partida_presupuestal": "VARCHAR(4)",
+    }
+
+    missing_columns = [
+        (name, column_type)
+        for name, column_type in expected_columns.items()
+        if name not in existing_columns
+    ]
+    if not missing_columns:
+        return
+
+    for column_name, column_type in missing_columns:
+        db.session.execute(
+            text(
+                f"ALTER TABLE transacciones "
+                f"ADD COLUMN {column_name} {column_type}"
+            )
+        )
+    db.session.commit()
